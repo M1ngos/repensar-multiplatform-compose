@@ -55,6 +55,9 @@ captures/
 .idea/jarRepositories.xml
 .idea/navEditor.xml
 !/gradle/wrapper/gradle-wrapper.jar
+node_modules
+webApp/node_modules
+kotlin-js-store/yarn.lock
 
 ### Xcode ###
 *.xcodeproj/*

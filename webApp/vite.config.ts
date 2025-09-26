@@ -5,8 +5,18 @@ export default defineConfig({
   root: '.',
   plugins: [react()],
   build: {
-    outDir: 'dist',
-    emptyOutDir: true,
+      outDir: 'dist',
+      emptyOutDir: true,
+      sourcemap: true,
+      rollupOptions: {
+          onwarn(warning, warn) {
+              if (
+                  warning.code === 'SOURCEMAP_ERROR' &&
+                  /kotlin-stdlib\.mjs/.test(warning.message)
+              ) return; // ignore stdlib warnings
+              warn(warning);
+          }
+      }
   },
-  server: { port: 8080 },
+  server: { port: 3000 },
 });

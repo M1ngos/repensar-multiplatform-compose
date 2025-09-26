@@ -48,3 +48,16 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
 }
+
+//tasks.withType<org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile>().configureEach {
+//    kotlinOptions.sourceMap = true
+//    kotlinOptions.sourceMapEmbedSources = "always"
+//}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile>().configureEach {
+    compilerOptions {
+        sourceMap.set(true)
+//        sourceMapEmbedSources.set(org.jetbrains.kotlin.gradle.dsl.SourceMapEmbed.SOURCE_MAP_ALWAYS)
+        sourceMapEmbedSources.set(org.jetbrains.kotlin.gradle.dsl.JsSourceMapEmbedMode.SOURCE_MAP_SOURCE_CONTENT_ALWAYS)
+    }
+}
