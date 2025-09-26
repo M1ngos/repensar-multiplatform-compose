@@ -1,0 +1,163 @@
+{
+  "Landing": {
+    "title": "Bem vindo ao portal da Repensar!",
+    "hero": {
+      "title": "Cooperativa de",
+      "titleHighlight1": "Educação Ambiental",
+      "titleHighlight2": "Repensar",
+      "subtitle": "Transformando vidas através da educação ambiental e construindo um futuro sustentável para as próximas gerações.",
+      "cta1": "Conheça Nossos Projetos",
+      "cta2": "Assista ao Vídeo"
+  },
+    "about": {
+      "title": "Sobre a",
+      "titleHighlight": "Repensar",
+      "description1": "Há mais de 25 anos, a Cooperativa de Educação Ambiental Repensar trabalha incansavelmente para promover a consciência ambiental através de programas educacionais inovadores e projetos comunitários sustentáveis.",
+      "description2": "Nossa missão é criar uma rede de indivíduos conscientes e engajados na preservação do meio ambiente, desenvolvendo projetos que unem educação, sustentabilidade e transformação social.",
+      "tags": {
+        "sustainability": "Sustentabilidade",
+        "community": "Comunidade",
+        "education": "Educação"
+      }
+    },
+    "programs": {
+      "title": "Nossos",
+      "titleHighlight": "Programas",
+      "subtitle": "Desenvolvemos programas abrangentes que abordam diferentes aspectos da educação ambiental",
+      "program1": {
+        "title": "Educação Infantil Sustentável",
+        "description": "Programas educacionais para crianças sobre preservação ambiental e sustentabilidade."
+      },
+      "program2": {
+        "title": "Reciclagem Comunitária",
+        "description": "Iniciativas de reciclagem e reutilização em comunidades locais."
+      },
+      "program3": {
+        "title": "Reflorestamento Urbano",
+        "description": "Projetos de plantio de árvores e criação de espaços verdes urbanos."
+      },
+      "learnMore": "Saiba mais →"
+    },
+    "stats": {
+      "title": "Nosso Impacto",
+      "subtitle": "Números que representam nossa dedicação à causa ambiental",
+      "stat1": {
+        "number": "15,000+",
+        "label": "Pessoas Impactadas"
+      },
+      "stat2": {
+        "number": "200+",
+        "label": "Projetos Realizados"
+      },
+      "stat3": {
+        "number": "50+",
+        "label": "Escolas Parceiras"
+      },
+      "stat4": {
+        "number": "25+",
+        "label": "Anos de Experiência"
+      }
+    },
+    "volunteer": {
+      "title": "Seja um",
+      "titleHighlight": "Voluntário",
+      "subtitle": "Junte-se à nossa missão e faça a diferença no meio ambiente através de nossas plataformas",
+      "desktop": {
+        "title": "Desktop",
+        "description": "Acesse nossa plataforma completa de voluntariado através do seu computador com todas as funcionalidades disponíveis.",
+        "cta": "Acessar Plataforma"
+      },
+      "android": {
+        "title": "Android",
+        "description": "Baixe nosso aplicativo Android e participe de ações ambientais diretamente do seu smartphone.",
+        "cta": "Baixar App"
+      },
+      "ios": {
+        "title": "iOS",
+        "description": "Disponível na App Store, nosso aplicativo iOS oferece uma experiência completa para voluntários.",
+        "cta": "Baixar App"
+      },
+      "whyVolunteer": {
+        "title": "Por que ser voluntário?",
+        "description": "Como voluntário da Repensar, você terá a oportunidade de participar de projetos de impacto ambiental, desenvolver novas habilidades e fazer parte de uma comunidade comprometida com a sustentabilidade.",
+        "stat1": {
+          "number": "500+",
+          "label": "Voluntários Ativos"
+        },
+        "stat2": {
+          "number": "100+",
+          "label": "Projetos Colaborativos"
+        },
+        "stat3": {
+          "number": "50+",
+          "label": "Horas de Treinamento"
+        }
+      }
+    },
+    "team": {
+      "title": "Nossa",
+      "titleHighlight": "Equipe",
+      "subtitle": "Profissionais dedicados à transformação através da educação ambiental",
+      "member1": {
+        "name": "Ana Silva",
+        "role": "Diretora Executiva"
+      },
+      "member2": {
+        "name": "Carlos Santos",
+        "role": "Coordenador de Projetos"
+      },
+      "member3": {
+        "name": "Marina Costa",
+        "role": "Educadora Ambiental"
+      }
+    },
+    "contact": {
+      "title": "Entre em",
+      "titleHighlight": "Contato",
+      "subtitle": "Junte-se a nós na missão de criar um futuro mais sustentável",
+      "address": {
+        "title": "Endereço",
+        "text": "Rua da Sustentabilidade, 123\nBairro Verde, SP - 01234-567"
+      },
+      "phone": {
+        "title": "Telefone",
+        "text": "(11) 9999-8888"
+      },
+      "email": {
+        "title": "Email",
+        "text": "contato@repensar.org.br"
+      },
+      "social": "Siga-nos nas Redes Sociais",
+      "form": {
+        "name": "Nome",
+        "namePlaceholder": "Seu nome completo",
+        "email": "Email",
+        "emailPlaceholder": "seu@email.com",
+        "message": "Mensagem",
+        "messagePlaceholder": "Como podemos ajudar você?",
+        "submit": "Enviar Mensagem"
+      }
+    },
+    "footer": {
+      "description": "Cooperativa de Educação Ambiental comprometida com a transformação social através da educação ambiental e práticas sustentáveis.",
+      "usefulLinks": "Links Úteis",
+      "links": {
+        "home": "Início",
+        "about": "Sobre",
+        "programs": "Programas",
+        "volunteer": "Voluntários",
+        "team": "Equipe"
+      },
+      "contact": "Contato",
+      "copyright": "© 2025 Cooperativa de Educação Ambiental Repensar. Todos os direitos reservados."
+    }
+  },
+  "Metadata": {
+    "title": "Cooperativa de Educação Ambiental Repensar"
+  },
+  "NotFound": {
+    "description": "A página que procura não existe.",
+    "goHome": "Voltar para a página inicial",
+    "title": "Página não encontrada"
+  }
+}

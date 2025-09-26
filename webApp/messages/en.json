@@ -1,0 +1,163 @@
+{
+  "Landing": {
+    "title": "Welcome to the Repensar portal!",
+    "hero": {
+      "title": "Cooperative of",
+      "titleHighlight1": "Environmental Education",
+      "titleHighlight2": "Repensar",
+      "subtitle": "Transforming lives through environmental education and building a sustainable future for the next generations.",
+      "cta1": "Discover Our Projects",
+      "cta2": "Watch Video"
+    },
+    "about": {
+      "title": "About",
+      "titleHighlight": "Repensar",
+      "description1": "For over 25 years, the Repensar Environmental Education Cooperative has worked tirelessly to promote environmental awareness through innovative educational programs and sustainable community projects.",
+      "description2": "Our mission is to create a network of conscious and engaged individuals in environmental preservation, developing projects that unite education, sustainability and social transformation.",
+      "tags": {
+        "sustainability": "Sustainability",
+        "community": "Community",
+        "education": "Education"
+      }
+    },
+    "programs": {
+      "title": "Our",
+      "titleHighlight": "Programs",
+      "subtitle": "We develop comprehensive programs that address different aspects of environmental education",
+      "program1": {
+        "title": "Sustainable Children's Education",
+        "description": "Educational programs for children about environmental preservation and sustainability."
+      },
+      "program2": {
+        "title": "Community Recycling",
+        "description": "Recycling and reuse initiatives in local communities."
+      },
+      "program3": {
+        "title": "Urban Reforestation",
+        "description": "Tree planting projects and creation of urban green spaces."
+      },
+      "learnMore": "Learn more →"
+    },
+    "stats": {
+      "title": "Our Impact",
+      "subtitle": "Numbers that represent our dedication to the environmental cause",
+      "stat1": {
+        "number": "15,000+",
+        "label": "People Impacted"
+      },
+      "stat2": {
+        "number": "200+",
+        "label": "Projects Completed"
+      },
+      "stat3": {
+        "number": "50+",
+        "label": "Partner Schools"
+      },
+      "stat4": {
+        "number": "25+",
+        "label": "Years of Experience"
+      }
+    },
+    "volunteer": {
+      "title": "Become a",
+      "titleHighlight": "Volunteer",
+      "subtitle": "Join our mission and make a difference in the environment through our platforms",
+      "desktop": {
+        "title": "Desktop",
+        "description": "Access our complete volunteering platform through your computer with all available features.",
+        "cta": "Access Platform"
+      },
+      "android": {
+        "title": "Android",
+        "description": "Download our Android app and participate in environmental actions directly from your smartphone.",
+        "cta": "Download App"
+      },
+      "ios": {
+        "title": "iOS",
+        "description": "Available on the App Store, our iOS app offers a complete experience for volunteers.",
+        "cta": "Download App"
+      },
+      "whyVolunteer": {
+        "title": "Why volunteer?",
+        "description": "As a Repensar volunteer, you will have the opportunity to participate in environmental impact projects, develop new skills and be part of a community committed to sustainability.",
+        "stat1": {
+          "number": "500+",
+          "label": "Active Volunteers"
+        },
+        "stat2": {
+          "number": "100+",
+          "label": "Collaborative Projects"
+        },
+        "stat3": {
+          "number": "50+",
+          "label": "Training Hours"
+        }
+      }
+    },
+    "team": {
+      "title": "Our",
+      "titleHighlight": "Team",
+      "subtitle": "Professionals dedicated to transformation through environmental education",
+      "member1": {
+        "name": "Ana Silva",
+        "role": "Executive Director"
+      },
+      "member2": {
+        "name": "Carlos Santos",
+        "role": "Project Coordinator"
+      },
+      "member3": {
+        "name": "Marina Costa",
+        "role": "Environmental Educator"
+      }
+    },
+    "contact": {
+      "title": "Get in",
+      "titleHighlight": "Touch",
+      "subtitle": "Join us in the mission to create a more sustainable future",
+      "address": {
+        "title": "Address",
+        "text": "Sustainability Street, 123\nGreen District, SP - 01234-567"
+      },
+      "phone": {
+        "title": "Phone",
+        "text": "(11) 9999-8888"
+      },
+      "email": {
+        "title": "Email",
+        "text": "contact@repensar.org.br"
+      },
+      "social": "Follow us on Social Media",
+      "form": {
+        "name": "Name",
+        "namePlaceholder": "Your full name",
+        "email": "Email",
+        "emailPlaceholder": "your@email.com",
+        "message": "Message",
+        "messagePlaceholder": "How can we help you?",
+        "submit": "Send Message"
+      }
+    },
+    "footer": {
+      "description": "Environmental Education Cooperative committed to social transformation through environmental education and sustainable practices.",
+      "usefulLinks": "Useful Links",
+      "links": {
+        "home": "Home",
+        "about": "About",
+        "programs": "Programs",
+        "volunteer": "Volunteers",
+        "team": "Team"
+      },
+      "contact": "Contact",
+      "copyright": "© 2025 Repensar Environmental Education Cooperative. All rights reserved."
+    }
+  },
+  "Metadata": {
+    "title": "Rethink Environmental Education Cooperative"
+  },
+  "NotFound": {
+    "description": "The page you are looking for does not exist.",
+    "goHome": "Back to the homepage",
+    "title": "Page not found"
+  }
+}
