@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useTranslations } from "next-intl";
 import {
   Leaf,
@@ -24,16 +24,10 @@ import {
   Heart,
   Download
 } from 'lucide-react';
+import ThreeBackground from "@/components/ui/3d/ThreeBackground";
 
 export default function Page() {
   const t = useTranslations('Landing');
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const programs = [
     {
@@ -82,24 +76,11 @@ export default function Page() {
     <div className="min-h-screen overflow-x-hidden">
       {/* Hero Section */}
       <section id="home" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: `url('https://images.pexels.com/photos/1571458/pexels-photo-1571458.jpeg?auto=compress&cs=tinysrgb&w=1600')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            transform: `translateY(${Math.min(scrollY * 0.5, 100)}px)`
-          }}
-        />
+        <ThreeBackground />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div
             className="transform transition-all duration-1000"
-            style={{
-              transform: `translateY(${scrollY * 0.2}px) rotateX(${scrollY * 0.02}deg)`,
-              transformStyle: 'preserve-3d'
-            }}
           >
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gray-800 dark:text-gray-100 mb-6 leading-tight">
               {t('hero.title')}

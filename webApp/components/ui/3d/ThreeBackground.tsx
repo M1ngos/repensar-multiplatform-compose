@@ -7,10 +7,12 @@ export default function ThreeBackground() {
     useEffect(() => {
         if (!containerRef.current) return;
 
+        const container = containerRef.current;
+
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(
             75,
-            window.innerWidth / window.innerHeight,
+            container.clientWidth / container.clientHeight,
             0.1,
             1000
         );
@@ -19,9 +21,9 @@ export default function ThreeBackground() {
             alpha: true,
             antialias: true
         });
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(container.clientWidth, container.clientHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
-        containerRef.current.appendChild(renderer.domElement);
+        container.appendChild(renderer.domElement);
 
         const geometry = new THREE.IcosahedronGeometry(2, 1);
         const material = new THREE.MeshPhongMaterial({
@@ -67,8 +69,8 @@ export default function ThreeBackground() {
         let targetY = 0;
 
         const onMouseMove = (event: MouseEvent) => {
-            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            mouseX = (event.clientX / container.clientWidth) * 2 - 1;
+            mouseY = -(event.clientY / container.clientHeight) * 2 + 1;
         };
 
         window.addEventListener('mousemove', onMouseMove);
@@ -94,17 +96,18 @@ export default function ThreeBackground() {
         animate();
 
         const handleResize = () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.aspect = container.clientWidth / container.clientHeight;
             camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(container.clientWidth, container.clientHeight);
         };
 
-        window.addEventListener('resize', handleResize);
+        const resizeObserver = new ResizeObserver(handleResize);
+        resizeObserver.observe(container);
 
         return () => {
             window.removeEventListener('mousemove', onMouseMove);
-            window.removeEventListener('resize', handleResize);
-            containerRef.current?.removeChild(renderer.domElement);
+            resizeObserver.disconnect();
+            container.removeChild(renderer.domElement);
             geometry.dispose();
             material.dispose();
             wireframeGeometry.dispose();
@@ -116,7 +119,7 @@ export default function ThreeBackground() {
     return (
         <div
             ref={containerRef}
-            className="fixed inset-0 pointer-events-none"
+            className="absolute inset-0 pointer-events-none"
             style={{ zIndex: 0 }}
         />
     );
