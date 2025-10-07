@@ -1,5 +1,8 @@
 {
   "Landing": {
+    "header": {
+      "portalBtn": "Access Portal"
+    },
     "title": "Welcome to the Repensar portal!",
     "hero": {
       "title": "Cooperative of",
@@ -117,15 +120,15 @@
       "subtitle": "Join us in the mission to create a more sustainable future",
       "address": {
         "title": "Address",
-        "text": "Sustainability Street, 123\nGreen District, SP - 01234-567"
+        "text": "Rua da Sustentabilidade, 1114\n"
       },
       "phone": {
         "title": "Phone",
-        "text": "(11) 9999-8888"
+        "text": "(+258) 85 718 6078"
       },
       "email": {
         "title": "Email",
-        "text": "contact@repensar.org.br"
+        "text": "cea.repensar@gmail.com"
       },
       "social": "Follow us on Social Media",
       "form": {
@@ -159,5 +162,24 @@
     "description": "The page you are looking for does not exist.",
     "goHome": "Back to the homepage",
     "title": "Page not found"
+  },
+  "Login": {
+    "welcomeBack": "Welcome back",
+    "socialLoginPrompt": "Login with your Apple or Google account",
+    "loginWithApple": "Login with Apple",
+    "loginWithGoogle": "Login with Google",
+    "orContinueWith": "Or continue with",
+    "email": "Email",
+    "emailPlaceholder": "m@example.com",
+    "password": "Password",
+    "forgotPassword": "Forgot your password?",
+    "loginButton": "Login",
+    "noAccountPrompt": "Don't have an account?",
+    "signUp": "Sign up",
+    "termsPrefix": "By clicking continue, you agree to our ",
+    "termsOfService": "Terms of Service",
+    "and": " and ",
+    "privacyPolicy": "Privacy Policy",
+    "termsSuffix": "."
   }
 }

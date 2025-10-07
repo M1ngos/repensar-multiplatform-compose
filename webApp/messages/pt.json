@@ -1,5 +1,8 @@
 {
   "Landing": {
+    "header": {
+      "portalBtn": "Aceder ao Portal"
+    },
     "title": "Bem vindo ao portal da Repensar!",
     "hero": {
       "title": "Cooperativa de",
@@ -117,15 +120,15 @@
       "subtitle": "Junte-se a nós na missão de criar um futuro mais sustentável",
       "address": {
         "title": "Endereço",
-        "text": "Rua da Sustentabilidade, 123\nBairro Verde, SP - 01234-567"
+        "text": "Rua da Sustentabilidade, 1114\n"
       },
       "phone": {
         "title": "Telefone",
-        "text": "(11) 9999-8888"
+        "text": "(+258) 85 718 6078"
       },
       "email": {
         "title": "Email",
-        "text": "contato@repensar.org.br"
+        "text": "cea.repensar@gmail.com"
       },
       "social": "Siga-nos nas Redes Sociais",
       "form": {
@@ -159,5 +162,24 @@
     "description": "A página que procura não existe.",
     "goHome": "Voltar para a página inicial",
     "title": "Página não encontrada"
+  },
+  "Login": {
+    "welcomeBack": "Bem-vindo de volta",
+    "socialLoginPrompt": "Faça login com sua conta Apple ou Google",
+    "loginWithApple": "Entrar com Apple",
+    "loginWithGoogle": "Entrar com Google",
+    "orContinueWith": "Ou continue com",
+    "email": "Email",
+    "emailPlaceholder": "m@exemplo.com",
+    "password": "Senha",
+    "forgotPassword": "Esqueceu sua senha?",
+    "loginButton": "Entrar",
+    "noAccountPrompt": "Não tem uma conta?",
+    "signUp": "Cadastre-se",
+    "termsPrefix": "Ao continuar, você concorda com nossos ",
+    "termsOfService": "Termos de Serviço",
+    "and": " e ",
+    "privacyPolicy": "Política de Privacidade",
+    "termsSuffix": "."
   }
 }

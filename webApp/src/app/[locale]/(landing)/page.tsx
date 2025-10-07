@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useTranslations } from "next-intl";
 import {
   Leaf,
@@ -72,48 +72,77 @@ export default function Page() {
     }
   ];
 
+    const [scrollY, setScrollY] = useState(0);
+
+    useEffect(() => {
+        const handleScroll = () => setScrollY(window.scrollY);
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    // Parallax movement and fade on scroll
+    const translateY = Math.min(scrollY * 0.3, 200);
+    const opacity = Math.max(1 - scrollY / 500, 0.2);
+    const rotateX = Math.min(scrollY * 0.02, 15);
+
   return (
     <div className="min-h-screen overflow-x-hidden">
       {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-hidden">
-        <ThreeBackground />
+        <section
+            id="home"
+            className="relative min-h-screen flex items-center justify-center overflow-hidden
+      bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50
+      dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 select-none"
+        >
+            <ThreeBackground />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div
-            className="transform transition-all duration-1000"
-          >
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gray-800 dark:text-gray-100 mb-6 leading-tight">
-              {t('hero.title')}
-              <span className="block text-emerald-500">{t('hero.titleHighlight1')}</span>
-              <span className="block text-emerald-400">{t('hero.titleHighlight2')}</span>
-            </h1>
-            <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-              {t('hero.subtitle')}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <button className="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
-                {t('hero.cta1')}
-              </button>
-              <button className="flex items-center space-x-2 px-8 py-4 border-2 border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-white font-semibold rounded-full transition-all duration-300">
-                <Play className="w-5 h-5" />
-                <span>{t('hero.cta2')}</span>
-              </button>
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pointer-events-none">
+                <div
+                    className="transition-transform duration-300 ease-out will-change-transform"
+                    style={{
+                        transform: `translateY(${translateY}px) rotateX(${rotateX}deg)`,
+                        opacity,
+                    }}
+                >
+                    <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-gray-100 mb-6 leading-tight">
+                        {t("hero.title")}
+                        <span className="block text-emerald-600 dark:text-emerald-500">
+                        {t("hero.titleHighlight1")}
+                        </span>
+                        <span className="block text-teal-600 dark:text-emerald-400">
+                            {t("hero.titleHighlight2")}
+                        </span>
+                    </h1>
+
+                    <p className="text-xl sm:text-2xl text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+                        {t("hero.subtitle")}
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pointer-events-auto">
+                        <button
+                            className="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                            {t("hero.cta1")}
+                        </button>
+                        <button
+                            className="flex items-center space-x-2 px-8 py-4 border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white dark:border-emerald-500 dark:text-emerald-500 dark:hover:bg-emerald-500 dark:hover:text-white font-semibold rounded-full transition-all duration-300">
+                            <Play className="w-5 h-5"/>
+                            <span>{t("hero.cta2")}</span>
+                        </button>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
 
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ChevronDown className="w-8 h-8 text-emerald-500" />
-        </div>
-      </section>
-
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10 select-none">
+                <ChevronDown className="w-8 h-8 text-emerald-500" />
+            </div>
+        </section>
       {/* About Section */}
       <section id="about" className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="transform hover:scale-105 transition-all duration-500">
               <img
-                src="https://images.pexels.com/photos/2559941/pexels-photo-2559941.jpeg?auto=compress&cs=tinysrgb&w=800"
+                src="/landing/1.jpg"
                 alt="Environmental Education"
                 className="rounded-2xl shadow-2xl"
               />
@@ -331,10 +360,10 @@ export default function Page() {
                   <h3 className="text-xl font-bold mb-1">{member.name}</h3>
                   <p className="text-emerald-200">{member.role}</p>
                 </div>
-                <div className="bg-white dark:bg-gray-800 p-6 group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/30 transition-colors duration-300">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">{member.name}</h3>
-                  <p className="text-gray-600 dark:text-gray-300">{member.role}</p>
-                </div>
+                {/*<div className="bg-white dark:bg-gray-800 p-6 group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/30 transition-colors duration-300">*/}
+                {/*  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">{member.name}</h3>*/}
+                {/*  <p className="text-gray-600 dark:text-gray-300">{member.role}</p>*/}
+                {/*</div>*/}
               </div>
             ))}
           </div>
@@ -344,7 +373,7 @@ export default function Page() {
       {/* Contact Section */}
       <section id="contact" className="py-20 bg-gradient-to-br from-gray-50 to-emerald-50 dark:from-gray-800 dark:to-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 select-none">
             <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
               {t('contact.title')} <span className="text-emerald-500">{t('contact.titleHighlight')}</span>
             </h2>
@@ -388,10 +417,10 @@ export default function Page() {
               <div className="pt-8">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{t('contact.social')}</h3>
                 <div className="flex space-x-4">
-                  <a href="#" className="p-3 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 rounded-full transition-colors duration-300 transform hover:scale-110">
+                  <a href="https://www.facebook.com/p/Cooperativa-de-Educa%C3%A7%C3%A3o-Ambiental-Repensar-100064760586275/" className="p-3 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 rounded-full transition-colors duration-300 transform hover:scale-110">
                     <Facebook className="w-6 h-6 text-emerald-500" />
                   </a>
-                  <a href="#" className="p-3 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 rounded-full transition-colors duration-300 transform hover:scale-110">
+                  <a href="https://www.instagram.com/cooperativa_repensar/" className="p-3 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 rounded-full transition-colors duration-300 transform hover:scale-110">
                     <Instagram className="w-6 h-6 text-emerald-500" />
                   </a>
                   <a href="#" className="p-3 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 rounded-full transition-colors duration-300 transform hover:scale-110">
@@ -401,7 +430,7 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300">
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 select-none">
               <form className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('contact.form.name')}</label>
@@ -446,7 +475,7 @@ export default function Page() {
       <footer className="bg-emerald-800 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
-            <div className="col-span-2">
+            <div className="col-span-2 select-none">
               <div className="flex items-center space-x-3 mb-4">
                 <Leaf className="w-8 h-8 text-emerald-400" />
                 <span className="text-2xl font-bold">Repensar</span>
@@ -456,7 +485,7 @@ export default function Page() {
               </p>
             </div>
 
-            <div>
+            <div className="select-none" style={{ scrollBehavior: "smooth" }}>
               <h3 className="text-lg font-semibold mb-4">{t('footer.usefulLinks')}</h3>
               <ul className="space-y-2 text-emerald-200">
                 <li><a href="#home" className="hover:text-white transition-colors duration-300">{t('footer.links.home')}</a></li>
@@ -468,11 +497,11 @@ export default function Page() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-4">{t('footer.contact')}</h3>
+              <h3 className="text-lg font-semibold mb-4 select-none">{t('footer.contact')}</h3>
               <div className="space-y-2 text-emerald-200">
                 <p>{t('contact.email.text')}</p>
                 <p>{t('contact.phone.text')}</p>
-                <p>São Paulo, SP</p>
+                <p>Matola, Mozambique</p>
               </div>
             </div>
           </div>
