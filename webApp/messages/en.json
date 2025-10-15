@@ -165,7 +165,7 @@
   },
   "Login": {
     "welcomeBack": "Welcome back",
-    "socialLoginPrompt": "Login with your Apple or Google account",
+    "socialLoginPrompt": "Login with your Google account",
     "loginWithApple": "Login with Apple",
     "loginWithGoogle": "Login with Google",
     "orContinueWith": "Or continue with",
@@ -180,6 +180,10 @@
     "termsOfService": "Terms of Service",
     "and": " and ",
     "privacyPolicy": "Privacy Policy",
-    "termsSuffix": "."
+    "termsSuffix": ".",
+    "loggingIn": "Loggin in..."
+  },
+  "utils": {
+    "loading": "Loading..."
   }
 }

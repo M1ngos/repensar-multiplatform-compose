@@ -15,18 +15,22 @@ import * as React from "react";
 import ThemeSwitcher from "@/components/ui/theme-switcher.tsx";
 import { Button } from '@/components/ui/button';
 import {useLocale, useTranslations} from 'next-intl';
-import { useAuth } from '@/lib/hooks/useAuth';
+import { useAuth } from '@/lib/hooks/useAuth.tsx';
 
 
 function UserMenu() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { user, authStatus, logout, isLogoutLoading } = useAuth();
+    const { user, authStatus, logout, isLogoutLoading, isAuthLoading } = useAuth();
     const locale = useLocale();
     const t = useTranslations('Landing');
 
 
     async function handleSignOut() {
         await logout();
+    }
+
+    if (isAuthLoading) {
+        return <div className="h-9 w-9 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse" />;
     }
 
     if (!authStatus || !authStatus.is_authenticated) {
@@ -78,7 +82,10 @@ function Header() {
         <header className="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 ">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
                 <Link href="/" className="flex items-center">
-                    <Leaf className="h-10 w-10 text-emerald-500"/>
+                    <Leaf
+                        className="h-10 w-10 text-emerald-500"
+                        suppressHydrationWarning
+                    />
                     <span className="ml-2 text-xl font-semibold">Repensar</span>
                 </Link>
                 <div className="flex items-center space-x-4">

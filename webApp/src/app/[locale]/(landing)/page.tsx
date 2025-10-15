@@ -33,25 +33,25 @@ export default function Page() {
     {
       title: t('programs.program1.title'),
       description: t('programs.program1.description'),
-      icon: <BookOpen className="w-8 h-8" />
+      icon: <BookOpen suppressHydrationWarning className="w-8 h-8" />
     },
     {
       title: t('programs.program2.title'),
       description: t('programs.program2.description'),
-      icon: <Recycle className="w-8 h-8" />
+      icon: <Recycle suppressHydrationWarning className="w-8 h-8" />
     },
     {
       title: t('programs.program3.title'),
       description: t('programs.program3.description'),
-      icon: <TreePine className="w-8 h-8" />
+      icon: <TreePine suppressHydrationWarning className="w-8 h-8" />
     }
   ];
 
   const stats = [
-    { number: t('stats.stat1.number'), label: t('stats.stat1.label'), icon: <Users className="w-6 h-6" /> },
-    { number: t('stats.stat2.number'), label: t('stats.stat2.label'), icon: <Target className="w-6 h-6" /> },
-    { number: t('stats.stat3.number'), label: t('stats.stat3.label'), icon: <BookOpen className="w-6 h-6" /> },
-    { number: t('stats.stat4.number'), label: t('stats.stat4.label'), icon: <Award className="w-6 h-6" /> }
+    { number: t('stats.stat1.number'), label: t('stats.stat1.label'), icon: <Users suppressHydrationWarning className="w-6 h-6" /> },
+    { number: t('stats.stat2.number'), label: t('stats.stat2.label'), icon: <Target suppressHydrationWarning className="w-6 h-6" /> },
+    { number: t('stats.stat3.number'), label: t('stats.stat3.label'), icon: <BookOpen suppressHydrationWarning className="w-6 h-6" /> },
+    { number: t('stats.stat4.number'), label: t('stats.stat4.label'), icon: <Award suppressHydrationWarning className="w-6 h-6" /> }
   ];
 
   const teamMembers = [
@@ -125,7 +125,7 @@ export default function Page() {
                         </button>
                         <button
                             className="flex items-center space-x-2 px-8 py-4 border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white dark:border-emerald-500 dark:text-emerald-500 dark:hover:bg-emerald-500 dark:hover:text-white font-semibold rounded-full transition-all duration-300">
-                            <Play className="w-5 h-5"/>
+                            <Play suppressHydrationWarning className="w-5 h-5"/>
                             <span>{t("hero.cta2")}</span>
                         </button>
                     </div>
@@ -133,7 +133,7 @@ export default function Page() {
             </div>
 
             <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10 select-none">
-                <ChevronDown className="w-8 h-8 text-emerald-500" />
+                <ChevronDown suppressHydrationWarning className="w-8 h-8 text-emerald-500" />
             </div>
         </section>
       {/* About Section */}
@@ -159,15 +159,15 @@ export default function Page() {
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
                 <div className="flex items-center space-x-2 bg-emerald-50 dark:bg-emerald-900/30 px-4 py-2 rounded-full">
-                  <Leaf className="w-5 h-5 text-emerald-500" />
+                  <Leaf suppressHydrationWarning className="w-5 h-5 text-emerald-500" />
                   <span className="text-emerald-800 dark:text-emerald-300 font-medium">{t('about.tags.sustainability')}</span>
                 </div>
                 <div className="flex items-center space-x-2 bg-green-50 dark:bg-green-900/30 px-4 py-2 rounded-full">
-                  <Users className="w-5 h-5 text-green-600" />
+                  <Users suppressHydrationWarning className="w-5 h-5 text-green-600" />
                   <span className="text-green-800 dark:text-green-300 font-medium">{t('about.tags.community')}</span>
                 </div>
                 <div className="flex items-center space-x-2 bg-teal-50 dark:bg-teal-900/30 px-4 py-2 rounded-full">
-                  <BookOpen className="w-5 h-5 text-teal-600" />
+                  <BookOpen suppressHydrationWarning className="w-5 h-5 text-teal-600" />
                   <span className="text-teal-800 dark:text-teal-300 font-medium">{t('about.tags.education')}</span>
                 </div>
               </div>
@@ -253,7 +253,7 @@ export default function Page() {
             <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-2xl transform hover:scale-105 hover:rotate-1 transition-all duration-500 group text-center">
               <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300 flex justify-center">
                 <div className="p-4 bg-emerald-50 dark:bg-emerald-900/30 rounded-full">
-                  <Monitor className="w-12 h-12 text-emerald-500" />
+                  <Monitor suppressHydrationWarning className="w-12 h-12 text-emerald-500" />
                 </div>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">{t('volunteer.desktop.title')}</h3>
@@ -261,7 +261,7 @@ export default function Page() {
                 {t('volunteer.desktop.description')}
               </p>
               <button className="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-lg transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center space-x-2 mx-auto">
-                <Download className="w-5 h-5" />
+                <Download suppressHydrationWarning className="w-5 h-5" />
                 <span>{t('volunteer.desktop.cta')}</span>
               </button>
             </div>
@@ -269,7 +269,7 @@ export default function Page() {
             <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-2xl transform hover:scale-105 hover:rotate-1 transition-all duration-500 group text-center">
               <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300 flex justify-center">
                 <div className="p-4 bg-emerald-50 dark:bg-emerald-900/30 rounded-full">
-                  <Smartphone className="w-12 h-12 text-emerald-500" />
+                  <Smartphone suppressHydrationWarning className="w-12 h-12 text-emerald-500" />
                 </div>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">{t('volunteer.android.title')}</h3>
@@ -277,7 +277,7 @@ export default function Page() {
                 {t('volunteer.android.description')}
               </p>
               <button className="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-lg transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center space-x-2 mx-auto">
-                <Download className="w-5 h-5" />
+                <Download suppressHydrationWarning className="w-5 h-5" />
                 <span>{t('volunteer.android.cta')}</span>
               </button>
             </div>
@@ -285,7 +285,7 @@ export default function Page() {
             <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-2xl transform hover:scale-105 hover:rotate-1 transition-all duration-500 group text-center">
               <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300 flex justify-center">
                 <div className="p-4 bg-emerald-50 dark:bg-emerald-900/30 rounded-full">
-                  <Tablet className="w-12 h-12 text-emerald-500" />
+                  <Tablet suppressHydrationWarning className="w-12 h-12 text-emerald-500" />
                 </div>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">{t('volunteer.ios.title')}</h3>
@@ -293,7 +293,7 @@ export default function Page() {
                 {t('volunteer.ios.description')}
               </p>
               <button className="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-lg transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center space-x-2 mx-auto">
-                <Download className="w-5 h-5" />
+                <Download suppressHydrationWarning className="w-5 h-5" />
                 <span>{t('volunteer.ios.cta')}</span>
               </button>
             </div>
@@ -302,7 +302,7 @@ export default function Page() {
           <div className="text-center bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
             <div className="flex justify-center mb-6">
               <div className="p-4 bg-emerald-50 dark:bg-emerald-900/30 rounded-full">
-                <Heart className="w-12 h-12 text-emerald-500" />
+                <Heart suppressHydrationWarning className="w-12 h-12 text-emerald-500" />
               </div>
             </div>
             <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">{t('volunteer.whyVolunteer.title')}</h3>
@@ -386,7 +386,7 @@ export default function Page() {
             <div className="space-y-8">
               <div className="flex items-start space-x-4 group">
                 <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 rounded-full transition-colors duration-300">
-                  <MapPin className="w-6 h-6 text-emerald-500" />
+                  <MapPin suppressHydrationWarning className="w-6 h-6 text-emerald-500" />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">{t('contact.address.title')}</h3>
@@ -396,7 +396,7 @@ export default function Page() {
 
               <div className="flex items-start space-x-4 group">
                 <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 rounded-full transition-colors duration-300">
-                  <Phone className="w-6 h-6 text-emerald-500" />
+                  <Phone suppressHydrationWarning className="w-6 h-6 text-emerald-500" />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">{t('contact.phone.title')}</h3>
@@ -406,7 +406,7 @@ export default function Page() {
 
               <div className="flex items-start space-x-4 group">
                 <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 rounded-full transition-colors duration-300">
-                  <Mail className="w-6 h-6 text-emerald-500" />
+                  <Mail suppressHydrationWarning className="w-6 h-6 text-emerald-500" />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">{t('contact.email.title')}</h3>
@@ -418,13 +418,13 @@ export default function Page() {
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{t('contact.social')}</h3>
                 <div className="flex space-x-4">
                   <a href="https://www.facebook.com/p/Cooperativa-de-Educa%C3%A7%C3%A3o-Ambiental-Repensar-100064760586275/" className="p-3 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 rounded-full transition-colors duration-300 transform hover:scale-110">
-                    <Facebook className="w-6 h-6 text-emerald-500" />
+                    <Facebook suppressHydrationWarning className="w-6 h-6 text-emerald-500" />
                   </a>
                   <a href="https://www.instagram.com/cooperativa_repensar/" className="p-3 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 rounded-full transition-colors duration-300 transform hover:scale-110">
-                    <Instagram className="w-6 h-6 text-emerald-500" />
+                    <Instagram suppressHydrationWarning className="w-6 h-6 text-emerald-500" />
                   </a>
                   <a href="#" className="p-3 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 rounded-full transition-colors duration-300 transform hover:scale-110">
-                    <Globe className="w-6 h-6 text-emerald-500" />
+                    <Globe suppressHydrationWarning className="w-6 h-6 text-emerald-500" />
                   </a>
                 </div>
               </div>
@@ -477,7 +477,7 @@ export default function Page() {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="col-span-2 select-none">
               <div className="flex items-center space-x-3 mb-4">
-                <Leaf className="w-8 h-8 text-emerald-400" />
+                <Leaf suppressHydrationWarning className="w-8 h-8 text-emerald-400" />
                 <span className="text-2xl font-bold">Repensar</span>
               </div>
               <p className="text-emerald-200 leading-relaxed max-w-md">

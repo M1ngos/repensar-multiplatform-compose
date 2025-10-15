@@ -6,6 +6,10 @@ import {notFound} from 'next/navigation';
 import {routing} from "@/src/i18n/routing.ts";
 import {setRequestLocale} from "next-intl/server";
 import { ThemeProvider } from "@/components/ui/theme-provider.tsx"
+import { AuthProvider } from '@/lib/hooks/useAuth';
+import { LoadingProvider } from '@/lib/hooks/useLoading';
+import { LoadingOverlay } from '@/components/ui/loading-overlay';
+import { LoadingReset } from '@/components/ui/loading-reset';
 // import LocaleSwitcher from "@/components/ui/locale-switcher.tsx";
 export function generateStaticParams() {
     return routing.locales.map((locale) => ({locale}));
@@ -43,20 +47,26 @@ export default async function RootLayout({
                         enableSystem
                         disableTransitionOnChange
                     >
-                        <NextIntlClientProvider>
-                            <SWRConfig
-                                value={{
-                                    fallback: {
-                                        // We do NOT await here
-                                        // Only components that read this data will suspend
-                                        // '/api/user': getUser(),
-                                        // '/api/team': getTeamForUser()
-                                    }
-                                }}
-                            >
-                                {children}
-                            </SWRConfig>
-                        </NextIntlClientProvider>
+                        <LoadingProvider>
+                            <NextIntlClientProvider>
+                                <AuthProvider>
+                                    <SWRConfig
+                                        value={{
+                                            fallback: {
+                                                // We do NOT await here
+                                                // Only components that read this data will suspend
+                                                // '/api/user': getUser(),
+                                                // '/api/team': getTeamForUser()
+                                            }
+                                        }}
+                                    >
+                                        <LoadingReset />
+                                        <LoadingOverlay />
+                                        {children}
+                                    </SWRConfig>
+                                </AuthProvider>
+                            </NextIntlClientProvider>
+                        </LoadingProvider>
                     </ThemeProvider>
                 </body>
             </html>

@@ -8,12 +8,6 @@ importers:
 
   .: {}
 
-  shared/build/dist/js/developmentLibrary:
-    devDependencies:
-      typescript:
-        specifier: 5.8.3
-        version: 5.8.3
-
   webApp:
     dependencies:
       '@radix-ui/react-avatar':
@@ -64,9 +58,6 @@ importers:
       react-dom:
         specifier: ^19.1.1
         version: 19.1.1(react@19.1.1)
-      shared:
-        specifier: workspace:*
-        version: link:../shared/build/dist/js/developmentLibrary
       swr:
         specifier: ^2.3.6
         version: 2.3.6(react@19.1.1)
