@@ -225,5 +225,65 @@
   },
   "utils": {
     "loading": "Carregando..."
+  },
+  "TermsOfService": {
+    "title": "Termos de Serviço",
+    "lastUpdated": "Última Atualização",
+    "updateDate": "15 de outubro de 2025",
+    "goBack": "Voltar",
+    "section1": {
+      "title": "1. Aceitação dos Termos",
+      "content": "Ao aceder e utilizar a plataforma da Cooperativa de Educação Ambiental Repensar, você aceita e concorda em ficar vinculado a estes Termos de Serviço. Se não concordar com estes termos, por favor não utilize os nossos serviços."
+    },
+    "section2": {
+      "title": "2. Uso dos Serviços",
+      "content": "Nossa plataforma foi projetada para facilitar atividades de educação ambiental e voluntariado. Você concorda em usar nossos serviços apenas para fins lícitos e de forma que não infrinja os direitos de terceiros ou restrinja o uso da plataforma por outras pessoas."
+    },
+    "section3": {
+      "title": "3. Contas de Usuário",
+      "content": "Você é responsável por manter a confidencialidade das suas credenciais de conta e por todas as atividades que ocorram sob a sua conta. Você concorda em nos notificar imediatamente sobre qualquer uso não autorizado da sua conta."
+    },
+    "section4": {
+      "title": "4. Propriedade Intelectual",
+      "content": "Todo o conteúdo, marcas registadas e dados desta plataforma, incluindo, mas não limitado a software, bases de dados, texto, gráficos, ícones e hiperlinks, são propriedade ou licenciados para a Repensar e estão protegidos pelas leis aplicáveis."
+    },
+    "section5": {
+      "title": "5. Limitação de Responsabilidade",
+      "content": "A Repensar não será responsável por quaisquer danos indiretos, incidentais, especiais, consequenciais ou punitivos resultantes do seu uso ou incapacidade de usar o serviço. Fornecemos nossos serviços 'como estão' e 'conforme disponibilidade'."
+    },
+    "section6": {
+      "title": "6. Alterações aos Termos",
+      "content": "Reservamo-nos o direito de modificar estes termos a qualquer momento. Notificaremos os utilizadores sobre quaisquer alterações materiais. O seu uso continuado da plataforma após tais modificações constitui a sua aceitação dos termos atualizados."
+    }
+  },
+  "PrivacyPolicy": {
+    "title": "Política de Privacidade",
+    "lastUpdated": "Última Atualização",
+    "updateDate": "15 de outubro de 2025",
+    "goBack": "Voltar",
+    "section1": {
+      "title": "1. Informações que Coletamos",
+      "content": "Coletamos informações que você nos fornece diretamente, incluindo seu nome, endereço de email, número de telefone e qualquer outra informação que escolha fornecer ao registar-se ou usar nossa plataforma."
+    },
+    "section2": {
+      "title": "2. Como Usamos Suas Informações",
+      "content": "Usamos as informações coletadas para fornecer, manter e melhorar nossos serviços, para comunicar com você, para monitorar e analisar tendências e uso, e para personalizar sua experiência em nossa plataforma."
+    },
+    "section3": {
+      "title": "3. Partilha de Informações",
+      "content": "Não vendemos, trocamos ou transferimos suas informações pessoais para terceiros sem o seu consentimento, exceto quando necessário para fornecer nossos serviços ou conforme exigido por lei."
+    },
+    "section4": {
+      "title": "4. Segurança de Dados",
+      "content": "Implementamos medidas técnicas e organizacionais apropriadas para proteger suas informações pessoais contra processamento não autorizado ou ilegal, perda acidental, destruição ou danos."
+    },
+    "section5": {
+      "title": "5. Seus Direitos",
+      "content": "Você tem o direito de aceder, corrigir ou eliminar suas informações pessoais. Você também pode opor-se ou restringir certos processamentos dos seus dados. Para exercer estes direitos, entre em contacto connosco através de cea.repensar@gmail.com."
+    },
+    "section6": {
+      "title": "6. Alterações à Política de Privacidade",
+      "content": "Podemos atualizar esta Política de Privacidade periodicamente. Notificaremos você sobre quaisquer alterações publicando a nova Política de Privacidade nesta página e atualizando a data de 'Última Atualização'."
+    }
   }
 }

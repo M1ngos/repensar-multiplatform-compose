@@ -82,25 +82,24 @@ export function RegisterForm({
       }, 2000);
     } catch (err: any) {
       console.error('[RegisterForm] Registration error:', err);
-      console.error('[RegisterForm] Error detail:', err?.detail);
-      console.error('[RegisterForm] Full error object:', JSON.stringify(err, null, 2));
-      toast.error(err?.detail || t('registrationError'));
+      toast.error(t('registrationError'));
     }
   };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
-        <CardHeader className="text-center">
+        <CardHeader className="relative text-center">
+            //TODO: fix position
             <Button
                 variant="ghost"
                 onClick={() => router.back()}
-                className="absolute right-4 top-4 p-2"
+                className="absolute left-2 top-2 sm:left-4 sm:top-4 h-8 w-8 sm:h-auto sm:w-auto p-1 sm:p-2"
             >
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                {t('goBack')}
+                <ArrowLeft className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">{t('goBack')}</span>
             </Button>
-          <CardTitle className="text-xl">{t('createAccount')}</CardTitle>
+          <CardTitle className="text-xl pt-8 sm:pt-4">{t('createAccount')}</CardTitle>
           <CardDescription>
             {t('signUpPrompt')}
           </CardDescription>
@@ -204,8 +203,8 @@ export function RegisterForm({
         </CardContent>
       </Card>
       <FieldDescription className="px-6 text-center">
-        {t('termsPrefix')}<a href="#">{t('termsOfService')}</a>{" "}
-        {t('and')} <a href="#">{t('privacyPolicy')}</a>{t('termsSuffix')}
+        {t('termsPrefix')}<Link href="/terms-of-service" className="underline underline-offset-4 hover:text-primary">{t('termsOfService')}</Link>{" "}
+        {t('and')} <Link href="/privacy-policy" className="underline underline-offset-4 hover:text-primary">{t('privacyPolicy')}</Link>{t('termsSuffix')}
       </FieldDescription>
     </div>
   )
