@@ -226,6 +226,34 @@
   "utils": {
     "loading": "Loading..."
   },
+  "Dashboard": {
+    "appSubtitle": "Environmental Education",
+    "nav": {
+      "main": "Main Navigation",
+      "other": "Other",
+      "overview": "Overview",
+      "projects": "Projects",
+      "resources": "Resources",
+      "tasks": "Tasks",
+      "volunteers": "Volunteers",
+      "users": "Users",
+      "analytics": "Analytics",
+      "settings": "Settings",
+      "logout": "Logout",
+      "theme": "Theme",
+      "themeLight": "Light",
+      "themeDark": "Dark",
+      "themeSystem": "System"
+    },
+    "roles": {
+      "admin": "Administrator",
+      "project_manager": "Project Manager",
+      "volunteer": "Volunteer",
+      "coordinator": "Coordinator"
+    },
+    "welcome": "Welcome back",
+    "subtitle": "Here's what's happening with your projects today."
+  },
   "TermsOfService": {
     "title": "Terms of Service",
     "lastUpdated": "Last Updated",

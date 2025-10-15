@@ -226,6 +226,34 @@
   "utils": {
     "loading": "Carregando..."
   },
+  "Dashboard": {
+    "appSubtitle": "Educação Ambiental",
+    "nav": {
+      "main": "Navegação Principal",
+      "other": "Outros",
+      "overview": "Visão Geral",
+      "projects": "Projetos",
+      "resources": "Recursos",
+      "tasks": "Tarefas",
+      "volunteers": "Voluntários",
+      "users": "Utilizadores",
+      "analytics": "Análises",
+      "settings": "Configurações",
+      "logout": "Sair",
+      "theme": "Tema",
+      "themeLight": "Claro",
+      "themeDark": "Escuro",
+      "themeSystem": "Sistema"
+    },
+    "roles": {
+      "admin": "Administrador",
+      "project_manager": "Gestor de Projetos",
+      "volunteer": "Voluntário",
+      "coordinator": "Coordenador"
+    },
+    "welcome": "Bem-vindo de volta",
+    "subtitle": "Aqui está o que está acontecendo com seus projetos hoje."
+  },
   "TermsOfService": {
     "title": "Termos de Serviço",
     "lastUpdated": "Última Atualização",
