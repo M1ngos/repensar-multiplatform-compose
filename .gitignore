@@ -57,6 +57,7 @@ captures/
 !/gradle/wrapper/gradle-wrapper.jar
 node_modules
 webApp/node_modules
+webApp/.env.local
 webApp/.next
 kotlin-js-store/yarn.lock
 

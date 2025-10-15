@@ -23,13 +23,14 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
+import { toast } from 'sonner';
 
 export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const t = useTranslations('Register');
-  const { register, isRegisterLoading, error: authError } = useAuth();
+  const { register, isRegisterLoading } = useAuth();
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
@@ -38,8 +39,6 @@ export function RegisterForm({
     confirmPassword: '',
     phone: '',
   });
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -50,11 +49,10 @@ export function RegisterForm({
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
 
     // Validate password match
     if (formData.password !== formData.confirmPassword) {
-      setError(t('passwordMismatch'));
+      toast.error(t('passwordMismatch'));
       return;
     }
 
@@ -76,7 +74,7 @@ export function RegisterForm({
       });
 
       console.log('[RegisterForm] Registration successful!');
-      setSuccess(true);
+      toast.success(t('registrationSuccess'));
 
       // Redirect to login after 2 seconds
       setTimeout(() => {
@@ -86,22 +84,22 @@ export function RegisterForm({
       console.error('[RegisterForm] Registration error:', err);
       console.error('[RegisterForm] Error detail:', err?.detail);
       console.error('[RegisterForm] Full error object:', JSON.stringify(err, null, 2));
-      setError(err?.detail || t('registrationError'));
+      toast.error(err?.detail || t('registrationError'));
     }
   };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Button
-        variant="ghost"
-        onClick={() => router.back()}
-        className="w-fit"
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        {t('goBack')}
-      </Button>
       <Card>
         <CardHeader className="text-center">
+            <Button
+                variant="ghost"
+                onClick={() => router.back()}
+                className="absolute right-4 top-4 p-2"
+            >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                {t('goBack')}
+            </Button>
           <CardTitle className="text-xl">{t('createAccount')}</CardTitle>
           <CardDescription>
             {t('signUpPrompt')}
@@ -124,11 +122,6 @@ export function RegisterForm({
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                 {t('orContinueWith')}
               </FieldSeparator>
-              {success && (
-                <div className="text-sm text-green-600 dark:text-green-400">
-                  {t('registrationSuccess')}
-                </div>
-              )}
               <Field>
                 <FieldLabel htmlFor="name">{t('name')}</FieldLabel>
                 <Input
@@ -141,7 +134,7 @@ export function RegisterForm({
                   required
                   minLength={2}
                   maxLength={100}
-                  disabled={isRegisterLoading || success}
+                  disabled={isRegisterLoading}
                 />
               </Field>
               <Field>
@@ -154,7 +147,7 @@ export function RegisterForm({
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  disabled={isRegisterLoading || success}
+                  disabled={isRegisterLoading}
                 />
               </Field>
               <Field>
@@ -167,7 +160,7 @@ export function RegisterForm({
                   value={formData.phone}
                   onChange={handleChange}
                   maxLength={20}
-                  disabled={isRegisterLoading || success}
+                  disabled={isRegisterLoading}
                 />
               </Field>
               <Field>
@@ -181,7 +174,7 @@ export function RegisterForm({
                   onChange={handleChange}
                   required
                   minLength={8}
-                  disabled={isRegisterLoading || success}
+                  disabled={isRegisterLoading}
                 />
               </Field>
               <Field>
@@ -195,16 +188,11 @@ export function RegisterForm({
                   onChange={handleChange}
                   required
                   minLength={8}
-                  disabled={isRegisterLoading || success}
+                  disabled={isRegisterLoading}
                 />
               </Field>
-              {(error || authError) && (
-                <div className="text-sm text-red-600 dark:text-red-400">
-                  {error || authError}
-                </div>
-              )}
               <Field>
-                <Button type="submit" disabled={isRegisterLoading || success}>
+                <Button type="submit" disabled={isRegisterLoading}>
                   {isRegisterLoading ? t('registering') : t('registerButton')}
                 </Button>
                 <FieldDescription className="text-center">

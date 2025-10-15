@@ -184,6 +184,7 @@
     "privacyPolicy": "Política de Privacidade",
     "termsSuffix": ".",
     "loggingIn": "Acedendo...",
+    "loginError": "Falha no login. Verifique suas credenciais.",
     "goBack": "Voltar",
     "forgotPasswordTitle": "Esqueceu a Senha",
     "forgotPasswordDescription": "Digite seu endereço de email e enviaremos um link para redefinir sua senha.",

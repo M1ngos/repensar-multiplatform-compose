@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Field, FieldLabel } from '@/components/ui/field';
+import { toast } from 'sonner';
 
 interface ForgotPasswordDialogProps {
   open: boolean;
@@ -23,13 +24,10 @@ export function ForgotPasswordDialog({ open, onOpenChange }: ForgotPasswordDialo
   const t = useTranslations('Login');
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError(null);
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`, {
@@ -44,16 +42,15 @@ export function ForgotPasswordDialog({ open, onOpenChange }: ForgotPasswordDialo
         throw new Error('Failed to send reset link');
       }
 
-      setSuccess(true);
+      toast.success(t('resetLinkSent'));
       setEmail('');
 
-      // Close dialog after 2 seconds
+      // Close dialog after 1 second
       setTimeout(() => {
         onOpenChange(false);
-        setSuccess(false);
-      }, 2000);
+      }, 1000);
     } catch (err) {
-      setError(t('resetLinkError'));
+      toast.error(t('resetLinkError'));
     } finally {
       setIsLoading(false);
     }
@@ -61,8 +58,6 @@ export function ForgotPasswordDialog({ open, onOpenChange }: ForgotPasswordDialo
 
   const handleClose = () => {
     setEmail('');
-    setError(null);
-    setSuccess(false);
     onOpenChange(false);
   };
 
@@ -75,29 +70,18 @@ export function ForgotPasswordDialog({ open, onOpenChange }: ForgotPasswordDialo
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="space-y-4 py-4">
-            {success ? (
-              <div className="text-sm text-green-600 dark:text-green-400">
-                {t('resetLinkSent')}
-              </div>
-            ) : (
-              <Field>
-                <FieldLabel htmlFor="reset-email">{t('email')}</FieldLabel>
-                <Input
-                  id="reset-email"
-                  type="email"
-                  placeholder={t('emailPlaceholder')}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={isLoading}
-                />
-              </Field>
-            )}
-            {error && (
-              <div className="text-sm text-red-600 dark:text-red-400">
-                {error}
-              </div>
-            )}
+            <Field>
+              <FieldLabel htmlFor="reset-email">{t('email')}</FieldLabel>
+              <Input
+                id="reset-email"
+                type="email"
+                placeholder={t('emailPlaceholder')}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={isLoading}
+              />
+            </Field>
           </div>
           <DialogFooter>
             <Button
@@ -108,11 +92,9 @@ export function ForgotPasswordDialog({ open, onOpenChange }: ForgotPasswordDialo
             >
               {t('cancel')}
             </Button>
-            {!success && (
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? t('sendingResetLink') : t('sendResetLink')}
-              </Button>
-            )}
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? t('sendingResetLink') : t('sendResetLink')}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

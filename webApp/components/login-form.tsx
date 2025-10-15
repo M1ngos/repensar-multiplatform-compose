@@ -24,29 +24,28 @@ import { useRouter } from 'next/navigation';
 import { ForgotPasswordDialog } from '@/components/forgot-password-dialog';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const t = useTranslations('Login');
-  const { login, isLoginLoading, error } = useAuth();
+  const { login, isLoginLoading } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState<string | null>(null);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoginError(null);
 
     try {
       await login({ email, password });
       // Redirect to dashboard or home after successful login
       router.push('/portal');
     } catch (err: any) {
-      setLoginError(err?.detail || 'Login failed. Please check your credentials.');
+      toast.error(err?.detail || t('loginError'));
     }
   };
 
@@ -54,14 +53,14 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-            <Button
-                variant="ghost"
-                onClick={() => router.back()}
-                className="absolute right-4 top-4 p-2"
-            >
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                {t('goBack')}
-            </Button>
+          <Button
+            variant="ghost"
+            onClick={() => router.back()}
+            className="absolute right-4 top-4 p-2"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            {t('goBack')}
+          </Button>
           <CardTitle className="text-xl">{t('welcomeBack')}</CardTitle>
           <CardDescription>
             {t('socialLoginPrompt')}
@@ -125,12 +124,6 @@ export function LoginForm({
                   disabled={isLoginLoading}
                 />
               </Field>
-                //TODO: Use toast from shadcn
-              {(loginError || error) && (
-                <div className="text-sm text-red-600 dark:text-red-400">
-                  {loginError || error}
-                </div>
-              )}
               <Field>
                 <Button type="submit" disabled={isLoginLoading}>
                   {isLoginLoading ? t('loggingIn') || 'Logging in...' : t('loginButton')}

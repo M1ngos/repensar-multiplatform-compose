@@ -184,6 +184,7 @@
     "privacyPolicy": "Privacy Policy",
     "termsSuffix": ".",
     "loggingIn": "Loggin in...",
+    "loginError": "Login failed. Please check your credentials.",
     "goBack": "Go Back",
     "forgotPasswordTitle": "Forgot Password",
     "forgotPasswordDescription": "Enter your email address and we'll send you a link to reset your password.",

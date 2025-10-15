@@ -10,6 +10,7 @@ import { AuthProvider } from '@/lib/hooks/useAuth';
 import { LoadingProvider } from '@/lib/hooks/useLoading';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { LoadingReset } from '@/components/ui/loading-reset';
+import { Toaster } from '@/components/ui/sonner';
 // import LocaleSwitcher from "@/components/ui/locale-switcher.tsx";
 export function generateStaticParams() {
     return routing.locales.map((locale) => ({locale}));
@@ -62,6 +63,7 @@ export default async function RootLayout({
                                     >
                                         <LoadingReset />
                                         <LoadingOverlay />
+                                        <Toaster />
                                         {children}
                                     </SWRConfig>
                                 </AuthProvider>
