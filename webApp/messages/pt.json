@@ -1,7 +1,9 @@
 {
   "Landing": {
     "header": {
-      "portalBtn": "Aceder ao Portal"
+      "portalBtn": "Aceder ao Portal",
+      "portal": "Portal",
+      "signOut": "Sair"
     },
     "title": "Bem vindo ao portal da Repensar!",
     "hero": {

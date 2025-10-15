@@ -1,7 +1,9 @@
 {
   "Landing": {
     "header": {
-      "portalBtn": "Access Portal"
+      "portalBtn": "Access Portal",
+      "portal": "Portal",
+      "signOut": "Sign Out"
     },
     "title": "Welcome to the Repensar portal!",
     "hero": {

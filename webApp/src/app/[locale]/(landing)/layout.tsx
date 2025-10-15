@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, Suspense } from 'react';
-import {ExternalLink, Home, Leaf, LogOut} from 'lucide-react';
+import {LogIn, Leaf, LogOut} from 'lucide-react';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -36,8 +36,8 @@ function UserMenu() {
     if (!authStatus || !authStatus.is_authenticated) {
         return (
             <Button asChild className="rounded-full">
-                <Link href={`/${locale}/portal`}>
-                    <ExternalLink className="h-4 w-4" />
+                <Link href={`/${locale}/login`}>
+                    <LogIn className="h-4 w-4" />
                     {t('header.portalBtn')}
                 </Link>
             </Button>
@@ -59,16 +59,16 @@ function UserMenu() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="flex flex-col gap-1">
                 <DropdownMenuItem className="cursor-pointer" asChild>
-                    <Link href={`/${locale}/dashboard`} className="flex w-full items-center">
-                        <Home className="mr-2 h-4 w-4" />
-                        <span>Dashboard</span>
+                    <Link href={`/${locale}/portal`} className="flex w-full items-center">
+                        <LogIn className="mr-2 h-4 w-4" />
+                        <span>{t('header.portal')}</span>
                     </Link>
                 </DropdownMenuItem>
                 <form className="w-full" onSubmit={handleSignOut}>
                     <button type="submit" className="flex w-full" disabled={isLogoutLoading}>
                         <DropdownMenuItem className="w-full flex-1 cursor-pointer" disabled={isLogoutLoading}>
                             <LogOut className="mr-2 h-4 w-4" />
-                            <span>Sign out</span>
+                            <span>{t('header.signOut')}</span>
                         </DropdownMenuItem>
                     </button>
                 </form>

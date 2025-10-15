@@ -1,20 +1,42 @@
-import {Leaf} from "lucide-react"
+'use client';
 
-import { LoginForm } from "@/components/login-form"
-import Link from "next/link";
-import * as React from "react";
+import { useAuth } from '@/lib/hooks/useAuth.tsx';
 
-export default function LoginPage() {
+export default function PortalPage() {
+    const { user, logout } = useAuth();
+
     return (
-        <div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
-            <div className="flex w-full max-w-sm flex-col gap-6">
+        <div className="container mx-auto p-6">
+            <div className="mb-8 flex items-center justify-between">
+                <h1 className="text-3xl font-bold">Portal Dashboard</h1>
+                <button
+                    onClick={() => logout()}
+                    className="rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                >
+                    Logout
+                </button>
+            </div>
 
-                <Link href="/" className="flex items-center self-center">
-                    <Leaf className="h-6 w-6 text-emerald-500"/>
-                    <span className="ml-2 text-xl font-semibold">Cooperativa Repensar</span>
-                </Link>
-                <LoginForm />
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div className="rounded-lg border p-6">
+                    <h2 className="mb-2 text-xl font-semibold">Welcome</h2>
+                    <p className="text-muted-foreground">
+                        {user?.name || user?.email}
+                    </p>
+                </div>
+
+                <div className="rounded-lg border p-6">
+                    <h2 className="mb-2 text-xl font-semibold">Email</h2>
+                    <p className="text-muted-foreground">{user?.email}</p>
+                </div>
+
+                <div className="rounded-lg border p-6">
+                    <h2 className="mb-2 text-xl font-semibold">Status</h2>
+                    <p className="text-muted-foreground">
+                        {user?.is_active ? 'Active' : 'Inactive'}
+                    </p>
+                </div>
             </div>
         </div>
-    )
+    );
 }

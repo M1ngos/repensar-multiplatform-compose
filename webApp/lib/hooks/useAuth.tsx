@@ -68,8 +68,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  // Initial authentication check on mount
   useEffect(() => {
     checkAuth();
+  }, [checkAuth]);
+
+  // Periodic token validation (every 5 minutes)
+  useEffect(() => {
+    const VALIDATION_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+    const interval = setInterval(() => {
+      // Only validate if we have a token
+      if (apiClient.isAuthenticated()) {
+        checkAuth();
+      }
+    }, VALIDATION_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, [checkAuth]);
+
+  // Revalidate token when user returns to tab
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden && apiClient.isAuthenticated()) {
+        checkAuth();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, [checkAuth]);
 
   const login = async (data: LoginRequest) => {
