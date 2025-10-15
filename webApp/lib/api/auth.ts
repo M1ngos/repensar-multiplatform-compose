@@ -58,8 +58,18 @@ export const authApi = {
    * @param data Registration details
    * @returns Success message
    */
-  register: (data: RegisterRequest) =>
-    apiClient.post<{ message: string }>('/auth/register', data, { skipAuth: true }),
+  register: async (data: RegisterRequest) => {
+    console.log('[authApi] Registering user with data:', data);
+    console.log('[authApi] API Base URL:', apiClient.getBaseURL());
+    try {
+      const result = await apiClient.post<{ message: string }>('/auth/register', data, { skipAuth: true });
+      console.log('[authApi] Registration response:', result);
+      return result;
+    } catch (error) {
+      console.error('[authApi] Registration error:', error);
+      throw error;
+    }
+  },
 
   /**
    * Refresh access token using refresh token

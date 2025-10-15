@@ -23,6 +23,7 @@ import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { ForgotPasswordDialog } from '@/components/forgot-password-dialog';
 import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 export function LoginForm({
   className,
@@ -51,16 +52,16 @@ export function LoginForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Button
-        variant="ghost"
-        onClick={() => router.back()}
-        className="w-fit"
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        {t('goBack')}
-      </Button>
       <Card>
         <CardHeader className="text-center">
+            <Button
+                variant="ghost"
+                onClick={() => router.back()}
+                className="absolute right-4 top-4 p-2"
+            >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                {t('goBack')}
+            </Button>
           <CardTitle className="text-xl">{t('welcomeBack')}</CardTitle>
           <CardDescription>
             {t('socialLoginPrompt')}
@@ -124,6 +125,7 @@ export function LoginForm({
                   disabled={isLoginLoading}
                 />
               </Field>
+                //TODO: Use toast from shadcn
               {(loginError || error) && (
                 <div className="text-sm text-red-600 dark:text-red-400">
                   {loginError || error}
@@ -134,7 +136,7 @@ export function LoginForm({
                   {isLoginLoading ? t('loggingIn') || 'Logging in...' : t('loginButton')}
                 </Button>
                 <FieldDescription className="text-center">
-                  {t('noAccountPrompt')} <a href="#">{t('signUp')}</a>
+                  {t('noAccountPrompt')} <Link href="/register">{t('signUp')}</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

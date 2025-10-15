@@ -193,6 +193,35 @@
     "resetLinkError": "Failed to send reset link. Please try again.",
     "cancel": "Cancel"
   },
+  "Register": {
+    "createAccount": "Create an account",
+    "signUpPrompt": "Sign up with your Google account",
+    "signUpWithGoogle": "Sign up with Google",
+    "orContinueWith": "Or continue with",
+    "name": "Full Name",
+    "namePlaceholder": "John Doe",
+    "email": "Email",
+    "emailPlaceholder": "m@example.com",
+    "password": "Password",
+    "passwordPlaceholder": "Create a strong password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Re-enter your password",
+    "phone": "Phone Number (Optional)",
+    "phonePlaceholder": "+1234567890",
+    "registerButton": "Create Account",
+    "registering": "Creating account...",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "termsPrefix": "By creating an account, you agree to our ",
+    "termsOfService": "Terms of Service",
+    "and": " and ",
+    "privacyPolicy": "Privacy Policy",
+    "termsSuffix": ".",
+    "goBack": "Go Back",
+    "passwordMismatch": "Passwords do not match",
+    "registrationSuccess": "Account created successfully! Redirecting to login...",
+    "registrationError": "Registration failed. Please try again."
+  },
   "utils": {
     "loading": "Loading..."
   }

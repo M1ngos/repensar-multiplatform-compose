@@ -193,6 +193,35 @@
     "resetLinkError": "Falha ao enviar link de redefinição. Tente novamente.",
     "cancel": "Cancelar"
   },
+  "Register": {
+    "createAccount": "Criar uma conta",
+    "signUpPrompt": "Cadastre-se com sua conta Google",
+    "signUpWithGoogle": "Cadastrar com Google",
+    "orContinueWith": "Ou continue com",
+    "name": "Nome Completo",
+    "namePlaceholder": "João Silva",
+    "email": "Email",
+    "emailPlaceholder": "m@exemplo.com",
+    "password": "Senha",
+    "passwordPlaceholder": "Crie uma senha forte",
+    "confirmPassword": "Confirmar Senha",
+    "confirmPasswordPlaceholder": "Digite novamente sua senha",
+    "phone": "Número de Telefone (Opcional)",
+    "phonePlaceholder": "+258 12 345 6789",
+    "registerButton": "Criar Conta",
+    "registering": "Criando conta...",
+    "alreadyHaveAccount": "Já tem uma conta?",
+    "signIn": "Entrar",
+    "termsPrefix": "Ao criar uma conta, você concorda com nossos ",
+    "termsOfService": "Termos de Serviço",
+    "and": " e ",
+    "privacyPolicy": "Política de Privacidade",
+    "termsSuffix": ".",
+    "goBack": "Voltar",
+    "passwordMismatch": "As senhas não coincidem",
+    "registrationSuccess": "Conta criada com sucesso! Redirecionando para o login...",
+    "registrationError": "Falha no cadastro. Tente novamente."
+  },
   "utils": {
     "loading": "Carregando..."
   }

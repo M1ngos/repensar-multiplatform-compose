@@ -10,7 +10,7 @@ import {
   useCallback,
 } from 'react';
 import { authApi } from '@/lib/api/auth';
-import { LoginRequest, UserProfile } from '@/lib/api/types';
+import { LoginRequest, RegisterRequest, UserProfile } from '@/lib/api/types';
 import { apiClient } from '@/lib/api/client';
 import { usePathname, useRouter } from '@/src/i18n/navigation.ts';
 
@@ -19,12 +19,14 @@ interface AuthState {
   authStatus: { is_authenticated: boolean };
   isAuthLoading: boolean;
   isLoginLoading: boolean;
+  isRegisterLoading: boolean;
   isLogoutLoading: boolean;
   error: string | null;
 }
 
 interface AuthContextType extends AuthState {
   login: (data: LoginRequest) => Promise<void>;
+  register: (data: RegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
 }
@@ -36,6 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [authStatus, setAuthStatus] = useState({ is_authenticated: false });
   const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [isLoginLoading, setIsLoginLoading] = useState(false);
+  const [isRegisterLoading, setIsRegisterLoading] = useState(false);
   const [isLogoutLoading, setIsLogoutLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -113,6 +116,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const register = async (data: RegisterRequest) => {
+    setIsRegisterLoading(true);
+    setError(null);
+    console.log('[useAuth] Starting registration with data:', data);
+    try {
+      const result = await authApi.register(data);
+      console.log('[useAuth] Registration result:', result);
+    } catch (err: any) {
+      console.error('[useAuth] Registration failed:', err);
+      setError(err.detail || 'Registration failed');
+      throw err;
+    } finally {
+      setIsRegisterLoading(false);
+    }
+  };
+
   const logout = async () => {
     setIsLogoutLoading(true);
     setError(null);
@@ -134,9 +153,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     authStatus,
     isAuthLoading,
     isLoginLoading,
+    isRegisterLoading,
     isLogoutLoading,
     error,
     login,
+    register,
     logout,
     checkAuth,
   };
