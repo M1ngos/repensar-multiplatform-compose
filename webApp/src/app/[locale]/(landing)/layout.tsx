@@ -13,10 +13,9 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import LocaleSwitcher from "@/components/ui/locale-switcher.tsx";
 import * as React from "react";
 import ThemeSwitcher from "@/components/ui/theme-switcher.tsx";
-import { useAuth } from '@/lib/hooks/useAuth';
-import { AuthChecker } from '@/components/auth/AuthChecker';
 import { Button } from '@/components/ui/button';
 import {useLocale, useTranslations} from 'next-intl';
+import { useAuth } from '@/lib/hooks/useAuth';
 
 
 function UserMenu() {
@@ -98,9 +97,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <section className="flex flex-col min-h-screen">
             <Header />
-            <AuthChecker>
                 {children}
-            </AuthChecker>
         </section>
     );
 }

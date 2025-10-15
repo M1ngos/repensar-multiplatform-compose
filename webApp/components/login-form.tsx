@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -16,12 +18,33 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { useTranslations } from 'next-intl';
+import { useAuth } from '@/lib/hooks/useAuth';
+import { useState, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const t = useTranslations('Login');
+  const { login, isLoginLoading, error } = useAuth();
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoginError(null);
+
+    try {
+      await login({ email, password });
+      // Redirect to dashboard or home after successful login
+      router.push('/portal');
+    } catch (err: any) {
+      setLoginError(err?.detail || 'Login failed. Please check your credentials.');
+    }
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -33,7 +56,7 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit}>
             <FieldGroup>
               <Field>
                 <Button variant="outline" type="button">
@@ -64,7 +87,10 @@ export function LoginForm({
                   id="email"
                   type="email"
                   placeholder={t('emailPlaceholder')}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
+                  disabled={isLoginLoading}
                 />
               </Field>
               <Field>
@@ -77,10 +103,24 @@ export function LoginForm({
                     {t('forgotPassword')}
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={isLoginLoading}
+                />
               </Field>
+              {(loginError || error) && (
+                <div className="text-sm text-red-600 dark:text-red-400">
+                  {loginError || error}
+                </div>
+              )}
               <Field>
-                <Button type="submit">{t('loginButton')}</Button>
+                <Button type="submit" disabled={isLoginLoading}>
+                  {isLoginLoading ? t('loggingIn') || 'Logging in...' : t('loginButton')}
+                </Button>
                 <FieldDescription className="text-center">
                   {t('noAccountPrompt')} <a href="#">{t('signUp')}</a>
                 </FieldDescription>
