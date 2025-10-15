@@ -183,7 +183,15 @@
     "and": " e ",
     "privacyPolicy": "Política de Privacidade",
     "termsSuffix": ".",
-    "loggingIn": "Acedendo..."
+    "loggingIn": "Acedendo...",
+    "goBack": "Voltar",
+    "forgotPasswordTitle": "Esqueceu a Senha",
+    "forgotPasswordDescription": "Digite seu endereço de email e enviaremos um link para redefinir sua senha.",
+    "sendResetLink": "Enviar Link de Redefinição",
+    "sendingResetLink": "Enviando...",
+    "resetLinkSent": "Link de redefinição de senha enviado! Verifique seu email.",
+    "resetLinkError": "Falha ao enviar link de redefinição. Tente novamente.",
+    "cancel": "Cancelar"
   },
   "utils": {
     "loading": "Carregando..."

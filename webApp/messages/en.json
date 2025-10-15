@@ -183,7 +183,15 @@
     "and": " and ",
     "privacyPolicy": "Privacy Policy",
     "termsSuffix": ".",
-    "loggingIn": "Loggin in..."
+    "loggingIn": "Loggin in...",
+    "goBack": "Go Back",
+    "forgotPasswordTitle": "Forgot Password",
+    "forgotPasswordDescription": "Enter your email address and we'll send you a link to reset your password.",
+    "sendResetLink": "Send Reset Link",
+    "sendingResetLink": "Sending...",
+    "resetLinkSent": "Password reset link sent! Please check your email.",
+    "resetLinkError": "Failed to send reset link. Please try again.",
+    "cancel": "Cancel"
   },
   "utils": {
     "loading": "Loading..."

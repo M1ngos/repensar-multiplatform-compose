@@ -21,6 +21,8 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { ForgotPasswordDialog } from '@/components/forgot-password-dialog';
+import { ArrowLeft } from 'lucide-react';
 
 export function LoginForm({
   className,
@@ -32,6 +34,7 @@ export function LoginForm({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState<string | null>(null);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,6 +51,14 @@ export function LoginForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
+      <Button
+        variant="ghost"
+        onClick={() => router.back()}
+        className="w-fit"
+      >
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        {t('goBack')}
+      </Button>
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">{t('welcomeBack')}</CardTitle>
@@ -96,12 +107,13 @@ export function LoginForm({
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">{t('password')}</FieldLabel>
-                  <a
-                    href="#"
+                  <button
+                    type="button"
+                    onClick={() => setShowForgotPassword(true)}
                     className="ml-auto text-sm underline-offset-4 hover:underline"
                   >
                     {t('forgotPassword')}
-                  </a>
+                  </button>
                 </div>
                 <Input
                   id="password"
@@ -133,6 +145,10 @@ export function LoginForm({
         {t('termsPrefix')}<a href="#">{t('termsOfService')}</a>{" "}
         {t('and')} <a href="#">{t('privacyPolicy')}</a>{t('termsSuffix')}
       </FieldDescription>
+      <ForgotPasswordDialog
+        open={showForgotPassword}
+        onOpenChange={setShowForgotPassword}
+      />
     </div>
   )
 }
