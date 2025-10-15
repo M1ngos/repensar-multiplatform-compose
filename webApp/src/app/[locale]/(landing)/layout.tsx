@@ -78,17 +78,55 @@ function UserMenu() {
 }
 
 function Header() {
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
+    React.useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            // Update scrolled state (for background change)
+            setIsScrolled(currentScrollY > 10);
+
+            // Update visibility based on scroll direction
+            if (currentScrollY < lastScrollY || currentScrollY < 10) {
+                // Scrolling up or at the top
+                setIsVisible(true);
+            } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                // Scrolling down and past threshold
+                setIsVisible(false);
+            }
+
+            setLastScrollY(currentScrollY);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [lastScrollY]);
+
     return (
-        <header className="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 ">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                <Link href="/" className="flex items-center">
+        <header
+            className={`
+                sticky top-0 z-50
+                border-b border-gray-200 dark:border-gray-700
+                transition-all duration-300 ease-in-out
+                ${isScrolled
+                    ? 'bg-white dark:bg-gray-900 shadow-md'
+                    : 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md'
+                }
+                ${isVisible ? 'translate-y-0' : '-translate-y-full'}
+            `}
+        >
+            <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-3 md:py-4 flex justify-between items-center gap-2">
+                <Link href="/" className="flex items-center shrink-0">
                     <Leaf
-                        className="h-10 w-10 text-emerald-500"
+                        className="h-7 w-7 sm:h-9 sm:w-9 md:h-10 md:w-10 text-emerald-500"
                         suppressHydrationWarning
                     />
-                    <span className="ml-2 text-xl font-semibold">Repensar</span>
+                    <span className="ml-1.5 sm:ml-2 text-base sm:text-lg md:text-xl font-semibold">Repensar</span>
                 </Link>
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center gap-1.5 sm:gap-2 md:gap-4">
                     <Suspense fallback={<div className="h-9" />}>
                         <UserMenu />
                         <LocaleSwitcher/>
