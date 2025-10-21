@@ -153,6 +153,16 @@ export interface AuthStatus {
   user?: UserProfile;
 }
 
+export interface GoogleOAuthUrlResponse {
+  authorization_url: string;
+  state: string;
+}
+
+export interface GoogleOAuthCallbackRequest {
+  code: string;
+  state: string;
+}
+
 export interface ValidationError {
   loc: (string | number)[];
   msg: string;

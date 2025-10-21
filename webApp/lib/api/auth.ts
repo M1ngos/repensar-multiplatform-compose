@@ -24,6 +24,8 @@ import type {
   ResendVerificationRequest,
   UserPermissions,
   AuditLogEntry,
+  GoogleOAuthUrlResponse,
+  GoogleOAuthCallbackRequest,
 } from './types';
 
 export const authApi = {
@@ -226,4 +228,40 @@ export const authApi = {
    */
   changePassword: (data: ChangePassword) =>
     apiClient.post<{ message: string }>('/auth/change-password', data),
+
+  /**
+   * Get Google OAuth authorization URL
+   *
+   * Features:
+   * - OAuth 2.0 compliant
+   * - CSRF protection with state token
+   * - Returns authorization URL to redirect user
+   *
+   * @returns Authorization URL and state token
+   * @throws 503 if Google OAuth is not configured on server
+   */
+  googleLogin: async (): Promise<GoogleOAuthUrlResponse> => {
+    return apiClient.get<GoogleOAuthUrlResponse>('/auth/google/login', undefined, { skipAuth: true });
+  },
+
+  /**
+   * Handle Google OAuth callback and authenticate user
+   *
+   * Features:
+   * - Exchanges authorization code for tokens
+   * - Automatic user creation for new Google users
+   * - Profile picture import
+   * - Email verification handled automatically
+   * - JWT token generation
+   *
+   * @param data Authorization code and state from Google
+   * @returns JWT access and refresh tokens
+   * @throws 400 if code is invalid or user info fetch fails
+   * @throws 500 if server configuration error
+   */
+  googleCallback: async (data: GoogleOAuthCallbackRequest): Promise<Token> => {
+    const token = await apiClient.post<Token>('/auth/google/callback', data, { skipAuth: true });
+    apiClient.setAuthToken(token);
+    return token;
+  },
 };

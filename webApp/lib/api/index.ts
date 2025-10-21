@@ -5,18 +5,18 @@
  *
  * @example
  * ```typescript
- * import { api, authApi, volunteersApi, projectsApi, tasksApi } from '@/lib/api';
+ * import { api, authApi, projectsApi } from '@/lib/api';
  *
  * // Login
  * const token = await authApi.login({ email: 'user@example.com', password: 'password' });
  *
- * // Get volunteers
- * const volunteers = await volunteersApi.getVolunteers({ status: VolunteerStatus.ACTIVE });
+ * // Get projects
+ * const projects = await projectsApi.getProjects({ status: 'in_progress' });
  *
  * // Create project
- * const project = await projectsApi.create({
+ * const project = await projectsApi.createProject({
  *   name: 'Reforestation Project',
- *   category: ProjectCategory.REFORESTATION
+ *   category: 'reforestation'
  * });
  * ```
  *
@@ -29,25 +29,25 @@ export type { RequestConfig, RequestInterceptor } from './client';
 
 // Import API modules
 import { authApi } from './auth';
-import { volunteersApi } from './volunteers';
 import { projectsApi } from './projects';
 import { tasksApi } from './tasks';
+import { volunteersApi } from './volunteers';
 
 // Export API modules
-export { authApi, volunteersApi, projectsApi, tasksApi };
+export { authApi, projectsApi, tasksApi, volunteersApi };
 
-// Export middleware
-export {
-  loggingInterceptor,
-  performanceInterceptor,
-  errorHandlerInterceptor,
-  customHeadersInterceptor,
-  csrfInterceptor,
-  timeoutInterceptor,
-  retryInterceptor,
-  deduplicationInterceptor,
-  authErrorInterceptor,
-} from './middleware';
+// Export middleware (when implemented)
+// export {
+//   loggingInterceptor,
+//   performanceInterceptor,
+//   errorHandlerInterceptor,
+//   customHeadersInterceptor,
+//   csrfInterceptor,
+//   timeoutInterceptor,
+//   retryInterceptor,
+//   deduplicationInterceptor,
+//   authErrorInterceptor,
+// } from './middleware';
 
 // Export all types and enums
 export * from './types';
@@ -55,9 +55,9 @@ export * from './types';
 // Unified API object for convenience
 export const api = {
   auth: authApi,
-  volunteers: volunteersApi,
   projects: projectsApi,
   tasks: tasksApi,
+  volunteers: volunteersApi,
 };
 
 // Default export

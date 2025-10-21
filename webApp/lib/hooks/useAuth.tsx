@@ -21,6 +21,7 @@ interface AuthState {
   isLoginLoading: boolean;
   isRegisterLoading: boolean;
   isLogoutLoading: boolean;
+  isGoogleLoading: boolean;
   error: string | null;
 }
 
@@ -29,6 +30,7 @@ interface AuthContextType extends AuthState {
   register: (data: RegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
+  googleSignIn: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -40,6 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [isRegisterLoading, setIsRegisterLoading] = useState(false);
   const [isLogoutLoading, setIsLogoutLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -148,6 +151,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const googleSignIn = async () => {
+    setIsGoogleLoading(true);
+    setError(null);
+    try {
+      const { authorization_url, state } = await authApi.googleLogin();
+
+      // Store state in sessionStorage for validation (optional but recommended)
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('oauth_state', state);
+      }
+
+      // Redirect to Google
+      window.location.href = authorization_url;
+    } catch (err: any) {
+      setError(err.detail || 'Failed to initiate Google Sign In');
+      setIsGoogleLoading(false);
+      throw err;
+    }
+    // Note: We don't set isGoogleLoading to false here because we're redirecting
+  };
+
   const value = {
     user,
     authStatus,
@@ -155,11 +179,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isLoginLoading,
     isRegisterLoading,
     isLogoutLoading,
+    isGoogleLoading,
     error,
     login,
     register,
     logout,
     checkAuth,
+    googleSignIn,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
