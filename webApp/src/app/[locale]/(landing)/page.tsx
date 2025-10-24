@@ -104,17 +104,17 @@ export default function Page() {
                         opacity,
                     }}
                 >
-                    <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-gray-100 mb-6 leading-tight">
+                    <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-teal-900 dark:text-gray-100 mb-6 leading-tight">
                         {t("hero.title")}
-                        <span className="block text-emerald-600 dark:text-emerald-500">
+                        <span className="block text-emerald-500 dark:text-emerald-500">
                         {t("hero.titleHighlight1")}
                         </span>
-                        <span className="block text-teal-600 dark:text-emerald-400">
-                            {t("hero.titleHighlight2")}
+                        <span className="block text-emerald-900 dark:text-emerald-400">
+                        {t("hero.titleHighlight2")}
                         </span>
                     </h1>
 
-                    <p className="text-xl sm:text-2xl text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+                    <p className="text-xl sm:text-2xl text-gray-800 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
                         {t("hero.subtitle")}
                     </p>
 
