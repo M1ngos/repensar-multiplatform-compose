@@ -64,15 +64,15 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="relative text-center">
-            //TODO: fix position
-          <Button
-            variant="ghost"
-            onClick={() => router.back()}
-            className="absolute left-2 top-2 sm:left-4 sm:top-4 h-8 w-8 sm:h-auto sm:w-auto p-1 sm:p-2"
-          >
-            <ArrowLeft className="h-4 w-4 sm:mr-2" />
-            <span className="hidden sm:inline">{t('goBack')}</span>
-          </Button>
+          {/*  //TODO: fix position*/}
+          {/*<Button*/}
+          {/*  variant="ghost"*/}
+          {/*  onClick={() => router.back()}*/}
+          {/*  className="absolute left-2 top-2 sm:left-4 sm:top-4 h-8 w-8 sm:h-auto sm:w-auto p-1 sm:p-2"*/}
+          {/*>*/}
+          {/*  <ArrowLeft className="h-4 w-4 sm:mr-2" />*/}
+          {/*  <span className="hidden sm:inline">{t('goBack')}</span>*/}
+          {/*</Button>*/}
           <CardTitle className="text-xl pt-8 sm:pt-4">{t('welcomeBack')}</CardTitle>
           <CardDescription>
             {t('socialLoginPrompt')}
