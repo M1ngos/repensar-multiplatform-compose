@@ -130,7 +130,7 @@ export const tasksApi = {
    * @returns Created assignment
    */
   assignVolunteer: (taskId: number, data: { volunteer_id: number; role_description?: string }) =>
-    apiClient.post<TaskVolunteerAssignment>(`/tasks/${taskId}/assign-volunteer`, data),
+    apiClient.post<TaskVolunteerAssignment>(`/tasks/${taskId}/volunteers`, data),
 
   /**
    * Remove volunteer from task

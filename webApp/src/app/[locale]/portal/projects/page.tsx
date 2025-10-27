@@ -16,14 +16,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardAction, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -97,63 +89,62 @@ export default function ProjectsPage() {
     };
 
     return (
-        <div className="flex flex-1 flex-col">
-            <div className="@container/main flex flex-col gap-4 p-4 md:p-6">
-                {/* Header */}
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                        <h1 className="text-2xl font-bold md:text-3xl">{t('title')}</h1>
-                        <p className="text-muted-foreground">{t('subtitle')}</p>
-                    </div>
-                    <Button onClick={() => setIsFormOpen(true)}>
-                        <Plus className="mr-2 h-4 w-4" />
-                        {t('newProject')}
-                    </Button>
+        <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+            {/* Header */}
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
+                    <p className="text-muted-foreground">{t('subtitle')}</p>
                 </div>
+                <Button onClick={() => setIsFormOpen(true)}>
+                    <Plus className="mr-2 h-4 w-4" />
+                    {t('newProject')}
+                </Button>
+            </div>
 
-                {/* Filters */}
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                        <Input
-                            placeholder={t('searchPlaceholder')}
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-9"
-                        />
-                    </div>
-                    <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as (typeof PROJECT_STATUSES)[number] | 'all')}>
-                        <SelectTrigger className="w-full sm:w-[180px]">
-                            <Filter className="mr-2 h-4 w-4" />
-                            <SelectValue placeholder={t('filterByStatus')} />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">{t('allStatuses')}</SelectItem>
-                            {PROJECT_STATUSES.map((status) => (
-                                <SelectItem key={status} value={status}>
-                                    {t(`statuses.${status}`)}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                    <Select value={categoryFilter} onValueChange={(value) => setCategoryFilter(value as (typeof PROJECT_CATEGORIES)[number] | 'all')}>
-                        <SelectTrigger className="w-full sm:w-[180px]">
-                            <Filter className="mr-2 h-4 w-4" />
-                            <SelectValue placeholder={t('filterByCategory')} />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">{t('allCategories')}</SelectItem>
-                            {PROJECT_CATEGORIES.map((category) => (
-                                <SelectItem key={category} value={category}>
-                                    {t(`categories.${category}`)}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+            {/* Filters */}
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <div className="relative flex-1">
+                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                        placeholder={t('searchPlaceholder')}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-9"
+                    />
                 </div>
+                <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as (typeof PROJECT_STATUSES)[number] | 'all')}>
+                    <SelectTrigger className="w-full sm:w-[180px]">
+                        <Filter className="mr-2 h-4 w-4" />
+                        <SelectValue placeholder={t('filterByStatus')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">{t('allStatuses')}</SelectItem>
+                        {PROJECT_STATUSES.map((status) => (
+                            <SelectItem key={status} value={status}>
+                                {t(`statuses.${status}`)}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+                <Select value={categoryFilter} onValueChange={(value) => setCategoryFilter(value as (typeof PROJECT_CATEGORIES)[number] | 'all')}>
+                    <SelectTrigger className="w-full sm:w-[180px]">
+                        <Filter className="mr-2 h-4 w-4" />
+                        <SelectValue placeholder={t('filterByCategory')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">{t('allCategories')}</SelectItem>
+                        {PROJECT_CATEGORIES.map((category) => (
+                            <SelectItem key={category} value={category}>
+                                {t(`categories.${category}`)}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </div>
 
-                {/* Projects Grid */}
-                <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
+            {/* Projects Grid */}
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {isLoading ? (
                         // Loading skeleton
                         Array.from({ length: 6 }).map((_, i) => (
@@ -182,7 +173,7 @@ export default function ProjectsPage() {
                                 href={`/${locale}/portal/projects/${project.id}`}
                                 className="block"
                             >
-                                <Card className="@container/card hover:shadow-lg transition-shadow cursor-pointer h-full">
+                                <Card className="h-full hover:bg-accent/50 transition-colors">
                                     <CardHeader>
                                         <div className="flex items-start justify-between gap-2">
                                             <div className="flex-1 min-w-0">
@@ -246,7 +237,7 @@ export default function ProjectsPage() {
                                             {project.requires_volunteers && (
                                                 <div className="flex items-center gap-1 text-muted-foreground">
                                                     <Users className="h-3 w-3" />
-                                                    <span>Volunteers needed</span>
+                                                    <span>{t('detail.volunteers_needed')}</span>
                                                 </div>
                                             )}
                                         </CardFooter>
@@ -255,102 +246,14 @@ export default function ProjectsPage() {
                             </Link>
                         ))
                     )}
-                </div>
-
-                {/* Legacy Table View - Hidden */}
-                <div className="hidden rounded-lg border">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>{t('table.name')}</TableHead>
-                                <TableHead>{t('table.category')}</TableHead>
-                                <TableHead>{t('table.status')}</TableHead>
-                                <TableHead>{t('table.priority')}</TableHead>
-                                <TableHead>{t('table.manager')}</TableHead>
-                                <TableHead className="text-right">{t('table.team')}</TableHead>
-                                <TableHead className="text-right">{t('table.progress')}</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {isLoading ? (
-                                // Loading skeleton
-                                Array.from({ length: 5 }).map((_, i) => (
-                                    <TableRow key={i}>
-                                        <TableCell><Skeleton className="h-4 w-48" /></TableCell>
-                                        <TableCell><Skeleton className="h-4 w-32" /></TableCell>
-                                        <TableCell><Skeleton className="h-6 w-24" /></TableCell>
-                                        <TableCell><Skeleton className="h-6 w-20" /></TableCell>
-                                        <TableCell><Skeleton className="h-4 w-32" /></TableCell>
-                                        <TableCell><Skeleton className="h-4 w-16 ml-auto" /></TableCell>
-                                        <TableCell><Skeleton className="h-4 w-12 ml-auto" /></TableCell>
-                                    </TableRow>
-                                ))
-                            ) : error ? (
-                                <TableRow>
-                                    <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                                        {t('errorLoading')}
-                                    </TableCell>
-                                </TableRow>
-                            ) : !projects || projects.length === 0 ? (
-                                <TableRow>
-                                    <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                                        {t('noProjects')}
-                                    </TableCell>
-                                </TableRow>
-                            ) : (
-                                projects.map((project) => (
-                                    <TableRow key={project.id} className="cursor-pointer hover:bg-muted/50">
-                                        <TableCell>
-                                            <Link
-                                                href={`/${locale}/portal/projects/${project.id}`}
-                                                className="font-medium hover:underline"
-                                            >
-                                                {project.name}
-                                            </Link>
-                                            {project.location_name && (
-                                                <div className="text-xs text-muted-foreground">
-                                                    {project.location_name}
-                                                </div>
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            <span className="text-sm">{t(`categories.${project.category}`)}</span>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge className={getStatusColor(project.status)} variant="secondary">
-                                                {t(`statuses.${project.status}`)}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge className={getPriorityColor(project.priority)} variant="secondary">
-                                                {t(`priorities.${project.priority}`)}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell className="text-sm">
-                                            {project.project_manager_name || '-'}
-                                        </TableCell>
-                                        <TableCell className="text-right text-sm">
-                                            {project.team_size} {t('table.members')}
-                                        </TableCell>
-                                        <TableCell className="text-right text-sm font-medium">
-                                            {project.progress_percentage !== null && project.progress_percentage !== undefined
-                                                ? `${Math.round(project.progress_percentage)}%`
-                                                : '-'}
-                                        </TableCell>
-                                    </TableRow>
-                                ))
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
-
-                {/* Project Form Dialog */}
-                <ProjectFormDialog
-                    open={isFormOpen}
-                    onOpenChange={setIsFormOpen}
-                    onSuccess={() => mutate()}
-                />
             </div>
+
+            {/* Project Form Dialog */}
+            <ProjectFormDialog
+                open={isFormOpen}
+                onOpenChange={setIsFormOpen}
+                onSuccess={() => mutate()}
+            />
         </div>
     );
 }

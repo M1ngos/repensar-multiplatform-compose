@@ -130,32 +130,31 @@ export default function ProjectDetailPage() {
     }
 
     return (
-        <div className="flex flex-1 flex-col">
-            <div className="flex flex-col gap-4 p-4 md:p-6">
-                {/* Header */}
-                <div className="flex flex-col gap-4">
-                    <div className="flex items-center gap-2">
-                        <Link href={`/${locale}/portal/projects`}>
-                            <Button variant="ghost" size="icon">
-                                <ArrowLeft className="h-4 w-4" />
-                            </Button>
-                        </Link>
-                        <div className="flex-1">
-                            <h1 className="text-2xl font-bold md:text-3xl">{project.name}</h1>
-                            <p className="text-sm text-muted-foreground">
-                                {t(`categories.${project.category}`)}
-                            </p>
-                        </div>
-                        <div className="flex gap-2">
-                            <Button variant="outline" size="sm" onClick={() => setIsEditFormOpen(true)}>
-                                <Edit className="mr-2 h-4 w-4" />
-                                {t('detail.edit')}
-                            </Button>
-                            <Button variant="outline" size="sm" onClick={() => setIsDeleteDialogOpen(true)}>
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
-                        </div>
+        <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+            {/* Header */}
+            <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-2">
+                    <Link href={`/${locale}/portal/projects`}>
+                        <Button variant="ghost" size="icon">
+                            <ArrowLeft className="h-4 w-4" />
+                        </Button>
+                    </Link>
+                    <div className="flex-1">
+                        <h1 className="text-3xl font-bold tracking-tight">{project.name}</h1>
+                        <p className="text-muted-foreground">
+                            {t(`categories.${project.category}`)}
+                        </p>
                     </div>
+                    <div className="flex gap-2">
+                        <Button variant="outline" size="sm" onClick={() => setIsEditFormOpen(true)}>
+                            <Edit className="mr-2 h-4 w-4" />
+                            {t('detail.edit')}
+                        </Button>
+                        <Button variant="outline" size="sm" onClick={() => setIsDeleteDialogOpen(true)}>
+                            <Trash2 className="h-4 w-4" />
+                        </Button>
+                    </div>
+                </div>
 
                     {/* Status Badges */}
                     <div className="flex flex-wrap gap-2">
@@ -355,7 +354,7 @@ export default function ProjectDetailPage() {
                                             project.team_members.map((member) => (
                                                 <TableRow key={member.id}>
                                                     <TableCell className="font-medium">
-                                                        {member.user_name || '-'}
+                                                        {member.name || member.user_name || '-'}
                                                     </TableCell>
                                                     <TableCell>{member.role || '-'}</TableCell>
                                                     <TableCell>
@@ -364,7 +363,9 @@ export default function ProjectDetailPage() {
                                                         </Badge>
                                                     </TableCell>
                                                     <TableCell>
-                                                        {format(new Date(member.assigned_at), 'PP')}
+                                                        {member.joined_date ? format(new Date(member.joined_date), 'PP')
+                                                         : member.assigned_at ? format(new Date(member.assigned_at), 'PP')
+                                                         : '-'}
                                                     </TableCell>
                                                 </TableRow>
                                             ))
@@ -557,6 +558,5 @@ export default function ProjectDetailPage() {
                     </AlertDialogContent>
                 </AlertDialog>
             </div>
-        </div>
     );
 }

@@ -32,9 +32,10 @@ import { authApi } from './auth';
 import { projectsApi } from './projects';
 import { tasksApi } from './tasks';
 import { volunteersApi } from './volunteers';
+import { usersApi } from './users';
 
 // Export API modules
-export { authApi, projectsApi, tasksApi, volunteersApi };
+export { authApi, projectsApi, tasksApi, volunteersApi, usersApi };
 
 // Export middleware (when implemented)
 // export {
@@ -58,6 +59,7 @@ export const api = {
   projects: projectsApi,
   tasks: tasksApi,
   volunteers: volunteersApi,
+  users: usersApi,
 };
 
 // Default export

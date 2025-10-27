@@ -62,22 +62,22 @@ export const volunteersApi = {
 
     // Time logs / Hours
     getVolunteerHours: (volunteerId: number, params?: VolunteerHoursQueryParams) =>
-        apiClient.get<VolunteerTimeLog[]>(`/volunteers/${volunteerId}/time-logs`, params),
+        apiClient.get<VolunteerTimeLog[]>(`/volunteers/${volunteerId}/hours`, params),
 
     logVolunteerHours: (volunteerId: number, data: VolunteerTimeLogCreate) =>
-        apiClient.post<VolunteerTimeLog>(`/volunteers/${volunteerId}/time-logs`, data),
+        apiClient.post<VolunteerTimeLog>(`/volunteers/${volunteerId}/hours`, data),
 
     updateTimeLog: (timeLogId: number, data: VolunteerTimeLogUpdate) =>
-        apiClient.put<VolunteerTimeLog>(`/volunteers/time-logs/${timeLogId}`, data),
+        apiClient.put<VolunteerTimeLog>(`/volunteers/hours/${timeLogId}`, data),
 
     deleteTimeLog: (timeLogId: number) =>
-        apiClient.delete<void>(`/volunteers/time-logs/${timeLogId}`),
+        apiClient.delete<void>(`/volunteers/hours/${timeLogId}`),
 
     approveTimeLog: (timeLogId: number, data: VolunteerTimeLogApproval) =>
-        apiClient.post<VolunteerTimeLog>(`/volunteers/time-logs/${timeLogId}/approve`, data),
+        apiClient.post<VolunteerTimeLog>(`/volunteers/hours/${timeLogId}/approve`, data),
 
     getVolunteerHoursSummary: (volunteerId: number) =>
-        apiClient.get<VolunteerHoursSummary>(`/volunteers/${volunteerId}/time-logs/summary`),
+        apiClient.get<VolunteerHoursSummary>(`/volunteers/${volunteerId}/hours/summary`),
 
     // ==================== v2.0 Paginated Endpoints ====================
 

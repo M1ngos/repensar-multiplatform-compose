@@ -5,7 +5,8 @@ import { useTranslations, useLocale } from 'next-intl';
 import useSWR from 'swr';
 import { Plus, Search, Filter, Clock, Award } from 'lucide-react';
 import { volunteersApi } from '@/lib/api';
-import type { VolunteerSummary, VolunteerQueryParams, VolunteerStatus } from '@/lib/api/types';
+import type { VolunteerSummary, VolunteerQueryParams } from '@/lib/api/types';
+import { VolunteerStatus } from '@/lib/api/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -59,14 +60,13 @@ export default function VolunteersPage() {
     };
 
     return (
-        <div className="flex flex-1 flex-col">
-            <div className="@container/main flex flex-col gap-4 p-4 md:p-6">
-                {/* Header */}
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                        <h1 className="text-2xl font-bold md:text-3xl">{t('title')}</h1>
-                        <p className="text-muted-foreground">{t('subtitle')}</p>
-                    </div>
+        <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+            {/* Header */}
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
+                    <p className="text-muted-foreground">{t('subtitle')}</p>
+                </div>
                     <Button>
                         <Plus className="mr-2 h-4 w-4" />
                         {t('newVolunteer')}
@@ -101,7 +101,7 @@ export default function VolunteersPage() {
                 </div>
 
                 {/* Volunteers Grid */}
-                <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @3xl/main:grid-cols-3">
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {isLoading ? (
                         // Loading skeleton
                         Array.from({ length: 6 }).map((_, i) => (
@@ -130,7 +130,7 @@ export default function VolunteersPage() {
                                 href={`/${locale}/portal/volunteers/${volunteer.id}`}
                                 className="block"
                             >
-                                <Card className="@container/card hover:shadow-lg transition-shadow cursor-pointer h-full">
+                                <Card className="@container/card hover:bg-accent/50 transition-colors cursor-pointer h-full">
                                     <CardHeader>
                                         <div className="flex items-start justify-between gap-2">
                                             <div className="flex-1 min-w-0">
@@ -187,7 +187,6 @@ export default function VolunteersPage() {
                         ))
                     )}
                 </div>
-            </div>
         </div>
     );
 }

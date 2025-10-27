@@ -1,46 +1,29 @@
  'use client';
 
-import { useState } from 'react';
-import { useParams } from 'next/navigation';
-import { useTranslations } from 'next-intl';
-import useSWR from 'swr';
-import { volunteersApi } from '@/lib/api';
-import type { VolunteerProfile, VolunteerSkillAssignment, VolunteerTimeLog, VolunteerHoursSummary } from '@/lib/api/types';
-import { VolunteerStatus, ProficiencyLevel } from '@/lib/api/types';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardAction } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import {
-    User,
-    Mail,
-    Phone,
-    MapPin,
-    Calendar,
-    Clock,
-    Award,
-    Activity,
-    Edit,
-    Plus,
-    CheckCircle2,
-    XCircle,
-    AlertCircle
-} from 'lucide-react';
-import { format } from 'date-fns';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table';
+ import {useState} from 'react';
+ import {useParams} from 'next/navigation';
+ import {useTranslations} from 'next-intl';
+ import useSWR from 'swr';
+ import {volunteersApi} from '@/lib/api';
+ import {Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
+ import {Badge} from '@/components/ui/badge';
+ import {Skeleton} from '@/components/ui/skeleton';
+ import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
+ import {Button} from '@/components/ui/button';
+ import {AlertCircle, Award, Calendar, CheckCircle2, Clock, Edit, Mail, MapPin, Phone, Plus, User} from 'lucide-react';
+ import {format} from 'date-fns';
+ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from '@/components/ui/table';
+ import {VolunteerFormDialog} from '@/components/volunteers/volunteer-form-dialog';
+ import {AddSkillDialog} from '@/components/volunteers/add-skill-dialog';
+ import {LogHoursDialog} from '@/components/volunteers/log-hours-dialog';
 
-export default function VolunteerDetailPage() {
+ export default function VolunteerDetailPage() {
     const params = useParams();
     const volunteerId = parseInt(params.id as string);
     const t = useTranslations('Volunteers');
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [isAddSkillDialogOpen, setIsAddSkillDialogOpen] = useState(false);
+    const [isLogHoursDialogOpen, setIsLogHoursDialogOpen] = useState(false);
 
     // Fetch volunteer profile
     const { data: volunteer, error, isLoading, mutate } = useSWR(
@@ -114,27 +97,26 @@ export default function VolunteerDetailPage() {
     }
 
     return (
-        <div className="flex flex-1 flex-col">
-            <div className="@container/main flex flex-col gap-4 p-4 md:p-6">
-                {/* Header */}
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                    <div>
-                        <div className="flex items-center gap-2 mb-2">
-                            <h1 className="text-2xl font-bold md:text-3xl">{volunteer.name}</h1>
+        <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+            {/* Header */}
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                    <div className="flex items-center gap-2 mb-2">
+                        <h1 className="text-3xl font-bold tracking-tight">{volunteer.name}</h1>
                             <Badge className={getStatusColor(volunteer.volunteer_status)} variant="secondary">
                                 {t(`statuses.${volunteer.volunteer_status}`)}
                             </Badge>
                         </div>
                         <p className="text-muted-foreground">{t('detail.subtitle', { id: volunteer.volunteer_id })}</p>
                     </div>
-                    <Button>
+                    <Button onClick={() => setIsEditDialogOpen(true)}>
                         <Edit className="mr-2 h-4 w-4" />
                         {t('detail.editVolunteer')}
                     </Button>
                 </div>
 
                 {/* Stats Cards */}
-                <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-3">
+                <div className="grid gap-4 md:grid-cols-3">
                     <Card className="@container/card">
                         <CardHeader>
                             <CardDescription>{t('detail.totalHours')}</CardDescription>
@@ -323,7 +305,7 @@ export default function VolunteerDetailPage() {
                     <TabsContent value="skills" className="space-y-4">
                         <div className="flex justify-between items-center">
                             <h3 className="text-lg font-semibold">{t('detail.skillsList')}</h3>
-                            <Button>
+                            <Button onClick={() => setIsAddSkillDialogOpen(true)}>
                                 <Plus className="mr-2 h-4 w-4" />
                                 {t('detail.addSkill')}
                             </Button>
@@ -373,7 +355,7 @@ export default function VolunteerDetailPage() {
                     <TabsContent value="hours" className="space-y-4">
                         <div className="flex justify-between items-center">
                             <h3 className="text-lg font-semibold">{t('detail.timeLog')}</h3>
-                            <Button>
+                            <Button onClick={() => setIsLogHoursDialogOpen(true)}>
                                 <Plus className="mr-2 h-4 w-4" />
                                 {t('detail.logHours')}
                             </Button>
@@ -433,7 +415,30 @@ export default function VolunteerDetailPage() {
                         </div>
                     </TabsContent>
                 </Tabs>
+
+                {/* Edit Volunteer Dialog */}
+                <VolunteerFormDialog
+                    open={isEditDialogOpen}
+                    onOpenChange={setIsEditDialogOpen}
+                    volunteer={volunteer}
+                    onSuccess={() => mutate()}
+                />
+
+                {/* Add Skill Dialog */}
+                <AddSkillDialog
+                    open={isAddSkillDialogOpen}
+                    onOpenChange={setIsAddSkillDialogOpen}
+                    volunteerId={volunteerId}
+                    onSuccess={() => mutate()}
+                />
+
+                {/* Log Hours Dialog */}
+                <LogHoursDialog
+                    open={isLogHoursDialogOpen}
+                    onOpenChange={setIsLogHoursDialogOpen}
+                    volunteerId={volunteerId}
+                    onSuccess={() => mutate()}
+                />
             </div>
-        </div>
     );
 }

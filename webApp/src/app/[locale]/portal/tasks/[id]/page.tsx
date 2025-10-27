@@ -48,6 +48,9 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { TaskFormDialog } from '@/components/tasks/task-form-dialog';
+import { AddDependencyDialog } from '@/components/tasks/add-dependency-dialog';
+import { AssignVolunteerDialog } from '@/components/tasks/assign-volunteer-dialog';
 
 export default function TaskDetailPage() {
     const params = useParams();
@@ -57,6 +60,9 @@ export default function TaskDetailPage() {
     const t = useTranslations('Tasks');
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [isAddDependencyOpen, setIsAddDependencyOpen] = useState(false);
+    const [isAssignVolunteerOpen, setIsAssignVolunteerOpen] = useState(false);
 
     // Fetch task detail
     const { data: task, error, isLoading, mutate } = useSWR(
@@ -189,7 +195,7 @@ export default function TaskDetailPage() {
                             </p>
                         </div>
                         <div className="flex gap-2">
-                            <Button variant="outline">
+                            <Button variant="outline" onClick={() => setIsEditDialogOpen(true)}>
                                 <Edit className="mr-2 h-4 w-4" />
                                 {t('detail.editTask')}
                             </Button>
@@ -395,7 +401,7 @@ export default function TaskDetailPage() {
                     <TabsContent value="dependencies" className="space-y-4">
                         <div className="flex justify-between items-center">
                             <h3 className="text-lg font-semibold">{t('detail.taskDependencies')}</h3>
-                            <Button>
+                            <Button onClick={() => setIsAddDependencyOpen(true)}>
                                 <Plus className="mr-2 h-4 w-4" />
                                 {t('detail.addDependency')}
                             </Button>
@@ -457,7 +463,7 @@ export default function TaskDetailPage() {
                     <TabsContent value="volunteers" className="space-y-4">
                         <div className="flex justify-between items-center">
                             <h3 className="text-lg font-semibold">{t('detail.assignedVolunteers')}</h3>
-                            <Button>
+                            <Button onClick={() => setIsAssignVolunteerOpen(true)}>
                                 <Plus className="mr-2 h-4 w-4" />
                                 {t('detail.assignVolunteer')}
                             </Button>
@@ -514,6 +520,31 @@ export default function TaskDetailPage() {
                         </div>
                     </TabsContent>
                 </Tabs>
+
+                {/* Edit Task Dialog */}
+                <TaskFormDialog
+                    open={isEditDialogOpen}
+                    onOpenChange={setIsEditDialogOpen}
+                    task={task}
+                    projectId={task?.project_id}
+                    onSuccess={() => mutate()}
+                />
+
+                {/* Add Dependency Dialog */}
+                <AddDependencyDialog
+                    open={isAddDependencyOpen}
+                    onOpenChange={setIsAddDependencyOpen}
+                    taskId={taskId}
+                    onSuccess={() => mutate()}
+                />
+
+                {/* Assign Volunteer Dialog */}
+                <AssignVolunteerDialog
+                    open={isAssignVolunteerOpen}
+                    onOpenChange={setIsAssignVolunteerOpen}
+                    taskId={taskId}
+                    onSuccess={() => mutate()}
+                />
 
                 {/* Delete Confirmation Dialog */}
                 <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>

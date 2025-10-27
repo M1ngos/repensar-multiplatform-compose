@@ -47,99 +47,97 @@ export default function TasksPage() {
     );
 
     return (
-        <div className="flex flex-1 flex-col">
-            <div className="@container/main flex flex-col gap-4 p-4 md:p-6">
-                {/* Header */}
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                        <h1 className="text-2xl font-bold md:text-3xl">{t('title')}</h1>
-                        <p className="text-muted-foreground">{t('subtitle')}</p>
-                    </div>
-                    <Button onClick={() => setIsFormOpen(true)}>
-                        <Plus className="mr-2 h-4 w-4" />
-                        {t('newTask')}
-                    </Button>
+        <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+            {/* Header */}
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
+                    <p className="text-muted-foreground">{t('subtitle')}</p>
                 </div>
-
-                {/* View Toggle and Filters */}
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center flex-1">
-                        <div className="relative flex-1">
-                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                            <Input
-                                placeholder={t('searchPlaceholder')}
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-9"
-                            />
-                        </div>
-                        <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as TaskStatus | 'all')}>
-                            <SelectTrigger className="w-full sm:w-[180px]">
-                                <Filter className="mr-2 h-4 w-4" />
-                                <SelectValue placeholder={t('filterByStatus')} />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">{t('allStatuses')}</SelectItem>
-                                {TASK_STATUSES.map((status) => (
-                                    <SelectItem key={status} value={status}>
-                                        {t(`statuses.${status}`)}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        <Select value={priorityFilter} onValueChange={(value) => setPriorityFilter(value as TaskPriority | 'all')}>
-                            <SelectTrigger className="w-full sm:w-[180px]">
-                                <Filter className="mr-2 h-4 w-4" />
-                                <SelectValue placeholder={t('filterByPriority')} />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">{t('allPriorities')}</SelectItem>
-                                {TASK_PRIORITIES.map((priority) => (
-                                    <SelectItem key={priority} value={priority}>
-                                        {t(`priorities.${priority}`)}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-
-                    <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as ViewMode)}>
-                        <TabsList>
-                            <TabsTrigger value="kanban">
-                                <LayoutGrid className="mr-2 h-4 w-4" />
-                                {t('kanbanView')}
-                            </TabsTrigger>
-                            <TabsTrigger value="table">
-                                <List className="mr-2 h-4 w-4" />
-                                {t('tableView')}
-                            </TabsTrigger>
-                        </TabsList>
-                    </Tabs>
-                </div>
-
-                {/* Views */}
-                {viewMode === 'kanban' ? (
-                    <TasksKanbanView
-                        tasks={tasks}
-                        isLoading={isLoading}
-                        error={error}
-                        onRefresh={() => mutate()}
-                    />
-                ) : (
-                    <TasksTableView
-                        tasks={tasks}
-                        isLoading={isLoading}
-                        error={error}
-                    />
-                )}
-
-                {/* Task Form Dialog */}
-                <TaskFormDialog
-                    open={isFormOpen}
-                    onOpenChange={setIsFormOpen}
-                    onSuccess={() => mutate()}
-                />
+                <Button onClick={() => setIsFormOpen(true)}>
+                    <Plus className="mr-2 h-4 w-4" />
+                    {t('newTask')}
+                </Button>
             </div>
+
+            {/* View Toggle and Filters */}
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center flex-1">
+                    <div className="relative flex-1">
+                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                            placeholder={t('searchPlaceholder')}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-9"
+                        />
+                    </div>
+                    <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as TaskStatus | 'all')}>
+                        <SelectTrigger className="w-full sm:w-[180px]">
+                            <Filter className="mr-2 h-4 w-4" />
+                            <SelectValue placeholder={t('filterByStatus')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">{t('allStatuses')}</SelectItem>
+                            {TASK_STATUSES.map((status) => (
+                                <SelectItem key={status} value={status}>
+                                    {t(`statuses.${status}`)}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <Select value={priorityFilter} onValueChange={(value) => setPriorityFilter(value as TaskPriority | 'all')}>
+                        <SelectTrigger className="w-full sm:w-[180px]">
+                            <Filter className="mr-2 h-4 w-4" />
+                            <SelectValue placeholder={t('filterByPriority')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">{t('allPriorities')}</SelectItem>
+                            {TASK_PRIORITIES.map((priority) => (
+                                <SelectItem key={priority} value={priority}>
+                                    {t(`priorities.${priority}`)}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as ViewMode)}>
+                    <TabsList>
+                        <TabsTrigger value="kanban">
+                            <LayoutGrid className="mr-2 h-4 w-4" />
+                            {t('kanbanView')}
+                        </TabsTrigger>
+                        <TabsTrigger value="table">
+                            <List className="mr-2 h-4 w-4" />
+                            {t('tableView')}
+                        </TabsTrigger>
+                    </TabsList>
+                </Tabs>
+            </div>
+
+            {/* Views */}
+            {viewMode === 'kanban' ? (
+                <TasksKanbanView
+                    tasks={tasks}
+                    isLoading={isLoading}
+                    error={error}
+                    onRefresh={() => mutate()}
+                />
+            ) : (
+                <TasksTableView
+                    tasks={tasks}
+                    isLoading={isLoading}
+                    error={error}
+                />
+            )}
+
+            {/* Task Form Dialog */}
+            <TaskFormDialog
+                open={isFormOpen}
+                onOpenChange={setIsFormOpen}
+                onSuccess={() => mutate()}
+            />
         </div>
     );
 }

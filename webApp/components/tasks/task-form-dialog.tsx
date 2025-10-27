@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { tasksApi } from '@/lib/api';
+import useSWR from 'swr';
+import { tasksApi, projectsApi } from '@/lib/api';
 import type { TaskCreate, TaskUpdate, TaskDetail, TaskStatus, TaskPriority } from '@/lib/api/types';
 import {
     Dialog,
@@ -25,10 +26,18 @@ import {
 } from '@/components/ui/select';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Calendar as CalendarIcon, Loader2 } from 'lucide-react';
+import { Calendar as CalendarIcon, Loader2, Check, ChevronsUpDown } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from '@/components/ui/command';
 
 interface TaskFormDialogProps {
     open: boolean;
@@ -48,7 +57,7 @@ export function TaskFormDialog({ open, onOpenChange, task, projectId, onSuccess 
     // Form state
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [selectedProjectId, setSelectedProjectId] = useState('');
+    const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
     const [status, setStatus] = useState<TaskStatus>('not_started');
     const [priority, setPriority] = useState<TaskPriority>('medium');
     const [startDate, setStartDate] = useState<Date | undefined>();
@@ -57,13 +66,23 @@ export function TaskFormDialog({ open, onOpenChange, task, projectId, onSuccess 
     const [progress, setProgress] = useState('0');
     const [suitableForVolunteers, setSuitableForVolunteers] = useState(false);
     const [volunteerSpots, setVolunteerSpots] = useState('0');
+    const [openProjectCombobox, setOpenProjectCombobox] = useState(false);
+    const [projectSearchQuery, setProjectSearchQuery] = useState('');
+
+    // Fetch projects for selection
+    const { data: projects } = useSWR(
+        open ? ['projects', projectSearchQuery] : null,
+        () => projectsApi.getProjects({ search: projectSearchQuery, limit: 50 })
+    );
+
+    const selectedProject = projects?.find(p => p.id === selectedProjectId);
 
     // Load task data if editing
     useEffect(() => {
         if (task) {
             setTitle(task.title);
             setDescription(task.description || '');
-            setSelectedProjectId(task.project_id.toString());
+            setSelectedProjectId(task.project_id);
             setStatus(task.status);
             setPriority(task.priority);
             setStartDate(task.start_date ? new Date(task.start_date) : undefined);
@@ -75,7 +94,7 @@ export function TaskFormDialog({ open, onOpenChange, task, projectId, onSuccess 
         } else {
             resetForm();
             if (projectId) {
-                setSelectedProjectId(projectId.toString());
+                setSelectedProjectId(projectId);
             }
         }
     }, [task, projectId, open]);
@@ -83,7 +102,7 @@ export function TaskFormDialog({ open, onOpenChange, task, projectId, onSuccess 
     const resetForm = () => {
         setTitle('');
         setDescription('');
-        setSelectedProjectId('');
+        setSelectedProjectId(null);
         setStatus('not_started');
         setPriority('medium');
         setStartDate(undefined);
@@ -92,6 +111,7 @@ export function TaskFormDialog({ open, onOpenChange, task, projectId, onSuccess 
         setProgress('0');
         setSuitableForVolunteers(false);
         setVolunteerSpots('0');
+        setProjectSearchQuery('');
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -108,7 +128,7 @@ export function TaskFormDialog({ open, onOpenChange, task, projectId, onSuccess 
             const taskData: TaskCreate | TaskUpdate = {
                 title,
                 description: description || undefined,
-                project_id: parseInt(selectedProjectId),
+                project_id: selectedProjectId,
                 status,
                 priority,
                 start_date: startDate ? format(startDate, 'yyyy-MM-dd') : undefined,
@@ -170,19 +190,66 @@ export function TaskFormDialog({ open, onOpenChange, task, projectId, onSuccess 
                         />
                     </div>
 
-                    <div className="grid gap-4 sm:grid-cols-2">
-                        <div className="space-y-2">
-                            <Label htmlFor="projectId">{t('project')} *</Label>
-                            <Input
-                                id="projectId"
-                                type="number"
-                                value={selectedProjectId}
-                                onChange={(e) => setSelectedProjectId(e.target.value)}
-                                placeholder={t('projectIdPlaceholder')}
-                                required
-                            />
-                        </div>
+                    <div className="space-y-2">
+                        <Label>{t('selectProject')} *</Label>
+                        <Popover open={openProjectCombobox} onOpenChange={setOpenProjectCombobox}>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    role="combobox"
+                                    aria-expanded={openProjectCombobox}
+                                    className="w-full justify-between"
+                                    disabled={!!projectId}
+                                >
+                                    {selectedProject ? (
+                                        <span className="truncate">{selectedProject.name}</span>
+                                    ) : (
+                                        <span className="text-muted-foreground">{t('searchProjectPlaceholder')}</span>
+                                    )}
+                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-full p-0" align="start">
+                                <Command>
+                                    <CommandInput
+                                        placeholder={t('searchProjects')}
+                                        value={projectSearchQuery}
+                                        onValueChange={setProjectSearchQuery}
+                                    />
+                                    <CommandList>
+                                        <CommandEmpty>{t('noProjectsFound')}</CommandEmpty>
+                                        <CommandGroup>
+                                            {projects?.map((project) => (
+                                                <CommandItem
+                                                    key={project.id}
+                                                    value={project.name}
+                                                    onSelect={() => {
+                                                        setSelectedProjectId(project.id);
+                                                        setOpenProjectCombobox(false);
+                                                    }}
+                                                >
+                                                    <Check
+                                                        className={cn(
+                                                            "mr-2 h-4 w-4",
+                                                            selectedProjectId === project.id ? "opacity-100" : "opacity-0"
+                                                        )}
+                                                    />
+                                                    <div className="flex flex-col">
+                                                        <span className="font-medium">{project.name}</span>
+                                                        <span className="text-xs text-muted-foreground capitalize">
+                                                            {project.category.replace(/_/g, ' ')} • {project.status.replace(/_/g, ' ')}
+                                                        </span>
+                                                    </div>
+                                                </CommandItem>
+                                            ))}
+                                        </CommandGroup>
+                                    </CommandList>
+                                </Command>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
 
+                    <div className="grid gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
                             <Label htmlFor="status">{t('status')}</Label>
                             <Select value={status} onValueChange={(value) => setStatus(value as TaskStatus)}>
@@ -198,9 +265,7 @@ export function TaskFormDialog({ open, onOpenChange, task, projectId, onSuccess 
                                 </SelectContent>
                             </Select>
                         </div>
-                    </div>
 
-                    <div className="grid gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
                             <Label htmlFor="priority">{t('priority')}</Label>
                             <Select value={priority} onValueChange={(value) => setPriority(value as TaskPriority)}>
@@ -216,18 +281,18 @@ export function TaskFormDialog({ open, onOpenChange, task, projectId, onSuccess 
                                 </SelectContent>
                             </Select>
                         </div>
+                    </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="progress">{t('progress')} (%)</Label>
-                            <Input
-                                id="progress"
-                                type="number"
-                                min="0"
-                                max="100"
-                                value={progress}
-                                onChange={(e) => setProgress(e.target.value)}
-                            />
-                        </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="progress">{t('progress')} (%)</Label>
+                        <Input
+                            id="progress"
+                            type="number"
+                            min="0"
+                            max="100"
+                            value={progress}
+                            onChange={(e) => setProgress(e.target.value)}
+                        />
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-2">

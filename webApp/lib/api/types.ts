@@ -171,6 +171,49 @@ export interface GoogleOAuthCallbackRequest {
   state: string;
 }
 
+// ==================== User Management Types ====================
+
+export interface UserType {
+  id: number;
+  name: string;
+  description: string;
+}
+
+export interface UserSummary {
+  id: number;
+  name: string;
+  email: string;
+  user_type_name: string;
+  department?: string | null;
+  is_active: boolean;
+  profile_picture?: string | null;
+}
+
+export interface UserDetail {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  department?: string | null;
+  employee_id?: string | null;
+  is_active: boolean;
+  is_email_verified: boolean;
+  profile_picture?: string | null;
+  last_login?: string | null;
+  created_at: string;
+  updated_at: string;
+  user_type: UserType;
+  oauth_provider?: string | null;
+}
+
+export interface UserUpdate {
+  name?: string;
+  phone?: string;
+  department?: string;
+  employee_id?: string;
+  profile_picture?: string;
+}
+
 export interface ValidationError {
   loc: (string | number)[];
   msg: string;
@@ -232,15 +275,16 @@ export interface VolunteerProfile extends Volunteer {
 }
 
 export interface VolunteerSummary {
-  id: number;
-  volunteer_id: string;
+  id: number; // Volunteer's database ID
+  volunteer_id: string; // Volunteer's unique identifier (e.g., "VLT001")
   name: string;
   email: string;
   volunteer_status: VolunteerStatus;
   total_hours_contributed: number;
   joined_date: string;
   skills_count: number;
-  recent_activity?: string;
+  recent_activity?: string | null;
+  // Note: user_id is NOT returned by the list endpoint, only by the detail endpoint (VolunteerProfile)
 }
 
 export interface VolunteerRegistration {
@@ -511,12 +555,16 @@ export interface ProjectStats {
 
 export interface ProjectTeamMember {
   id: number;
-  project_id: number;
+  project_id?: number;
   user_id: number;
+  name?: string; // User's name (from API spec)
+  email?: string; // User's email (from API spec)
   role?: string;
   is_volunteer: boolean;
-  assigned_at: string;
+  joined_date?: string; // From API spec (alternative to assigned_at)
+  assigned_at?: string; // Alternative field name
   removed_at?: string;
+  // Legacy field names for backwards compatibility
   user_name?: string;
   user_email?: string;
 }
