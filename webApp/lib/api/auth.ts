@@ -15,6 +15,7 @@ import { apiClient } from './client';
 import type {
   LoginRequest,
   RegisterRequest,
+  RegisterResponse,
   RefreshTokenRequest,
   Token,
   UserProfile,
@@ -56,16 +57,29 @@ export const authApi = {
    * - Password strength validation
    * - Email verification token generation
    * - Audit logging
+   * - Automatic login with JWT tokens
    *
    * @param data Registration details
-   * @returns Success message
+   * @returns Success response with user ID and JWT tokens
    */
-  register: async (data: RegisterRequest) => {
+  register: async (data: RegisterRequest): Promise<RegisterResponse> => {
     console.log('[authApi] Registering user with data:', data);
     console.log('[authApi] API Base URL:', apiClient.getBaseURL());
     try {
-      const result = await apiClient.post<{ message: string }>('/auth/register', data, { skipAuth: true });
+      const result = await apiClient.post<RegisterResponse>('/auth/register', data, { skipAuth: true });
       console.log('[authApi] Registration response:', result);
+
+      // Store tokens automatically on successful registration
+      if (result.access_token && result.refresh_token) {
+        const token: Token = {
+          access_token: result.access_token,
+          refresh_token: result.refresh_token,
+          token_type: 'bearer',
+          expires_in: 3600, // Default 1 hour, server should provide this
+        };
+        apiClient.setAuthToken(token);
+      }
+
       return result;
     } catch (error) {
       console.error('[authApi] Registration error:', error);

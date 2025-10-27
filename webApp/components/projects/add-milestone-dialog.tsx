@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { projectsApi } from '@/lib/api';
-import type { MilestoneStatus } from '@/lib/api/types';
 import {
     Dialog,
     DialogContent,
@@ -37,7 +36,7 @@ interface AddMilestoneDialogProps {
     onSuccess?: () => void;
 }
 
-const MILESTONE_STATUSES: MilestoneStatus[] = ['pending', 'achieved', 'missed', 'cancelled'];
+const MILESTONE_STATUSES = ['pending', 'achieved', 'missed', 'cancelled'] as const;
 
 export function AddMilestoneDialog({ open, onOpenChange, projectId, onSuccess }: AddMilestoneDialogProps) {
     const t = useTranslations('Projects.milestoneDialog');
@@ -45,7 +44,7 @@ export function AddMilestoneDialog({ open, onOpenChange, projectId, onSuccess }:
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [targetDate, setTargetDate] = useState<Date | undefined>();
-    const [status, setStatus] = useState<MilestoneStatus>('pending');
+    const [status, setStatus] = useState<(typeof MILESTONE_STATUSES)[number]>('pending');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -63,7 +62,7 @@ export function AddMilestoneDialog({ open, onOpenChange, projectId, onSuccess }:
                 name,
                 description: description || undefined,
                 target_date: format(targetDate, 'yyyy-MM-dd'),
-                status,
+                status: status as any,
             });
 
             toast.success(t('success'));
@@ -140,7 +139,7 @@ export function AddMilestoneDialog({ open, onOpenChange, projectId, onSuccess }:
 
                     <div className="space-y-2">
                         <Label htmlFor="status">{t('status')}</Label>
-                        <Select value={status} onValueChange={(value) => setStatus(value as MilestoneStatus)}>
+                        <Select value={status} onValueChange={(value) => setStatus(value as (typeof MILESTONE_STATUSES)[number])}>
                             <SelectTrigger id="status">
                                 <SelectValue />
                             </SelectTrigger>

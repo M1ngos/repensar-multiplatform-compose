@@ -28,6 +28,11 @@ import type {
   EnvironmentalMetric,
   EnvironmentalMetricCreate,
   EnvironmentalMetricUpdate,
+  PaginatedResponse,
+  TaskSummary,
+  VolunteerSummary,
+  ResourceAllocation,
+  ActivityLog,
 } from './types';
 
 export const projectsApi = {
@@ -216,4 +221,74 @@ export const projectsApi = {
    */
   deleteEnvironmentalMetric: (metricId: number) =>
     apiClient.delete<{ message: string }>(`/projects/metrics/${metricId}`),
+
+  // ==================== v2.0 Paginated Endpoints ====================
+
+  /**
+   * Get paginated tasks for a project (v2.0)
+   *
+   * @param projectId Project ID
+   * @param params Query parameters (page, page_size, status, priority, suitable_for_volunteers)
+   * @returns Paginated list of tasks
+   */
+  getProjectTasks: (
+    projectId: number,
+    params?: {
+      page?: number;
+      page_size?: number;
+      status?: string;
+      priority?: string;
+      suitable_for_volunteers?: boolean;
+    }
+  ) =>
+    apiClient.get<PaginatedResponse<TaskSummary>>(`/projects/${projectId}/tasks`, params),
+
+  /**
+   * Get paginated volunteers for a project (v2.0)
+   *
+   * @param projectId Project ID
+   * @param params Query parameters (page, page_size)
+   * @returns Paginated list of volunteers
+   */
+  getProjectVolunteers: (
+    projectId: number,
+    params?: {
+      page?: number;
+      page_size?: number;
+    }
+  ) =>
+    apiClient.get<PaginatedResponse<VolunteerSummary>>(`/projects/${projectId}/volunteers`, params),
+
+  /**
+   * Get paginated resources allocated to a project (v2.0)
+   *
+   * @param projectId Project ID
+   * @param params Query parameters (page, page_size)
+   * @returns Paginated list of resource allocations
+   */
+  getProjectResources: (
+    projectId: number,
+    params?: {
+      page?: number;
+      page_size?: number;
+    }
+  ) =>
+    apiClient.get<PaginatedResponse<ResourceAllocation>>(`/projects/${projectId}/resources`, params),
+
+  /**
+   * Get paginated activity log for a project (v2.0)
+   *
+   * @param projectId Project ID
+   * @param params Query parameters (page, page_size, action_filter)
+   * @returns Paginated list of activity logs
+   */
+  getProjectActivity: (
+    projectId: number,
+    params?: {
+      page?: number;
+      page_size?: number;
+      action_filter?: string;
+    }
+  ) =>
+    apiClient.get<PaginatedResponse<ActivityLog>>(`/projects/${projectId}/activity`, params),
 };

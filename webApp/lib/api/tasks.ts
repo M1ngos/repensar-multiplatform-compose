@@ -126,11 +126,11 @@ export const tasksApi = {
    * Assign volunteer to task
    *
    * @param taskId Task ID
-   * @param data Volunteer assignment data (volunteer_id)
+   * @param data Volunteer assignment data (volunteer_id and optional role_description)
    * @returns Created assignment
    */
-  assignVolunteer: (taskId: number, data: { volunteer_id: number }) =>
-    apiClient.post<TaskVolunteerAssignment>(`/tasks/${taskId}/volunteers`, data),
+  assignVolunteer: (taskId: number, data: { volunteer_id: number; role_description?: string }) =>
+    apiClient.post<TaskVolunteerAssignment>(`/tasks/${taskId}/assign-volunteer`, data),
 
   /**
    * Remove volunteer from task

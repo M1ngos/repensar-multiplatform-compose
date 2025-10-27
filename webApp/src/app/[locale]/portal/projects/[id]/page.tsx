@@ -8,7 +8,6 @@ import {ArrowLeft, Edit, Trash2, Users, Target, BarChart3, Calendar, MapPin, Dol
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import { projectsApi } from '@/lib/api';
-import type { ProjectDetail } from '@/lib/api/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ProjectFormDialog } from '@/components/projects/project-form-dialog';

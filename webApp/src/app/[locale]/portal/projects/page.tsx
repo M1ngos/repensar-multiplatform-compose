@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
 import { Plus, Search, Filter, MapPin, Users } from 'lucide-react';
 import { projectsApi } from '@/lib/api';
-import type { ProjectSummary, ProjectQueryParams, ProjectStatus, ProjectCategory } from '@/lib/api/types';
+import type { ProjectQueryParams, ProjectStatus, ProjectCategory } from '@/lib/api/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ProjectFormDialog } from '@/components/projects/project-form-dialog';
@@ -30,8 +30,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
 
-const PROJECT_STATUSES: ProjectStatus[] = ['planning', 'in_progress', 'suspended', 'completed', 'cancelled'];
-const PROJECT_CATEGORIES: ProjectCategory[] = [
+const PROJECT_STATUSES = ['planning', 'in_progress', 'suspended', 'completed', 'cancelled'] as const;
+const PROJECT_CATEGORIES = [
     'reforestation',
     'environmental_education',
     'waste_management',
@@ -41,14 +41,14 @@ const PROJECT_CATEGORIES: ProjectCategory[] = [
     'climate_action',
     'biodiversity',
     'other',
-];
+] as const;
 
 export default function ProjectsPage() {
     const t = useTranslations('Projects');
     const locale = useLocale();
     const [searchQuery, setSearchQuery] = useState('');
-    const [statusFilter, setStatusFilter] = useState<ProjectStatus | 'all'>('all');
-    const [categoryFilter, setCategoryFilter] = useState<ProjectCategory | 'all'>('all');
+    const [statusFilter, setStatusFilter] = useState<(typeof PROJECT_STATUSES)[number] | 'all'>('all');
+    const [categoryFilter, setCategoryFilter] = useState<(typeof PROJECT_CATEGORIES)[number] | 'all'>('all');
     const [isFormOpen, setIsFormOpen] = useState(false);
 
     // Build query params
@@ -122,7 +122,7 @@ export default function ProjectsPage() {
                             className="pl-9"
                         />
                     </div>
-                    <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as ProjectStatus | 'all')}>
+                    <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as (typeof PROJECT_STATUSES)[number] | 'all')}>
                         <SelectTrigger className="w-full sm:w-[180px]">
                             <Filter className="mr-2 h-4 w-4" />
                             <SelectValue placeholder={t('filterByStatus')} />
@@ -136,7 +136,7 @@ export default function ProjectsPage() {
                             ))}
                         </SelectContent>
                     </Select>
-                    <Select value={categoryFilter} onValueChange={(value) => setCategoryFilter(value as ProjectCategory | 'all')}>
+                    <Select value={categoryFilter} onValueChange={(value) => setCategoryFilter(value as (typeof PROJECT_CATEGORIES)[number] | 'all')}>
                         <SelectTrigger className="w-full sm:w-[180px]">
                             <Filter className="mr-2 h-4 w-4" />
                             <SelectValue placeholder={t('filterByCategory')} />

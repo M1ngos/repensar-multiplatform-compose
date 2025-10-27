@@ -102,6 +102,14 @@ export interface RegisterRequest {
   user_type?: string;
 }
 
+export interface RegisterResponse {
+  success: boolean;
+  message: string;
+  user_id: number;
+  access_token: string;
+  refresh_token: string;
+}
+
 export interface RefreshTokenRequest {
   refresh_token: string;
 }
@@ -339,14 +347,14 @@ export interface VolunteerTimeLog {
 }
 
 export interface VolunteerTimeLogCreate {
-  volunteer_id: number;
   date: string;
   hours: number;
   project_id?: number;
   task_id?: number;
   start_time?: string;
   end_time?: string;
-  activity_description?: string;
+  activity?: string;
+  description?: string;
   supervisor_id?: number;
 }
 
@@ -357,7 +365,8 @@ export interface VolunteerTimeLogUpdate {
   start_time?: string;
   end_time?: string;
   hours?: number;
-  activity_description?: string;
+  activity?: string;
+  description?: string;
   supervisor_id?: number;
 }
 
@@ -727,9 +736,33 @@ export interface TaskVolunteerAssignment {
 
 // ==================== Pagination & Query Types ====================
 
+/**
+ * Paginated API response wrapper (v2.0)
+ * Used by all paginated endpoints
+ */
+export interface PaginatedResponse<T> {
+  data: T[];
+  metadata: {
+    total: number;
+    page: number;
+    page_size: number;
+    total_pages: number;
+    has_next: boolean;
+    has_previous: boolean;
+  };
+}
+
+/**
+ * Base pagination parameters
+ * Supports both v1.0 (skip/limit) and v2.0 (page/page_size) pagination
+ */
 export interface PaginationParams {
+  // Legacy v1.0 pagination
   skip?: number;
   limit?: number;
+  // New v2.0 pagination
+  page?: number;
+  page_size?: number;
 }
 
 export interface VolunteerQueryParams extends PaginationParams {
@@ -758,5 +791,39 @@ export interface TaskQueryParams extends PaginationParams {
 export interface VolunteerHoursQueryParams extends PaginationParams {
   start_date?: string;
   end_date?: string;
-  approved_only?: boolean;
+  approval_status?: string; // 'approved' | 'pending' | 'rejected'
+}
+
+// ==================== Activity & Resources Types ====================
+
+/**
+ * Activity log entry for tracking changes and actions
+ * Used by project and volunteer activity endpoints
+ */
+export interface ActivityLog {
+  id: number;
+  user_id?: number;
+  user_name?: string;
+  action: string;
+  description: string;
+  entity_type?: string;
+  entity_id?: number;
+  old_values?: Record<string, any>;
+  new_values?: Record<string, any>;
+  created_at: string;
+}
+
+/**
+ * Resource allocation to a project
+ */
+export interface ResourceAllocation {
+  id: number;
+  resource_id: number;
+  project_id: number;
+  quantity_allocated: number;
+  allocation_date: string;
+  resource_name?: string;
+  resource_type?: ResourceType;
+  unit?: string;
+  created_at: string;
 }

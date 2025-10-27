@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { projectsApi } from '@/lib/api';
-import type { ProjectCreate, ProjectUpdate, ProjectDetail, ProjectCategory, ProjectStatus, ProjectPriority } from '@/lib/api/types';
+import type { ProjectCreate, ProjectUpdate, ProjectDetail } from '@/lib/api/types';
 import {
     Dialog,
     DialogContent,
@@ -37,7 +37,7 @@ interface ProjectFormDialogProps {
     onSuccess?: () => void;
 }
 
-const PROJECT_CATEGORIES: ProjectCategory[] = [
+const PROJECT_CATEGORIES = [
     'reforestation',
     'environmental_education',
     'waste_management',
@@ -47,22 +47,22 @@ const PROJECT_CATEGORIES: ProjectCategory[] = [
     'climate_action',
     'biodiversity',
     'other',
-];
+] as const;
 
-const PROJECT_STATUSES: ProjectStatus[] = [
+const PROJECT_STATUSES = [
     'planning',
     'in_progress',
     'suspended',
     'completed',
     'cancelled',
-];
+] as const;
 
-const PROJECT_PRIORITIES: ProjectPriority[] = [
+const PROJECT_PRIORITIES = [
     'low',
     'medium',
     'high',
     'critical',
-];
+] as const;
 
 export function ProjectFormDialog({ open, onOpenChange, project, onSuccess }: ProjectFormDialogProps) {
     const t = useTranslations('Projects.form');
@@ -71,9 +71,9 @@ export function ProjectFormDialog({ open, onOpenChange, project, onSuccess }: Pr
     // Form state
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [category, setCategory] = useState<ProjectCategory>('reforestation');
-    const [status, setStatus] = useState<ProjectStatus>('planning');
-    const [priority, setPriority] = useState<ProjectPriority>('medium');
+    const [category, setCategory] = useState<(typeof PROJECT_CATEGORIES)[number]>('reforestation');
+    const [status, setStatus] = useState<(typeof PROJECT_STATUSES)[number]>('planning');
+    const [priority, setPriority] = useState<(typeof PROJECT_PRIORITIES)[number]>('medium');
     const [startDate, setStartDate] = useState<Date | undefined>();
     const [endDate, setEndDate] = useState<Date | undefined>();
     const [budget, setBudget] = useState('');
@@ -126,12 +126,12 @@ export function ProjectFormDialog({ open, onOpenChange, project, onSuccess }: Pr
         setIsSubmitting(true);
 
         try {
-            const projectData: ProjectCreate | ProjectUpdate = {
+            const projectData = {
                 name,
                 description: description || undefined,
-                category,
-                status,
-                priority,
+                category: category as any,
+                status: status as any,
+                priority: priority as any,
                 start_date: startDate ? format(startDate, 'yyyy-MM-dd') : undefined,
                 end_date: endDate ? format(endDate, 'yyyy-MM-dd') : undefined,
                 budget: budget ? parseFloat(budget) : undefined,
@@ -201,7 +201,7 @@ export function ProjectFormDialog({ open, onOpenChange, project, onSuccess }: Pr
                         <div className="grid gap-4 sm:grid-cols-3">
                             <div className="space-y-2">
                                 <Label htmlFor="category">{t('category')} *</Label>
-                                <Select value={category} onValueChange={(value) => setCategory(value as ProjectCategory)}>
+                                <Select value={category} onValueChange={(value) => setCategory(value as (typeof PROJECT_CATEGORIES)[number])}>
                                     <SelectTrigger id="category">
                                         <SelectValue />
                                     </SelectTrigger>
@@ -217,7 +217,7 @@ export function ProjectFormDialog({ open, onOpenChange, project, onSuccess }: Pr
 
                             <div className="space-y-2">
                                 <Label htmlFor="status">{t('status')}</Label>
-                                <Select value={status} onValueChange={(value) => setStatus(value as ProjectStatus)}>
+                                <Select value={status} onValueChange={(value) => setStatus(value as (typeof PROJECT_STATUSES)[number])}>
                                     <SelectTrigger id="status">
                                         <SelectValue />
                                     </SelectTrigger>
@@ -233,7 +233,7 @@ export function ProjectFormDialog({ open, onOpenChange, project, onSuccess }: Pr
 
                             <div className="space-y-2">
                                 <Label htmlFor="priority">{t('priority')}</Label>
-                                <Select value={priority} onValueChange={(value) => setPriority(value as ProjectPriority)}>
+                                <Select value={priority} onValueChange={(value) => setPriority(value as (typeof PROJECT_PRIORITIES)[number])}>
                                     <SelectTrigger id="priority">
                                         <SelectValue />
                                     </SelectTrigger>
