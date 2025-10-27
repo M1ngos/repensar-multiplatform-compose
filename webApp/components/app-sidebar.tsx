@@ -12,6 +12,7 @@ import {
     Users,
     Heart,
     BarChart3,
+    FileDown,
     Settings,
     LogOut,
     Leaf,
@@ -98,6 +99,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             href: `/${locale}/portal/analytics`,
             icon: BarChart3,
             roles: ['admin', 'project_manager'],
+        },
+        {
+            title: t('nav.reports'),
+            href: `/${locale}/portal/reports`,
+            icon: FileDown,
+            roles: ['admin', 'project_manager', 'staff_member'],
         },
     ];
 

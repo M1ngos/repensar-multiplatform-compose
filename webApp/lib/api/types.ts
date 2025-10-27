@@ -875,3 +875,273 @@ export interface ResourceAllocation {
   unit?: string;
   created_at: string;
 }
+
+// ==================== Resource Types ====================
+
+export interface Resource {
+  id: number;
+  name: string;
+  description?: string;
+  type: ResourceType;
+  unit?: string;
+  unit_cost?: number;
+  available_quantity?: number;
+  location?: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ResourceCreate {
+  name: string;
+  type: ResourceType;
+  description?: string;
+  unit?: string;
+  unit_cost?: number;
+  available_quantity?: number;
+  location?: string;
+}
+
+// Note: Backend currently doesn't support resource updates
+export interface ResourceUpdate {
+  name?: string;
+  description?: string;
+  type?: ResourceType;
+  unit?: string;
+  unit_cost?: number;
+  available_quantity?: number;
+  location?: string;
+  is_active?: boolean;
+}
+
+export interface ResourceAllocationCreate {
+  resource_id: number;
+  quantity_allocated: number;
+  allocation_date?: string;
+  notes?: string;
+}
+
+export interface ResourceQueryParams extends PaginationParams {
+  type?: ResourceType;
+  is_active?: boolean;
+  search?: string;
+  location?: string;
+}
+
+// ==================== Analytics Types ====================
+
+export enum MetricType {
+  VOLUNTEER_HOURS = "volunteer_hours",
+  PROJECT_PROGRESS = "project_progress",
+  TASK_COMPLETION = "task_completion",
+  VOLUNTEER_COUNT = "volunteer_count",
+  RESOURCE_UTILIZATION = "resource_utilization",
+  ENVIRONMENTAL_IMPACT = "environmental_impact",
+  BUDGET_SPENT = "budget_spent",
+  CUSTOM = "custom"
+}
+
+export enum Granularity {
+  HOURLY = "hourly",
+  DAILY = "daily",
+  WEEKLY = "weekly",
+  MONTHLY = "monthly"
+}
+
+export interface MetricSnapshot {
+  id: number;
+  metric_type: MetricType;
+  metric_name: string;
+  value: number;
+  unit?: string;
+  project_id?: number;
+  task_id?: number;
+  volunteer_id?: number;
+  metadata?: Record<string, any>;
+  snapshot_date: string;
+  created_at: string;
+}
+
+export interface MetricSnapshotCreate {
+  metric_type: MetricType;
+  metric_name: string;
+  value: number;
+  unit?: string;
+  project_id?: number;
+  task_id?: number;
+  volunteer_id?: number;
+  metadata?: Record<string, any>;
+  snapshot_date?: string;
+}
+
+export interface TimeSeriesDataPoint {
+  period: string;
+  count: number;
+  sum: number;
+  avg: number;
+  min: number;
+  max: number;
+}
+
+export interface TimeSeriesResponse {
+  metric_type: MetricType | string;
+  start_date: string;
+  end_date: string;
+  granularity: Granularity;
+  data_points: number;
+  data: TimeSeriesDataPoint[];
+}
+
+export interface AnalyticsDashboard {
+  period: {
+    start_date: string;
+    end_date: string;
+  };
+  project_filter?: number | null;
+  summary: {
+    projects: {
+      total_projects: number;
+      active_projects: number;
+      completed_projects: number;
+      planning_projects: number;
+    };
+    tasks: {
+      total_tasks: number;
+      completed_tasks: number;
+      in_progress_tasks: number;
+      not_started_tasks: number;
+      completion_rate: number;
+    };
+    volunteers: {
+      active_volunteers: number;
+      total_hours_logged: number;
+      avg_hours_per_volunteer: number;
+    };
+    budget?: {
+      total_budget: number;
+      total_spent: number;
+      utilization_rate: number;
+    } | null;
+  };
+}
+
+export interface TrendDataPoint {
+  period?: string;
+  total_hours?: number;
+  log_count?: number;
+  progress_percentage?: number;
+  date?: string;
+  metadata?: Record<string, any>;
+}
+
+export interface VolunteerHoursTrends {
+  start_date: string;
+  end_date: string;
+  granularity: Granularity;
+  data_points: number;
+  trends: TrendDataPoint[];
+}
+
+export interface ProjectProgressTrends {
+  project_id: number;
+  project_name: string;
+  start_date: string;
+  end_date: string;
+  data_points: number;
+  trends: TrendDataPoint[];
+}
+
+export interface EnvironmentalImpactMetric {
+  metric_name: string;
+  metric_type: string;
+  unit: string;
+  data_points: Array<{
+    date: string;
+    target_value: number;
+    current_value: number;
+    progress_percentage: number;
+    project_id: number;
+  }>;
+}
+
+export interface EnvironmentalImpactTrends {
+  start_date: string;
+  end_date: string;
+  metrics_count: number;
+  metrics: EnvironmentalImpactMetric[];
+}
+
+export interface CustomDashboard {
+  id: number;
+  user_id: number;
+  name: string;
+  description?: string;
+  widgets: Record<string, any>;
+  is_default: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface DashboardCreate {
+  name: string;
+  description?: string;
+  widgets: Record<string, any>;
+  is_default?: boolean;
+}
+
+export interface DashboardUpdate {
+  name?: string;
+  description?: string;
+  widgets?: Record<string, any>;
+  is_default?: boolean;
+}
+
+export interface TimeSeriesQueryParams {
+  metric_type: MetricType | string;
+  start_date: string;
+  end_date: string;
+  project_id?: number;
+  task_id?: number;
+  volunteer_id?: number;
+  granularity?: Granularity;
+}
+
+export interface AnalyticsDashboardParams {
+  project_id?: number;
+  start_date?: string;
+  end_date?: string;
+}
+
+export interface TrendsQueryParams {
+  start_date: string;
+  end_date: string;
+  project_id?: number;
+  volunteer_id?: number;
+  granularity?: Granularity;
+  metric_name?: string;
+}
+
+// ==================== Reports & Exports Types ====================
+
+export enum ExportFormat {
+  CSV = "csv",
+  JSON = "json"
+}
+
+export interface ExportParams {
+  format?: ExportFormat;
+  status?: string;
+  category?: string;
+  project_id?: number;
+  volunteer_id?: number;
+  start_date?: string;
+  end_date?: string;
+  approval_status?: string;
+  volunteer_status?: string;
+}
+
+export interface ProjectReport {
+  project_id: number;
+  report_data: Record<string, any>;
+  generated_at: string;
+}

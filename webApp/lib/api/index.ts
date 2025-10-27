@@ -5,7 +5,7 @@
  *
  * @example
  * ```typescript
- * import { api, authApi, projectsApi } from '@/lib/api';
+ * import { api, authApi, projectsApi, analyticsApi } from '@/lib/api';
  *
  * // Login
  * const token = await authApi.login({ email: 'user@example.com', password: 'password' });
@@ -18,6 +18,13 @@
  *   name: 'Reforestation Project',
  *   category: 'reforestation'
  * });
+ *
+ * // Get analytics dashboard
+ * const dashboard = await analyticsApi.getAnalyticsDashboard();
+ *
+ * // Export data to CSV
+ * const blob = await reportsApi.exportProjectsCSV({ status: 'completed' });
+ * reportsApi.downloadBlob(blob, reportsApi.generateFilename('projects', 'csv'));
  * ```
  *
  * @see {@link https://github.com/your-org/repensar-backend} Backend API Documentation
@@ -33,9 +40,12 @@ import { projectsApi } from './projects';
 import { tasksApi } from './tasks';
 import { volunteersApi } from './volunteers';
 import { usersApi } from './users';
+import { resourcesApi } from './resources';
+import { analyticsApi } from './analytics';
+import { reportsApi } from './reports';
 
 // Export API modules
-export { authApi, projectsApi, tasksApi, volunteersApi, usersApi };
+export { authApi, projectsApi, tasksApi, volunteersApi, usersApi, resourcesApi, analyticsApi, reportsApi };
 
 // Export middleware (when implemented)
 // export {
@@ -60,6 +70,9 @@ export const api = {
   tasks: tasksApi,
   volunteers: volunteersApi,
   users: usersApi,
+  resources: resourcesApi,
+  analytics: analyticsApi,
+  reports: reportsApi,
 };
 
 // Default export

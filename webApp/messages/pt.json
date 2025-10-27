@@ -239,6 +239,7 @@
       "volunteers": "Voluntários",
       "users": "Utilizadores",
       "analytics": "Análises",
+      "reports": "Relatórios",
       "settings": "Configurações",
       "logout": "Sair",
       "theme": "Tema",
@@ -828,6 +829,292 @@
       "pending": "Pendente",
       "approved": "Aprovado",
       "rejected": "Rejeitado"
+    }
+  },
+  "Resources": {
+    "title": "Recursos",
+    "subtitle": "Gerir recursos de projetos e alocações",
+    "newResource": "Novo Recurso",
+    "searchPlaceholder": "Pesquisar recursos...",
+    "filterByType": "Filtrar por tipo",
+    "filterByStatus": "Filtrar por estado",
+    "allTypes": "Todos os Tipos",
+    "allStatuses": "Todos os Estados",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "errorLoading": "Erro ao carregar recursos",
+    "noResources": "Nenhum recurso encontrado",
+    "noResourcesDesc": "Comece por criar um novo recurso",
+    "types": {
+      "human": "Humano",
+      "equipment": "Equipamento",
+      "material": "Material",
+      "financial": "Financeiro"
+    },
+    "unitCost": "Custo Unitário",
+    "available": "Disponível",
+    "allocated": "Alocado",
+    "location": "Localização",
+    "units": "unidades",
+    "unit": "unidade",
+    "detail": {
+      "subtitle": "Detalhes do Recurso",
+      "error": "Recurso Não Encontrado",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "editNotSupported": "Edição ainda não suportada pelo backend",
+      "deleteNotSupported": "Eliminação ainda não suportada pelo backend",
+      "confirmDelete": "Tem a certeza que deseja eliminar este recurso?",
+      "deleteError": "Falha ao eliminar recurso",
+      "available": "Quantidade Disponível",
+      "allocated": "Quantidade Alocada",
+      "unitCost": "Custo Unitário",
+      "perUnit": "por {unit}",
+      "tabs": {
+        "overview": "Visão Geral",
+        "allocations": "Alocações"
+      },
+      "resourceDetails": "Detalhes do Recurso",
+      "type": "Tipo",
+      "status": "Estado",
+      "description": "Descrição",
+      "location": "Localização",
+      "createdAt": "Criado Em",
+      "updatedAt": "Atualizado Em",
+      "allocations": "Alocações",
+      "allocationsDesc": "Gerir alocações de recursos para projetos",
+      "allocate": "Alocar",
+      "noAllocations": "Ainda sem alocações",
+      "unknownProject": "Projeto Desconhecido",
+      "confirmRemoveAllocation": "Tem a certeza que deseja remover esta alocação?"
+    },
+    "form": {
+      "createTitle": "Criar Novo Recurso",
+      "editTitle": "Editar Recurso",
+      "createDescription": "Adicionar um novo recurso ao seu inventário",
+      "editDescription": "Atualizar informações do recurso",
+      "name": "Nome do Recurso",
+      "namePlaceholder": "Inserir nome do recurso",
+      "nameRequired": "O nome do recurso é obrigatório",
+      "description": "Descrição",
+      "descriptionPlaceholder": "Inserir descrição do recurso",
+      "type": "Tipo de Recurso",
+      "unit": "Unidade",
+      "unitPlaceholder": "ex: horas, kg, itens",
+      "unitCost": "Custo Unitário",
+      "availableQuantity": "Quantidade Disponível",
+      "location": "Localização",
+      "locationPlaceholder": "Inserir localização",
+      "isAvailable": "Estado de Disponibilidade",
+      "isAvailableDesc": "Recursos indisponíveis não aparecerão nas listas de alocação",
+      "cancel": "Cancelar",
+      "createButton": "Criar Recurso",
+      "updateButton": "Atualizar Recurso",
+      "createSuccess": "Recurso criado com sucesso",
+      "updateSuccess": "Recurso atualizado com sucesso",
+      "updateNotSupported": "Atualização de recursos ainda não suportada pelo backend",
+      "saveError": "Falha ao guardar recurso"
+    },
+    "allocate": {
+      "title": "Alocar Recurso",
+      "description": "Alocar {resource} a um projeto",
+      "project": "Projeto",
+      "selectProject": "Por favor, selecione um projeto",
+      "selectProjectPlaceholder": "Selecionar um projeto",
+      "searchProjects": "Pesquisar projetos...",
+      "noProjects": "Nenhum projeto encontrado",
+      "quantity": "Quantidade",
+      "quantityRequired": "Por favor, insira uma quantidade válida",
+      "available": "Disponível",
+      "exceedsAvailable": "A quantidade excede o montante disponível ({available} {unit})",
+      "date": "Data de Alocação",
+      "pickDate": "Escolher uma data",
+      "cancel": "Cancelar",
+      "allocateButton": "Alocar",
+      "success": "Recurso alocado com sucesso",
+      "error": "Falha ao alocar recurso"
+    }
+  },
+  "Analytics": {
+    "title": "Análises",
+    "subtitle": "Ver estatísticas, tendências e métricas de desempenho",
+    "noData": "Sem dados de análise disponíveis",
+    "noDataDesc": "Os dados de análise aparecerão aqui assim que projetos e atividades forem rastreados",
+    "dateRanges": {
+      "7days": "Últimos 7 Dias",
+      "30days": "Últimos 30 Dias",
+      "3months": "Últimos 3 Meses",
+      "6months": "Últimos 6 Meses",
+      "1year": "Último Ano"
+    },
+    "projects": {
+      "title": "Projetos",
+      "total": "Total de Projetos",
+      "active": "ativos",
+      "completed": "Projetos Concluídos",
+      "planning": "em planeamento"
+    },
+    "tasks": {
+      "completion": "Taxa de Conclusão de Tarefas",
+      "completed": "tarefas concluídas",
+      "inProgress": "Em Progresso",
+      "notStarted": "não iniciadas"
+    },
+    "volunteers": {
+      "title": "Voluntários",
+      "active": "Voluntários Ativos",
+      "activeDesc": "Voluntários atualmente ativos",
+      "totalHours": "Total de Horas Registadas",
+      "totalHoursDesc": "Todas as horas de voluntariado",
+      "avgHours": "Média de Horas por Voluntário",
+      "avgHoursDesc": "Contribuição média"
+    },
+    "budget": {
+      "title": "Orçamento",
+      "total": "Orçamento Total",
+      "totalDesc": "Em todos os projetos",
+      "spent": "Total Gasto",
+      "spentDesc": "Valor gasto até agora",
+      "utilization": "Utilização do Orçamento",
+      "utilizationDesc": "Percentagem do orçamento utilizado"
+    },
+    "trends": {
+      "volunteerHours": "Tendências de Horas de Voluntariado"
+    },
+    "hours": "horas",
+    "logs": "registos"
+  },
+  "Reports": {
+    "title": "Relatórios e Exportações",
+    "subtitle": "Exportar dados e gerar relatórios",
+    "exportSuccess": "Exportação bem-sucedida",
+    "exportSuccessDesc": "Ficheiro {filename} foi descarregado",
+    "exportError": "Falha na exportação",
+    "exportErrorDesc": "Falha ao exportar dados. Por favor, tente novamente.",
+    "exporting": "Exportando...",
+    "exportCSV": "Exportar para CSV",
+    "exportJSON": "Exportar para JSON",
+    "filters": {
+      "all": "Todos"
+    },
+    "projects": {
+      "title": "Exportação de Projetos",
+      "description": "Exportar dados de projetos com detalhes",
+      "status": "Estado",
+      "category": "Categoria",
+      "statuses": {
+        "planning": "Planeamento",
+        "in_progress": "Em Progresso",
+        "completed": "Concluído",
+        "cancelled": "Cancelado"
+      },
+      "categories": {
+        "reforestation": "Reflorestação",
+        "environmental_education": "Educação Ambiental",
+        "waste_management": "Gestão de Resíduos",
+        "conservation": "Conservação"
+      }
+    },
+    "volunteers": {
+      "title": "Exportação de Voluntários",
+      "description": "Exportar perfis e dados de voluntários",
+      "status": "Estado",
+      "statuses": {
+        "active": "Ativo",
+        "inactive": "Inativo",
+        "suspended": "Suspenso"
+      }
+    },
+    "tasks": {
+      "title": "Exportação de Tarefas",
+      "description": "Exportar dados e atribuições de tarefas",
+      "status": "Estado",
+      "statuses": {
+        "not_started": "Não Iniciada",
+        "in_progress": "Em Progresso",
+        "completed": "Concluída",
+        "cancelled": "Cancelada"
+      }
+    },
+    "timeLogs": {
+      "title": "Exportação de Registos de Tempo",
+      "description": "Exportar dados de rastreamento de horas de voluntariado"
+    },
+    "info": {
+      "title": "Informações de Exportação",
+      "csvDescription": "O formato CSV é ideal para aplicações de folhas de cálculo como Excel ou Google Sheets.",
+      "jsonDescription": "O formato JSON é melhor para integração de dados e aplicações de programação.",
+      "permissions": "Permissões",
+      "permissionsDesc": "As permissões de exportação baseiam-se na sua função de utilizador"
+    }
+  },
+  "Profile": {
+    "title": "O Meu Perfil",
+    "subtitle": "Ver e gerir as suas informações pessoais",
+    "error": "Erro ao Carregar Perfil",
+    "errorDesc": "Não foi possível carregar as informações do seu perfil. Por favor, tente novamente.",
+    "editProfile": "Editar Perfil",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "contactInfo": "Informações de Contacto",
+    "email": "Email",
+    "phone": "Telefone",
+    "workInfo": "Informações de Trabalho",
+    "department": "Departamento",
+    "employeeId": "ID de Funcionário",
+    "accountInfo": "Informações da Conta",
+    "userType": "Tipo de Utilizador",
+    "memberSince": "Membro Desde",
+    "lastLogin": "Último Acesso",
+    "authProvider": "Fornecedor de Autenticação",
+    "editProfileTitle": "Editar Perfil",
+    "editProfileDesc": "Atualizar as suas informações pessoais",
+    "name": "Nome",
+    "namePlaceholder": "Inserir o seu nome",
+    "phonePlaceholder": "Inserir o seu número de telefone",
+    "departmentPlaceholder": "Inserir o seu departamento",
+    "employeeIdPlaceholder": "Inserir o seu ID de funcionário",
+    "profilePicture": "URL da Foto de Perfil",
+    "profilePicturePlaceholder": "https://exemplo.com/avatar.jpg",
+    "cancel": "Cancelar",
+    "saveChanges": "Guardar Alterações",
+    "updateSuccess": "Perfil atualizado com sucesso",
+    "updateError": "Falha ao atualizar perfil"
+  },
+  "Settings": {
+    "title": "Definições",
+    "subtitle": "Gerir as definições e preferências da sua conta",
+    "security": {
+      "title": "Segurança",
+      "description": "Gerir as definições de segurança da sua conta",
+      "changePassword": "Alterar Palavra-passe",
+      "currentPassword": "Palavra-passe Atual",
+      "currentPasswordPlaceholder": "Inserir a sua palavra-passe atual",
+      "newPassword": "Nova Palavra-passe",
+      "newPasswordPlaceholder": "Inserir a sua nova palavra-passe",
+      "confirmPassword": "Confirmar Nova Palavra-passe",
+      "confirmPasswordPlaceholder": "Confirmar a sua nova palavra-passe",
+      "passwordRequirements": "A palavra-passe deve ter pelo menos 8 caracteres",
+      "changePasswordButton": "Alterar Palavra-passe",
+      "passwordMismatch": "As novas palavras-passe não coincidem",
+      "passwordTooShort": "A palavra-passe deve ter pelo menos 8 caracteres",
+      "passwordChangeSuccess": "Palavra-passe alterada com sucesso",
+      "passwordChangeError": "Falha ao alterar palavra-passe. Por favor, verifique a sua palavra-passe atual."
+    },
+    "notifications": {
+      "title": "Notificações",
+      "description": "Configurar como recebe notificações",
+      "comingSoon": "As definições de notificações estarão disponíveis em breve"
+    },
+    "preferences": {
+      "title": "Preferências",
+      "description": "Personalizar a sua experiência",
+      "comingSoon": "As definições de preferências estarão disponíveis em breve"
+    },
+    "language": {
+      "title": "Idioma e Região",
+      "description": "Definir as suas preferências de idioma e região",
+      "currentLanguage": "O idioma atual é definido pela localização do seu navegador"
     }
   }
 }
