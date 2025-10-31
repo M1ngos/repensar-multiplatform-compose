@@ -8,6 +8,12 @@ importers:
 
   .: {}
 
+  shared/build/dist/js/developmentLibrary:
+    devDependencies:
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+
   webApp:
     dependencies:
       '@dnd-kit/core':
