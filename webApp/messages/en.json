@@ -225,7 +225,39 @@
     "registrationError": "Registration failed. Please try again."
   },
   "utils": {
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "loadingMessages": {
+      "default": "Loading...",
+      "verifying": "Verifying your access...",
+      "loading": "Growing your data...",
+      "fetching": "Harvesting information...",
+      "gathering": "Gathering resources...",
+      "cultivating": "Cultivating results...",
+      "saving": "Planting your changes...",
+      "updating": "Sowing your updates...",
+      "persisting": "Rooting your data...",
+      "creating": "Sprouting new growth...",
+      "adding": "Planting new seeds...",
+      "generating": "Nurturing creation...",
+      "deleting": "Pruning branches...",
+      "removing": "Clearing the undergrowth...",
+      "cleaning": "Composting old data...",
+      "processing": "Nurturing your request...",
+      "calculating": "Growing calculations...",
+      "analyzing": "Examining the ecosystem...",
+      "submitting": "Blossoming your submission...",
+      "validating": "Checking soil conditions...",
+      "navigating": "Growing new paths...",
+      "loadingPage": "Blooming into view...",
+      "redirecting": "Branching to new location...",
+      "loggingIn": "Taking root in the system...",
+      "loggingOut": "Returning to the earth...",
+      "authenticating": "Verifying your seeds...",
+      "uploading": "Planting your files...",
+      "downloading": "Harvesting your files...",
+      "importing": "Transplanting data...",
+      "exporting": "Gathering harvest..."
+    }
   },
   "Dashboard": {
     "appSubtitle": "Environmental Education",

@@ -14,8 +14,10 @@ import { Separator } from '@/components/ui/separator';
 import { formatDistanceToNow } from 'date-fns';
 import { NotificationType } from '@/lib/api/types';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 export function NotificationCenter() {
+  const t = useTranslations('Notifications');
   const {
     notifications = [],
     unreadCount = 0,
@@ -73,9 +75,9 @@ export function NotificationCenter() {
       <PopoverContent className="w-80 sm:w-96 p-0" align="end">
         <div className="flex items-center justify-between p-4 border-b bg-gradient-nature/5">
           <div>
-            <h3 className="font-semibold">Notifications</h3>
+            <h3 className="font-semibold">{t('title')}</h3>
             <p className="text-xs text-muted-foreground">
-              {unreadCount > 0 ? `${unreadCount} unread` : 'All caught up!'}
+              {unreadCount > 0 ? t('unread', { count: unreadCount }) : t('allCaughtUp')}
             </p>
           </div>
           {unreadCount > 0 && (
@@ -86,7 +88,7 @@ export function NotificationCenter() {
               className="text-xs"
             >
               <CheckCheck className="h-3.5 w-3.5 mr-1" />
-              Mark all read
+              {t('markAllRead')}
             </Button>
           )}
         </div>
@@ -94,12 +96,12 @@ export function NotificationCenter() {
         <ScrollArea className="h-[400px]">
           {isLoading ? (
             <div className="flex items-center justify-center h-32">
-              <div className="animate-pulse text-muted-foreground">Loading...</div>
+              <div className="animate-pulse text-muted-foreground">{t('loading')}</div>
             </div>
           ) : notifications.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-32 text-muted-foreground">
               <Bell className="h-8 w-8 mb-2 opacity-20" />
-              <p className="text-sm">No notifications yet</p>
+              <p className="text-sm">{t('noNotifications')}</p>
             </div>
           ) : (
             <div className="divide-y">
@@ -145,7 +147,7 @@ export function NotificationCenter() {
                           size="icon"
                           className="h-7 w-7"
                           onClick={() => markAsRead(notification.id)}
-                          title="Mark as read"
+                          title={t('actions.markAsRead')}
                         >
                           <Check className="h-3.5 w-3.5" />
                         </Button>
@@ -155,7 +157,7 @@ export function NotificationCenter() {
                         size="icon"
                         className="h-7 w-7 hover:bg-destructive/10 hover:text-destructive"
                         onClick={() => deleteNotification(notification.id)}
-                        title="Delete"
+                        title={t('actions.delete')}
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
@@ -176,7 +178,7 @@ export function NotificationCenter() {
                 className="w-full text-xs"
                 onClick={() => window.location.href = '/portal/notifications'}
               >
-                View all notifications
+                {t('viewAll')}
               </Button>
             </div>
           </>

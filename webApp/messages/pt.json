@@ -225,7 +225,39 @@
     "registrationError": "Falha no cadastro. Tente novamente."
   },
   "utils": {
-    "loading": "Carregando..."
+    "loading": "Carregando...",
+    "loadingMessages": {
+      "default": "Carregando...",
+      "verifying": "Verificando seu acesso...",
+      "loading": "Cultivando seus dados...",
+      "fetching": "Colhendo informações...",
+      "gathering": "Reunindo recursos...",
+      "cultivating": "Cultivando resultados...",
+      "saving": "Plantando suas alterações...",
+      "updating": "Semeando suas atualizações...",
+      "persisting": "Enraizando seus dados...",
+      "creating": "Brotando novo crescimento...",
+      "adding": "Plantando novas sementes...",
+      "generating": "Nutrindo a criação...",
+      "deleting": "Podando galhos...",
+      "removing": "Limpando o sub-bosque...",
+      "cleaning": "Compostando dados antigos...",
+      "processing": "Nutrindo sua solicitação...",
+      "calculating": "Cultivando cálculos...",
+      "analyzing": "Examinando o ecossistema...",
+      "submitting": "Florescendo seu envio...",
+      "validating": "Verificando condições do solo...",
+      "navigating": "Cultivando novos caminhos...",
+      "loadingPage": "Florescendo à vista...",
+      "redirecting": "Ramificando para novo local...",
+      "loggingIn": "Criando raízes no sistema...",
+      "loggingOut": "Retornando à terra...",
+      "authenticating": "Verificando suas sementes...",
+      "uploading": "Plantando seus arquivos...",
+      "downloading": "Colhendo seus arquivos...",
+      "importing": "Transplantando dados...",
+      "exporting": "Reunindo a colheita..."
+    }
   },
   "Dashboard": {
     "appSubtitle": "Educação Ambiental",
@@ -1116,5 +1148,62 @@
       "description": "Definir as suas preferências de idioma e região",
       "currentLanguage": "O idioma atual é definido pela localização do seu navegador"
     }
+  },
+  "Notifications": {
+    "title": "Notificações",
+    "unread": "{count} não lidas",
+    "allCaughtUp": "Tudo em dia!",
+    "markAllRead": "Marcar todas como lidas",
+    "noNotifications": "Ainda sem notificações",
+    "viewAll": "Ver todas as notificações",
+    "loading": "Carregando...",
+    "types": {
+      "info": "Info",
+      "success": "Sucesso",
+      "warning": "Aviso",
+      "error": "Erro"
+    },
+    "actions": {
+      "markAsRead": "Marcar como lida",
+      "delete": "Eliminar"
+    },
+    "messages": {
+      "allMarkedRead": "Todas as notificações marcadas como lidas",
+      "deleted": "Notificação eliminada",
+      "deleteFailed": "Falha ao eliminar notificação",
+      "markReadFailed": "Falha ao marcar notificação como lida",
+      "markAllReadFailed": "Falha ao marcar todas as notificações como lidas"
+    }
+  },
+  "Search": {
+    "placeholder": "Pesquisar projetos, tarefas, voluntários...",
+    "minCharacters": "Digite pelo menos 2 caracteres para pesquisar",
+    "noResults": "Nenhum resultado encontrado para \"{query}\"",
+    "quickActions": "Ações Rápidas",
+    "pressEscToClose": "Ou pressione",
+    "toClose": "para fechar",
+    "results": {
+      "projects": "Projetos",
+      "tasks": "Tarefas",
+      "volunteers": "Voluntários"
+    },
+    "actions": {
+      "newProject": "Novo Projeto",
+      "newTask": "Nova Tarefa",
+      "registerVolunteer": "Registar Voluntário",
+      "viewAnalytics": "Ver Análises"
+    },
+    "shortcuts": {
+      "press": "Pressione",
+      "or": "ou",
+      "toggle": "para alternar",
+      "navigate": "para navegar",
+      "select": "para selecionar"
+    },
+    "hoursContributed": "horas contribuídas"
+  },
+  "Languages": {
+    "en": "English",
+    "pt": "Português"
   }
 }

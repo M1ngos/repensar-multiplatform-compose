@@ -22,8 +22,11 @@ import {
   CommandSeparator,
 } from '@/components/ui/command';
 import { cn } from '@/lib/utils';
+import { useTranslations, useLocale } from 'next-intl';
 
 export function GlobalSearch() {
+  const t = useTranslations('Search');
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResults | null>(null);
@@ -86,45 +89,45 @@ export function GlobalSearch() {
 
   const navigateToProject = useCallback(
     (id: number) => {
-      handleSelect(() => router.push(`/portal/projects/${id}`));
+      handleSelect(() => router.push(`/${locale}/portal/projects/${id}`));
     },
-    [handleSelect, router]
+    [handleSelect, router, locale]
   );
 
   const navigateToTask = useCallback(
     (id: number) => {
-      handleSelect(() => router.push(`/portal/tasks/${id}`));
+      handleSelect(() => router.push(`/${locale}/portal/tasks/${id}`));
     },
-    [handleSelect, router]
+    [handleSelect, router, locale]
   );
 
   const navigateToVolunteer = useCallback(
     (id: number) => {
-      handleSelect(() => router.push(`/portal/volunteers/${id}`));
+      handleSelect(() => router.push(`/${locale}/portal/volunteers/${id}`));
     },
-    [handleSelect, router]
+    [handleSelect, router, locale]
   );
 
   const quickActions = [
     {
-      label: 'New Project',
+      label: t('actions.newProject'),
       icon: FolderTree,
-      action: () => handleSelect(() => router.push('/portal/projects?action=new')),
+      action: () => handleSelect(() => router.push(`/${locale}/portal/projects?action=new`)),
     },
     {
-      label: 'New Task',
+      label: t('actions.newTask'),
       icon: CheckSquare,
-      action: () => handleSelect(() => router.push('/portal/tasks?action=new')),
+      action: () => handleSelect(() => router.push(`/${locale}/portal/tasks?action=new`)),
     },
     {
-      label: 'Register Volunteer',
+      label: t('actions.registerVolunteer'),
       icon: Users,
-      action: () => handleSelect(() => router.push('/portal/volunteers?action=register')),
+      action: () => handleSelect(() => router.push(`/${locale}/portal/volunteers?action=register`)),
     },
     {
-      label: 'View Analytics',
+      label: t('actions.viewAnalytics'),
       icon: FileText,
-      action: () => handleSelect(() => router.push('/portal/analytics')),
+      action: () => handleSelect(() => router.push(`/${locale}/portal/analytics`)),
     },
   ];
 
@@ -139,7 +142,7 @@ export function GlobalSearch() {
       <div className="flex items-center border-b px-3">
         <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
         <CommandInput
-          placeholder="Search projects, tasks, volunteers..."
+          placeholder={t('placeholder')}
           value={query}
           onValueChange={setQuery}
           className="border-0 focus:ring-0"
@@ -151,20 +154,20 @@ export function GlobalSearch() {
           {query.length < 2 ? (
             <div className="text-center text-sm text-muted-foreground py-6">
               <Leaf className="h-12 w-12 mx-auto mb-2 opacity-20" />
-              <p>Type at least 2 characters to search</p>
+              <p>{t('minCharacters')}</p>
               <p className="text-xs mt-1">
-                Or press <kbd className="px-1.5 py-0.5 bg-muted rounded text-xs">Esc</kbd> to close
+                {t('pressEscToClose')} <kbd className="px-1.5 py-0.5 bg-muted rounded text-xs">Esc</kbd> {t('toClose')}
               </p>
             </div>
           ) : (
             <div className="text-center text-sm text-muted-foreground py-6">
-              No results found for "{query}"
+              {t('noResults', { query })}
             </div>
           )}
         </CommandEmpty>
 
         {query.length === 0 && (
-          <CommandGroup heading="Quick Actions" className="p-2">
+          <CommandGroup heading={t('quickActions')} className="p-2">
             {quickActions.map((action) => (
               <CommandItem
                 key={action.label}
@@ -183,7 +186,7 @@ export function GlobalSearch() {
         {results && results.projects && results.projects.length > 0 && (
           <>
             <CommandSeparator />
-            <CommandGroup heading="Projects" className="p-2">
+            <CommandGroup heading={t('results.projects')} className="p-2">
               {results.projects.map((project) => (
                 <CommandItem
                   key={project.id}
@@ -220,7 +223,7 @@ export function GlobalSearch() {
         {results && results.tasks && results.tasks.length > 0 && (
           <>
             <CommandSeparator />
-            <CommandGroup heading="Tasks" className="p-2">
+            <CommandGroup heading={t('results.tasks')} className="p-2">
               {results.tasks.map((task) => (
                 <CommandItem
                   key={task.id}
@@ -257,7 +260,7 @@ export function GlobalSearch() {
         {results && results.volunteers && results.volunteers.length > 0 && (
           <>
             <CommandSeparator />
-            <CommandGroup heading="Volunteers" className="p-2">
+            <CommandGroup heading={t('results.volunteers')} className="p-2">
               {results.volunteers.map((volunteer) => (
                 <CommandItem
                   key={volunteer.id}
@@ -270,7 +273,7 @@ export function GlobalSearch() {
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{volunteer.user?.name}</p>
                     <p className="text-xs text-muted-foreground">
-                      {volunteer.total_hours_contributed} hours contributed
+                      {volunteer.total_hours_contributed} {t('hoursContributed')}
                     </p>
                   </div>
                   <span
@@ -292,12 +295,12 @@ export function GlobalSearch() {
 
       <div className="border-t px-3 py-2 text-xs text-muted-foreground flex items-center justify-between bg-muted/50">
         <span>
-          Press <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">⌘K</kbd> or{' '}
-          <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">Ctrl+K</kbd> to toggle
+          {t('shortcuts.press')} <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">⌘K</kbd> {t('shortcuts.or')}{' '}
+          <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">Ctrl+K</kbd> {t('shortcuts.toggle')}
         </span>
         <span>
-          <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">↑↓</kbd> to navigate,{' '}
-          <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">Enter</kbd> to select
+          <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">↑↓</kbd> {t('shortcuts.navigate')},{' '}
+          <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">Enter</kbd> {t('shortcuts.select')}
         </span>
       </div>
     </CommandDialog>

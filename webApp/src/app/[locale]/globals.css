@@ -339,6 +339,9 @@
   }
 
   /* Gradient backgrounds */
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
   .bg-gradient-forest {
     background: linear-gradient(135deg,
       oklch(0.4567 0.1234 152.3456) 0%,
@@ -365,6 +368,15 @@
   }
   .animate-pulse-soft {
     animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  .animate-spin-slow {
+    animation: spin-slow 3s linear infinite;
+  }
+  .animate-leaf-float {
+    animation: leaf-float 2s ease-in-out infinite;
+  }
+  .animate-grow-pulse {
+    animation: grow-pulse 2s ease-in-out infinite;
   }
 }
 
@@ -398,6 +410,116 @@
     opacity: 1;
   }
   50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes leaf-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-4px) rotate(-3deg) scale(1.05);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  75% {
+    transform: translateY(4px) rotate(3deg) scale(0.95);
+  }
+}
+
+@keyframes grow-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes particle-float {
+  0%, 100% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  25% {
+    transform: translate(-8px, -12px);
+  }
+  75% {
+    transform: translate(8px, -12px);
+  }
+}
+
+@keyframes bounce-dot {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes leaf-fall-enhanced {
+  0% {
+    transform: translateY(-100%) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
     opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(150%) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+@keyframes bloom-expand {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes season-cycle {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+    transform: translateY(-20px) rotate(90deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0) rotate(180deg);
+  }
+  75% {
+    opacity: 1;
+    transform: translateY(20px) rotate(270deg);
   }
 }

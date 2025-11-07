@@ -10,8 +10,11 @@ import { GlobalSearch } from '@/components/global-search';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function PortalLayout({ children }: { children: React.ReactNode }) {
+    const t = useTranslations('Search');
+
     return (
         <ProtectedRoute>
             <SidebarProvider>
@@ -41,7 +44,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
                                 }}
                             >
                                 <Search className="mr-2 h-4 w-4" />
-                                Search...
+                                {t('placeholder')}
                                 <kbd className="pointer-events-none absolute right-2 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
                                     <span className="text-xs">⌘</span>K
                                 </kbd>

@@ -1,12 +1,12 @@
 'use client';
 
 import { useLoading } from '@/lib/hooks/useLoading';
-import { Spinner } from '@/components/ui/spinner';
+import { NatureLoader } from '@/components/nature-loader';
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 export function LoadingOverlay() {
-    const { isLoading } = useLoading();
+    const { isLoading, loadingText } = useLoading();
     const [show, setShow] = useState(false);
     const t = useTranslations('utils');
 
@@ -23,15 +23,12 @@ export function LoadingOverlay() {
 
     if (!show) return null;
 
-    return ( //TODO: Improve this shitty animation
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent backdrop-blur transition-opacity duration-200">
-            <Spinner
-                className="h-16 w-16 text-primary"
-                style={{ animationDuration: '8s' }}
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-md transition-all duration-300 animate-in fade-in">
+            <NatureLoader
+                size="md"
+                text={loadingText || t('loading')}
             />
-            <p className="text-lg font-semibold text-card-foreground">
-                {t('loading')}
-            </p>
         </div>
     );
 }

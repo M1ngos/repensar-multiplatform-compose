@@ -3,7 +3,8 @@
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useRouter } from 'next/navigation';
 import { useEffect, ReactNode } from 'react';
-import { Loader2 } from 'lucide-react';
+import { NatureLoader } from '@/components/nature-loader';
+import { useTranslations } from 'next-intl';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -36,6 +37,7 @@ export function ProtectedRoute({
 }: ProtectedRouteProps) {
   const { authStatus, isAuthLoading } = useAuth();
   const router = useRouter();
+  const t = useTranslations('utils.loadingMessages');
 
   useEffect(() => {
     if (!isAuthLoading && !authStatus.is_authenticated) {
@@ -47,8 +49,8 @@ export function ProtectedRoute({
   if (isAuthLoading) {
     return (
       loadingComponent || (
-        <div className="flex min-h-screen items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+        <div className="flex min-h-screen items-center justify-center bg-background">
+          <NatureLoader size="md" text={t('verifying')} />
         </div>
       )
     );
