@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { LanguageSwitcher } from '@/components/language-switcher';
 
 export default function SettingsPage() {
     const t = useTranslations('Settings');
@@ -156,7 +157,7 @@ export default function SettingsPage() {
                     </CardContent>
                 </Card>
 
-                {/* Language Settings (Placeholder) */}
+                {/* Language Settings */}
                 <Card>
                     <CardHeader>
                         <div className="flex items-center gap-2">
@@ -165,8 +166,11 @@ export default function SettingsPage() {
                         </div>
                         <CardDescription>{t('language.description')}</CardDescription>
                     </CardHeader>
-                    <CardContent>
-                        <p className="text-sm text-muted-foreground">{t('language.currentLanguage')}</p>
+                    <CardContent className="space-y-4">
+                        <div className="space-y-2">
+                            <Label>{t('language.selectLanguage')}</Label>
+                            <LanguageSwitcher />
+                        </div>
                     </CardContent>
                 </Card>
             </div>

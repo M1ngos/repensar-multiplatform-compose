@@ -1145,3 +1145,90 @@ export interface ProjectReport {
   report_data: Record<string, any>;
   generated_at: string;
 }
+
+// ==================== Notifications Types ====================
+
+export enum NotificationType {
+  INFO = "info",
+  SUCCESS = "success",
+  WARNING = "warning",
+  ERROR = "error"
+}
+
+export interface Notification {
+  id: number;
+  user_id: number;
+  title: string;
+  message: string;
+  type: NotificationType;
+  is_read: boolean;
+  read_at?: string;
+  project_id?: number;
+  task_id?: number;
+  volunteer_id?: number;
+  created_at: string;
+  updated_at?: string;
+}
+
+export interface NotificationCreate {
+  user_id: number;
+  title: string;
+  message: string;
+  type: NotificationType;
+  project_id?: number;
+  task_id?: number;
+  volunteer_id?: number;
+}
+
+export interface NotificationUpdate {
+  is_read?: boolean;
+}
+
+export interface NotificationQueryParams extends PaginationParams {
+  is_read?: boolean;
+  type?: NotificationType;
+  project_id?: number;
+  task_id?: number;
+}
+
+// ==================== Files & Attachments Types ====================
+
+export enum FileCategory {
+  PROFILE = "profile",
+  PROJECT = "project",
+  TASK = "task",
+  RESOURCE = "resource",
+  DOCUMENT = "document",
+  OTHER = "other"
+}
+
+export interface FileUpload {
+  id: number;
+  filename: string;
+  file_path: string;
+  file_size: number;
+  mime_type: string;
+  thumbnail_path?: string;
+  category: FileCategory;
+  project_id?: number;
+  task_id?: number;
+  volunteer_id?: number;
+  uploaded_by_id: number;
+  created_at: string;
+}
+
+export interface FileUploadParams {
+  file: File;
+  category: FileCategory;
+  project_id?: number;
+  task_id?: number;
+  volunteer_id?: number;
+  description?: string;
+}
+
+export interface FileQueryParams {
+  category?: FileCategory;
+  project_id?: number;
+  task_id?: number;
+  volunteer_id?: number;
+}

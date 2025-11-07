@@ -59,32 +59,32 @@ export default function ProjectsPage() {
     const getStatusColor = (status: ProjectStatus) => {
         switch (status) {
             case 'planning':
-                return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
+                return 'bg-sky/10 text-sky border-sky/20';
             case 'in_progress':
-                return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
+                return 'bg-leaf/10 text-leaf border-leaf/20';
             case 'suspended':
-                return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
+                return 'bg-sunset/10 text-sunset border-sunset/20';
             case 'completed':
-                return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300';
+                return 'bg-growth/10 text-growth border-growth/20';
             case 'cancelled':
-                return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+                return 'bg-destructive/10 text-destructive border-destructive/20';
             default:
-                return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
+                return 'bg-muted text-muted-foreground border-border';
         }
     };
 
     const getPriorityColor = (priority: string) => {
         switch (priority) {
             case 'critical':
-                return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+                return 'bg-destructive/10 text-destructive border-destructive/20';
             case 'high':
-                return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300';
+                return 'bg-sunset/10 text-sunset border-sunset/20';
             case 'medium':
-                return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
+                return 'bg-amber/10 text-amber border-amber/20';
             case 'low':
-                return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
+                return 'bg-moss/10 text-moss border-moss/20';
             default:
-                return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
+                return 'bg-muted text-muted-foreground border-border';
         }
     };
 
