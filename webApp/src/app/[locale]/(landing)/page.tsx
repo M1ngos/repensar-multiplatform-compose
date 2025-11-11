@@ -25,9 +25,17 @@ import {
   Download
 } from 'lucide-react';
 import ThreeBackground from "@/components/ui/3d/ThreeBackground";
+import { volunteersApi } from "@/lib/api/volunteers";
+import { projectsApi } from "@/lib/api/projects";
+import type { VolunteerStats, ProjectStats } from "@/lib/api/types";
 
 export default function Page() {
   const t = useTranslations('Landing');
+
+  // State for real-time statistics
+  const [volunteerStats, setVolunteerStats] = useState<VolunteerStats | null>(null);
+  const [projectStats, setProjectStats] = useState<ProjectStats | null>(null);
+  const [statsLoading, setStatsLoading] = useState(true);
 
   const programs = [
     {
@@ -47,11 +55,28 @@ export default function Page() {
     }
   ];
 
+  // Dynamic stats with real data
   const stats = [
-    { number: t('stats.stat1.number'), label: t('stats.stat1.label'), icon: <Users suppressHydrationWarning className="w-6 h-6" /> },
-    { number: t('stats.stat2.number'), label: t('stats.stat2.label'), icon: <Target suppressHydrationWarning className="w-6 h-6" /> },
-    { number: t('stats.stat3.number'), label: t('stats.stat3.label'), icon: <BookOpen suppressHydrationWarning className="w-6 h-6" /> },
-    { number: t('stats.stat4.number'), label: t('stats.stat4.label'), icon: <Award suppressHydrationWarning className="w-6 h-6" /> }
+    {
+      number: statsLoading ? '...' : (volunteerStats?.active_volunteers != null ? volunteerStats.active_volunteers.toLocaleString() : t('stats.stat1.number')),
+      label: t('stats.stat1.label'),
+      icon: <Users suppressHydrationWarning className="w-6 h-6" />
+    },
+    {
+      number: statsLoading ? '...' : (projectStats?.completed_projects != null ? projectStats.completed_projects.toLocaleString() : t('stats.stat2.number')),
+      label: t('stats.stat2.label'),
+      icon: <Target suppressHydrationWarning className="w-6 h-6" />
+    },
+    {
+      number: statsLoading ? '...' : (projectStats?.active_projects != null ? projectStats.active_projects.toLocaleString() : t('stats.stat3.number')),
+      label: t('stats.stat3.label'),
+      icon: <BookOpen suppressHydrationWarning className="w-6 h-6" />
+    },
+    {
+      number: statsLoading ? '...' : (volunteerStats?.total_hours != null ? `${volunteerStats.total_hours.toLocaleString()}h` : t('stats.stat4.number')),
+      label: t('stats.stat4.label'),
+      icon: <Award suppressHydrationWarning className="w-6 h-6" />
+    }
   ];
 
   const teamMembers = [
@@ -73,6 +98,30 @@ export default function Page() {
   ];
 
     const [scrollY, setScrollY] = useState(0);
+
+    // Fetch statistics on component mount
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                setStatsLoading(true);
+
+                const [volStats, projStats] = await Promise.all([
+                    volunteersApi.getVolunteerStats(),
+                    projectsApi.getProjectsStats()
+                ]);
+
+                setVolunteerStats(volStats);
+                setProjectStats(projStats);
+            } catch (error) {
+                console.error('Error fetching statistics:', error);
+                // Fallback to translation values on error
+            } finally {
+                setStatsLoading(false);
+            }
+        };
+
+        fetchStats();
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
@@ -311,15 +360,21 @@ export default function Page() {
             </p>
             <div className="grid md:grid-cols-3 gap-6 mt-8">
               <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-500 mb-2">{t('volunteer.whyVolunteer.stat1.number')}</div>
+                <div className="text-3xl font-bold text-emerald-500 mb-2">
+                  {statsLoading ? '...' : (volunteerStats?.active_volunteers != null ? `${volunteerStats.active_volunteers.toLocaleString()}+` : t('volunteer.whyVolunteer.stat1.number'))}
+                </div>
                 <div className="text-gray-600 dark:text-gray-300">{t('volunteer.whyVolunteer.stat1.label')}</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-500 mb-2">{t('volunteer.whyVolunteer.stat2.number')}</div>
+                <div className="text-3xl font-bold text-emerald-500 mb-2">
+                  {statsLoading ? '...' : (projectStats?.active_projects != null ? `${projectStats.active_projects.toLocaleString()}+` : t('volunteer.whyVolunteer.stat2.number'))}
+                </div>
                 <div className="text-gray-600 dark:text-gray-300">{t('volunteer.whyVolunteer.stat2.label')}</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-500 mb-2">{t('volunteer.whyVolunteer.stat3.number')}</div>
+                <div className="text-3xl font-bold text-emerald-500 mb-2">
+                  {statsLoading ? '...' : (volunteerStats?.total_hours != null ? `${volunteerStats.total_hours.toLocaleString()}h` : t('volunteer.whyVolunteer.stat3.number'))}
+                </div>
                 <div className="text-gray-600 dark:text-gray-300">{t('volunteer.whyVolunteer.stat3.label')}</div>
               </div>
             </div>
