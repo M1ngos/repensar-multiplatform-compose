@@ -139,8 +139,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </SidebarMenu>
             </SidebarHeader>
 
-            <SidebarSeparator />
-
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel>{t('nav.main')}</SidebarGroupLabel>
