@@ -2,7 +2,7 @@
 
 import useSWR from 'swr';
 import Link from 'next/link';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { IconExternalLink, IconUsers, IconClock, IconArrowRight } from "@tabler/icons-react";
 import { projectsApi } from "@/lib/api";
 import {
@@ -17,9 +17,11 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent } from "@/components/ui/empty";
 
 export function RecentProjects() {
   const locale = useLocale();
+  const t = useTranslations('Dashboard.recentProjects');
   const { data: projects, isLoading } = useSWR('projects-dashboard', () => projectsApi.getProjectsDashboard());
 
   const getStatusColor = (status: string) => {
@@ -58,12 +60,12 @@ export function RecentProjects() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>Recent Projects</CardTitle>
-            <CardDescription>Your active environmental initiatives</CardDescription>
+            <CardTitle>{t('title')}</CardTitle>
+            <CardDescription>{t('subtitle')}</CardDescription>
           </div>
           <Link href={`/${locale}/portal/projects`}>
             <Button variant="ghost" size="sm" className="gap-1">
-              View all
+              {t('viewAll')}
               <IconArrowRight className="h-4 w-4" />
             </Button>
           </Link>
@@ -84,15 +86,22 @@ export function RecentProjects() {
             ))}
           </div>
         ) : !projects || projects.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">🌱</div>
-            <p className="text-muted-foreground">No projects found</p>
-            <Link href={`/${locale}/portal/projects`}>
-              <Button variant="outline" className="mt-4">
-                Create your first project
-              </Button>
-            </Link>
-          </div>
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <IconExternalLink className="size-6" />
+              </EmptyMedia>
+              <EmptyTitle>{t('noProjects')}</EmptyTitle>
+              <EmptyDescription>{t('noProjectsDesc')}</EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent>
+              <Link href={`/${locale}/portal/projects`}>
+                <Button variant="outline">
+                  {t('createFirst')}
+                </Button>
+              </Link>
+            </EmptyContent>
+          </Empty>
         ) : (
           <div className="space-y-4">
             {projects.slice(0, 5).map((project, index) => (

@@ -261,6 +261,18 @@
   },
   "Dashboard": {
     "appSubtitle": "Environmental Education",
+    "recentProjects": {
+      "title": "Recent Projects",
+      "subtitle": "Your active environmental initiatives",
+      "viewAll": "View all",
+      "noProjects": "No projects found",
+      "noProjectsDesc": "Get started by creating your first environmental project",
+      "createFirst": "Create your first project"
+    },
+    "sidebarProjects": {
+      "noProjects": "No projects",
+      "noProjectsDesc": "Create your first project to get started"
+    },
     "nav": {
       "main": "Main Navigation",
       "other": "Other",
@@ -358,6 +370,7 @@
     "allStatuses": "All statuses",
     "allCategories": "All categories",
     "noProjects": "No projects found",
+    "noProjectsDesc": "Create your first environmental project to start making an impact",
     "errorLoading": "Error loading projects",
     "table": {
       "name": "Name",
@@ -759,6 +772,7 @@
     "allStatuses": "All Statuses",
     "errorLoading": "Error loading volunteers",
     "noVolunteers": "No volunteers found",
+    "noVolunteersDesc": "Start building your volunteer community by adding members",
     "table": {
       "hours": "Hours",
       "skills": "Skills",

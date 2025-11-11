@@ -21,6 +21,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
 import { format } from 'date-fns';
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent } from '@/components/ui/empty';
 
 const VOLUNTEER_STATUSES: VolunteerStatus[] = [
     VolunteerStatus.ACTIVE,
@@ -120,8 +121,22 @@ export default function VolunteersPage() {
                             <p className="text-muted-foreground">{t('errorLoading')}</p>
                         </div>
                     ) : !volunteers || volunteers.length === 0 ? (
-                        <div className="col-span-full text-center py-12">
-                            <p className="text-muted-foreground">{t('noVolunteers')}</p>
+                        <div className="col-span-full">
+                            <Empty>
+                                <EmptyHeader>
+                                    <EmptyMedia variant="icon">
+                                        <Award />
+                                    </EmptyMedia>
+                                    <EmptyTitle>{t('noVolunteers')}</EmptyTitle>
+                                    <EmptyDescription>{t('noVolunteersDesc')}</EmptyDescription>
+                                </EmptyHeader>
+                                <EmptyContent>
+                                    <Button>
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        {t('newVolunteer')}
+                                    </Button>
+                                </EmptyContent>
+                            </Empty>
                         </div>
                     ) : (
                         volunteers.map((volunteer) => (

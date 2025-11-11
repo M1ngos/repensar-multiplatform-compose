@@ -21,6 +21,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
 import { ResourceFormDialog } from '@/components/resources/resource-form-dialog';
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent } from '@/components/ui/empty';
 
 const RESOURCE_TYPES: ResourceType[] = [
     ResourceType.HUMAN,
@@ -152,11 +153,21 @@ export default function ResourcesPage() {
                     <p className="text-destructive">{t('errorLoading')}</p>
                 </div>
             ) : !resources || resources.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-12">
-                    <Package className="mb-4 h-12 w-12 text-muted-foreground" />
-                    <p className="text-lg font-medium">{t('noResources')}</p>
-                    <p className="text-muted-foreground">{t('noResourcesDesc')}</p>
-                </div>
+                <Empty>
+                    <EmptyHeader>
+                        <EmptyMedia variant="icon">
+                            <Package />
+                        </EmptyMedia>
+                        <EmptyTitle>{t('noResources')}</EmptyTitle>
+                        <EmptyDescription>{t('noResourcesDesc')}</EmptyDescription>
+                    </EmptyHeader>
+                    <EmptyContent>
+                        <Button onClick={() => setIsFormDialogOpen(true)}>
+                            <Plus className="mr-2 h-4 w-4" />
+                            {t('newResource')}
+                        </Button>
+                    </EmptyContent>
+                </Empty>
             ) : (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {resources.map((resource) => (

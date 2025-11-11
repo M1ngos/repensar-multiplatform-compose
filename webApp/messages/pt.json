@@ -261,6 +261,18 @@
   },
   "Dashboard": {
     "appSubtitle": "Educação Ambiental",
+    "recentProjects": {
+      "title": "Projetos Recentes",
+      "subtitle": "Suas iniciativas ambientais ativas",
+      "viewAll": "Ver todos",
+      "noProjects": "Nenhum projeto encontrado",
+      "noProjectsDesc": "Comece criando seu primeiro projeto ambiental",
+      "createFirst": "Crie seu primeiro projeto"
+    },
+    "sidebarProjects": {
+      "noProjects": "Nenhum projeto",
+      "noProjectsDesc": "Crie seu primeiro projeto para começar"
+    },
     "nav": {
       "main": "Navegação Principal",
       "other": "Outros",
@@ -358,6 +370,7 @@
     "allStatuses": "Todos os status",
     "allCategories": "Todas as categorias",
     "noProjects": "Nenhum projeto encontrado",
+    "noProjectsDesc": "Crie seu primeiro projeto ambiental para começar a causar impacto",
     "errorLoading": "Erro ao carregar projetos",
     "table": {
       "name": "Nome",
@@ -759,6 +772,7 @@
     "allStatuses": "Todos os Status",
     "errorLoading": "Erro ao carregar voluntários",
     "noVolunteers": "Nenhum voluntário encontrado",
+    "noVolunteersDesc": "Comece a construir sua comunidade de voluntários adicionando membros",
     "table": {
       "hours": "Horas",
       "skills": "Habilidades",

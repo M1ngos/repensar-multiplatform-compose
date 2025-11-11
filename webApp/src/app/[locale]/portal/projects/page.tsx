@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
-import { Plus, Search, Filter, MapPin, Users } from 'lucide-react';
+import { Plus, Search, Filter, MapPin, Users, FolderKanban } from 'lucide-react';
 import { projectsApi } from '@/lib/api';
 import type { ProjectQueryParams, ProjectStatus, ProjectCategory } from '@/lib/api/types';
 import { Button } from '@/components/ui/button';
@@ -21,6 +21,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent } from '@/components/ui/empty';
 
 const PROJECT_STATUSES = ['planning', 'in_progress', 'suspended', 'completed', 'cancelled'] as const;
 const PROJECT_CATEGORIES = [
@@ -163,8 +164,22 @@ export default function ProjectsPage() {
                             <p className="text-muted-foreground">{t('errorLoading')}</p>
                         </div>
                     ) : !projects || projects.length === 0 ? (
-                        <div className="col-span-full text-center py-12">
-                            <p className="text-muted-foreground">{t('noProjects')}</p>
+                        <div className="col-span-full">
+                            <Empty>
+                                <EmptyHeader>
+                                    <EmptyMedia variant="icon">
+                                        <FolderKanban />
+                                    </EmptyMedia>
+                                    <EmptyTitle>{t('noProjects')}</EmptyTitle>
+                                    <EmptyDescription>{t('noProjectsDesc')}</EmptyDescription>
+                                </EmptyHeader>
+                                <EmptyContent>
+                                    <Button onClick={() => setIsFormOpen(true)}>
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        {t('newProject')}
+                                    </Button>
+                                </EmptyContent>
+                            </Empty>
                         </div>
                     ) : (
                         projects.map((project) => (
