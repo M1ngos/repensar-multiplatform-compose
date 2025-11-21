@@ -27,15 +27,20 @@ import {
 import ThreeBackground from "@/components/ui/3d/ThreeBackground";
 import { volunteersApi } from "@/lib/api/volunteers";
 import { projectsApi } from "@/lib/api/projects";
-import type { VolunteerStats, ProjectStats } from "@/lib/api/types";
+import { blogApi } from "@/lib/api";
+import type { VolunteerStats, ProjectStats, BlogPostSummary } from "@/lib/api/types";
+import { BlogPostCard } from "@/components/blog";
+import { ArrowRight } from 'lucide-react';
 
-export default function Page() {
+export default function Page({ params }: { params: { locale: string } }) {
   const t = useTranslations('Landing');
 
   // State for real-time statistics
   const [volunteerStats, setVolunteerStats] = useState<VolunteerStats | null>(null);
   const [projectStats, setProjectStats] = useState<ProjectStats | null>(null);
   const [statsLoading, setStatsLoading] = useState(true);
+  const [latestPosts, setLatestPosts] = useState<BlogPostSummary[]>([]);
+  const [postsLoading, setPostsLoading] = useState(true);
 
   const programs = [
     {
@@ -99,7 +104,7 @@ export default function Page() {
 
     const [scrollY, setScrollY] = useState(0);
 
-    // Fetch statistics on component mount
+    // Fetch statistics and blog posts on component mount
     useEffect(() => {
         const fetchStats = async () => {
             try {
@@ -120,7 +125,20 @@ export default function Page() {
             }
         };
 
+        const fetchBlogPosts = async () => {
+            try {
+                setPostsLoading(true);
+                const response = await blogApi.getPosts({ limit: 3 });
+                setLatestPosts(response.items);
+            } catch (error) {
+                console.error('Error fetching blog posts:', error);
+            } finally {
+                setPostsLoading(false);
+            }
+        };
+
         fetchStats();
+        fetchBlogPosts();
     }, []);
 
     useEffect(() => {
@@ -425,6 +443,51 @@ export default function Page() {
         </div>
       </section>
 
+      {/* Blog Section */}
+      <section id="blog" className="py-20 bg-white dark:bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+              Latest from Our <span className="text-emerald-500">Blog</span>
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Stay updated with our latest stories, insights, and environmental conservation efforts
+            </p>
+          </div>
+
+          {postsLoading ? (
+            <div className="grid md:grid-cols-3 gap-8">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-gray-200 dark:bg-gray-700 rounded-2xl h-96 animate-pulse" />
+              ))}
+            </div>
+          ) : latestPosts.length > 0 ? (
+            <>
+              <div className="grid md:grid-cols-3 gap-8">
+                {latestPosts.map((post) => (
+                  <BlogPostCard key={post.id} post={post} locale={params.locale} />
+                ))}
+              </div>
+              <div className="text-center mt-12">
+                <a
+                  href={`/${params.locale}/blog`}
+                  className="inline-flex items-center space-x-2 px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  <span>View All Posts</span>
+                  <ArrowRight className="w-5 h-5" />
+                </a>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-lg text-gray-600 dark:text-gray-300">
+                No blog posts available yet. Check back soon!
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* Contact Section */}
       <section id="contact" className="py-20 bg-gradient-to-br from-gray-50 to-emerald-50 dark:from-gray-800 dark:to-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -548,6 +611,7 @@ export default function Page() {
                 <li><a href="#programs" className="hover:text-white transition-colors duration-300">{t('footer.links.programs')}</a></li>
                 <li><a href="#volunteer" className="hover:text-white transition-colors duration-300">{t('footer.links.volunteer')}</a></li>
                 <li><a href="#team" className="hover:text-white transition-colors duration-300">{t('footer.links.team')}</a></li>
+                <li><a href={`/${params.locale}/blog`} className="hover:text-white transition-colors duration-300">Blog</a></li>
               </ul>
             </div>
 

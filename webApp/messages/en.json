@@ -1249,5 +1249,56 @@
   "Languages": {
     "en": "English",
     "pt": "Português"
+  },
+  "Blog": {
+    "title": "Our Blog",
+    "subtitle": "Stories, updates, and insights from our environmental conservation journey",
+    "backToHome": "Back to Home",
+    "backToBlog": "Back to Blog",
+    "viewAllPosts": "View All Posts",
+    "readMore": "Read more",
+    "relatedPosts": "Related Posts",
+    "tags": "Tags",
+    "categories": "Categories",
+    "postedBy": "Posted by",
+    "publishedOn": "Published on",
+    "readTime": "{minutes} min read",
+    "noPostsFound": "No blog posts found",
+    "noPostsFoundDesc": "Check back later for new content",
+    "noCategoriesFound": "No categories found",
+    "noTagsFound": "No tags available",
+    "postNotFound": "Post Not Found",
+    "postNotFoundDesc": "The post you are looking for does not exist or has been removed.",
+    "browseAllPosts": "Browse All Posts",
+    "loading": "Loading blog posts...",
+    "showingResults": "Showing {start}-{end} of {total} posts",
+    "searchPlaceholder": "Search posts...",
+    "filterPosts": "Filter Posts",
+    "clearFilters": "Clear",
+    "activeFilters": "Active Filters",
+    "search": "Search",
+    "status": "Status",
+    "category": "Category",
+    "tag": "Tag",
+    "allStatuses": "All statuses",
+    "allCategories": "All categories",
+    "allTags": "All tags",
+    "published": "Published",
+    "draft": "Draft",
+    "tabs": {
+      "posts": "Posts",
+      "categories": "Categories",
+      "tags": "Tags"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {current} of {total}"
+    },
+    "landing": {
+      "title": "Latest from Our",
+      "titleHighlight": "Blog",
+      "subtitle": "Stay updated with our latest stories, insights, and environmental conservation efforts"
+    }
   }
 }

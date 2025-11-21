@@ -1232,3 +1232,144 @@ export interface FileQueryParams {
   task_id?: number;
   volunteer_id?: number;
 }
+
+// ==================== Blog Types ====================
+
+export enum BlogPostStatus {
+  DRAFT = "draft",
+  PUBLISHED = "published"
+}
+
+export interface BlogAuthor {
+  id: number;
+  full_name: string;
+  email: string;
+}
+
+export interface BlogCategory {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string;
+  post_count?: number;
+  created_at: string;
+}
+
+export interface BlogTag {
+  id: number;
+  name: string;
+  slug: string;
+  post_count?: number;
+  created_at: string;
+}
+
+export interface BlogPost {
+  id: number;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt?: string;
+  status: BlogPostStatus;
+  author_id: number;
+  author?: BlogAuthor;
+  featured_image_url?: string;
+  categories: BlogCategory[];
+  tags: BlogTag[];
+  published_at?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BlogPostSummary {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt?: string;
+  status: BlogPostStatus;
+  author: BlogAuthor;
+  featured_image_url?: string;
+  categories: BlogCategory[];
+  tags: BlogTag[];
+  published_at?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BlogPostCreate {
+  title: string;
+  content: string;
+  excerpt?: string;
+  status: BlogPostStatus;
+  featured_image_url?: string;
+  category_ids: number[];
+  tag_ids: number[];
+}
+
+export interface BlogPostUpdate {
+  title?: string;
+  content?: string;
+  excerpt?: string;
+  status?: BlogPostStatus;
+  featured_image_url?: string;
+  category_ids?: number[];
+  tag_ids?: number[];
+}
+
+export interface BlogCategoryCreate {
+  name: string;
+  description?: string;
+}
+
+export interface BlogCategoryUpdate {
+  name?: string;
+  description?: string;
+}
+
+export interface BlogTagCreate {
+  name: string;
+}
+
+export interface BlogTagUpdate {
+  name: string;
+}
+
+export interface BlogPostListParams {
+  status?: BlogPostStatus;
+  category?: string;
+  tag?: string;
+  search?: string;
+  author_id?: number;
+  skip?: number;
+  limit?: number;
+}
+
+export interface BlogPostListResponse {
+  items: BlogPostSummary[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
+export interface BlogCategoryListParams {
+  skip?: number;
+  limit?: number;
+}
+
+export interface BlogCategoryListResponse {
+  items: BlogCategory[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
+export interface BlogTagListParams {
+  skip?: number;
+  limit?: number;
+}
+
+export interface BlogTagListResponse {
+  items: BlogTag[];
+  total: number;
+  skip: number;
+  limit: number;
+}

@@ -43,9 +43,10 @@ import { usersApi } from './users';
 import { resourcesApi } from './resources';
 import { analyticsApi } from './analytics';
 import { reportsApi } from './reports';
+import { blogApi } from './blog';
 
 // Export API modules
-export { authApi, projectsApi, tasksApi, volunteersApi, usersApi, resourcesApi, analyticsApi, reportsApi };
+export { authApi, projectsApi, tasksApi, volunteersApi, usersApi, resourcesApi, analyticsApi, reportsApi, blogApi };
 
 // Export middleware (when implemented)
 // export {
@@ -73,6 +74,7 @@ export const api = {
   resources: resourcesApi,
   analytics: analyticsApi,
   reports: reportsApi,
+  blog: blogApi,
 };
 
 // Default export

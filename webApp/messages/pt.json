@@ -1219,5 +1219,56 @@
   "Languages": {
     "en": "English",
     "pt": "Português"
+  },
+  "Blog": {
+    "title": "Nosso Blog",
+    "subtitle": "Histórias, atualizações e insights da nossa jornada de conservação ambiental",
+    "backToHome": "Voltar à Página Inicial",
+    "backToBlog": "Voltar ao Blog",
+    "viewAllPosts": "Ver Todas as Publicações",
+    "readMore": "Ler mais",
+    "relatedPosts": "Publicações Relacionadas",
+    "tags": "Etiquetas",
+    "categories": "Categorias",
+    "postedBy": "Publicado por",
+    "publishedOn": "Publicado em",
+    "readTime": "{minutes} min de leitura",
+    "noPostsFound": "Nenhuma publicação encontrada",
+    "noPostsFoundDesc": "Volte mais tarde para novo conteúdo",
+    "noCategoriesFound": "Nenhuma categoria encontrada",
+    "noTagsFound": "Nenhuma etiqueta disponível",
+    "postNotFound": "Publicação Não Encontrada",
+    "postNotFoundDesc": "A publicação que procura não existe ou foi removida.",
+    "browseAllPosts": "Navegar Todas as Publicações",
+    "loading": "Carregando publicações...",
+    "showingResults": "Mostrando {start}-{end} de {total} publicações",
+    "searchPlaceholder": "Pesquisar publicações...",
+    "filterPosts": "Filtrar Publicações",
+    "clearFilters": "Limpar",
+    "activeFilters": "Filtros Ativos",
+    "search": "Pesquisar",
+    "status": "Estado",
+    "category": "Categoria",
+    "tag": "Etiqueta",
+    "allStatuses": "Todos os estados",
+    "allCategories": "Todas as categorias",
+    "allTags": "Todas as etiquetas",
+    "published": "Publicado",
+    "draft": "Rascunho",
+    "tabs": {
+      "posts": "Publicações",
+      "categories": "Categorias",
+      "tags": "Etiquetas"
+    },
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Próximo",
+      "page": "Página {current} de {total}"
+    },
+    "landing": {
+      "title": "Últimas do Nosso",
+      "titleHighlight": "Blog",
+      "subtitle": "Fique atualizado com as nossas últimas histórias, insights e esforços de conservação ambiental"
+    }
   }
 }
