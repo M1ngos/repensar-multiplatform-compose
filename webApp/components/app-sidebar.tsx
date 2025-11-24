@@ -17,6 +17,7 @@ import {
     LogOut,
     Leaf,
     BookOpen,
+    ClipboardCheck,
 } from 'lucide-react';
 
 import {
@@ -88,6 +89,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             title: t('nav.volunteers'),
             href: `/${locale}/portal/volunteers`,
             icon: Heart,
+        },
+        {
+            title: t('nav.approvals') || 'Approvals',
+            href: `/${locale}/portal/approvals/time-logs`,
+            icon: ClipboardCheck,
+            roles: ['admin', 'project_manager', 'staff_member'], // Supervisors and above
         },
         {
             title: t('nav.users'),

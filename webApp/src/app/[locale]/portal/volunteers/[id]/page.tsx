@@ -5,26 +5,41 @@
  import {useTranslations} from 'next-intl';
  import useSWR from 'swr';
  import {volunteersApi} from '@/lib/api';
+ import {useAuth} from '@/lib/hooks/useAuth';
+ import {canEditTimeLog, canDeleteTimeLog, canLogHoursForOthers, canApproveTimeLogs} from '@/lib/permissions/timeTracking';
  import {Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
  import {Badge} from '@/components/ui/badge';
  import {Skeleton} from '@/components/ui/skeleton';
  import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
  import {Button} from '@/components/ui/button';
- import {AlertCircle, Award, Calendar, CheckCircle2, Clock, Edit, Mail, MapPin, Phone, Plus, User, Trophy} from 'lucide-react';
+ import {AlertCircle, Award, Calendar, CheckCircle2, Clock, Edit, Mail, MapPin, Phone, Plus, User, Trophy, Eye, Trash2} from 'lucide-react';
  import {format} from 'date-fns';
  import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from '@/components/ui/table';
  import {VolunteerFormDialog} from '@/components/volunteers/volunteer-form-dialog';
  import {AddSkillDialog} from '@/components/volunteers/add-skill-dialog';
  import {LogHoursDialog} from '@/components/volunteers/log-hours-dialog';
+ import {TimeLogDetailDialog} from '@/components/volunteers/time-log-detail-dialog';
+ import {EditTimeLogDialog} from '@/components/volunteers/edit-time-log-dialog';
+ import {DeleteTimeLogDialog} from '@/components/volunteers/delete-time-log-dialog';
  import {VolunteerGamificationTab} from '@/components/gamification/volunteer-gamification-tab';
+ import type {VolunteerTimeLog} from '@/lib/api/types';
 
  export default function VolunteerDetailPage() {
     const params = useParams();
     const volunteerId = parseInt(params.id as string);
     const t = useTranslations('Volunteers');
+    const {user} = useAuth();
+
+    // Dialog state
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [isAddSkillDialogOpen, setIsAddSkillDialogOpen] = useState(false);
     const [isLogHoursDialogOpen, setIsLogHoursDialogOpen] = useState(false);
+
+    // Time log dialog state
+    const [selectedTimeLog, setSelectedTimeLog] = useState<VolunteerTimeLog | null>(null);
+    const [isTimeLogDetailOpen, setIsTimeLogDetailOpen] = useState(false);
+    const [isEditTimeLogOpen, setIsEditTimeLogOpen] = useState(false);
+    const [isDeleteTimeLogOpen, setIsDeleteTimeLogOpen] = useState(false);
 
     // Fetch volunteer profile
     const { data: volunteer, error, isLoading, mutate } = useSWR(
@@ -69,6 +84,30 @@
                 return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
         }
     };
+
+    // Time log action handlers
+    const handleViewTimeLog = (log: VolunteerTimeLog) => {
+        setSelectedTimeLog(log);
+        setIsTimeLogDetailOpen(true);
+    };
+
+    const handleEditTimeLog = (log: VolunteerTimeLog) => {
+        setSelectedTimeLog(log);
+        setIsEditTimeLogOpen(true);
+    };
+
+    const handleDeleteTimeLog = (log: VolunteerTimeLog) => {
+        setSelectedTimeLog(log);
+        setIsDeleteTimeLogOpen(true);
+    };
+
+    const handleTimeLogSuccess = () => {
+        // Refresh hours data after edit/delete
+        mutate();
+    };
+
+    // Check if the "Log Hours" button should be shown
+    const canLogHours = user?.id === volunteerId || canLogHoursForOthers(user);
 
     if (isLoading) {
         return (
@@ -360,10 +399,12 @@
                     <TabsContent value="hours" className="space-y-4">
                         <div className="flex justify-between items-center">
                             <h3 className="text-lg font-semibold">{t('detail.timeLog')}</h3>
-                            <Button onClick={() => setIsLogHoursDialogOpen(true)}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                {t('detail.logHours')}
-                            </Button>
+                            {canLogHours && (
+                                <Button onClick={() => setIsLogHoursDialogOpen(true)}>
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    {t('detail.logHours')}
+                                </Button>
+                            )}
                         </div>
 
                         <div className="rounded-lg border">
@@ -375,42 +416,81 @@
                                         <TableHead>{t('detail.hoursTable.project')}</TableHead>
                                         <TableHead>{t('detail.hoursTable.activity')}</TableHead>
                                         <TableHead>{t('detail.hoursTable.status')}</TableHead>
+                                        <TableHead className="text-right">Actions</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     {hours && hours.length > 0 ? (
-                                        hours.map((log) => (
-                                            <TableRow key={log.id}>
-                                                <TableCell className="text-sm">
-                                                    {format(new Date(log.date), 'PP')}
-                                                </TableCell>
-                                                <TableCell className="text-sm font-semibold tabular-nums">
-                                                    {log.hours}h
-                                                </TableCell>
-                                                <TableCell className="text-sm">
-                                                    {log.project_name || log.task_title || '-'}
-                                                </TableCell>
-                                                <TableCell className="text-sm max-w-xs truncate">
-                                                    {log.activity_description || '-'}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {log.approved ? (
-                                                        <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
-                                                            <CheckCircle2 className="mr-1 h-3 w-3" />
-                                                            {t('detail.approved')}
-                                                        </Badge>
-                                                    ) : (
-                                                        <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">
-                                                            <Clock className="mr-1 h-3 w-3" />
-                                                            {t('detail.pending')}
-                                                        </Badge>
-                                                    )}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))
+                                        hours.map((log) => {
+                                            const canEdit = canEditTimeLog(user, log);
+                                            const canDelete = canDeleteTimeLog(user, log);
+
+                                            return (
+                                                <TableRow key={log.id}>
+                                                    <TableCell className="text-sm">
+                                                        {format(new Date(log.date), 'PP')}
+                                                    </TableCell>
+                                                    <TableCell className="text-sm font-semibold tabular-nums">
+                                                        {log.hours}h
+                                                    </TableCell>
+                                                    <TableCell className="text-sm">
+                                                        {log.project_name || log.task_title || '-'}
+                                                    </TableCell>
+                                                    <TableCell className="text-sm max-w-xs truncate">
+                                                        {log.activity_description || '-'}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {log.approved ? (
+                                                            <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
+                                                                <CheckCircle2 className="mr-1 h-3 w-3" />
+                                                                {t('detail.approved')}
+                                                            </Badge>
+                                                        ) : (
+                                                            <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">
+                                                                <Clock className="mr-1 h-3 w-3" />
+                                                                {t('detail.pending')}
+                                                            </Badge>
+                                                        )}
+                                                    </TableCell>
+                                                    <TableCell className="text-right">
+                                                        <div className="flex justify-end gap-2">
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                onClick={() => handleViewTimeLog(log)}
+                                                                title="View Details"
+                                                            >
+                                                                <Eye className="h-4 w-4" />
+                                                            </Button>
+                                                            {canEdit && (
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() => handleEditTimeLog(log)}
+                                                                    title="Edit"
+                                                                >
+                                                                    <Edit className="h-4 w-4" />
+                                                                </Button>
+                                                            )}
+                                                            {canDelete && (
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() => handleDeleteTimeLog(log)}
+                                                                    title="Delete"
+                                                                    className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950"
+                                                                >
+                                                                    <Trash2 className="h-4 w-4" />
+                                                                </Button>
+                                                            )}
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        })
                                     ) : (
                                         <TableRow>
-                                            <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                                            <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
                                                 {t('detail.noHours')}
                                             </TableCell>
                                         </TableRow>
@@ -448,6 +528,27 @@
                     onOpenChange={setIsLogHoursDialogOpen}
                     volunteerId={volunteerId}
                     onSuccess={() => mutate()}
+                />
+
+                {/* Time Log Dialogs */}
+                <TimeLogDetailDialog
+                    open={isTimeLogDetailOpen}
+                    onOpenChange={setIsTimeLogDetailOpen}
+                    timeLog={selectedTimeLog}
+                />
+
+                <EditTimeLogDialog
+                    open={isEditTimeLogOpen}
+                    onOpenChange={setIsEditTimeLogOpen}
+                    timeLog={selectedTimeLog}
+                    onSuccess={handleTimeLogSuccess}
+                />
+
+                <DeleteTimeLogDialog
+                    open={isDeleteTimeLogOpen}
+                    onOpenChange={setIsDeleteTimeLogOpen}
+                    timeLog={selectedTimeLog}
+                    onSuccess={handleTimeLogSuccess}
                 />
             </div>
     );

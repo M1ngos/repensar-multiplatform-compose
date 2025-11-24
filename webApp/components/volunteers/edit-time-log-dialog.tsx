@@ -30,15 +30,16 @@ import {
     CommandItem,
     CommandList,
 } from '@/components/ui/command';
+import type { VolunteerTimeLog } from '@/lib/api/types';
 
-interface LogHoursDialogProps {
+interface EditTimeLogDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    volunteerId: number;
+    timeLog: VolunteerTimeLog | null;
     onSuccess?: () => void;
 }
 
-export function LogHoursDialog({ open, onOpenChange, volunteerId, onSuccess }: LogHoursDialogProps) {
+export function EditTimeLogDialog({ open, onOpenChange, timeLog, onSuccess }: EditTimeLogDialogProps) {
     const t = useTranslations('Volunteers');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [date, setDate] = useState<Date>(new Date());
@@ -57,6 +58,20 @@ export function LogHoursDialog({ open, onOpenChange, volunteerId, onSuccess }: L
     const [supervisorSearchQuery, setSupervisorSearchQuery] = useState('');
     const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
+    // Pre-fill form when timeLog changes
+    useEffect(() => {
+        if (timeLog && open) {
+            setDate(new Date(timeLog.date));
+            setHours(timeLog.hours.toString());
+            setStartTime(timeLog.start_time?.substring(0, 5) || ''); // HH:MM format
+            setEndTime(timeLog.end_time?.substring(0, 5) || '');
+            setActivityDescription(timeLog.activity_description || '');
+            setSelectedProjectId(timeLog.project_id || null);
+            setSelectedTaskId(timeLog.task_id || null);
+            setSelectedSupervisorId(timeLog.supervisor_id || null);
+        }
+    }, [timeLog, open]);
+
     // Fetch projects for selection
     const { data: projects } = useSWR(
         open ? ['projects', projectSearchQuery] : null,
@@ -73,7 +88,7 @@ export function LogHoursDialog({ open, onOpenChange, volunteerId, onSuccess }: L
         })
     );
 
-    // Fetch users for supervisor selection (staff and project managers)
+    // Fetch users for supervisor selection
     const { data: supervisorsData } = useSWR(
         open ? ['supervisors', supervisorSearchQuery] : null,
         () => usersApi.getUsers({
@@ -161,6 +176,8 @@ export function LogHoursDialog({ open, onOpenChange, volunteerId, onSuccess }: L
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        if (!timeLog) return;
+
         // Validate form
         if (!validateForm()) {
             toast.error('Please fix the errors in the form');
@@ -170,8 +187,7 @@ export function LogHoursDialog({ open, onOpenChange, volunteerId, onSuccess }: L
         setIsSubmitting(true);
 
         try {
-            await volunteersApi.logVolunteerHours(volunteerId, {
-                volunteer_id: volunteerId,
+            await volunteersApi.updateTimeLog(timeLog.id, {
                 date: format(date, 'yyyy-MM-dd'),
                 hours: parseFloat(hours),
                 start_time: startTime || undefined,
@@ -182,42 +198,26 @@ export function LogHoursDialog({ open, onOpenChange, volunteerId, onSuccess }: L
                 supervisor_id: selectedSupervisorId || undefined,
             });
 
-            toast.success(t('detail.hoursLogged') || 'Hours logged successfully!');
-
-            // Reset form
-            resetForm();
+            toast.success(t('detail.timeLogUpdated') || 'Time log updated successfully!');
             onOpenChange(false);
             onSuccess?.();
         } catch (error: any) {
-            console.error('Error logging hours:', error);
-            toast.error(error.detail || error.message || t('detail.hoursLogError') || 'Failed to log hours');
+            console.error('Error updating time log:', error);
+            toast.error(error.detail || error.message || t('detail.timeLogUpdateError') || 'Failed to update time log');
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    const resetForm = () => {
-        setDate(new Date());
-        setHours('');
-        setStartTime('');
-        setEndTime('');
-        setActivityDescription('');
-        setSelectedProjectId(null);
-        setSelectedTaskId(null);
-        setSelectedSupervisorId(null);
-        setProjectSearchQuery('');
-        setTaskSearchQuery('');
-        setSupervisorSearchQuery('');
-        setValidationErrors({});
-    };
+    if (!timeLog) return null;
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>{t('detail.logHours')}</DialogTitle>
+                    <DialogTitle>{t('detail.editTimeLog') || 'Edit Time Log'}</DialogTitle>
                     <DialogDescription>
-                        {t('detail.logHoursDescription') || 'Log volunteer hours for this period'}
+                        {t('detail.editTimeLogDescription') || 'Update the details of this time log entry'}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -555,7 +555,7 @@ export function LogHoursDialog({ open, onOpenChange, volunteerId, onSuccess }: L
                         </Button>
                         <Button type="submit" disabled={isSubmitting}>
                             {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            {t('detail.logHoursButton') || 'Log Hours'}
+                            {t('detail.updateTimeLog') || 'Update Time Log'}
                         </Button>
                     </DialogFooter>
                 </form>
