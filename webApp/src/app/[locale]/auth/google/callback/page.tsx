@@ -5,8 +5,10 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { authApi } from '@/lib/api/auth';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 export default function GoogleCallbackPage() {
+  const t = useTranslations('Login');
   const router = useRouter();
   const searchParams = useSearchParams();
   const { checkAuth } = useAuth();
@@ -34,7 +36,7 @@ export default function GoogleCallbackPage() {
         await checkAuth();
 
         setStatus('success');
-        toast.success('Successfully signed in with Google!');
+        toast.success(t('googleSignInSuccess'));
 
         // Redirect to portal after a short delay
         setTimeout(() => {
@@ -48,7 +50,7 @@ export default function GoogleCallbackPage() {
           error?.message ||
           'Failed to authenticate with Google. Please try again.'
         );
-        toast.error('Google Sign In failed');
+        toast.error(t('googleSignInFailed'));
 
         // Redirect to login after showing error
         setTimeout(() => {

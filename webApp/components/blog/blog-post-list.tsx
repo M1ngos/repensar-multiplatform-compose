@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { BlogPostSummary } from '@/lib/api/types';
 import { BlogPostCard } from './blog-post-card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -11,6 +12,7 @@ interface BlogPostListProps {
 }
 
 export function BlogPostList({ posts, isLoading = false, locale = 'en' }: BlogPostListProps) {
+  const t = useTranslations('Blog.list');
   if (isLoading) {
     return (
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -36,8 +38,8 @@ export function BlogPostList({ posts, isLoading = false, locale = 'en' }: BlogPo
   if (posts.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
-        <p className="text-lg font-medium text-muted-foreground">No blog posts found</p>
-        <p className="text-sm text-muted-foreground">Check back later for new content</p>
+        <p className="text-lg font-medium text-muted-foreground">{t('noPostsFound')}</p>
+        <p className="text-sm text-muted-foreground">{t('noPostsFoundDesc')}</p>
       </div>
     );
   }

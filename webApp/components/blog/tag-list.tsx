@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { BlogTag } from '@/lib/api/types';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -13,6 +14,7 @@ interface TagListProps {
 }
 
 export function TagList({ tags, isLoading = false, locale = 'en', variant = 'outline' }: TagListProps) {
+  const t = useTranslations('Blog.tagList');
   if (isLoading) {
     return (
       <div className="flex flex-wrap gap-2">
@@ -25,7 +27,7 @@ export function TagList({ tags, isLoading = false, locale = 'en', variant = 'out
 
   if (tags.length === 0) {
     return (
-      <div className="text-sm text-muted-foreground">No tags available</div>
+      <div className="text-sm text-muted-foreground">{t('noTagsAvailable')}</div>
     );
   }
 

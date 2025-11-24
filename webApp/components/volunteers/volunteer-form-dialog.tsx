@@ -92,7 +92,7 @@ export function VolunteerFormDialog({ open, onOpenChange, volunteer, onSuccess }
         e.preventDefault();
 
         if (!volunteer) {
-            toast.error('Volunteer data not found');
+            toast.error(t('detail.dataNotFound'));
             return;
         }
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { BlogPost } from '@/lib/api/types';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -13,6 +14,7 @@ interface BlogPostDetailProps {
 }
 
 export function BlogPostDetail({ post, locale = 'en' }: BlogPostDetailProps) {
+  const t = useTranslations('Blog.detail');
   const publishedDate = post.published_at
     ? format(new Date(post.published_at), 'MMMM dd, yyyy')
     : format(new Date(post.created_at), 'MMMM dd, yyyy');
@@ -76,7 +78,7 @@ export function BlogPostDetail({ post, locale = 'en' }: BlogPostDetailProps) {
             </time>
           </div>
           {post.status === 'draft' && (
-            <Badge variant="outline">Draft</Badge>
+            <Badge variant="outline">{t('draft')}</Badge>
           )}
         </div>
       </header>
@@ -93,7 +95,7 @@ export function BlogPostDetail({ post, locale = 'en' }: BlogPostDetailProps) {
         <footer className="border-t pt-6">
           <div className="flex items-center gap-2 text-sm">
             <IconTag className="h-4 w-4 text-muted-foreground" />
-            <span className="font-medium text-muted-foreground">Tags:</span>
+            <span className="font-medium text-muted-foreground">{t('tags')}:</span>
             <div className="flex flex-wrap gap-2">
               {post.tags.map((tag) => (
                 <Link

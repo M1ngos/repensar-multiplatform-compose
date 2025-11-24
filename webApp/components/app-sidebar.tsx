@@ -16,6 +16,7 @@ import {
     Settings,
     LogOut,
     Leaf,
+    BookOpen,
 } from 'lucide-react';
 
 import {
@@ -93,6 +94,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             href: `/${locale}/portal/users`,
             icon: Users,
             roles: ['admin', 'project_manager'], // Only admin and PMs can see users
+        },
+        {
+            title: t('nav.blog'),
+            href: `/${locale}/portal/blog`,
+            icon: BookOpen,
+            roles: ['admin', 'project_manager'], // Only admin and PMs can manage blog
         },
         {
             title: t('nav.analytics'),

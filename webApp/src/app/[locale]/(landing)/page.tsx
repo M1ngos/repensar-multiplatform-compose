@@ -32,8 +32,10 @@ import type { VolunteerStats, ProjectStats, BlogPostSummary } from "@/lib/api/ty
 import { BlogPostCard } from "@/components/blog";
 import { ArrowRight } from 'lucide-react';
 
-export default function Page({ params }: { params: { locale: string } }) {
+export default function Page({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = React.use(params);
   const t = useTranslations('Landing');
+  const tBlog = useTranslations('Blog.landing');
 
   // State for real-time statistics
   const [volunteerStats, setVolunteerStats] = useState<VolunteerStats | null>(null);
@@ -448,10 +450,10 @@ export default function Page({ params }: { params: { locale: string } }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-              Latest from Our <span className="text-emerald-500">Blog</span>
+              {tBlog('title')} <span className="text-emerald-500">{tBlog('titleHighlight')}</span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Stay updated with our latest stories, insights, and environmental conservation efforts
+              {tBlog('subtitle')}
             </p>
           </div>
 
@@ -465,15 +467,15 @@ export default function Page({ params }: { params: { locale: string } }) {
             <>
               <div className="grid md:grid-cols-3 gap-8">
                 {latestPosts.map((post) => (
-                  <BlogPostCard key={post.id} post={post} locale={params.locale} />
+                  <BlogPostCard key={post.id} post={post} locale={locale} />
                 ))}
               </div>
               <div className="text-center mt-12">
                 <a
-                  href={`/${params.locale}/blog`}
+                  href={`/${locale}/blog`}
                   className="inline-flex items-center space-x-2 px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
-                  <span>View All Posts</span>
+                  <span>{tBlog('viewAllPosts')}</span>
                   <ArrowRight className="w-5 h-5" />
                 </a>
               </div>
@@ -481,7 +483,7 @@ export default function Page({ params }: { params: { locale: string } }) {
           ) : (
             <div className="text-center py-12">
               <p className="text-lg text-gray-600 dark:text-gray-300">
-                No blog posts available yet. Check back soon!
+                {tBlog('noPostsYet')}
               </p>
             </div>
           )}
@@ -611,7 +613,7 @@ export default function Page({ params }: { params: { locale: string } }) {
                 <li><a href="#programs" className="hover:text-white transition-colors duration-300">{t('footer.links.programs')}</a></li>
                 <li><a href="#volunteer" className="hover:text-white transition-colors duration-300">{t('footer.links.volunteer')}</a></li>
                 <li><a href="#team" className="hover:text-white transition-colors duration-300">{t('footer.links.team')}</a></li>
-                <li><a href={`/${params.locale}/blog`} className="hover:text-white transition-colors duration-300">Blog</a></li>
+                <li><a href={`/${locale}/blog`} className="hover:text-white transition-colors duration-300">Blog</a></li>
               </ul>
             </div>
 

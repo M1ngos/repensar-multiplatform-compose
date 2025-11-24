@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { BlogPostSummary } from '@/lib/api/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -13,6 +14,7 @@ interface BlogPostCardProps {
 }
 
 export function BlogPostCard({ post, locale = 'en' }: BlogPostCardProps) {
+  const t = useTranslations('Blog.card');
   const publishedDate = post.published_at
     ? format(new Date(post.published_at), 'MMM dd, yyyy')
     : format(new Date(post.created_at), 'MMM dd, yyyy');
@@ -39,7 +41,7 @@ export function BlogPostCard({ post, locale = 'en' }: BlogPostCardProps) {
             ))}
             {post.status === 'draft' && (
               <Badge variant="outline" className="text-xs">
-                Draft
+                {t('draft')}
               </Badge>
             )}
           </div>

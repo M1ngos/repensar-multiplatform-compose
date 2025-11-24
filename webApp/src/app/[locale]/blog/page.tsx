@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { blogApi } from '@/lib/api';
 import type { BlogPostSummary, BlogCategory, BlogTag } from '@/lib/api/types';
 import {
@@ -17,8 +17,9 @@ import { Button } from '@/components/ui/button';
 import { Leaf, ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
-export default function BlogPage({ params }: { params: { locale: string } }) {
+export default function BlogPage() {
   const t = useTranslations('Blog');
+  const locale = useLocale();
   const [posts, setPosts] = useState<BlogPostSummary[]>([]);
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [tags, setTags] = useState<BlogTag[]>([]);
@@ -92,7 +93,7 @@ export default function BlogPage({ params }: { params: { locale: string } }) {
       <section className="bg-emerald-600 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-6">
-            <Link href={`/${params.locale}`}>
+            <Link href={`/${locale}`}>
               <Button variant="ghost" className="text-white hover:bg-emerald-700">
                 <ChevronLeft className="w-4 h-4 mr-2" />
                 {t('backToHome')}
@@ -146,7 +147,7 @@ export default function BlogPage({ params }: { params: { locale: string } }) {
                     </p>
                   </div>
 
-                  <BlogPostList posts={posts} isLoading={isLoading} locale={params.locale} />
+                  <BlogPostList posts={posts} isLoading={isLoading} locale={locale} />
 
                   {/* Pagination */}
                   {totalPages > 1 && (
@@ -181,14 +182,14 @@ export default function BlogPage({ params }: { params: { locale: string } }) {
             </TabsContent>
 
             <TabsContent value="categories">
-              <CategoryList categories={categories} locale={params.locale} />
+              <CategoryList categories={categories} locale={locale} />
             </TabsContent>
 
             <TabsContent value="tags">
               <div className="max-w-4xl mx-auto">
                 <Card>
                   <CardContent className="pt-6">
-                    <TagList tags={tags} locale={params.locale} variant="secondary" />
+                    <TagList tags={tags} locale={locale} variant="secondary" />
                   </CardContent>
                 </Card>
               </div>

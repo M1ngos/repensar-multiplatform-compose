@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { BlogCategory } from '@/lib/api/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -13,6 +14,7 @@ interface CategoryListProps {
 }
 
 export function CategoryList({ categories, isLoading = false, locale = 'en' }: CategoryListProps) {
+  const t = useTranslations('Blog.categoryList');
   if (isLoading) {
     return (
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -31,7 +33,7 @@ export function CategoryList({ categories, isLoading = false, locale = 'en' }: C
   if (categories.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
-        <p className="text-lg font-medium text-muted-foreground">No categories found</p>
+        <p className="text-lg font-medium text-muted-foreground">{t('noCategoriesFound')}</p>
       </div>
     );
   }

@@ -186,6 +186,8 @@
     "loggingIn": "Loggin in...",
     "loginError": "Login failed. Please check your credentials.",
     "googleSignInError": "Failed to sign in with Google. Please try again.",
+    "googleSignInSuccess": "Successfully signed in with Google!",
+    "googleSignInFailed": "Google Sign In failed",
     "goBack": "Go Back",
     "forgotPasswordTitle": "Forgot Password",
     "forgotPasswordDescription": "Enter your email address and we'll send you a link to reset your password.",
@@ -282,6 +284,7 @@
       "tasks": "Tasks",
       "volunteers": "Volunteers",
       "users": "Users",
+      "blog": "Blog",
       "analytics": "Analytics",
       "reports": "Reports",
       "settings": "Settings",
@@ -856,6 +859,7 @@
       "logHoursButton": "Log Hours",
       "updateSuccess": "Volunteer updated successfully!",
       "updateError": "Failed to update volunteer",
+      "dataNotFound": "Volunteer data not found",
       "editVolunteerDescription": "Update volunteer information",
       "status": "Status",
       "backgroundCheck": "Background Check",
@@ -1188,6 +1192,13 @@
       "deleteFailed": "Failed to delete notification",
       "markReadFailed": "Failed to mark notification as read",
       "markAllReadFailed": "Failed to mark all notifications as read"
+    },
+    "toast": {
+      "markReadError": "Failed to mark notification as read",
+      "markAllReadSuccess": "All notifications marked as read",
+      "markAllReadError": "Failed to mark all notifications as read",
+      "deleteSuccess": "Notification deleted",
+      "deleteError": "Failed to delete notification"
     }
   },
   "Files": {
@@ -1201,6 +1212,14 @@
       "uploadFailed": "Upload failed. Please try again.",
       "sizeTooLarge": "File size must be less than {size}MB",
       "selectOneFile": "Please select only one file"
+    },
+    "toast": {
+      "uploadSuccess": "{filename} uploaded successfully",
+      "uploadError": "Upload failed. Please try again.",
+      "sizeTooLarge": "File size must be less than {size}MB",
+      "selectOneFile": "Please select only one file",
+      "deleteSuccess": "File deleted successfully",
+      "deleteError": "Failed to delete file"
     },
     "list": {
       "title": "Files",
@@ -1229,6 +1248,8 @@
     "minCharacters": "Type at least 2 characters to search",
     "noResults": "No results found for \"{query}\"",
     "quickActions": "Quick Actions",
+    "pressEscToClose": "Or press",
+    "toClose": "to close",
     "results": {
       "projects": "Projects",
       "tasks": "Tasks",
@@ -1283,6 +1304,65 @@
     "allStatuses": "All statuses",
     "allCategories": "All categories",
     "allTags": "All tags",
+    "filter": {
+      "title": "Filter Posts",
+      "clear": "Clear",
+      "activeFilters": "Active Filters",
+      "search": "Search",
+      "searchPlaceholder": "Search posts...",
+      "status": "Status",
+      "category": "Category",
+      "tag": "Tag",
+      "allStatuses": "All statuses",
+      "allCategories": "All categories",
+      "allTags": "All tags",
+      "statusLabel": "Status:",
+      "categoryLabel": "Category:",
+      "tagLabel": "Tag:",
+      "searchLabel": "Search:"
+    },
+    "card": {
+      "draft": "Draft"
+    },
+    "detail": {
+      "draft": "Draft",
+      "tags": "Tags"
+    },
+    "form": {
+      "createTitle": "Create Blog Post",
+      "editTitle": "Edit Blog Post",
+      "title": "Title",
+      "titlePlaceholder": "Enter post title",
+      "excerpt": "Excerpt",
+      "excerptPlaceholder": "Brief summary of the post",
+      "content": "Content",
+      "contentPlaceholder": "Write your post content (supports HTML/Markdown)",
+      "featuredImage": "Featured Image URL",
+      "featuredImagePlaceholder": "https://example.com/image.jpg",
+      "status": "Status",
+      "categories": "Categories",
+      "selectCategories": "Select categories",
+      "searchCategories": "Search categories...",
+      "noCategoriesFound": "No categories found.",
+      "tags": "Tags",
+      "selectTags": "Select tags",
+      "searchTags": "Search tags...",
+      "noTagsFound": "No tags found.",
+      "cancel": "Cancel",
+      "createButton": "Create Post",
+      "updateButton": "Update Post",
+      "saving": "Saving..."
+    },
+    "list": {
+      "noPostsFound": "No blog posts found",
+      "noPostsFoundDesc": "Check back later for new content"
+    },
+    "categoryList": {
+      "noCategoriesFound": "No categories found"
+    },
+    "tagList": {
+      "noTagsAvailable": "No tags available"
+    },
     "published": "Published",
     "draft": "Draft",
     "tabs": {
@@ -1298,7 +1378,92 @@
     "landing": {
       "title": "Latest from Our",
       "titleHighlight": "Blog",
-      "subtitle": "Stay updated with our latest stories, insights, and environmental conservation efforts"
+      "subtitle": "Stay updated with our latest stories, insights, and environmental conservation efforts",
+      "viewAllPosts": "View All Posts",
+      "noPostsYet": "No blog posts available yet. Check back soon!"
+    },
+    "Admin": {
+      "title": "Blog Posts",
+      "subtitle": "Manage your blog posts and content",
+      "newPost": "New Post",
+      "categoriesButton": "Categories",
+      "tagsButton": "Tags",
+      "noPosts": "No blog posts",
+      "noPostsDesc": "Get started by creating your first blog post",
+      "errorLoading": "Error loading blog posts",
+      "edit": "Edit",
+      "view": "View",
+      "delete": "Delete",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "deleteConfirm": "Are you sure?",
+      "deleteDescription": "This action cannot be undone. This will permanently delete the blog post.",
+      "deleteSuccess": "Blog post deleted successfully",
+      "deleteError": "Failed to delete blog post",
+      "publishSuccess": "Blog post published successfully",
+      "unpublishSuccess": "Blog post unpublished successfully",
+      "statusUpdateError": "Failed to update post status",
+      "createPost": "Create Post",
+      "editPost": "Edit Post",
+      "postCreated": "Post created successfully",
+      "postUpdated": "Post updated successfully",
+      "saveError": "Failed to save post",
+      "categories": {
+        "title": "Blog Categories",
+        "subtitle": "Manage blog post categories",
+        "newCategory": "New Category",
+        "noCategories": "No categories",
+        "noCategoriesDesc": "Create your first category",
+        "name": "Category Name",
+        "slug": "Slug",
+        "description": "Description",
+        "createCategory": "Create Category",
+        "editCategory": "Edit Category",
+        "deleteCategory": "Delete Category",
+        "deleteConfirm": "Delete this category?",
+        "deleteDescription": "This will remove the category from all posts.",
+        "categoryCreated": "Category created successfully",
+        "categoryUpdated": "Category updated successfully",
+        "categoryDeleted": "Category deleted successfully",
+        "saveError": "Failed to save category"
+      },
+      "tags": {
+        "title": "Blog Tags",
+        "subtitle": "Manage blog post tags",
+        "newTag": "New Tag",
+        "noTags": "No tags",
+        "noTagsDesc": "Create your first tag",
+        "name": "Tag Name",
+        "slug": "Slug",
+        "createTag": "Create Tag",
+        "editTag": "Edit Tag",
+        "deleteTag": "Delete Tag",
+        "deleteConfirm": "Delete this tag?",
+        "deleteDescription": "This will remove the tag from all posts.",
+        "tagCreated": "Tag created successfully",
+        "tagUpdated": "Tag updated successfully",
+        "tagDeleted": "Tag deleted successfully",
+        "saveError": "Failed to save tag"
+      },
+      "form": {
+        "title": "Title",
+        "titlePlaceholder": "Enter post title",
+        "excerpt": "Excerpt",
+        "excerptPlaceholder": "Brief summary of the post",
+        "content": "Content",
+        "contentPlaceholder": "Write your post content (supports HTML/Markdown)",
+        "featuredImage": "Featured Image URL",
+        "featuredImagePlaceholder": "https://example.com/image.jpg",
+        "status": "Status",
+        "categories": "Categories",
+        "selectCategories": "Select categories",
+        "tags": "Tags",
+        "selectTags": "Select tags",
+        "cancel": "Cancel",
+        "createButton": "Create Post",
+        "updateButton": "Update Post",
+        "saving": "Saving..."
+      }
     }
   }
 }

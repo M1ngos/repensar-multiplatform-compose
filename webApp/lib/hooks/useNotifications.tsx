@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { notificationsApi, createNotificationStream } from '@/lib/api/notifications';
 import type { Notification } from '@/lib/api/types';
 import { toast } from 'sonner';
@@ -11,6 +12,7 @@ interface UseNotificationsOptions {
 }
 
 export function useNotifications(options: UseNotificationsOptions = {}) {
+  const t = useTranslations('Notifications.toast');
   const { enableSSE = false, enableToasts = true } = options; // SSE disabled by default until backend is ready
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -57,9 +59,9 @@ export function useNotifications(options: UseNotificationsOptions = {}) {
       setUnreadCount(prev => Math.max(0, prev - 1));
     } catch (error) {
       console.error('Failed to mark notification as read:', error);
-      toast.error('Failed to mark notification as read');
+      toast.error(t('markReadError'));
     }
-  }, []);
+  }, [t]);
 
   // Mark all as read
   const markAllAsRead = useCallback(async () => {
@@ -67,12 +69,12 @@ export function useNotifications(options: UseNotificationsOptions = {}) {
       await notificationsApi.markAllAsRead();
       setNotifications(prev => prev.map(n => ({ ...n, is_read: true })));
       setUnreadCount(0);
-      toast.success('All notifications marked as read');
+      toast.success(t('markAllReadSuccess'));
     } catch (error) {
       console.error('Failed to mark all as read:', error);
-      toast.error('Failed to mark all notifications as read');
+      toast.error(t('markAllReadError'));
     }
-  }, []);
+  }, [t]);
 
   // Delete notification
   const deleteNotification = useCallback(async (id: number) => {
@@ -83,12 +85,12 @@ export function useNotifications(options: UseNotificationsOptions = {}) {
         const notification = notifications.find(n => n.id === id);
         return notification && !notification.is_read ? Math.max(0, prev - 1) : prev;
       });
-      toast.success('Notification deleted');
+      toast.success(t('deleteSuccess'));
     } catch (error) {
       console.error('Failed to delete notification:', error);
-      toast.error('Failed to delete notification');
+      toast.error(t('deleteError'));
     }
-  }, [notifications]);
+  }, [notifications, t]);
 
   // Handle new notification from SSE
   const handleNewNotification = useCallback((notification: Notification) => {

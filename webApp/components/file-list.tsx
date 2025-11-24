@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Download, Trash2, File, Image, FileText, Eye } from 'lucide-react';
 import { filesApi } from '@/lib/api/files';
 import { FileUpload } from '@/lib/api/types';
@@ -26,6 +27,7 @@ interface FileListProps {
 }
 
 export function FileList({ files, onDelete, className }: FileListProps) {
+  const t = useTranslations('Files.toast');
   const [deleteFileId, setDeleteFileId] = useState<number | null>(null);
 
   const getFileIcon = (mimeType: string) => {
@@ -55,10 +57,10 @@ export function FileList({ files, onDelete, className }: FileListProps) {
     try {
       await filesApi.deleteFile(fileId);
       onDelete?.(fileId);
-      toast.success('File deleted successfully');
+      toast.success(t('deleteSuccess'));
     } catch (error) {
       console.error('Failed to delete file:', error);
-      toast.error('Failed to delete file');
+      toast.error(t('deleteError'));
     } finally {
       setDeleteFileId(null);
     }

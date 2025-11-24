@@ -186,6 +186,8 @@
     "loggingIn": "Acedendo...",
     "loginError": "Falha no login. Verifique suas credenciais.",
     "googleSignInError": "Falha ao entrar com Google. Tente novamente.",
+    "googleSignInSuccess": "Sessão iniciada com Google com sucesso!",
+    "googleSignInFailed": "Falha ao iniciar sessão com Google",
     "goBack": "Voltar",
     "forgotPasswordTitle": "Esqueceu a Senha",
     "forgotPasswordDescription": "Digite seu endereço de email e enviaremos um link para redefinir sua senha.",
@@ -282,6 +284,7 @@
       "tasks": "Tarefas",
       "volunteers": "Voluntários",
       "users": "Utilizadores",
+      "blog": "Blog",
       "analytics": "Análises",
       "reports": "Relatórios",
       "settings": "Configurações",
@@ -856,6 +859,7 @@
       "logHoursButton": "Registar Horas",
       "updateSuccess": "Voluntário atualizado com sucesso!",
       "updateError": "Falha ao atualizar voluntário",
+      "dataNotFound": "Dados do voluntário não encontrados",
       "editVolunteerDescription": "Atualizar informação do voluntário",
       "status": "Estado",
       "backgroundCheck": "Verificação de Antecedentes",
@@ -1187,6 +1191,13 @@
       "deleteFailed": "Falha ao eliminar notificação",
       "markReadFailed": "Falha ao marcar notificação como lida",
       "markAllReadFailed": "Falha ao marcar todas as notificações como lidas"
+    },
+    "toast": {
+      "markReadError": "Falha ao marcar notificação como lida",
+      "markAllReadSuccess": "Todas as notificações marcadas como lidas",
+      "markAllReadError": "Falha ao marcar todas as notificações como lidas",
+      "deleteSuccess": "Notificação eliminada",
+      "deleteError": "Falha ao eliminar notificação"
     }
   },
   "Search": {
@@ -1219,6 +1230,48 @@
   "Languages": {
     "en": "English",
     "pt": "Português"
+  },
+  "Files": {
+    "upload": {
+      "title": "Carregar Ficheiros",
+      "dropFiles": "Soltar ficheiros aqui",
+      "clickToUpload": "Clique para carregar ou arraste e solte",
+      "maxSize": "Tamanho máximo: {size}MB",
+      "uploading": "Carregando...",
+      "uploadSuccess": "{filename} carregado com sucesso",
+      "uploadFailed": "Falha no carregamento. Por favor, tente novamente.",
+      "sizeTooLarge": "O tamanho do ficheiro deve ser inferior a {size}MB",
+      "selectOneFile": "Por favor, selecione apenas um ficheiro"
+    },
+    "toast": {
+      "uploadSuccess": "{filename} carregado com sucesso",
+      "uploadError": "Falha no carregamento. Por favor, tente novamente.",
+      "sizeTooLarge": "O tamanho do ficheiro deve ser inferior a {size}MB",
+      "selectOneFile": "Por favor, selecione apenas um ficheiro",
+      "deleteSuccess": "Ficheiro eliminado com sucesso",
+      "deleteError": "Falha ao eliminar ficheiro"
+    },
+    "list": {
+      "title": "Ficheiros",
+      "noFiles": "Nenhum ficheiro anexado",
+      "view": "Ver",
+      "download": "Descarregar",
+      "delete": "Eliminar",
+      "deleteConfirm": "Eliminar ficheiro?",
+      "deleteDescription": "Esta ação não pode ser desfeita. Isto eliminará permanentemente o ficheiro.",
+      "cancel": "Cancelar",
+      "deleteButton": "Eliminar",
+      "deleteSuccess": "Ficheiro eliminado com sucesso",
+      "deleteFailed": "Falha ao eliminar ficheiro"
+    },
+    "categories": {
+      "profile": "Perfil",
+      "project": "Projeto",
+      "task": "Tarefa",
+      "resource": "Recurso",
+      "document": "Documento",
+      "other": "Outro"
+    }
   },
   "Blog": {
     "title": "Nosso Blog",
@@ -1253,6 +1306,65 @@
     "allStatuses": "Todos os estados",
     "allCategories": "Todas as categorias",
     "allTags": "Todas as etiquetas",
+    "filter": {
+      "title": "Filtrar Publicações",
+      "clear": "Limpar",
+      "activeFilters": "Filtros Ativos",
+      "search": "Pesquisar",
+      "searchPlaceholder": "Pesquisar publicações...",
+      "status": "Estado",
+      "category": "Categoria",
+      "tag": "Etiqueta",
+      "allStatuses": "Todos os estados",
+      "allCategories": "Todas as categorias",
+      "allTags": "Todas as etiquetas",
+      "statusLabel": "Estado:",
+      "categoryLabel": "Categoria:",
+      "tagLabel": "Etiqueta:",
+      "searchLabel": "Pesquisar:"
+    },
+    "card": {
+      "draft": "Rascunho"
+    },
+    "detail": {
+      "draft": "Rascunho",
+      "tags": "Etiquetas"
+    },
+    "form": {
+      "createTitle": "Criar Publicação no Blog",
+      "editTitle": "Editar Publicação no Blog",
+      "title": "Título",
+      "titlePlaceholder": "Digite o título da publicação",
+      "excerpt": "Resumo",
+      "excerptPlaceholder": "Breve resumo da publicação",
+      "content": "Conteúdo",
+      "contentPlaceholder": "Escreva o conteúdo da publicação (suporta HTML/Markdown)",
+      "featuredImage": "URL da Imagem Destacada",
+      "featuredImagePlaceholder": "https://exemplo.com/imagem.jpg",
+      "status": "Estado",
+      "categories": "Categorias",
+      "selectCategories": "Selecionar categorias",
+      "searchCategories": "Pesquisar categorias...",
+      "noCategoriesFound": "Nenhuma categoria encontrada.",
+      "tags": "Etiquetas",
+      "selectTags": "Selecionar etiquetas",
+      "searchTags": "Pesquisar etiquetas...",
+      "noTagsFound": "Nenhuma etiqueta encontrada.",
+      "cancel": "Cancelar",
+      "createButton": "Criar Publicação",
+      "updateButton": "Atualizar Publicação",
+      "saving": "Guardando..."
+    },
+    "list": {
+      "noPostsFound": "Nenhuma publicação encontrada",
+      "noPostsFoundDesc": "Volte mais tarde para novo conteúdo"
+    },
+    "categoryList": {
+      "noCategoriesFound": "Nenhuma categoria encontrada"
+    },
+    "tagList": {
+      "noTagsAvailable": "Nenhuma etiqueta disponível"
+    },
     "published": "Publicado",
     "draft": "Rascunho",
     "tabs": {
@@ -1268,7 +1380,92 @@
     "landing": {
       "title": "Últimas do Nosso",
       "titleHighlight": "Blog",
-      "subtitle": "Fique atualizado com as nossas últimas histórias, insights e esforços de conservação ambiental"
+      "subtitle": "Fique atualizado com as nossas últimas histórias, insights e esforços de conservação ambiental",
+      "viewAllPosts": "Ver Todas as Publicações",
+      "noPostsYet": "Ainda não há publicações disponíveis. Volte em breve!"
+    },
+    "Admin": {
+      "title": "Publicações do Blog",
+      "subtitle": "Gerencie suas publicações e conteúdo do blog",
+      "newPost": "Nova Publicação",
+      "categoriesButton": "Categorias",
+      "tagsButton": "Etiquetas",
+      "noPosts": "Nenhuma publicação",
+      "noPostsDesc": "Comece criando sua primeira publicação",
+      "errorLoading": "Erro ao carregar publicações",
+      "edit": "Editar",
+      "view": "Ver",
+      "delete": "Eliminar",
+      "publish": "Publicar",
+      "unpublish": "Despublicar",
+      "deleteConfirm": "Tem certeza?",
+      "deleteDescription": "Esta ação não pode ser desfeita. Isto eliminará permanentemente a publicação.",
+      "deleteSuccess": "Publicação eliminada com sucesso",
+      "deleteError": "Falha ao eliminar publicação",
+      "publishSuccess": "Publicação publicada com sucesso",
+      "unpublishSuccess": "Publicação despublicada com sucesso",
+      "statusUpdateError": "Falha ao atualizar estado da publicação",
+      "createPost": "Criar Publicação",
+      "editPost": "Editar Publicação",
+      "postCreated": "Publicação criada com sucesso",
+      "postUpdated": "Publicação atualizada com sucesso",
+      "saveError": "Falha ao guardar publicação",
+      "categories": {
+        "title": "Categorias do Blog",
+        "subtitle": "Gerencie categorias das publicações",
+        "newCategory": "Nova Categoria",
+        "noCategories": "Nenhuma categoria",
+        "noCategoriesDesc": "Crie sua primeira categoria",
+        "name": "Nome da Categoria",
+        "slug": "Slug",
+        "description": "Descrição",
+        "createCategory": "Criar Categoria",
+        "editCategory": "Editar Categoria",
+        "deleteCategory": "Eliminar Categoria",
+        "deleteConfirm": "Eliminar esta categoria?",
+        "deleteDescription": "Isto removerá a categoria de todas as publicações.",
+        "categoryCreated": "Categoria criada com sucesso",
+        "categoryUpdated": "Categoria atualizada com sucesso",
+        "categoryDeleted": "Categoria eliminada com sucesso",
+        "saveError": "Falha ao guardar categoria"
+      },
+      "tags": {
+        "title": "Etiquetas do Blog",
+        "subtitle": "Gerencie etiquetas das publicações",
+        "newTag": "Nova Etiqueta",
+        "noTags": "Nenhuma etiqueta",
+        "noTagsDesc": "Crie sua primeira etiqueta",
+        "name": "Nome da Etiqueta",
+        "slug": "Slug",
+        "createTag": "Criar Etiqueta",
+        "editTag": "Editar Etiqueta",
+        "deleteTag": "Eliminar Etiqueta",
+        "deleteConfirm": "Eliminar esta etiqueta?",
+        "deleteDescription": "Isto removerá a etiqueta de todas as publicações.",
+        "tagCreated": "Etiqueta criada com sucesso",
+        "tagUpdated": "Etiqueta atualizada com sucesso",
+        "tagDeleted": "Etiqueta eliminada com sucesso",
+        "saveError": "Falha ao guardar etiqueta"
+      },
+      "form": {
+        "title": "Título",
+        "titlePlaceholder": "Digite o título da publicação",
+        "excerpt": "Resumo",
+        "excerptPlaceholder": "Breve resumo da publicação",
+        "content": "Conteúdo",
+        "contentPlaceholder": "Escreva o conteúdo da publicação (suporta HTML/Markdown)",
+        "featuredImage": "URL da Imagem Destacada",
+        "featuredImagePlaceholder": "https://exemplo.com/imagem.jpg",
+        "status": "Estado",
+        "categories": "Categorias",
+        "selectCategories": "Selecionar categorias",
+        "tags": "Etiquetas",
+        "selectTags": "Selecionar etiquetas",
+        "cancel": "Cancelar",
+        "createButton": "Criar Publicação",
+        "updateButton": "Atualizar Publicação",
+        "saving": "Guardando..."
+      }
     }
   }
 }

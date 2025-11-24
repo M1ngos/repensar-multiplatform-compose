@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { blogApi } from '@/lib/api';
 import type { BlogPost, BlogPostSummary } from '@/lib/api/types';
 import { BlogPostDetail, BlogPostCard } from '@/components/blog';
@@ -13,10 +13,10 @@ import { ChevronLeft, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export default function BlogPostPage() {
-  const params = useParams();
+  const params = useParams<{ slug: string }>();
   const router = useRouter();
-  const slug = params.slug as string;
-  const locale = params.locale as string;
+  const slug = params?.slug || '';
+  const locale = useLocale();
   const t = useTranslations('Blog');
 
   const [post, setPost] = useState<BlogPost | null>(null);

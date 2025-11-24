@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { BlogPostCreate, BlogPostUpdate, BlogCategory, BlogTag, BlogPostStatus } from '@/lib/api/types';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -48,6 +49,7 @@ export function BlogPostForm({
   isLoading = false,
   mode = 'create',
 }: BlogPostFormProps) {
+  const t = useTranslations('Blog.form');
   const [formData, setFormData] = useState({
     title: initialData?.title || '',
     content: initialData?.content || '',
@@ -93,31 +95,31 @@ export function BlogPostForm({
     <form onSubmit={handleSubmit} className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>{mode === 'create' ? 'Create Blog Post' : 'Edit Blog Post'}</CardTitle>
+          <CardTitle>{mode === 'create' ? t('createTitle') : t('editTitle')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Title */}
           <div className="space-y-2">
             <Label htmlFor="title">
-              Title <span className="text-destructive">*</span>
+              {t('title')} <span className="text-destructive">*</span>
             </Label>
             <Input
               id="title"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              placeholder="Enter post title"
+              placeholder={t('titlePlaceholder')}
               required
             />
           </div>
 
           {/* Excerpt */}
           <div className="space-y-2">
-            <Label htmlFor="excerpt">Excerpt</Label>
+            <Label htmlFor="excerpt">{t('excerpt')}</Label>
             <Textarea
               id="excerpt"
               value={formData.excerpt}
               onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-              placeholder="Brief summary of the post"
+              placeholder={t('excerptPlaceholder')}
               rows={3}
             />
           </div>
@@ -125,13 +127,13 @@ export function BlogPostForm({
           {/* Content */}
           <div className="space-y-2">
             <Label htmlFor="content">
-              Content <span className="text-destructive">*</span>
+              {t('content')} <span className="text-destructive">*</span>
             </Label>
             <Textarea
               id="content"
               value={formData.content}
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              placeholder="Write your post content (supports HTML/Markdown)"
+              placeholder={t('contentPlaceholder')}
               rows={15}
               required
               className="font-mono text-sm"
@@ -140,7 +142,7 @@ export function BlogPostForm({
 
           {/* Featured Image URL */}
           <div className="space-y-2">
-            <Label htmlFor="featured_image_url">Featured Image URL</Label>
+            <Label htmlFor="featured_image_url">{t('featuredImage')}</Label>
             <Input
               id="featured_image_url"
               type="url"
@@ -148,13 +150,13 @@ export function BlogPostForm({
               onChange={(e) =>
                 setFormData({ ...formData, featured_image_url: e.target.value })
               }
-              placeholder="https://example.com/image.jpg"
+              placeholder={t('featuredImagePlaceholder')}
             />
           </div>
 
           {/* Status */}
           <div className="space-y-2">
-            <Label htmlFor="status">Status</Label>
+            <Label htmlFor="status">{t('status')}</Label>
             <Select
               value={formData.status}
               onValueChange={(value: BlogPostStatus) =>
@@ -165,15 +167,15 @@ export function BlogPostForm({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="published">Published</SelectItem>
+                <SelectItem value="draft">{t('../draft')}</SelectItem>
+                <SelectItem value="published">{t('../published')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           {/* Categories */}
           <div className="space-y-2">
-            <Label>Categories</Label>
+            <Label>{t('categories')}</Label>
             <Popover open={categoryOpen} onOpenChange={setCategoryOpen}>
               <PopoverTrigger asChild>
                 <Button
@@ -181,13 +183,13 @@ export function BlogPostForm({
                   className="w-full justify-start text-left font-normal"
                 >
                   <IconPlus className="mr-2 h-4 w-4" />
-                  Select categories
+                  {t('selectCategories')}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-[400px] p-0" align="start">
                 <Command>
-                  <CommandInput placeholder="Search categories..." />
-                  <CommandEmpty>No categories found.</CommandEmpty>
+                  <CommandInput placeholder={t('searchCategories')} />
+                  <CommandEmpty>{t('noCategoriesFound')}</CommandEmpty>
                   <CommandGroup className="max-h-64 overflow-auto">
                     {categories.map((category) => (
                       <CommandItem
@@ -230,7 +232,7 @@ export function BlogPostForm({
 
           {/* Tags */}
           <div className="space-y-2">
-            <Label>Tags</Label>
+            <Label>{t('tags')}</Label>
             <Popover open={tagOpen} onOpenChange={setTagOpen}>
               <PopoverTrigger asChild>
                 <Button
@@ -238,13 +240,13 @@ export function BlogPostForm({
                   className="w-full justify-start text-left font-normal"
                 >
                   <IconPlus className="mr-2 h-4 w-4" />
-                  Select tags
+                  {t('selectTags')}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-[400px] p-0" align="start">
                 <Command>
-                  <CommandInput placeholder="Search tags..." />
-                  <CommandEmpty>No tags found.</CommandEmpty>
+                  <CommandInput placeholder={t('searchTags')} />
+                  <CommandEmpty>{t('noTagsFound')}</CommandEmpty>
                   <CommandGroup className="max-h-64 overflow-auto">
                     {tags.map((tag) => (
                       <CommandItem key={tag.id} onSelect={() => toggleTag(tag.id)}>
@@ -288,11 +290,11 @@ export function BlogPostForm({
       <div className="flex justify-end gap-4">
         {onCancel && (
           <Button type="button" variant="outline" onClick={onCancel} disabled={isLoading}>
-            Cancel
+            {t('cancel')}
           </Button>
         )}
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Saving...' : mode === 'create' ? 'Create Post' : 'Update Post'}
+          {isLoading ? t('saving') : mode === 'create' ? t('createButton') : t('updateButton')}
         </Button>
       </div>
     </form>

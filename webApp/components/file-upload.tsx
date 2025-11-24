@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Upload, X, File, Image, FileText, Loader2 } from 'lucide-react';
 import { filesApi } from '@/lib/api/files';
 import { FileCategory, FileUpload as FileUploadType } from '@/lib/api/types';
@@ -31,6 +32,7 @@ export function FileUpload({
   multiple = false,
   className,
 }: FileUploadProps) {
+  const t = useTranslations('Files.toast');
   const [isDragging, setIsDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -45,12 +47,12 @@ export function FileUpload({
       // Validate file sizes
       const oversizedFiles = fileArray.filter(f => f.size > maxSizeBytes);
       if (oversizedFiles.length > 0) {
-        toast.error(`File size must be less than ${maxSizeMB}MB`);
+        toast.error(t('sizeTooLarge', { size: maxSizeMB }));
         return;
       }
 
       if (!multiple && fileArray.length > 1) {
-        toast.error('Please select only one file');
+        toast.error(t('selectOneFile'));
         return;
       }
 
@@ -69,17 +71,17 @@ export function FileUpload({
 
           const uploadedFile = await filesApi.uploadFile(formData);
           onUploadComplete?.(uploadedFile);
-          toast.success(`${file.name} uploaded successfully`);
+          toast.success(t('uploadSuccess', { filename: file.name }));
         }
         setSelectedFiles([]);
       } catch (error) {
         console.error('Upload failed:', error);
-        toast.error('Upload failed. Please try again.');
+        toast.error(t('uploadError'));
       } finally {
         setUploading(false);
       }
     },
-    [category, projectId, taskId, volunteerId, maxSizeMB, multiple, onUploadComplete]
+    [category, projectId, taskId, volunteerId, maxSizeMB, multiple, onUploadComplete, t]
   );
 
   const handleDragEnter = useCallback((e: React.DragEvent) => {
