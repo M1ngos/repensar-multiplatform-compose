@@ -1465,5 +1465,317 @@
         "saving": "Saving..."
       }
     }
+  },
+  "Gamification": {
+    "title": "Gamification",
+    "subtitle": "Badges, achievements, and leaderboards",
+    "badges": {
+      "title": "Badges",
+      "subtitle": "Your earned badges",
+      "totalBadges": "Total Badges",
+      "noBadges": "No badges earned yet",
+      "noBadgesDesc": "Start volunteering to earn your first badge!",
+      "showcased": "Showcased",
+      "earned": "Earned",
+      "notEarned": "Not Earned Yet",
+      "earnedOn": "Earned on",
+      "categories": {
+        "time": "Time",
+        "skills": "Skills",
+        "projects": "Projects",
+        "training": "Training",
+        "leadership": "Leadership",
+        "special": "Special"
+      },
+      "rarities": {
+        "common": "Common",
+        "rare": "Rare",
+        "epic": "Epic",
+        "legendary": "Legendary"
+      },
+      "showcase": {
+        "add": "Add to showcase",
+        "remove": "Remove from showcase",
+        "success": "Badge showcase updated",
+        "error": "Failed to update badge showcase"
+      }
+    },
+    "achievements": {
+      "title": "Achievements",
+      "subtitle": "Track your progress",
+      "completed": "Completed",
+      "inProgress": "In Progress",
+      "notStarted": "Not Started",
+      "noAchievements": "No achievements available",
+      "completedOn": "Completed on",
+      "progress": "{current} / {target}",
+      "progressPercent": "{percent}% complete",
+      "timesCompleted": "Completed {count} times",
+      "types": {
+        "hours_logged": "Hours Logged",
+        "projects_completed": "Projects Completed",
+        "tasks_completed": "Tasks Completed",
+        "skills_acquired": "Skills Acquired",
+        "trainings_completed": "Trainings Completed",
+        "consecutive_days": "Consecutive Days",
+        "volunteer_referred": "Volunteer Referred",
+        "custom": "Custom"
+      }
+    },
+    "points": {
+      "title": "Points",
+      "subtitle": "Your point balance and history",
+      "totalPoints": "Total Points",
+      "currentPoints": "Current Points",
+      "rank": "Rank",
+      "rankBadge": "#{rank}",
+      "topPercent": "Top {percent}%",
+      "history": "Points History",
+      "recentActivity": "Recent Activity",
+      "noHistory": "No points history yet",
+      "pointsAwarded": "{points} points",
+      "pointsDeducted": "-{points} points",
+      "balance": "Balance",
+      "eventTypes": {
+        "badge_earned": "Badge Earned",
+        "achievement_completed": "Achievement Completed",
+        "task_completed": "Task Completed",
+        "hours_logged": "Hours Logged",
+        "training_completed": "Training Completed",
+        "skill_added": "Skill Added",
+        "manual_adjustment": "Manual Adjustment"
+      }
+    },
+    "streak": {
+      "title": "Activity Streak",
+      "current": "Current Streak",
+      "longest": "Longest Streak",
+      "days": "{count} days",
+      "day": "{count} day",
+      "activeToday": "Active today!",
+      "keepGoing": "Keep it going!",
+      "broken": "Streak broken"
+    },
+    "leaderboards": {
+      "title": "Leaderboards",
+      "subtitle": "See where you rank",
+      "yourPosition": "Your Position",
+      "topVolunteers": "Top Volunteers",
+      "noData": "No leaderboard data available",
+      "types": {
+        "points": "Points",
+        "hours": "Hours",
+        "projects": "Projects"
+      },
+      "timeframes": {
+        "all_time": "All Time",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
+      "stats": {
+        "totalParticipants": "{count} participants",
+        "averageValue": "Average: {value}",
+        "medianValue": "Median: {value}"
+      },
+      "position": "Position #{rank}",
+      "outOfTotal": "out of {total}"
+    },
+    "admin": {
+      "title": "Gamification Management",
+      "subtitle": "Manage badges, achievements, and awards",
+      "tabs": {
+        "badges": "Badges",
+        "achievements": "Achievements",
+        "statistics": "Statistics",
+        "awards": "Manual Awards"
+      },
+      "badges": {
+        "title": "Badge Management",
+        "create": "Create Badge",
+        "edit": "Edit Badge",
+        "delete": "Delete Badge",
+        "deleteConfirm": "Are you sure you want to delete this badge?",
+        "deleteSuccess": "Badge deleted successfully",
+        "deleteError": "Failed to delete badge",
+        "createSuccess": "Badge created successfully",
+        "updateSuccess": "Badge updated successfully",
+        "saveError": "Failed to save badge",
+        "form": {
+          "name": "Badge Name",
+          "namePlaceholder": "Enter badge name",
+          "description": "Description",
+          "descriptionPlaceholder": "Describe how to earn this badge",
+          "category": "Category",
+          "rarity": "Rarity",
+          "color": "Color",
+          "colorPlaceholder": "#4CAF50",
+          "iconUrl": "Icon URL",
+          "iconUrlPlaceholder": "/badges/badge-icon.png",
+          "pointsValue": "Points Value",
+          "isActive": "Active",
+          "isSecret": "Secret Badge",
+          "cancel": "Cancel",
+          "create": "Create Badge",
+          "update": "Update Badge"
+        }
+      },
+      "achievements": {
+        "title": "Achievement Management",
+        "create": "Create Achievement",
+        "edit": "Edit Achievement",
+        "delete": "Delete Achievement",
+        "deleteConfirm": "Are you sure you want to delete this achievement?",
+        "deleteSuccess": "Achievement deleted successfully",
+        "deleteError": "Failed to delete achievement",
+        "createSuccess": "Achievement created successfully",
+        "updateSuccess": "Achievement updated successfully",
+        "saveError": "Failed to save achievement",
+        "form": {
+          "name": "Achievement Name",
+          "namePlaceholder": "Enter achievement name",
+          "description": "Description",
+          "descriptionPlaceholder": "Describe this achievement",
+          "type": "Achievement Type",
+          "criteria": "Criteria (JSON)",
+          "criteriaPlaceholder": "{\"hours_required\": 100}",
+          "pointsReward": "Points Reward",
+          "badge": "Badge (optional)",
+          "selectBadge": "Select badge",
+          "noBadge": "No badge",
+          "isRepeatable": "Repeatable",
+          "tracksProgress": "Tracks Progress",
+          "isActive": "Active",
+          "isSecret": "Secret Achievement",
+          "cancel": "Cancel",
+          "create": "Create Achievement",
+          "update": "Update Achievement"
+        }
+      },
+      "awards": {
+        "title": "Manual Awards",
+        "subtitle": "Award badges and points to volunteers",
+        "awardBadge": "Award Badge",
+        "awardPoints": "Award Points",
+        "selectVolunteer": "Select Volunteer",
+        "searchVolunteer": "Search volunteers...",
+        "noVolunteersFound": "No volunteers found",
+        "badge": {
+          "title": "Award Badge",
+          "description": "Manually award a badge to a volunteer",
+          "selectBadge": "Select Badge",
+          "searchBadge": "Search badges...",
+          "noBadgesFound": "No badges found",
+          "reason": "Reason",
+          "reasonPlaceholder": "Why are you awarding this badge?",
+          "cancel": "Cancel",
+          "award": "Award Badge",
+          "success": "Badge awarded successfully",
+          "alreadyEarned": "Volunteer already has this badge",
+          "error": "Failed to award badge"
+        },
+        "points": {
+          "title": "Award Points",
+          "description": "Manually award or deduct points",
+          "points": "Points",
+          "pointsPlaceholder": "Enter points (negative to deduct)",
+          "eventType": "Event Type",
+          "eventTypePlaceholder": "manual_adjustment",
+          "description": "Description",
+          "descriptionPlaceholder": "Why are you awarding these points?",
+          "cancel": "Cancel",
+          "award": "Award Points",
+          "success": "Points awarded successfully",
+          "error": "Failed to award points"
+        }
+      },
+      "statistics": {
+        "title": "Gamification Statistics",
+        "overview": "Overview",
+        "totalBadges": "Total Badges",
+        "totalAchievements": "Total Achievements",
+        "totalPointsAwarded": "Total Points Awarded",
+        "totalBadgesEarned": "Total Badges Earned",
+        "totalAchievementsCompleted": "Total Achievements Completed",
+        "activeVolunteers": "Active Volunteers",
+        "avgPointsPerVolunteer": "Avg Points per Volunteer",
+        "mostEarnedBadge": "Most Earned Badge",
+        "mostCompletedAchievement": "Most Completed Achievement",
+        "generateLeaderboards": "Generate Leaderboards",
+        "generateSuccess": "Leaderboards generated successfully",
+        "generateError": "Failed to generate leaderboards"
+      }
+    },
+    "notifications": {
+      "badgeEarned": {
+        "title": "Badge Earned!",
+        "message": "You earned the {badge} badge!",
+        "points": "{points} points awarded"
+      },
+      "achievementCompleted": {
+        "title": "Achievement Unlocked!",
+        "message": "You completed {achievement}!",
+        "points": "{points} points awarded"
+      },
+      "pointsAwarded": {
+        "title": "Points Awarded!",
+        "message": "{points} points added",
+        "reason": "Reason: {reason}"
+      },
+      "rankChanged": {
+        "title": "Rank Changed!",
+        "message": "You're now ranked #{rank}!",
+        "climbed": "You climbed {positions} positions!"
+      }
+    },
+    "widgets": {
+      "summary": {
+        "title": "Your Gamification",
+        "points": "Points",
+        "badges": "Badges",
+        "achievements": "Achievements",
+        "rank": "Rank",
+        "viewDetails": "View Details"
+      },
+      "topVolunteers": {
+        "title": "Top Volunteers",
+        "thisWeek": "This Week",
+        "thisMonth": "This Month",
+        "allTime": "All Time",
+        "points": "{points} pts",
+        "viewLeaderboard": "View Full Leaderboard"
+      },
+      "recentAchievements": {
+        "title": "Recent Achievements",
+        "noRecent": "No recent achievements",
+        "viewAll": "View All Achievements"
+      }
+    },
+    "profile": {
+      "title": "Gamification",
+      "tabBadges": "Badges",
+      "tabAchievements": "Achievements",
+      "tabPoints": "Points",
+      "tabLeaderboards": "Leaderboards",
+      "showcasedBadges": "Showcased Badges",
+      "allBadges": "All Badges",
+      "achievementProgress": "Achievement Progress",
+      "pointsOverview": "Points Overview",
+      "leaderboardPositions": "Leaderboard Positions"
+    },
+    "loading": {
+      "badges": "Loading badges...",
+      "achievements": "Loading achievements...",
+      "points": "Loading points...",
+      "leaderboards": "Loading leaderboards...",
+      "stats": "Loading statistics..."
+    },
+    "errors": {
+      "loadBadges": "Failed to load badges",
+      "loadAchievements": "Failed to load achievements",
+      "loadPoints": "Failed to load points",
+      "loadLeaderboards": "Failed to load leaderboards",
+      "loadStats": "Failed to load statistics",
+      "generic": "An error occurred. Please try again."
+    }
   }
 }

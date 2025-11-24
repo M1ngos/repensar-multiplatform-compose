@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
-import { User, Mail, Phone, Building2, Briefcase, Calendar, Shield, Edit, Loader2 } from 'lucide-react';
-import { usersApi } from '@/lib/api';
+import { User, Mail, Phone, Building2, Briefcase, Calendar, Shield, Edit, Loader2, Trophy } from 'lucide-react';
+import { usersApi, volunteersApi } from '@/lib/api';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,6 +21,7 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 import { format } from 'date-fns';
+import { GamificationSummaryCard } from '@/components/dashboard/gamification-summary-card';
 
 export default function ProfilePage() {
     const t = useTranslations('Profile');
@@ -228,6 +229,9 @@ export default function ProfilePage() {
                     </div>
                 </CardContent>
             </Card>
+
+            {/* Gamification Section */}
+            <GamificationSummaryCard />
 
             {/* Edit Profile Dialog */}
             <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>

@@ -1373,3 +1373,358 @@ export interface BlogTagListResponse {
   skip: number;
   limit: number;
 }
+
+// ==================== Gamification Types ====================
+
+export enum BadgeCategory {
+  TIME = "time",
+  SKILLS = "skills",
+  PROJECTS = "projects",
+  TRAINING = "training",
+  LEADERSHIP = "leadership",
+  SPECIAL = "special"
+}
+
+export enum BadgeRarity {
+  COMMON = "common",
+  RARE = "rare",
+  EPIC = "epic",
+  LEGENDARY = "legendary"
+}
+
+export enum AchievementType {
+  HOURS_LOGGED = "hours_logged",
+  PROJECTS_COMPLETED = "projects_completed",
+  TASKS_COMPLETED = "tasks_completed",
+  SKILLS_ACQUIRED = "skills_acquired",
+  TRAININGS_COMPLETED = "trainings_completed",
+  CONSECUTIVE_DAYS = "consecutive_days",
+  VOLUNTEER_REFERRED = "volunteer_referred",
+  CUSTOM = "custom"
+}
+
+export enum LeaderboardType {
+  POINTS = "points",
+  HOURS = "hours",
+  PROJECTS = "projects"
+}
+
+export enum LeaderboardTimeframe {
+  ALL_TIME = "all_time",
+  WEEKLY = "weekly",
+  MONTHLY = "monthly"
+}
+
+export interface Badge {
+  id: number;
+  name: string;
+  description: string;
+  category: BadgeCategory;
+  icon_url: string;
+  color: string;
+  rarity: BadgeRarity;
+  points_value: number;
+  is_active: boolean;
+  is_secret: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BadgeCreate {
+  name: string;
+  description: string;
+  category: BadgeCategory;
+  icon_url: string;
+  color: string;
+  rarity: BadgeRarity;
+  points_value: number;
+  is_active?: boolean;
+  is_secret?: boolean;
+}
+
+export interface BadgeUpdate {
+  name?: string;
+  description?: string;
+  category?: BadgeCategory;
+  icon_url?: string;
+  color?: string;
+  rarity?: BadgeRarity;
+  points_value?: number;
+  is_active?: boolean;
+  is_secret?: boolean;
+}
+
+export interface BadgeSummary {
+  id: number;
+  name: string;
+  category: BadgeCategory;
+  rarity: BadgeRarity;
+  color: string;
+  icon_url: string;
+  points_value: number;
+  is_secret: boolean;
+}
+
+export interface VolunteerBadge {
+  id: number;
+  volunteer_id: number;
+  badge_id: number;
+  earned_at: string;
+  earned_reason: string;
+  awarded_by_id: number | null;
+  is_showcased: boolean;
+  badge: BadgeSummary;
+}
+
+export interface VolunteerBadgesResponse {
+  total_badges: number;
+  showcased_badges: string[];
+  badges: VolunteerBadge[];
+}
+
+export interface Achievement {
+  id: number;
+  name: string;
+  description: string;
+  achievement_type: AchievementType;
+  criteria: Record<string, any>;
+  points_reward: number;
+  badge_id: number | null;
+  is_repeatable: boolean;
+  tracks_progress: boolean;
+  is_active: boolean;
+  is_secret: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AchievementCreate {
+  name: string;
+  description: string;
+  achievement_type: AchievementType;
+  criteria: Record<string, any>;
+  points_reward: number;
+  badge_id?: number | null;
+  is_repeatable?: boolean;
+  tracks_progress?: boolean;
+  is_active?: boolean;
+  is_secret?: boolean;
+}
+
+export interface AchievementUpdate {
+  name?: string;
+  description?: string;
+  achievement_type?: AchievementType;
+  criteria?: Record<string, any>;
+  points_reward?: number;
+  badge_id?: number | null;
+  is_repeatable?: boolean;
+  tracks_progress?: boolean;
+  is_active?: boolean;
+  is_secret?: boolean;
+}
+
+export interface AchievementProgress {
+  id: number;
+  name: string;
+  description: string;
+  achievement_type: AchievementType;
+  points_reward: number;
+  is_completed: boolean;
+  completed_at: string | null;
+  current_progress: number;
+  target_progress: number;
+  progress_percentage: number;
+  times_completed: number;
+  badge: BadgeSummary | null;
+}
+
+export interface VolunteerAchievementsResponse {
+  total_achievements: number;
+  completed: number;
+  in_progress: number;
+  achievements: AchievementProgress[];
+}
+
+export interface PointsHistory {
+  id: number;
+  points_change: number;
+  event_type: string;
+  description: string;
+  reference_id: number | null;
+  reference_type: string | null;
+  balance_after: number;
+  awarded_by_id: number | null;
+  created_at: string;
+}
+
+export interface PointsSummary {
+  id: number;
+  volunteer_id: number;
+  total_points: number;
+  current_points: number;
+  rank: number;
+  rank_percentile: number;
+  current_streak_days: number;
+  longest_streak_days: number;
+  last_activity_date: string;
+  updated_at: string;
+  recent_history: PointsHistory[];
+}
+
+export interface StreakInfo {
+  volunteer_id: number;
+  current_streak_days: number;
+  longest_streak_days: number;
+  last_activity_date: string;
+  is_active_today: boolean;
+}
+
+export interface RankingEntry {
+  rank: number;
+  volunteer_id: number;
+  volunteer_name: string;
+  volunteer_avatar: string;
+  total_points: number;
+  badges_count: number;
+  achievements_count: number;
+}
+
+export interface LeaderboardEntry {
+  volunteer_id: number;
+  rank: number;
+  value: number;
+  volunteer_name: string;
+  volunteer_avatar: string;
+}
+
+export interface Leaderboard {
+  id: number;
+  leaderboard_type: LeaderboardType;
+  timeframe: LeaderboardTimeframe;
+  period_start: string;
+  period_end: string;
+  generated_at: string;
+  is_current: boolean;
+  total_participants: number;
+  average_value: number;
+  median_value: number;
+  rankings: LeaderboardEntry[];
+}
+
+export interface LeaderboardPosition {
+  volunteer_id: number;
+  leaderboard_type: LeaderboardType;
+  timeframe: LeaderboardTimeframe;
+  rank: number;
+  value: number;
+  total_participants: number;
+  percentile: number;
+}
+
+export interface GamificationStats {
+  total_badges: number;
+  total_achievements: number;
+  total_points_awarded: number;
+  total_badges_earned: number;
+  total_achievements_completed: number;
+  active_volunteers: number;
+  avg_points_per_volunteer: number;
+  most_earned_badge: BadgeSummary;
+  most_completed_achievement: {
+    id: number;
+    name: string;
+    achievement_type: AchievementType;
+    points_reward: number;
+    is_repeatable: boolean;
+    is_secret: boolean;
+  };
+}
+
+export interface VolunteerGamificationSummary {
+  volunteer_id: number;
+  points: PointsSummary;
+  badges_earned: number;
+  achievements_completed: number;
+  recent_badges: VolunteerBadge[];
+  achievement_progress: AchievementProgress[];
+  leaderboard_positions: LeaderboardPosition[];
+}
+
+export interface BadgeAwardRequest {
+  badge_id: number;
+  earned_reason: string;
+}
+
+export interface BadgeAwardResponse {
+  status: "awarded" | "already_earned";
+  badge_id: number;
+  badge_name?: string;
+  points_awarded?: number;
+}
+
+export interface PointsAwardRequest {
+  points: number;
+  event_type: string;
+  description: string;
+  reference_id?: number | null;
+  reference_type?: string | null;
+}
+
+export interface PointsAwardResponse {
+  volunteer_id: number;
+  points_change: number;
+  new_balance: number;
+  event_type: string;
+  description: string;
+  created_at: string;
+}
+
+export interface ToggleBadgeShowcaseRequest {
+  is_showcased: boolean;
+}
+
+export interface ToggleBadgeShowcaseResponse {
+  message: string;
+  is_showcased: boolean;
+}
+
+export interface BadgeCategoriesResponse {
+  categories: BadgeCategory[];
+}
+
+export interface AchievementTypesResponse {
+  types: AchievementType[];
+}
+
+export interface GenerateLeaderboardsResponse {
+  message: string;
+}
+
+export interface BadgeListParams {
+  skip?: number;
+  limit?: number;
+  category?: BadgeCategory;
+  rarity?: BadgeRarity;
+  is_active?: boolean;
+}
+
+export interface AchievementListParams {
+  skip?: number;
+  limit?: number;
+  achievement_type?: AchievementType;
+  is_active?: boolean;
+}
+
+export interface PointsHistoryParams {
+  skip?: number;
+  limit?: number;
+}
+
+export interface LeaderboardParams {
+  timeframe?: LeaderboardTimeframe;
+}
+
+export interface RankingsParams {
+  limit?: number;
+}

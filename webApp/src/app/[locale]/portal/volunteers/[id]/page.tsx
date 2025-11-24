@@ -10,12 +10,13 @@
  import {Skeleton} from '@/components/ui/skeleton';
  import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
  import {Button} from '@/components/ui/button';
- import {AlertCircle, Award, Calendar, CheckCircle2, Clock, Edit, Mail, MapPin, Phone, Plus, User} from 'lucide-react';
+ import {AlertCircle, Award, Calendar, CheckCircle2, Clock, Edit, Mail, MapPin, Phone, Plus, User, Trophy} from 'lucide-react';
  import {format} from 'date-fns';
  import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from '@/components/ui/table';
  import {VolunteerFormDialog} from '@/components/volunteers/volunteer-form-dialog';
  import {AddSkillDialog} from '@/components/volunteers/add-skill-dialog';
  import {LogHoursDialog} from '@/components/volunteers/log-hours-dialog';
+ import {VolunteerGamificationTab} from '@/components/gamification/volunteer-gamification-tab';
 
  export default function VolunteerDetailPage() {
     const params = useParams();
@@ -197,6 +198,10 @@
                         <TabsTrigger value="hours">
                             <Clock className="mr-2 h-4 w-4" />
                             {t('detail.tabs.hours')}
+                        </TabsTrigger>
+                        <TabsTrigger value="gamification">
+                            <Trophy className="mr-2 h-4 w-4" />
+                            Gamification
                         </TabsTrigger>
                     </TabsList>
 
@@ -413,6 +418,11 @@
                                 </TableBody>
                             </Table>
                         </div>
+                    </TabsContent>
+
+                    {/* Gamification Tab */}
+                    <TabsContent value="gamification">
+                        <VolunteerGamificationTab volunteerId={volunteerId} />
                     </TabsContent>
                 </Tabs>
 

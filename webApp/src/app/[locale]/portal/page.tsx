@@ -4,6 +4,7 @@ import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useTranslations } from 'next-intl';
 import { SectionCards } from '@/components/dashboard/section-cards';
 import { RecentProjects } from '@/components/dashboard/recent-projects';
+import { GamificationSummaryCard } from '@/components/dashboard/gamification-summary-card';
 
 export default function PortalPage() {
     const { user } = useAuth();
@@ -23,6 +24,9 @@ export default function PortalPage() {
 
             {/* Stats Cards - Real Backend Data */}
             <SectionCards />
+
+            {/* Gamification Summary */}
+            <GamificationSummaryCard />
 
             {/* Recent Projects - Real Backend Data */}
             <RecentProjects />

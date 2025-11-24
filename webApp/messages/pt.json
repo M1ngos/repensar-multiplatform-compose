@@ -1467,5 +1467,317 @@
         "saving": "Guardando..."
       }
     }
+  },
+  "Gamification": {
+    "title": "Gamificação",
+    "subtitle": "Medalhas, conquistas e classificações",
+    "badges": {
+      "title": "Medalhas",
+      "subtitle": "Suas medalhas conquistadas",
+      "totalBadges": "Total de Medalhas",
+      "noBadges": "Nenhuma medalha conquistada ainda",
+      "noBadgesDesc": "Comece a ser voluntário para ganhar sua primeira medalha!",
+      "showcased": "Em Destaque",
+      "earned": "Conquistado",
+      "notEarned": "Ainda Não Conquistado",
+      "earnedOn": "Conquistado em",
+      "categories": {
+        "time": "Tempo",
+        "skills": "Habilidades",
+        "projects": "Projetos",
+        "training": "Treinamento",
+        "leadership": "Liderança",
+        "special": "Especial"
+      },
+      "rarities": {
+        "common": "Comum",
+        "rare": "Raro",
+        "epic": "Épico",
+        "legendary": "Lendário"
+      },
+      "showcase": {
+        "add": "Adicionar ao destaque",
+        "remove": "Remover do destaque",
+        "success": "Destaque de medalha atualizado",
+        "error": "Falha ao atualizar destaque de medalha"
+      }
+    },
+    "achievements": {
+      "title": "Conquistas",
+      "subtitle": "Acompanhe seu progresso",
+      "completed": "Concluído",
+      "inProgress": "Em Progresso",
+      "notStarted": "Não Iniciado",
+      "noAchievements": "Nenhuma conquista disponível",
+      "completedOn": "Concluído em",
+      "progress": "{current} / {target}",
+      "progressPercent": "{percent}% completo",
+      "timesCompleted": "Concluído {count} vezes",
+      "types": {
+        "hours_logged": "Horas Registradas",
+        "projects_completed": "Projetos Concluídos",
+        "tasks_completed": "Tarefas Concluídas",
+        "skills_acquired": "Habilidades Adquiridas",
+        "trainings_completed": "Treinamentos Concluídos",
+        "consecutive_days": "Dias Consecutivos",
+        "volunteer_referred": "Voluntário Indicado",
+        "custom": "Personalizado"
+      }
+    },
+    "points": {
+      "title": "Pontos",
+      "subtitle": "Seu saldo e histórico de pontos",
+      "totalPoints": "Total de Pontos",
+      "currentPoints": "Pontos Atuais",
+      "rank": "Classificação",
+      "rankBadge": "#{rank}",
+      "topPercent": "Top {percent}%",
+      "history": "Histórico de Pontos",
+      "recentActivity": "Atividade Recente",
+      "noHistory": "Nenhum histórico de pontos ainda",
+      "pointsAwarded": "{points} pontos",
+      "pointsDeducted": "-{points} pontos",
+      "balance": "Saldo",
+      "eventTypes": {
+        "badge_earned": "Medalha Conquistada",
+        "achievement_completed": "Conquista Completa",
+        "task_completed": "Tarefa Concluída",
+        "hours_logged": "Horas Registradas",
+        "training_completed": "Treinamento Concluído",
+        "skill_added": "Habilidade Adicionada",
+        "manual_adjustment": "Ajuste Manual"
+      }
+    },
+    "streak": {
+      "title": "Sequência de Atividade",
+      "current": "Sequência Atual",
+      "longest": "Maior Sequência",
+      "days": "{count} dias",
+      "day": "{count} dia",
+      "activeToday": "Ativo hoje!",
+      "keepGoing": "Continue assim!",
+      "broken": "Sequência quebrada"
+    },
+    "leaderboards": {
+      "title": "Classificações",
+      "subtitle": "Veja sua posição",
+      "yourPosition": "Sua Posição",
+      "topVolunteers": "Principais Voluntários",
+      "noData": "Nenhum dado de classificação disponível",
+      "types": {
+        "points": "Pontos",
+        "hours": "Horas",
+        "projects": "Projetos"
+      },
+      "timeframes": {
+        "all_time": "Todos os Tempos",
+        "weekly": "Semanal",
+        "monthly": "Mensal"
+      },
+      "stats": {
+        "totalParticipants": "{count} participantes",
+        "averageValue": "Média: {value}",
+        "medianValue": "Mediana: {value}"
+      },
+      "position": "Posição #{rank}",
+      "outOfTotal": "de {total}"
+    },
+    "admin": {
+      "title": "Gestão de Gamificação",
+      "subtitle": "Gerencie medalhas, conquistas e prêmios",
+      "tabs": {
+        "badges": "Medalhas",
+        "achievements": "Conquistas",
+        "statistics": "Estatísticas",
+        "awards": "Prêmios Manuais"
+      },
+      "badges": {
+        "title": "Gestão de Medalhas",
+        "create": "Criar Medalha",
+        "edit": "Editar Medalha",
+        "delete": "Eliminar Medalha",
+        "deleteConfirm": "Tem certeza que deseja eliminar esta medalha?",
+        "deleteSuccess": "Medalha eliminada com sucesso",
+        "deleteError": "Falha ao eliminar medalha",
+        "createSuccess": "Medalha criada com sucesso",
+        "updateSuccess": "Medalha atualizada com sucesso",
+        "saveError": "Falha ao guardar medalha",
+        "form": {
+          "name": "Nome da Medalha",
+          "namePlaceholder": "Digite o nome da medalha",
+          "description": "Descrição",
+          "descriptionPlaceholder": "Descreva como conquistar esta medalha",
+          "category": "Categoria",
+          "rarity": "Raridade",
+          "color": "Cor",
+          "colorPlaceholder": "#4CAF50",
+          "iconUrl": "URL do Ícone",
+          "iconUrlPlaceholder": "/badges/icone-medalha.png",
+          "pointsValue": "Valor em Pontos",
+          "isActive": "Ativo",
+          "isSecret": "Medalha Secreta",
+          "cancel": "Cancelar",
+          "create": "Criar Medalha",
+          "update": "Atualizar Medalha"
+        }
+      },
+      "achievements": {
+        "title": "Gestão de Conquistas",
+        "create": "Criar Conquista",
+        "edit": "Editar Conquista",
+        "delete": "Eliminar Conquista",
+        "deleteConfirm": "Tem certeza que deseja eliminar esta conquista?",
+        "deleteSuccess": "Conquista eliminada com sucesso",
+        "deleteError": "Falha ao eliminar conquista",
+        "createSuccess": "Conquista criada com sucesso",
+        "updateSuccess": "Conquista atualizada com sucesso",
+        "saveError": "Falha ao guardar conquista",
+        "form": {
+          "name": "Nome da Conquista",
+          "namePlaceholder": "Digite o nome da conquista",
+          "description": "Descrição",
+          "descriptionPlaceholder": "Descreva esta conquista",
+          "type": "Tipo de Conquista",
+          "criteria": "Critérios (JSON)",
+          "criteriaPlaceholder": "{\"hours_required\": 100}",
+          "pointsReward": "Recompensa em Pontos",
+          "badge": "Medalha (opcional)",
+          "selectBadge": "Selecionar medalha",
+          "noBadge": "Nenhuma medalha",
+          "isRepeatable": "Repetível",
+          "tracksProgress": "Rastrear Progresso",
+          "isActive": "Ativo",
+          "isSecret": "Conquista Secreta",
+          "cancel": "Cancelar",
+          "create": "Criar Conquista",
+          "update": "Atualizar Conquista"
+        }
+      },
+      "awards": {
+        "title": "Prêmios Manuais",
+        "subtitle": "Conceder medalhas e pontos aos voluntários",
+        "awardBadge": "Conceder Medalha",
+        "awardPoints": "Conceder Pontos",
+        "selectVolunteer": "Selecionar Voluntário",
+        "searchVolunteer": "Buscar voluntários...",
+        "noVolunteersFound": "Nenhum voluntário encontrado",
+        "badge": {
+          "title": "Conceder Medalha",
+          "description": "Conceder manualmente uma medalha a um voluntário",
+          "selectBadge": "Selecionar Medalha",
+          "searchBadge": "Buscar medalhas...",
+          "noBadgesFound": "Nenhuma medalha encontrada",
+          "reason": "Motivo",
+          "reasonPlaceholder": "Por que você está concedendo esta medalha?",
+          "cancel": "Cancelar",
+          "award": "Conceder Medalha",
+          "success": "Medalha concedida com sucesso",
+          "alreadyEarned": "Voluntário já possui esta medalha",
+          "error": "Falha ao conceder medalha"
+        },
+        "points": {
+          "title": "Conceder Pontos",
+          "description": "Conceder ou deduzir pontos manualmente",
+          "points": "Pontos",
+          "pointsPlaceholder": "Digite os pontos (negativo para deduzir)",
+          "eventType": "Tipo de Evento",
+          "eventTypePlaceholder": "ajuste_manual",
+          "description": "Descrição",
+          "descriptionPlaceholder": "Por que você está concedendo estes pontos?",
+          "cancel": "Cancelar",
+          "award": "Conceder Pontos",
+          "success": "Pontos concedidos com sucesso",
+          "error": "Falha ao conceder pontos"
+        }
+      },
+      "statistics": {
+        "title": "Estatísticas de Gamificação",
+        "overview": "Visão Geral",
+        "totalBadges": "Total de Medalhas",
+        "totalAchievements": "Total de Conquistas",
+        "totalPointsAwarded": "Total de Pontos Concedidos",
+        "totalBadgesEarned": "Total de Medalhas Conquistadas",
+        "totalAchievementsCompleted": "Total de Conquistas Completas",
+        "activeVolunteers": "Voluntários Ativos",
+        "avgPointsPerVolunteer": "Média de Pontos por Voluntário",
+        "mostEarnedBadge": "Medalha Mais Conquistada",
+        "mostCompletedAchievement": "Conquista Mais Completa",
+        "generateLeaderboards": "Gerar Classificações",
+        "generateSuccess": "Classificações geradas com sucesso",
+        "generateError": "Falha ao gerar classificações"
+      }
+    },
+    "notifications": {
+      "badgeEarned": {
+        "title": "Medalha Conquistada!",
+        "message": "Você conquistou a medalha {badge}!",
+        "points": "{points} pontos concedidos"
+      },
+      "achievementCompleted": {
+        "title": "Conquista Desbloqueada!",
+        "message": "Você completou {achievement}!",
+        "points": "{points} pontos concedidos"
+      },
+      "pointsAwarded": {
+        "title": "Pontos Concedidos!",
+        "message": "{points} pontos adicionados",
+        "reason": "Motivo: {reason}"
+      },
+      "rankChanged": {
+        "title": "Classificação Alterada!",
+        "message": "Você agora está classificado #{rank}!",
+        "climbed": "Você subiu {positions} posições!"
+      }
+    },
+    "widgets": {
+      "summary": {
+        "title": "Sua Gamificação",
+        "points": "Pontos",
+        "badges": "Medalhas",
+        "achievements": "Conquistas",
+        "rank": "Classificação",
+        "viewDetails": "Ver Detalhes"
+      },
+      "topVolunteers": {
+        "title": "Principais Voluntários",
+        "thisWeek": "Esta Semana",
+        "thisMonth": "Este Mês",
+        "allTime": "Todos os Tempos",
+        "points": "{points} pts",
+        "viewLeaderboard": "Ver Classificação Completa"
+      },
+      "recentAchievements": {
+        "title": "Conquistas Recentes",
+        "noRecent": "Nenhuma conquista recente",
+        "viewAll": "Ver Todas as Conquistas"
+      }
+    },
+    "profile": {
+      "title": "Gamificação",
+      "tabBadges": "Medalhas",
+      "tabAchievements": "Conquistas",
+      "tabPoints": "Pontos",
+      "tabLeaderboards": "Classificações",
+      "showcasedBadges": "Medalhas em Destaque",
+      "allBadges": "Todas as Medalhas",
+      "achievementProgress": "Progresso de Conquistas",
+      "pointsOverview": "Visão Geral de Pontos",
+      "leaderboardPositions": "Posições nas Classificações"
+    },
+    "loading": {
+      "badges": "Carregando medalhas...",
+      "achievements": "Carregando conquistas...",
+      "points": "Carregando pontos...",
+      "leaderboards": "Carregando classificações...",
+      "stats": "Carregando estatísticas..."
+    },
+    "errors": {
+      "loadBadges": "Falha ao carregar medalhas",
+      "loadAchievements": "Falha ao carregar conquistas",
+      "loadPoints": "Falha ao carregar pontos",
+      "loadLeaderboards": "Falha ao carregar classificações",
+      "loadStats": "Falha ao carregar estatísticas",
+      "generic": "Ocorreu um erro. Por favor, tente novamente."
+    }
   }
 }
