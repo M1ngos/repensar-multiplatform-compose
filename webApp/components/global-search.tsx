@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  Search,
   FolderTree,
   CheckSquare,
   Users,
@@ -139,15 +138,17 @@ export function GlobalSearch() {
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <div className="flex items-center border-b px-3">
-        <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+      <div className="relative">
         <CommandInput
           placeholder={t('placeholder')}
           value={query}
           onValueChange={setQuery}
-          className="border-0 focus:ring-0"
         />
-        {isSearching && <Loader2 className="h-4 w-4 animate-spin ml-2" />}
+        {isSearching && (
+          <div className="absolute right-3 top-1/2 -translate-y-1/2">
+            <Loader2 className="h-4 w-4 animate-spin" />
+          </div>
+        )}
       </div>
       <CommandList>
         <CommandEmpty>
@@ -293,12 +294,12 @@ export function GlobalSearch() {
         )}
       </CommandList>
 
-      <div className="border-t px-3 py-2 text-xs text-muted-foreground flex items-center justify-between bg-muted/50">
-        <span>
+      <div className="border-t px-3 py-2 text-xs text-muted-foreground flex items-center justify-between bg-muted/50 overflow-hidden">
+        <span className="truncate">
           {t('shortcuts.press')} <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">⌘K</kbd> {t('shortcuts.or')}{' '}
           <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">Ctrl+K</kbd> {t('shortcuts.toggle')}
         </span>
-        <span>
+        <span className="hidden sm:inline-flex items-center gap-1 shrink-0">
           <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">↑↓</kbd> {t('shortcuts.navigate')},{' '}
           <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">Enter</kbd> {t('shortcuts.select')}
         </span>
