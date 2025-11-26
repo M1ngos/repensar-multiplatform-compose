@@ -140,8 +140,18 @@
         "emailPlaceholder": "seu@email.com",
         "message": "Mensagem",
         "messagePlaceholder": "Como podemos ajudar você?",
-        "submit": "Enviar Mensagem"
-      }
+        "submit": "Enviar Mensagem",
+        "submitting": "Enviando..."
+      },
+      "errors": {
+        "nameRequired": "Nome é obrigatório",
+        "emailRequired": "Email é obrigatório",
+        "emailInvalid": "Por favor, insira um endereço de email válido",
+        "messageRequired": "Mensagem é obrigatória",
+        "messageMinLength": "A mensagem deve ter pelo menos 10 caracteres"
+      },
+      "success": "Mensagem enviada com sucesso! Entraremos em contacto em breve.",
+      "error": "Falha ao enviar mensagem. Por favor, tente novamente."
     },
     "footer": {
       "description": "Cooperativa de Educação Ambiental comprometida com a transformação social através da educação ambiental e práticas sustentáveis.",
@@ -1779,5 +1789,26 @@
       "loadStats": "Falha ao carregar estatísticas",
       "generic": "Ocorreu um erro. Por favor, tente novamente."
     }
+  },
+  "Newsletter": {
+    "title": "Fique Atualizado!",
+    "description": "Subscreva à nossa newsletter para as últimas notícias ambientais, atualizações de projetos e formas de participar.",
+    "form": {
+      "email": "Email",
+      "emailPlaceholder": "seu@email.com",
+      "name": "Nome",
+      "namePlaceholder": "Seu nome",
+      "optional": "opcional",
+      "subscribe": "Subscrever",
+      "subscribing": "Subscrevendo...",
+      "noThanks": "Não, obrigado"
+    },
+    "errors": {
+      "emailRequired": "Email é obrigatório",
+      "emailInvalid": "Por favor, insira um endereço de email válido"
+    },
+    "success": "Subscrito com sucesso à nossa newsletter!",
+    "successConfirmation": "Por favor, verifique seu email para confirmar a subscrição.",
+    "error": "Falha ao subscrever. Por favor, tente novamente."
   }
 }

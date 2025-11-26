@@ -140,8 +140,18 @@
         "emailPlaceholder": "your@email.com",
         "message": "Message",
         "messagePlaceholder": "How can we help you?",
-        "submit": "Send Message"
-      }
+        "submit": "Send Message",
+        "submitting": "Sending..."
+      },
+      "errors": {
+        "nameRequired": "Name is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Please enter a valid email address",
+        "messageRequired": "Message is required",
+        "messageMinLength": "Message must be at least 10 characters"
+      },
+      "success": "Message sent successfully! We'll get back to you soon.",
+      "error": "Failed to send message. Please try again."
     },
     "footer": {
       "description": "Environmental Education Cooperative committed to social transformation through environmental education and sustainable practices.",
@@ -1777,5 +1787,26 @@
       "loadStats": "Failed to load statistics",
       "generic": "An error occurred. Please try again."
     }
+  },
+  "Newsletter": {
+    "title": "Stay Updated!",
+    "description": "Subscribe to our newsletter for the latest environmental news, project updates, and ways to get involved.",
+    "form": {
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "optional": "optional",
+      "subscribe": "Subscribe",
+      "subscribing": "Subscribing...",
+      "noThanks": "No, thanks"
+    },
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address"
+    },
+    "success": "Successfully subscribed to our newsletter!",
+    "successConfirmation": "Please check your email to confirm your subscription.",
+    "error": "Failed to subscribe. Please try again."
   }
 }

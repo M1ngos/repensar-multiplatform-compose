@@ -31,6 +31,8 @@ import { blogApi } from "@/lib/api";
 import type { VolunteerStats, ProjectStats, BlogPostSummary } from "@/lib/api/types";
 import { BlogPostCard } from "@/components/blog";
 import { ArrowRight } from 'lucide-react';
+import { ContactForm } from "@/components/contact/contact-form";
+import { NewsletterPopup } from "@/components/newsletter/newsletter-popup";
 
 export default function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = React.use(params);
@@ -550,42 +552,8 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
               </div>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 select-none">
-              <form className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('contact.form.name')}</label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-300"
-                    placeholder={t('contact.form.namePlaceholder')}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('contact.form.email')}</label>
-                  <input
-                    type="email"
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-300"
-                    placeholder={t('contact.form.emailPlaceholder')}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('contact.form.message')}</label>
-                  <textarea
-                    rows={5}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-300"
-                    placeholder={t('contact.form.messagePlaceholder')}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-lg transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-                >
-                  {t('contact.form.submit')}
-                </button>
-              </form>
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300">
+              <ContactForm />
             </div>
           </div>
         </div>
@@ -632,6 +600,9 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
           </div>
         </div>
       </footer>
+
+      {/* Newsletter Subscription Popup */}
+      <NewsletterPopup />
     </div>
   );
 }

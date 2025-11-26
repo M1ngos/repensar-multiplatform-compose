@@ -44,9 +44,11 @@ import { resourcesApi } from './resources';
 import { analyticsApi } from './analytics';
 import { reportsApi } from './reports';
 import { blogApi } from './blog';
+import { contactApi } from './contact';
+import { newsletterApi } from './newsletter';
 
 // Export API modules
-export { authApi, projectsApi, tasksApi, volunteersApi, usersApi, resourcesApi, analyticsApi, reportsApi, blogApi };
+export { authApi, projectsApi, tasksApi, volunteersApi, usersApi, resourcesApi, analyticsApi, reportsApi, blogApi, contactApi, newsletterApi };
 
 // Export middleware (when implemented)
 // export {
@@ -75,6 +77,8 @@ export const api = {
   analytics: analyticsApi,
   reports: reportsApi,
   blog: blogApi,
+  contact: contactApi,
+  newsletter: newsletterApi,
 };
 
 // Default export

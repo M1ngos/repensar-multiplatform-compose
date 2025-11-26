@@ -1728,3 +1728,44 @@ export interface LeaderboardParams {
 export interface RankingsParams {
   limit?: number;
 }
+
+// ==================== Contact Types ====================
+
+export interface ContactRequest {
+  name: string;
+  email: string;
+  message: string;
+}
+
+export interface ContactResponse {
+  message: string;
+  id: number;
+}
+
+// ==================== Newsletter Types ====================
+
+export interface NewsletterSubscribeRequest {
+  email: string;
+  name?: string;
+}
+
+export interface NewsletterSubscribeResponse {
+  message: string;
+  requires_confirmation: boolean;
+}
+
+export interface NewsletterConfirmResponse {
+  message: string;
+  email: string;
+}
+
+export interface NewsletterUnsubscribeInfo {
+  email: string;
+  status: string;
+  message: string;
+}
+
+export interface NewsletterUnsubscribeResponse {
+  message: string;
+  email: string;
+}
