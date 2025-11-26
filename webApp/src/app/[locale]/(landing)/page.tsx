@@ -33,6 +33,8 @@ import { BlogPostCard } from "@/components/blog";
 import { ArrowRight } from 'lucide-react';
 import { ContactForm } from "@/components/contact/contact-form";
 import { NewsletterPopup } from "@/components/newsletter/newsletter-popup";
+import { LanguageSwitcher } from '@/components/language-switcher';
+
 
 export default function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = React.use(params);

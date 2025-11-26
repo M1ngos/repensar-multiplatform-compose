@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname } from '@/src/i18n/navigation';
 import { Globe, Check } from 'lucide-react';
 import {
   Select,
@@ -31,9 +31,7 @@ export function LanguageSwitcher({ variant = 'select' }: LanguageSwitcherProps) 
 
   const handleLanguageChange = (newLocale: string) => {
     startTransition(() => {
-      // Replace the locale in the pathname
-      const newPathname = pathname.replace(`/${locale}`, `/${newLocale}`);
-      router.replace(newPathname);
+      router.replace(pathname, { locale: newLocale });
       toast.success(`Language changed to ${LANGUAGES.find(l => l.code === newLocale)?.name}`);
     });
   };
