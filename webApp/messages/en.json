@@ -297,6 +297,7 @@
       "blog": "Blog",
       "analytics": "Analytics",
       "reports": "Reports",
+      "approvals": "Approvals",
       "settings": "Settings",
       "logout": "Logout",
       "theme": "Theme",
@@ -1180,6 +1181,7 @@
     }
   },
   "Notifications": {
+    "loading":"Loading",
     "title": "Notifications",
     "unread": "{count} unread",
     "allCaughtUp": "All caught up!",
@@ -1271,9 +1273,10 @@
       "registerVolunteer": "Register Volunteer",
       "viewAnalytics": "View Analytics"
     },
-    "shortcuts": {
-      "toggle": "to toggle",
-      "navigate": "to navigate",
+          "shortcuts": {
+            "press": "Press",
+            "or": "or",
+            "toggle": "to toggle",      "navigate": "to navigate",
       "select": "to select"
     }
   },

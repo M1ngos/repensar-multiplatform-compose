@@ -297,6 +297,7 @@
       "blog": "Blog",
       "analytics": "Análises",
       "reports": "Relatórios",
+      "approvals": "Aprovações",
       "settings": "Configurações",
       "logout": "Sair",
       "theme": "Tema",
@@ -1178,6 +1179,7 @@
     }
   },
   "Notifications": {
+    "loading": "Carregando",
     "title": "Notificações",
     "unread": "{count} não lidas",
     "allCaughtUp": "Tudo em dia!",
