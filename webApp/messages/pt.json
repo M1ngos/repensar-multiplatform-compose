@@ -1175,6 +1175,7 @@
     "language": {
       "title": "Idioma e Região",
       "description": "Definir as suas preferências de idioma e região",
+      "selectLanguage": "Selecionar idioma",
       "currentLanguage": "O idioma atual é definido pela localização do seu navegador"
     }
   },
