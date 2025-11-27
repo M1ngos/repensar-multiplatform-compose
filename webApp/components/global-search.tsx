@@ -138,11 +138,12 @@ export function GlobalSearch() {
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <div className="relative">
+      <div className="relative overflow-hidden">
         <CommandInput
           placeholder={t('placeholder')}
           value={query}
           onValueChange={setQuery}
+          className="pr-10"
         />
         {isSearching && (
           <div className="absolute right-3 top-1/2 -translate-y-1/2">

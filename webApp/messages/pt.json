@@ -104,16 +104,16 @@
       "titleHighlight": "Equipe",
       "subtitle": "Profissionais dedicados à transformação através da educação ambiental",
       "member1": {
-        "name": "Ana Silva",
-        "role": "Diretora Executiva"
+        "name": "Carlos Serra",
+        "role": "Director"
       },
       "member2": {
-        "name": "Carlos Santos",
-        "role": "Coordenador de Projetos"
+        "name": "Ana Clemente",
+        "role": "Gestora Ambiental"
       },
       "member3": {
-        "name": "Marina Costa",
-        "role": "Educadora Ambiental"
+        "name": "Marta Sambo",
+        "role": "Consultora Ambiental"
       }
     },
     "contact": {
@@ -1214,7 +1214,7 @@
     }
   },
   "Search": {
-    "placeholder": "Pesquisar projetos, tarefas, voluntários...",
+    "placeholder": "Acções Rápidas... ⌘K",
     "minCharacters": "Digite pelo menos 2 caracteres para pesquisar",
     "noResults": "Nenhum resultado encontrado para \"{query}\"",
     "quickActions": "Ações Rápidas",

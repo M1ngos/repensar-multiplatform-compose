@@ -94,17 +94,17 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
     {
       name: t('team.member1.name'),
       role: t('team.member1.role'),
-      image: "https://images.pexels.com/photos/3184419/pexels-photo-3184419.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/landing/1.jpeg"
     },
     {
       name: t('team.member2.name'),
       role: t('team.member2.role'),
-      image: "https://images.pexels.com/photos/3184429/pexels-photo-3184429.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/landing/2.jpeg"
     },
     {
       name: t('team.member3.name'),
       role: t('team.member3.role'),
-      image: "https://images.pexels.com/photos/3184421/pexels-photo-3184421.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/landing/3.png"
     }
   ];
 
