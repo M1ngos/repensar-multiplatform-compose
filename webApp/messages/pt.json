@@ -2025,6 +2025,41 @@
       "noDataDesc": "As classificações aparecerão aqui assim que os voluntários começarem a ganhar pontos e registrar horas."
     }
   },
+  "ProjectManager": {
+    "dashboard": {
+      "subtitle": "Gerencie seus projetos e equipe",
+      "projectsDesc": "Projetos que você gerencia",
+      "approvalsDesc": "Horas aguardando sua revisão",
+      "tasks": "tarefas",
+      "stats": {
+        "activeProjects": "Projetos Ativos",
+        "totalTasks": "Total de Tarefas",
+        "teamMembers": "Membros da Equipe",
+        "pendingApprovals": "Aprovações Pendentes"
+      }
+    },
+    "myProjects": {
+      "title": "Meus Projetos",
+      "subtitle": "Projetos que você gerencia",
+      "noProjects": "Nenhum projeto ainda",
+      "noProjectsDesc": "Você ainda não foi designado para gerenciar nenhum projeto."
+    },
+    "timeApprovals": {
+      "title": "Aprovações de Tempo",
+      "subtitle": "Revise e aprove as horas dos voluntários",
+      "noPending": "Nenhuma aprovação pendente",
+      "noPendingDesc": "Todas as horas de voluntariado foram revisadas.",
+      "approve": "Aprovar",
+      "reject": "Rejeitar",
+      "approveSuccess": "Horas aprovadas com sucesso",
+      "approveError": "Falha ao aprovar horas",
+      "rejectSuccess": "Horas rejeitadas com sucesso",
+      "rejectError": "Falha ao rejeitar horas",
+      "unknownVolunteer": "Voluntário Desconhecido",
+      "noProject": "Sem projeto",
+      "on": "em"
+    }
+  },
   "Newsletter": {
     "title": "Fique Atualizado!",
     "description": "Subscreva à nossa newsletter para as últimas notícias ambientais, atualizações de projetos e formas de participar.",

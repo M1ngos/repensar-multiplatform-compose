@@ -2023,6 +2023,41 @@
       "noDataDesc": "Rankings will appear here once volunteers start earning points and logging hours."
     }
   },
+  "ProjectManager": {
+    "dashboard": {
+      "subtitle": "Manage your projects and team",
+      "projectsDesc": "Projects you manage",
+      "approvalsDesc": "Hours awaiting your review",
+      "tasks": "tasks",
+      "stats": {
+        "activeProjects": "Active Projects",
+        "totalTasks": "Total Tasks",
+        "teamMembers": "Team Members",
+        "pendingApprovals": "Pending Approvals"
+      }
+    },
+    "myProjects": {
+      "title": "My Projects",
+      "subtitle": "Projects you manage",
+      "noProjects": "No projects yet",
+      "noProjectsDesc": "You haven't been assigned any projects to manage yet."
+    },
+    "timeApprovals": {
+      "title": "Time Approvals",
+      "subtitle": "Review and approve volunteer hours",
+      "noPending": "No pending approvals",
+      "noPendingDesc": "All volunteer hours have been reviewed.",
+      "approve": "Approve",
+      "reject": "Reject",
+      "approveSuccess": "Hours approved successfully",
+      "approveError": "Failed to approve hours",
+      "rejectSuccess": "Hours rejected successfully",
+      "rejectError": "Failed to reject hours",
+      "unknownVolunteer": "Unknown Volunteer",
+      "noProject": "No project",
+      "on": "on"
+    }
+  },
   "Newsletter": {
     "title": "Stay Updated!",
     "description": "Subscribe to our newsletter for the latest environmental news, project updates, and ways to get involved.",
