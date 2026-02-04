@@ -18,6 +18,10 @@ import {
     Leaf,
     BookOpen,
     ClipboardCheck,
+    Clock,
+    ListTodo,
+    Award,
+    Trophy,
 } from 'lucide-react';
 
 import {
@@ -70,43 +74,79 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             href: `/${locale}/portal`,
             icon: LayoutDashboard,
         },
+        // Volunteer-specific navigation
+        {
+            title: t('nav.myTasks'),
+            href: `/${locale}/portal/my-tasks`,
+            icon: ListTodo,
+            roles: ['volunteer'],
+        },
+        {
+            title: t('nav.myHours'),
+            href: `/${locale}/portal/my-hours`,
+            icon: Clock,
+            roles: ['volunteer'],
+        },
+        {
+            title: t('nav.availableTasks'),
+            href: `/${locale}/portal/available-tasks`,
+            icon: CheckSquare,
+            roles: ['volunteer'],
+        },
+        {
+            title: t('nav.myAchievements'),
+            href: `/${locale}/portal/achievements`,
+            icon: Award,
+            roles: ['volunteer'],
+        },
+        {
+            title: t('nav.leaderboards'),
+            href: `/${locale}/portal/leaderboards`,
+            icon: Trophy,
+            roles: ['volunteer'],
+        },
+        // Admin/PM/Staff navigation
         {
             title: t('nav.projects'),
             href: `/${locale}/portal/projects`,
             icon: FolderKanban,
+            roles: ['admin', 'project_manager', 'staff_member'],
         },
         {
             title: t('nav.resources'),
             href: `/${locale}/portal/resources`,
             icon: FileText,
+            roles: ['admin', 'project_manager', 'staff_member'],
         },
         {
             title: t('nav.tasks'),
             href: `/${locale}/portal/tasks`,
             icon: CheckSquare,
+            roles: ['admin', 'project_manager', 'staff_member'],
         },
         {
             title: t('nav.volunteers'),
             href: `/${locale}/portal/volunteers`,
             icon: Heart,
+            roles: ['admin', 'project_manager', 'staff_member'],
         },
         {
             title: t('nav.approvals') || 'Approvals',
             href: `/${locale}/portal/approvals/time-logs`,
             icon: ClipboardCheck,
-            roles: ['admin', 'project_manager', 'staff_member'], // Supervisors and above
+            roles: ['admin', 'project_manager', 'staff_member'],
         },
         {
             title: t('nav.users'),
             href: `/${locale}/portal/users`,
             icon: Users,
-            roles: ['admin', 'project_manager'], // Only admin and PMs can see users
+            roles: ['admin', 'project_manager'],
         },
         {
             title: t('nav.blog'),
             href: `/${locale}/portal/blog`,
             icon: BookOpen,
-            roles: ['admin', 'project_manager'], // Only admin and PMs can manage blog
+            roles: ['admin', 'project_manager'],
         },
         {
             title: t('nav.analytics'),

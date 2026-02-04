@@ -303,7 +303,19 @@
       "theme": "Tema",
       "themeLight": "Claro",
       "themeDark": "Escuro",
-      "themeSystem": "Sistema"
+      "themeSystem": "Sistema",
+      "myTasks": "Minhas Tarefas",
+      "myHours": "Minhas Horas",
+      "availableTasks": "Tarefas Disponíveis",
+      "myAchievements": "Minhas Conquistas",
+      "leaderboards": "Classificações",
+      "myProjects": "Meus Projetos",
+      "team": "Equipe",
+      "timeApprovals": "Aprovações de Tempo",
+      "contact": "Submissões de Contato",
+      "newsletter": "Newsletter",
+      "badges": "Distintivos",
+      "achievements": "Conquistas"
     },
     "roles": {
       "admin": "Administrador",
@@ -312,7 +324,8 @@
       "coordinator": "Coordenador"
     },
     "welcome": "Bem-vindo de volta",
-    "subtitle": "Aqui está o que está acontecendo com seus projetos hoje."
+    "subtitle": "Aqui está o que está acontecendo com seus projetos hoje.",
+    "viewAll": "Ver Tudo"
   },
   "TermsOfService": {
     "title": "Termos de Serviço",
@@ -861,10 +874,20 @@
       "date": "Data",
       "hours": "Horas",
       "pickDate": "Escolher uma data",
+      "startTime": "Hora de Início",
+      "endTime": "Hora de Término",
       "project": "Projeto",
       "searchProject": "Opcional - selecionar projeto...",
       "searchProjectPlaceholder": "Pesquisar projetos...",
       "noProjectsFound": "Nenhum projeto encontrado.",
+      "task": "Tarefa",
+      "searchTask": "Opcional - selecionar tarefa...",
+      "searchTaskPlaceholder": "Pesquisar tarefas...",
+      "noTasksFound": "Nenhuma tarefa encontrada.",
+      "supervisor": "Supervisor",
+      "searchSupervisor": "Opcional - selecionar supervisor...",
+      "searchSupervisorPlaceholder": "Pesquisar supervisores...",
+      "noSupervisorsFound": "Nenhum supervisor encontrado.",
       "activity": "Descrição da Atividade",
       "activityPlaceholder": "O que trabalhou...",
       "logHoursButton": "Registar Horas",
@@ -1791,6 +1814,215 @@
       "loadLeaderboards": "Falha ao carregar classificações",
       "loadStats": "Falha ao carregar estatísticas",
       "generic": "Ocorreu um erro. Por favor, tente novamente."
+    }
+  },
+  "Volunteer": {
+    "dashboard": {
+      "subtitle": "Aqui está uma visão geral da sua atividade voluntária",
+      "currentTasksDesc": "Tarefas em que você está trabalhando",
+      "recentBadgesDesc": "Suas conquistas mais recentes",
+      "hoursChart": "Horas ao Longo do Tempo",
+      "hoursChartDesc": "Suas horas de voluntariado nos últimos 6 meses"
+    },
+    "myTasks": {
+      "title": "Minhas Tarefas",
+      "subtitle": "Tarefas atribuídas a você",
+      "noTasks": "Nenhuma tarefa atribuída",
+      "noTasksDesc": "Você ainda não tem tarefas atribuídas. Consulte a página de Tarefas Disponíveis para se inscrever em novas oportunidades.",
+      "noProject": "Sem projeto",
+      "stats": {
+        "active": "Tarefas Ativas"
+      },
+      "status": {
+        "not_started": "Não Iniciada",
+        "in_progress": "Em Progresso",
+        "completed": "Concluída",
+        "cancelled": "Cancelada"
+      },
+      "filters": {
+        "all": "Todas",
+        "notStarted": "Não Iniciadas",
+        "inProgress": "Em Progresso",
+        "completed": "Concluídas"
+      },
+      "card": {
+        "project": "Projeto",
+        "dueDate": "Prazo",
+        "status": "Status",
+        "priority": "Prioridade",
+        "progress": "Progresso",
+        "overdue": "Atrasada",
+        "daysRemaining": "{days} dias restantes",
+        "noDueDate": "Sem prazo",
+        "viewDetails": "Ver Detalhes",
+        "startTask": "Iniciar Tarefa",
+        "markComplete": "Marcar como Concluída",
+        "continueTask": "Continuar"
+      },
+      "statusUpdate": {
+        "success": "Status da tarefa atualizado com sucesso",
+        "error": "Falha ao atualizar status da tarefa"
+      }
+    },
+    "myHours": {
+      "title": "Minhas Horas",
+      "subtitle": "Rastreie e gerencie suas horas de voluntariado",
+      "logHours": "Registrar Horas",
+      "summary": {
+        "totalHours": "Total de Horas",
+        "thisMonth": "Este Mês",
+        "pendingApproval": "Pendente de Aprovação",
+        "approved": "Aprovadas"
+      },
+      "filters": {
+        "dateRange": "Período",
+        "status": "Status",
+        "all": "Todas",
+        "pending": "Pendentes",
+        "approved": "Aprovadas",
+        "rejected": "Rejeitadas",
+        "from": "De",
+        "to": "Até"
+      },
+      "table": {
+        "date": "Data",
+        "hours": "Horas",
+        "project": "Projeto",
+        "activity": "Atividade",
+        "status": "Status",
+        "actions": "Ações",
+        "noProject": "Trabalho voluntário geral",
+        "noActivity": "Sem descrição"
+      },
+      "noHours": "Nenhuma hora registrada",
+      "noHoursDesc": "Comece a rastrear suas contribuições voluntárias registrando suas horas.",
+      "noData": "Nenhum dado de horas disponível",
+      "noDataDesc": "Suas horas registradas aparecerão aqui após serem aprovadas.",
+      "actions": {
+        "edit": "Editar",
+        "delete": "Excluir"
+      },
+      "status": {
+        "pending": "Pendente",
+        "approved": "Aprovada",
+        "rejected": "Rejeitada"
+      }
+    },
+    "availableTasks": {
+      "title": "Tarefas Disponíveis",
+      "subtitle": "Navegue e inscreva-se em oportunidades de voluntariado abertas",
+      "search": "Pesquisar tarefas...",
+      "filters": {
+        "project": "Projeto",
+        "allProjects": "Todos os Projetos",
+        "skills": "Habilidades Necessárias",
+        "allSkills": "Todas as Habilidades"
+      },
+      "card": {
+        "project": "Projeto",
+        "dueDate": "Prazo",
+        "priority": "Prioridade",
+        "requiredSkills": "Habilidades Necessárias",
+        "spotsAvailable": "{available} de {total} vagas disponíveis",
+        "spotsFull": "Todas as vagas preenchidas",
+        "noSkills": "Nenhuma habilidade específica necessária",
+        "noDueDate": "Sem prazo",
+        "signUp": "Inscrever-se",
+        "viewDetails": "Ver Detalhes",
+        "signedUp": "Inscrito"
+      },
+      "noTasks": "Nenhuma tarefa disponível",
+      "noTasksDesc": "Atualmente não há oportunidades de voluntariado abertas. Volte em breve!",
+      "noResults": "Nenhuma tarefa corresponde aos seus filtros",
+      "noResultsDesc": "Tente ajustar seus critérios de pesquisa ou filtro.",
+      "signUp": {
+        "success": "Inscrito na tarefa com sucesso!",
+        "error": "Falha ao inscrever-se na tarefa",
+        "confirmTitle": "Inscrever-se na Tarefa",
+        "confirmDescription": "Tem certeza de que deseja se inscrever nesta tarefa?",
+        "cancel": "Cancelar",
+        "confirm": "Inscrever-se"
+      }
+    },
+    "achievements": {
+      "title": "Minhas Conquistas",
+      "subtitle": "Acompanhe seus distintivos, pontos e realizações",
+      "summary": {
+        "totalPoints": "Total de Pontos",
+        "badgesEarned": "Distintivos Conquistados",
+        "currentStreak": "Sequência Atual",
+        "rank": "Classificação",
+        "days": "dias"
+      },
+      "tabs": {
+        "badges": "Distintivos",
+        "points": "Pontos",
+        "achievements": "Conquistas"
+      },
+      "badges": {
+        "showcased": "Em Destaque",
+        "earnedOn": "Conquistado em",
+        "showcase": "Destacar",
+        "removeFromShowcase": "Remover do destaque",
+        "noBadges": "Nenhum distintivo conquistado ainda",
+        "noBadgesDesc": "Complete tarefas e atividades para ganhar seu primeiro distintivo!",
+        "showcaseSuccess": "Destaque de distintivo atualizado",
+        "showcaseError": "Falha ao atualizar destaque de distintivo"
+      },
+      "points": {
+        "overview": "Visão Geral de Pontos",
+        "currentPoints": "Pontos Atuais",
+        "totalEarned": "Total Ganho",
+        "rank": "Sua Classificação",
+        "recentActivity": "Atividade Recente",
+        "noActivity": "Sem atividade recente",
+        "noActivityDesc": "Seu histórico de pontos aparecerá aqui conforme você ganha pontos.",
+        "pointsAwarded": "+{points} pontos",
+        "pointsDeducted": "{points} pontos"
+      },
+      "achievementsList": {
+        "completed": "Concluída",
+        "inProgress": "Em Progresso",
+        "notStarted": "Não Iniciada",
+        "progress": "{current} / {target}",
+        "completedOn": "Concluída em",
+        "noAchievements": "Nenhuma conquista disponível",
+        "noAchievementsDesc": "Novas conquistas aparecerão aqui quando ficarem disponíveis."
+      }
+    },
+    "leaderboards": {
+      "title": "Classificações",
+      "subtitle": "Veja como você se classifica entre outros voluntários",
+      "types": {
+        "points": "Pontos",
+        "hours": "Horas",
+        "projects": "Projetos"
+      },
+      "timeframes": {
+        "all_time": "Todo o Tempo",
+        "monthly": "Mensal",
+        "weekly": "Semanal"
+      },
+      "table": {
+        "rank": "Posição",
+        "volunteer": "Voluntário",
+        "value": "Valor",
+        "you": "Você"
+      },
+      "topThree": {
+        "first": "1º Lugar",
+        "second": "2º Lugar",
+        "third": "3º Lugar"
+      },
+      "stats": {
+        "points": "{value} pontos",
+        "hours": "{value} horas",
+        "projects": "{value} projetos"
+      },
+      "yourPosition": "Sua Posição",
+      "notRanked": "Ainda não classificado",
+      "noData": "Nenhum dado de classificação disponível",
+      "noDataDesc": "As classificações aparecerão aqui assim que os voluntários começarem a ganhar pontos e registrar horas."
     }
   },
   "Newsletter": {
