@@ -14,7 +14,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription } from '@/components/ui/empty';
 import { gamificationApi } from '@/lib/api/gamification';
-import { tasksApi } from '@/lib/api/tasks';
 import { volunteersApi } from '@/lib/api/volunteers';
 import { TaskStatus } from '@/lib/api/types';
 import { format, parseISO, subMonths, startOfMonth, endOfMonth, eachMonthOfInterval } from 'date-fns';
@@ -40,13 +39,19 @@ export function VolunteerDashboard() {
         () => gamificationApi.stats.getVolunteerSummary(user!.id)
     );
 
-    // Fetch current tasks
+    // Fetch current tasks (v2.0 paginated)
     const { data: tasks, isLoading: tasksLoading } = useSWR(
         user?.id ? ['volunteer-tasks-dashboard', user.id] : null,
-        () => tasksApi.getVolunteerAssignments(user!.id, {
-            status: TaskStatus.IN_PROGRESS,
-            limit: 5
+        () => volunteersApi.getVolunteerTasks(user!.id, {
+            status: 'in_progress',
+            page_size: 5
         })
+    );
+
+    // Fetch hours summary for this-month stat card
+    const { data: hoursSummary, isLoading: summaryLoading } = useSWR(
+        user?.id ? ['volunteer-hours-summary-dash', user.id] : null,
+        () => volunteersApi.getVolunteerHoursSummary(user!.id)
     );
 
     // Fetch recent badges
@@ -63,15 +68,15 @@ export function VolunteerDashboard() {
             const hours = await volunteersApi.getVolunteerHours(user!.id, {
                 start_date: format(sixMonthsAgo, 'yyyy-MM-dd'),
                 end_date: format(new Date(), 'yyyy-MM-dd'),
-                status: 'approved'
+                approval_status: 'approved'
             });
             return hours;
         }
     );
 
-    // Process hours data for chart
+    // Process hours data for chart — hoursData is VolunteerTimeLog[] directly
     const chartData = React.useMemo(() => {
-        if (!hoursData?.time_logs) return [];
+        if (!hoursData || hoursData.length === 0) return [];
 
         const sixMonthsAgo = subMonths(new Date(), 6);
         const months = eachMonthOfInterval({
@@ -83,12 +88,12 @@ export function VolunteerDashboard() {
             const monthStart = startOfMonth(month);
             const monthEnd = endOfMonth(month);
 
-            const monthHours = hoursData.time_logs
+            const monthHours = hoursData
                 .filter(log => {
                     const logDate = parseISO(log.date);
                     return logDate >= monthStart && logDate <= monthEnd;
                 })
-                .reduce((sum, log) => sum + log.hours_worked, 0);
+                .reduce((sum, log) => sum + log.hours, 0);
 
             return {
                 month: format(month, 'MMM yyyy'),
@@ -104,7 +109,7 @@ export function VolunteerDashboard() {
         },
     } satisfies ChartConfig;
 
-    const isLoading = statsLoading || tasksLoading || badgesLoading || hoursLoading;
+    const isLoading = statsLoading || tasksLoading || badgesLoading || hoursLoading || summaryLoading;
 
     if (isLoading) {
         return (
@@ -130,8 +135,12 @@ export function VolunteerDashboard() {
     // Get recent badges (last 6)
     const recentBadges = badgesData?.badges?.slice(0, 6) || [];
 
-    // Get urgent/active tasks (max 5)
-    const activeTasks = tasks?.assignments?.slice(0, 5) || [];
+    // Get active tasks from paginated response (max 5)
+    const activeTasks = tasks?.data?.slice(0, 5) || [];
+
+    // Derive hours this month from summary's hours_by_month map
+    const currentMonthKey = format(new Date(), 'yyyy-MM');
+    const hoursThisMonth = hoursSummary?.hours_by_month?.[currentMonthKey] || 0;
 
     return (
         <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
@@ -150,7 +159,7 @@ export function VolunteerDashboard() {
                 />
                 <StatCard
                     title={tVolunteer('myHours.summary.thisMonth')}
-                    value={(stats?.hours_this_month || 0).toFixed(1)}
+                    value={hoursThisMonth.toFixed(1)}
                     icon={Clock}
                     variant="blue"
                 />
@@ -162,7 +171,7 @@ export function VolunteerDashboard() {
                 />
                 <StatCard
                     title={tVolunteer('myTasks.stats.active')}
-                    value={stats?.active_tasks || 0}
+                    value={tasks?.metadata?.total || 0}
                     icon={CheckSquare}
                     variant="orange"
                 />
@@ -194,52 +203,44 @@ export function VolunteerDashboard() {
                             </Empty>
                         ) : (
                             <div className="space-y-3">
-                                {activeTasks.map((assignment) => {
-                                    const isOverdue = assignment.task.due_date &&
-                                        new Date(assignment.task.due_date) < new Date() &&
-                                        assignment.status !== TaskStatus.COMPLETED;
-
-                                    return (
-                                        <Link
-                                            key={assignment.id}
-                                            href={`/${locale}/portal/my-tasks`}
-                                            className="block"
-                                        >
-                                            <div className={cn(
-                                                "rounded-lg border p-3 transition-colors hover:bg-muted/50",
-                                                isOverdue && "border-red-200 bg-red-50/50 dark:border-red-900 dark:bg-red-950/20"
-                                            )}>
-                                                <div className="flex items-start justify-between gap-2">
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="font-medium text-sm truncate">
-                                                            {assignment.task.title}
-                                                        </p>
-                                                        <p className="text-xs text-muted-foreground truncate">
-                                                            {assignment.task.project?.name || tVolunteer('myTasks.noProject')}
-                                                        </p>
-                                                        {assignment.task.due_date && (
-                                                            <div className={cn(
-                                                                "flex items-center gap-1 text-xs mt-1",
-                                                                isOverdue ? "text-red-600 dark:text-red-400" : "text-muted-foreground"
-                                                            )}>
-                                                                {isOverdue && <AlertCircle className="h-3 w-3" />}
-                                                                <Calendar className="h-3 w-3" />
-                                                                <span>{format(parseISO(assignment.task.due_date), 'MMM dd, yyyy')}</span>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                    <Badge variant={
-                                                        assignment.status === TaskStatus.COMPLETED ? 'default' :
-                                                        assignment.status === TaskStatus.IN_PROGRESS ? 'secondary' :
-                                                        'outline'
-                                                    }>
-                                                        {tVolunteer(`myTasks.status.${assignment.status}`)}
-                                                    </Badge>
+                                {activeTasks.map((task) => (
+                                    <Link
+                                        key={task.id}
+                                        href={`/${locale}/portal/tasks/${task.id}`}
+                                        className="block"
+                                    >
+                                        <div className={cn(
+                                            "rounded-lg border p-3 transition-colors hover:bg-muted/50",
+                                            task.is_overdue && "border-red-200 bg-red-50/50 dark:border-red-900 dark:bg-red-950/20"
+                                        )}>
+                                            <div className="flex items-start justify-between gap-2">
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="font-medium text-sm truncate">{task.title}</p>
+                                                    <p className="text-xs text-muted-foreground truncate">
+                                                        {task.project_name || tVolunteer('myTasks.noProject')}
+                                                    </p>
+                                                    {task.end_date && (
+                                                        <div className={cn(
+                                                            "flex items-center gap-1 text-xs mt-1",
+                                                            task.is_overdue ? "text-red-600 dark:text-red-400" : "text-muted-foreground"
+                                                        )}>
+                                                            {task.is_overdue && <AlertCircle className="h-3 w-3" />}
+                                                            <Calendar className="h-3 w-3" />
+                                                            <span>{format(parseISO(task.end_date), 'MMM dd, yyyy')}</span>
+                                                        </div>
+                                                    )}
                                                 </div>
+                                                <Badge variant={
+                                                    task.status === TaskStatus.COMPLETED ? 'default' :
+                                                    task.status === TaskStatus.IN_PROGRESS ? 'secondary' :
+                                                    'outline'
+                                                }>
+                                                    {tVolunteer(`myTasks.status.${task.status}`)}
+                                                </Badge>
                                             </div>
-                                        </Link>
-                                    );
-                                })}
+                                        </div>
+                                    </Link>
+                                ))}
                             </div>
                         )}
                     </CardContent>

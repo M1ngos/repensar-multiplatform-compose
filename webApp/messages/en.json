@@ -273,6 +273,7 @@
   },
   "Dashboard": {
     "appSubtitle": "Environmental Education",
+    "fallbackName": "Manager",
     "recentProjects": {
       "title": "Recent Projects",
       "subtitle": "Your active environmental initiatives",
@@ -2029,6 +2030,8 @@
       "projectsDesc": "Projects you manage",
       "approvalsDesc": "Hours awaiting your review",
       "tasks": "tasks",
+      "volunteers": "volunteers",
+      "teamMembers": "Team Members",
       "stats": {
         "activeProjects": "Active Projects",
         "totalTasks": "Total Tasks",
@@ -2039,8 +2042,54 @@
     "myProjects": {
       "title": "My Projects",
       "subtitle": "Projects you manage",
+      "newProject": "New Project",
       "noProjects": "No projects yet",
-      "noProjectsDesc": "You haven't been assigned any projects to manage yet."
+      "noProjectsDesc": "You haven't been assigned any projects to manage yet.",
+      "progress": "Progress",
+      "members": "members",
+      "volunteers": "volunteers",
+      "dueDate": "Due",
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "deleteConfirmTitle": "Delete Project",
+      "deleteConfirmDesc": "This action cannot be undone. The project will be marked as cancelled.",
+      "deleteSuccess": "Project deleted successfully",
+      "deleteError": "Failed to delete project",
+      "editError": "Failed to load project details",
+      "filters": {
+        "all": "All",
+        "active": "Active",
+        "completed": "Completed",
+        "onHold": "On Hold"
+      },
+      "status": {
+        "planning": "Planning",
+        "in_progress": "In Progress",
+        "completed": "Completed",
+        "suspended": "On Hold",
+        "cancelled": "Cancelled"
+      }
+    },
+    "team": {
+      "title": "Team",
+      "subtitle": "Volunteers across your projects",
+      "search": "Search team members...",
+      "noMembers": "No team members",
+      "noMembersDesc": "Volunteers will appear here once they are assigned to your projects.",
+      "stats": {
+        "totalMembers": "Total Members",
+        "activeProjects": "Active Projects",
+        "totalHours": "Total Hours"
+      },
+      "table": {
+        "name": "Name",
+        "email": "Email",
+        "projects": "Projects",
+        "skills": "Skills",
+        "hours": "Hours"
+      }
     },
     "timeApprovals": {
       "title": "Time Approvals",
@@ -2056,6 +2105,114 @@
       "unknownVolunteer": "Unknown Volunteer",
       "noProject": "No project",
       "on": "on"
+    }
+  },
+  "StaffMember": {
+    "dashboard": {
+      "subtitle": "Overview of organization activities and operations",
+      "stats": {
+        "activeProjects": "Active Projects",
+        "activeVolunteers": "Active Volunteers",
+        "hoursLogged": "Hours Logged",
+        "completionRate": "Task Completion Rate"
+      },
+      "projectsTitle": "Recent Projects",
+      "projectsDesc": "Latest project activity",
+      "volunteersTitle": "Volunteers Overview",
+      "volunteersDesc": "Volunteer management summary",
+      "tasksTitle": "Tasks Overview",
+      "tasksDesc": "Current task status breakdown",
+      "volunteersLabel": "volunteers",
+      "membersLabel": "members",
+      "noProjects": "No projects found",
+      "activeVolunteers": "Active Volunteers",
+      "totalVolunteers": "Total Volunteers",
+      "totalHours": "Total Hours",
+      "recentRegistrations": "New this month",
+      "tasksNotStarted": "Not Started",
+      "tasksInProgress": "In Progress",
+      "tasksCompleted": "Completed",
+      "tasksOverdue": "Overdue",
+      "tasksTotal": "Total Tasks",
+      "noTasks": "No tasks found"
+    }
+  },
+  "Admin": {
+    "dashboard": {
+      "subtitle": "System-wide overview and management",
+      "stats": {
+        "totalUsers": "Total Users",
+        "activeProjects": "Active Projects",
+        "totalVolunteers": "Active Volunteers",
+        "tasksCompleted": "Tasks Completed"
+      },
+      "projectsTitle": "Recent Projects",
+      "projectsDesc": "Latest project activity",
+      "volunteersLabel": "volunteers",
+      "membersLabel": "members",
+      "noProjects": "No projects found",
+      "usersTitle": "Users Overview",
+      "usersDesc": "User management summary",
+      "totalUsers": "Total Users",
+      "usersByRole": "Users by role",
+      "budgetOverview": "Budget Overview",
+      "budgetSpent": "Spent",
+      "tasksTitle": "Tasks Overview",
+      "tasksDesc": "Current task status breakdown",
+      "tasksNotStarted": "Not Started",
+      "tasksInProgress": "In Progress",
+      "tasksCompleted": "Completed",
+      "tasksOverdue": "Overdue",
+      "tasksTotal": "Total Tasks",
+      "noTasks": "No tasks found"
+    }
+  },
+  "Approvals": {
+    "title": "Time Log Approvals",
+    "subtitle": "Review and approve volunteer time logs",
+    "pending": "Pending",
+    "filters": {
+      "title": "Filters",
+      "description": "Filter time logs by project and date range",
+      "project": "Project",
+      "allProjects": "All Projects",
+      "fromDate": "From Date",
+      "toDate": "To Date",
+      "search": "Search",
+      "searchPlaceholder": "Search description...",
+      "clearFilters": "Clear Filters"
+    },
+    "batchActions": {
+      "selected": "selected",
+      "approveSelected": "Approve Selected"
+    },
+    "table": {
+      "title": "Pending Time Logs",
+      "description": "{count} time log(s) awaiting approval",
+      "headers": {
+        "volunteer": "Volunteer",
+        "date": "Date",
+        "hours": "Hours",
+        "project": "Project",
+        "task": "Task",
+        "description": "Description",
+        "actions": "Actions"
+      },
+      "actions": {
+        "review": "Review"
+      },
+      "empty": {
+        "title": "All Caught Up!",
+        "description": "No pending time logs to review"
+      }
+    },
+    "datePicker": {
+      "pickDate": "Pick a date"
+    },
+    "messages": {
+      "selectToApprove": "Please select time logs to approve",
+      "batchApproveSuccess": "{count} time log(s) approved successfully",
+      "batchApproveError": "Failed to approve time logs"
     }
   },
   "Newsletter": {

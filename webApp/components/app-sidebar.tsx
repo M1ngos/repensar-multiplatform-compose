@@ -105,12 +105,25 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             icon: Trophy,
             roles: ['volunteer'],
         },
+        // Project Manager-specific navigation
+        {
+            title: t('nav.myProjects'),
+            href: `/${locale}/portal/my-projects`,
+            icon: FolderKanban,
+            roles: ['project_manager'],
+        },
+        {
+            title: t('nav.team'),
+            href: `/${locale}/portal/team`,
+            icon: Users,
+            roles: ['project_manager'],
+        },
         // Admin/PM/Staff navigation
         {
             title: t('nav.projects'),
             href: `/${locale}/portal/projects`,
             icon: FolderKanban,
-            roles: ['admin', 'project_manager', 'staff_member'],
+            roles: ['admin', 'staff_member'],
         },
         {
             title: t('nav.resources'),

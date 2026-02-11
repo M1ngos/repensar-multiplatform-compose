@@ -273,6 +273,7 @@
   },
   "Dashboard": {
     "appSubtitle": "Educação Ambiental",
+    "fallbackName": "Gestor",
     "recentProjects": {
       "title": "Projetos Recentes",
       "subtitle": "Suas iniciativas ambientais ativas",
@@ -2031,6 +2032,8 @@
       "projectsDesc": "Projetos que você gerencia",
       "approvalsDesc": "Horas aguardando sua revisão",
       "tasks": "tarefas",
+      "volunteers": "voluntários",
+      "teamMembers": "Membros da Equipe",
       "stats": {
         "activeProjects": "Projetos Ativos",
         "totalTasks": "Total de Tarefas",
@@ -2041,8 +2044,54 @@
     "myProjects": {
       "title": "Meus Projetos",
       "subtitle": "Projetos que você gerencia",
+      "newProject": "Novo Projeto",
       "noProjects": "Nenhum projeto ainda",
-      "noProjectsDesc": "Você ainda não foi designado para gerenciar nenhum projeto."
+      "noProjectsDesc": "Você ainda não foi designado para gerenciar nenhum projeto.",
+      "progress": "Progresso",
+      "members": "membros",
+      "volunteers": "voluntários",
+      "dueDate": "Prazo",
+      "view": "Ver",
+      "edit": "Editar",
+      "delete": "Excluir",
+      "cancel": "Cancelar",
+      "deleteConfirmTitle": "Excluir Projeto",
+      "deleteConfirmDesc": "Esta ação não pode ser desfeit. O projeto será marcado como cancelado.",
+      "deleteSuccess": "Projeto excluído com sucesso",
+      "deleteError": "Falha ao excluir projeto",
+      "editError": "Falha ao carregar detalhes do projeto",
+      "filters": {
+        "all": "Todas",
+        "active": "Ativos",
+        "completed": "Concluídos",
+        "onHold": "Em Espera"
+      },
+      "status": {
+        "planning": "Planejamento",
+        "in_progress": "Em Andamento",
+        "completed": "Concluído",
+        "suspended": "Em Espera",
+        "cancelled": "Cancelado"
+      }
+    },
+    "team": {
+      "title": "Equipe",
+      "subtitle": "Voluntários nos seus projetos",
+      "search": "Buscar membros da equipe...",
+      "noMembers": "Nenhum membro da equipe",
+      "noMembersDesc": "Os voluntários aparecerão aqui quando forem atribuídos aos seus projetos.",
+      "stats": {
+        "totalMembers": "Total de Membros",
+        "activeProjects": "Projetos Ativos",
+        "totalHours": "Total de Horas"
+      },
+      "table": {
+        "name": "Nome",
+        "email": "Email",
+        "projects": "Projetos",
+        "skills": "Habilidades",
+        "hours": "Horas"
+      }
     },
     "timeApprovals": {
       "title": "Aprovações de Tempo",
@@ -2058,6 +2107,114 @@
       "unknownVolunteer": "Voluntário Desconhecido",
       "noProject": "Sem projeto",
       "on": "em"
+    }
+  },
+  "StaffMember": {
+    "dashboard": {
+      "subtitle": "Visão geral das atividades e operações da organização",
+      "stats": {
+        "activeProjects": "Projetos Ativos",
+        "activeVolunteers": "Voluntários Ativos",
+        "hoursLogged": "Horas Registradas",
+        "completionRate": "Taxa de Conclusão de Tarefas"
+      },
+      "projectsTitle": "Projetos Recentes",
+      "projectsDesc": "Última atividade dos projetos",
+      "volunteersTitle": "Visão dos Voluntários",
+      "volunteersDesc": "Resumo da gestão de voluntários",
+      "tasksTitle": "Visão das Tarefas",
+      "tasksDesc": "Distribuição atual do estado das tarefas",
+      "volunteersLabel": "voluntários",
+      "membersLabel": "membros",
+      "noProjects": "Nenhum projeto encontrado",
+      "activeVolunteers": "Voluntários Ativos",
+      "totalVolunteers": "Total de Voluntários",
+      "totalHours": "Total de Horas",
+      "recentRegistrations": "Novos este mês",
+      "tasksNotStarted": "Não Iniciadas",
+      "tasksInProgress": "Em Andamento",
+      "tasksCompleted": "Concluídas",
+      "tasksOverdue": "Atrasadas",
+      "tasksTotal": "Total de Tarefas",
+      "noTasks": "Nenhuma tarefa encontrada"
+    }
+  },
+  "Admin": {
+    "dashboard": {
+      "subtitle": "Visão geral e gestão do sistema",
+      "stats": {
+        "totalUsers": "Total de Utilizadores",
+        "activeProjects": "Projetos Ativos",
+        "totalVolunteers": "Voluntários Ativos",
+        "tasksCompleted": "Tarefas Concluídas"
+      },
+      "projectsTitle": "Projetos Recentes",
+      "projectsDesc": "Última atividade dos projetos",
+      "volunteersLabel": "voluntários",
+      "membersLabel": "membros",
+      "noProjects": "Nenhum projeto encontrado",
+      "usersTitle": "Visão dos Utilizadores",
+      "usersDesc": "Resumo da gestão de utilizadores",
+      "totalUsers": "Total de Utilizadores",
+      "usersByRole": "Utilizadores por papel",
+      "budgetOverview": "Visão do Orçamento",
+      "budgetSpent": "Gasto",
+      "tasksTitle": "Visão das Tarefas",
+      "tasksDesc": "Distribuição atual do estado das tarefas",
+      "tasksNotStarted": "Não Iniciadas",
+      "tasksInProgress": "Em Andamento",
+      "tasksCompleted": "Concluídas",
+      "tasksOverdue": "Atrasadas",
+      "tasksTotal": "Total de Tarefas",
+      "noTasks": "Nenhuma tarefa encontrada"
+    }
+  },
+  "Approvals": {
+    "title": "Aprovações de Registro de Horas",
+    "subtitle": "Revise e aprove os registros de horas dos voluntários",
+    "pending": "Pendente",
+    "filters": {
+      "title": "Filtros",
+      "description": "Filtrar registros de horas por projeto e intervalo de datas",
+      "project": "Projeto",
+      "allProjects": "Todos os Projetos",
+      "fromDate": "Data Inicial",
+      "toDate": "Data Final",
+      "search": "Pesquisar",
+      "searchPlaceholder": "Pesquisar descrição...",
+      "clearFilters": "Limpar Filtros"
+    },
+    "batchActions": {
+      "selected": "selecionados",
+      "approveSelected": "Aprovar Selecionados"
+    },
+    "table": {
+      "title": "Registros de Horas Pendentes",
+      "description": "{count} registro(s) de horas aguardando aprovação",
+      "headers": {
+        "volunteer": "Voluntário",
+        "date": "Data",
+        "hours": "Horas",
+        "project": "Projeto",
+        "task": "Tarefa",
+        "description": "Descrição",
+        "actions": "Ações"
+      },
+      "actions": {
+        "review": "Revisar"
+      },
+      "empty": {
+        "title": "Tudo em Dia!",
+        "description": "Nenhum registro de horas pendente para revisão"
+      }
+    },
+    "datePicker": {
+      "pickDate": "Escolha uma data"
+    },
+    "messages": {
+      "selectToApprove": "Por favor, selecione os registros de horas para aprovar",
+      "batchApproveSuccess": "{count} registro(s) de horas aprovado(s) com sucesso",
+      "batchApproveError": "Falha ao aprovar registros de horas"
     }
   },
   "Newsletter": {

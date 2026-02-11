@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
-import { useTranslations } from 'next-intl';
-import { useLocale } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import useSWR from 'swr';
 import { Folder, CheckSquare, Users, ClipboardCheck, ArrowRight } from 'lucide-react';
 import { StatCard } from '@/components/shared/stat-card';
@@ -15,8 +14,10 @@ import { Progress } from '@/components/ui/progress';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription } from '@/components/ui/empty';
 import { projectsApi } from '@/lib/api/projects';
 import { volunteersApi } from '@/lib/api/volunteers';
+import { ProjectStatus } from '@/lib/api/types';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import type { VolunteerTimeLog, VolunteerSummary } from '@/lib/api/types';
 
 export function ProjectManagerDashboard() {
     const { user } = useAuth();
@@ -24,101 +25,89 @@ export function ProjectManagerDashboard() {
     const t = useTranslations('Dashboard');
     const tPM = useTranslations('ProjectManager');
 
-    // Fetch PM dashboard stats
-    const { data: stats, isLoading: statsLoading } = useSWR(
-        user?.id ? ['pm-dashboard-stats', user.id] : null,
-        async () => {
-            // Get projects managed by this PM
-            const projects = await projectsApi.getProjects({ project_manager_id: user!.id });
-
-            // Get pending time approvals for PM's projects
-            const projectIds = projects.data?.map(p => p.id) || [];
-            let pendingCount = 0;
-
-            if (projectIds.length > 0) {
-                // Fetch hours for each project and count pending
-                const hoursPromises = projectIds.map(projectId =>
-                    volunteersApi.getVolunteerHours(undefined as any, {
-                        project_id: projectId,
-                        status: 'pending'
-                    }).catch(() => ({ time_logs: [] }))
-                );
-                const hoursResults = await Promise.all(hoursPromises);
-                pendingCount = hoursResults.reduce((sum, result) =>
-                    sum + (result.time_logs?.length || 0), 0
-                );
-            }
-
-            // Calculate stats
-            const activeProjects = projects.data?.filter(p => p.status === 'active').length || 0;
-            const totalTasks = projects.data?.reduce((sum, p) => sum + (p.tasks?.length || 0), 0) || 0;
-
-            // Count unique volunteers across all projects
-            const uniqueVolunteers = new Set(
-                projects.data?.flatMap(p =>
-                    p.volunteers?.map(v => v.id) || []
-                ) || []
-            );
-
-            return {
-                active_projects: activeProjects,
-                total_tasks: totalTasks,
-                team_members: uniqueVolunteers.size,
-                pending_approvals: pendingCount
-            };
-        }
-    );
-
-    // Fetch PM's projects (for overview widget)
-    const { data: projectsData, isLoading: projectsLoading } = useSWR(
+    // Fetch PM's projects (ProjectSummary[] — no .data wrapper)
+    const { data: pmProjects, isLoading: projectsLoading } = useSWR(
         user?.id ? ['pm-projects', user.id] : null,
-        () => projectsApi.getProjects({ project_manager_id: user!.id })
+        () => projectsApi.getProjects({ manager_id: user!.id })
     );
 
-    // Fetch pending time approvals (for approvals widget)
+    // Fetch dashboard metrics for PM's projects
+    const { data: dashboardData, isLoading: dashLoading } = useSWR(
+        user?.id ? ['pm-dashboard-data', user.id] : null,
+        () => projectsApi.getProjectsDashboard()
+    );
+
+    // Derive stats by cross-referencing PM's project IDs with dashboard data
+    const stats = React.useMemo(() => {
+        if (!pmProjects || !dashboardData) return null;
+
+        const pmIds = new Set(pmProjects.map(p => p.id));
+        const pmDashProjects = dashboardData.filter(d => pmIds.has(d.id));
+
+        return {
+            active_projects: pmDashProjects.filter(
+                p => p.status === ProjectStatus.IN_PROGRESS || p.status === ProjectStatus.PLANNING
+            ).length,
+            total_tasks: pmDashProjects.reduce((sum, p) => sum + p.total_tasks, 0),
+            team_members: pmDashProjects.reduce((sum, p) => sum + p.team_size, 0),
+        };
+    }, [pmProjects, dashboardData]);
+
+    // Fetch volunteers across PM's projects for the pending approvals widget
     const { data: pendingApprovals, isLoading: approvalsLoading, mutate: mutateApprovals } = useSWR(
-        user?.id && projectsData?.data ? ['pm-pending-approvals', user.id] : null,
+        user?.id && pmProjects && pmProjects.length > 0 ? ['pm-pending-approvals', user.id] : null,
         async () => {
-            if (!projectsData?.data) return [];
+            // Get volunteers for up to 5 projects
+            const projectIds = pmProjects!.slice(0, 5).map(p => p.id);
 
-            const projectIds = projectsData.data.map(p => p.id);
-
-            if (projectIds.length === 0) return [];
-
-            // Fetch pending hours for all PM's projects
-            const hoursPromises = projectIds.map(projectId =>
-                volunteersApi.getVolunteerHours(undefined as any, {
-                    project_id: projectId,
-                    status: 'pending',
-                    limit: 10
-                }).catch(() => ({ time_logs: [] }))
+            const volunteerResults = await Promise.all(
+                projectIds.map(pid =>
+                    projectsApi.getProjectVolunteers(pid).catch(() => ({ data: [] as VolunteerSummary[], metadata: { total: 0, page: 1, page_size: 10, total_pages: 1, has_next: false, has_previous: false } }))
+                )
             );
 
-            const hoursResults = await Promise.all(hoursPromises);
+            // Deduplicate volunteer IDs (limit to 15 to bound API calls)
+            const uniqueVolIds = [...new Set(
+                volunteerResults.flatMap(r => r.data.map(v => v.id))
+            )].slice(0, 15);
 
-            // Flatten and combine all pending time logs
-            const allPendingLogs = hoursResults.flatMap(result => result.time_logs || []);
+            if (uniqueVolIds.length === 0) return { logs: [], volunteerNames: new Map<number, string>() };
 
-            // Sort by date (most recent first) and take top 5
-            return allPendingLogs
+            // Build volunteer name map
+            const volunteerNames = new Map<number, string>();
+            volunteerResults.forEach(r => {
+                r.data.forEach(v => volunteerNames.set(v.id, v.name));
+            });
+
+            // Fetch pending hours for each volunteer
+            const hoursResults = await Promise.all(
+                uniqueVolIds.map(vid =>
+                    volunteersApi.getVolunteerHours(vid, { approval_status: 'pending' }).catch(() => [] as VolunteerTimeLog[])
+                )
+            );
+
+            const allPending = hoursResults.flat()
+                .filter(log => !log.approved)
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .slice(0, 5);
+
+            return { logs: allPending, volunteerNames };
         }
     );
 
-    // Approve hours handler
+    // Approve a single time log from the dashboard widget
     const handleApproveHours = async (timeLogId: number) => {
         try {
-            await volunteersApi.updateVolunteerHourStatus(timeLogId, { status: 'approved' });
+            await volunteersApi.approveTimeLog(timeLogId, { approved: true });
             toast.success(tPM('timeApprovals.approveSuccess'));
-            mutateApprovals(); // Refresh approvals
+            mutateApprovals();
         } catch (error) {
             toast.error(tPM('timeApprovals.approveError'));
             console.error('Failed to approve hours:', error);
         }
     };
 
-    const isLoading = statsLoading || projectsLoading || approvalsLoading;
+    const isLoading = projectsLoading || dashLoading || approvalsLoading;
 
     if (isLoading) {
         return (
@@ -133,20 +122,21 @@ export function ProjectManagerDashboard() {
                     ))}
                 </div>
                 <div className="grid gap-4 md:grid-cols-2">
-                    <Skeleton className="h-96" />
-                    <Skeleton className="h-96" />
+                    <Skeleton className="h-64" />
+                    <Skeleton className="h-64" />
                 </div>
             </div>
         );
     }
 
-    // Get top 5 projects
-    const topProjects = projectsData?.data?.slice(0, 5) || [];
+    const topProjects = pmProjects?.slice(0, 5) || [];
+    const pendingLogs = pendingApprovals?.logs || [];
+    const volunteerNames = pendingApprovals?.volunteerNames || new Map();
 
     return (
         <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
             <PageHeader
-                title={`${t('welcome')}, ${user?.name?.split(' ')[0] || 'Manager'}!`}
+                title={`${t('welcome')}, ${user?.name?.split(' ')[0] || t('fallbackName')}!`}
                 description={tPM('dashboard.subtitle')}
             />
 
@@ -172,7 +162,7 @@ export function ProjectManagerDashboard() {
                 />
                 <StatCard
                     title={tPM('dashboard.stats.pendingApprovals')}
-                    value={stats?.pending_approvals || 0}
+                    value={pendingLogs.length}
                     icon={ClipboardCheck}
                     variant="orange"
                 />
@@ -203,30 +193,24 @@ export function ProjectManagerDashboard() {
                                 </EmptyHeader>
                             </Empty>
                         ) : (
-                            <div className="space-y-4">
-                                {topProjects.map((project) => {
-                                    const tasksCompleted = project.tasks?.filter(t => t.status === 'completed').length || 0;
-                                    const tasksTotal = project.tasks?.length || 0;
-                                    const progress = tasksTotal > 0 ? (tasksCompleted / tasksTotal) * 100 : 0;
-
-                                    return (
-                                        <Link
-                                            key={project.id}
-                                            href={`/${locale}/portal/projects/${project.id}`}
-                                            className="block"
-                                        >
-                                            <div className="flex items-center justify-between rounded-lg border p-3 transition-colors hover:bg-muted/50">
-                                                <div className="flex-1 min-w-0">
-                                                    <p className="font-medium truncate">{project.name}</p>
-                                                    <p className="text-sm text-muted-foreground">
-                                                        {tasksCompleted}/{tasksTotal} {tPM('dashboard.tasks')}
-                                                    </p>
-                                                </div>
-                                                <Progress value={progress} className="w-24 ml-4" />
+                            <div className="space-y-3">
+                                {topProjects.map((project) => (
+                                    <Link
+                                        key={project.id}
+                                        href={`/${locale}/portal/projects/${project.id}`}
+                                        className="block"
+                                    >
+                                        <div className="flex items-center justify-between rounded-lg border p-3 transition-colors hover:bg-muted/50">
+                                            <div className="flex-1 min-w-0">
+                                                <p className="font-medium truncate">{project.name}</p>
+                                                <p className="text-sm text-muted-foreground">
+                                                    {project.volunteers_count} {tPM('dashboard.volunteers')} · {project.team_size} {tPM('dashboard.teamMembers').toLowerCase()}
+                                                </p>
                                             </div>
-                                        </Link>
-                                    );
-                                })}
+                                            <Progress value={project.progress_percentage || 0} className="w-24 ml-4" />
+                                        </div>
+                                    </Link>
+                                ))}
                             </div>
                         )}
                     </CardContent>
@@ -239,7 +223,7 @@ export function ProjectManagerDashboard() {
                             <CardTitle>{tPM('timeApprovals.title')}</CardTitle>
                             <CardDescription>{tPM('dashboard.approvalsDesc')}</CardDescription>
                         </div>
-                        <Link href={`/${locale}/portal/time-approvals`}>
+                        <Link href={`/${locale}/portal/approvals/time-logs`}>
                             <Button variant="ghost" size="sm">
                                 {t('viewAll')}
                                 <ArrowRight className="ml-1 h-4 w-4" />
@@ -247,7 +231,7 @@ export function ProjectManagerDashboard() {
                         </Link>
                     </CardHeader>
                     <CardContent>
-                        {!pendingApprovals || pendingApprovals.length === 0 ? (
+                        {pendingLogs.length === 0 ? (
                             <Empty>
                                 <EmptyHeader>
                                     <EmptyTitle>{tPM('timeApprovals.noPending')}</EmptyTitle>
@@ -256,17 +240,17 @@ export function ProjectManagerDashboard() {
                             </Empty>
                         ) : (
                             <div className="space-y-3">
-                                {pendingApprovals.map((log) => (
+                                {pendingLogs.map((log) => (
                                     <div
                                         key={log.id}
                                         className="flex items-start justify-between rounded-lg border p-3"
                                     >
                                         <div className="flex-1 min-w-0">
                                             <p className="font-medium truncate">
-                                                {log.volunteer?.name || tPM('timeApprovals.unknownVolunteer')}
+                                                {volunteerNames.get(log.volunteer_id) || `#${log.volunteer_id}`}
                                             </p>
                                             <p className="text-sm text-muted-foreground truncate">
-                                                {log.hours_worked}h {tPM('timeApprovals.on')} {log.project?.name || tPM('timeApprovals.noProject')}
+                                                {log.hours}h {tPM('timeApprovals.on')} {log.project_name || tPM('timeApprovals.noProject')}
                                             </p>
                                             <p className="text-xs text-muted-foreground">
                                                 {new Date(log.date).toLocaleDateString()}

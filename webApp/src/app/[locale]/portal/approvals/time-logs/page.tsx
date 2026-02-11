@@ -138,7 +138,7 @@ export default function TimeLogsApprovalPage() {
 
     const handleBatchApprove = async () => {
         if (selectedTimeLogIds.size === 0) {
-            toast.error('Please select time logs to approve');
+            toast.error(t('messages.selectToApprove'));
             return;
         }
 
@@ -150,12 +150,12 @@ export default function TimeLogsApprovalPage() {
             );
             await Promise.all(promises);
 
-            toast.success(`${selectedTimeLogIds.size} time log(s) approved successfully`);
+            toast.success(t('messages.batchApproveSuccess', { count: selectedTimeLogIds.size }));
             setSelectedTimeLogIds(new Set());
             refreshTimeLogs();
         } catch (error: any) {
             console.error('Error batch approving:', error);
-            toast.error(error.detail || error.message || 'Failed to approve time logs');
+            toast.error(error.detail || error.message || t('messages.batchApproveError'));
         } finally {
             setIsBatchProcessing(false);
         }
@@ -187,14 +187,14 @@ export default function TimeLogsApprovalPage() {
         <div className="container mx-auto p-6 space-y-6">
             <div className="flex justify-between items-center">
                 <div>
-                    <h1 className="text-3xl font-bold">Time Log Approvals</h1>
+                    <h1 className="text-3xl font-bold">{t('title')}</h1>
                     <p className="text-muted-foreground">
-                        Review and approve volunteer time logs
+                        {t('subtitle')}
                     </p>
                 </div>
                 <Badge variant="outline" className="text-lg px-4 py-2">
                     <Clock className="w-4 h-4 mr-2" />
-                    {filteredTimeLogs.length} Pending
+                    {filteredTimeLogs.length} {t('pending')}
                 </Badge>
             </div>
 
@@ -203,24 +203,24 @@ export default function TimeLogsApprovalPage() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <Filter className="w-5 h-5" />
-                        Filters
+                        {t('filters.title')}
                     </CardTitle>
-                    <CardDescription>Filter time logs by project and date range</CardDescription>
+                    <CardDescription>{t('filters.description')}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {/* Project Filter */}
                         <div className="space-y-2">
-                            <Label>Project</Label>
+                            <Label>{t('filters.project')}</Label>
                             <Select
                                 value={selectedProjectId?.toString() || 'all'}
                                 onValueChange={(value) => setSelectedProjectId(value === 'all' ? null : parseInt(value))}
                             >
                                 <SelectTrigger>
-                                    <SelectValue placeholder="All Projects" />
+                                    <SelectValue placeholder={t('filters.allProjects')} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">All Projects</SelectItem>
+                                    <SelectItem value="all">{t('filters.allProjects')}</SelectItem>
                                     {projects?.map((project) => (
                                         <SelectItem key={project.id} value={project.id.toString()}>
                                             {project.name}
@@ -232,7 +232,7 @@ export default function TimeLogsApprovalPage() {
 
                         {/* Date From */}
                         <div className="space-y-2">
-                            <Label>From Date</Label>
+                            <Label>{t('filters.fromDate')}</Label>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
@@ -243,7 +243,7 @@ export default function TimeLogsApprovalPage() {
                                         )}
                                     >
                                         <CalendarIcon className="mr-2 h-4 w-4" />
-                                        {dateFrom ? format(dateFrom, 'PP') : 'Pick a date'}
+                                        {dateFrom ? format(dateFrom, 'PP') : t('datePicker.pickDate')}
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0" align="start">
@@ -259,7 +259,7 @@ export default function TimeLogsApprovalPage() {
 
                         {/* Date To */}
                         <div className="space-y-2">
-                            <Label>To Date</Label>
+                            <Label>{t('filters.toDate')}</Label>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
@@ -270,7 +270,7 @@ export default function TimeLogsApprovalPage() {
                                         )}
                                     >
                                         <CalendarIcon className="mr-2 h-4 w-4" />
-                                        {dateTo ? format(dateTo, 'PP') : 'Pick a date'}
+                                        {dateTo ? format(dateTo, 'PP') : t('datePicker.pickDate')}
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0" align="start">
@@ -286,9 +286,9 @@ export default function TimeLogsApprovalPage() {
 
                         {/* Search */}
                         <div className="space-y-2">
-                            <Label>Search</Label>
+                            <Label>{t('filters.search')}</Label>
                             <Input
-                                placeholder="Search description..."
+                                placeholder={t('filters.searchPlaceholder')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
@@ -297,7 +297,7 @@ export default function TimeLogsApprovalPage() {
 
                     <div className="flex justify-end">
                         <Button variant="outline" onClick={clearFilters}>
-                            Clear Filters
+                            {t('filters.clearFilters')}
                         </Button>
                     </div>
                 </CardContent>
@@ -307,7 +307,7 @@ export default function TimeLogsApprovalPage() {
             {selectedTimeLogIds.size > 0 && (
                 <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
                     <span className="font-medium">
-                        {selectedTimeLogIds.size} selected
+                        {selectedTimeLogIds.size} {t('batchActions.selected')}
                     </span>
                     <Button
                         onClick={handleBatchApprove}
@@ -316,7 +316,7 @@ export default function TimeLogsApprovalPage() {
                     >
                         {isBatchProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         <CheckCircle2 className="mr-2 h-4 w-4" />
-                        Approve Selected
+                        {t('batchActions.approveSelected')}
                     </Button>
                 </div>
             )}
@@ -324,18 +324,18 @@ export default function TimeLogsApprovalPage() {
             {/* Time Logs Table */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Pending Time Logs</CardTitle>
+                    <CardTitle>{t('table.title')}</CardTitle>
                     <CardDescription>
-                        {filteredTimeLogs.length} time log(s) awaiting approval
+                        {t('table.description', { count: filteredTimeLogs.length })}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     {filteredTimeLogs.length === 0 ? (
                         <div className="text-center py-12">
                             <CheckCircle2 className="w-12 h-12 mx-auto text-green-500 mb-4" />
-                            <h3 className="text-lg font-medium mb-2">All Caught Up!</h3>
+                            <h3 className="text-lg font-medium mb-2">{t('table.empty.title')}</h3>
                             <p className="text-muted-foreground">
-                                No pending time logs to review
+                                {t('table.empty.description')}
                             </p>
                         </div>
                     ) : (
@@ -349,13 +349,13 @@ export default function TimeLogsApprovalPage() {
                                                 onCheckedChange={handleSelectAll}
                                             />
                                         </TableHead>
-                                        <TableHead>Volunteer</TableHead>
-                                        <TableHead>Date</TableHead>
-                                        <TableHead>Hours</TableHead>
-                                        <TableHead>Project</TableHead>
-                                        <TableHead>Task</TableHead>
-                                        <TableHead>Description</TableHead>
-                                        <TableHead className="text-right">Actions</TableHead>
+                                        <TableHead>{t('table.headers.volunteer')}</TableHead>
+                                        <TableHead>{t('table.headers.date')}</TableHead>
+                                        <TableHead>{t('table.headers.hours')}</TableHead>
+                                        <TableHead>{t('table.headers.project')}</TableHead>
+                                        <TableHead>{t('table.headers.task')}</TableHead>
+                                        <TableHead>{t('table.headers.description')}</TableHead>
+                                        <TableHead className="text-right">{t('table.headers.actions')}</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -397,7 +397,7 @@ export default function TimeLogsApprovalPage() {
                                                         size="sm"
                                                         onClick={() => handleApproveReject(timeLog)}
                                                     >
-                                                        Review
+                                                        {t('table.actions.review')}
                                                     </Button>
                                                 </div>
                                             </TableCell>
