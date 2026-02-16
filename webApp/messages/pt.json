@@ -205,7 +205,13 @@
     "sendingResetLink": "Enviando...",
     "resetLinkSent": "Link de redefinição de senha enviado! Verifique seu email.",
     "resetLinkError": "Falha ao enviar link de redefinição. Tente novamente.",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "completingSignIn": "Completando login...",
+    "pleaseWaitAuth": "Por favor, aguarde enquanto autenticamos sua conta",
+    "success": "Sucesso!",
+    "redirectingDashboard": "Redirecionando para o painel...",
+    "authenticationFailed": "Falha na Autenticação",
+    "redirectingLogin": "Redirecionando para a página de login..."
   },
   "Register": {
     "createAccount": "Criar uma conta",

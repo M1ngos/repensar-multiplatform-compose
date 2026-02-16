@@ -205,7 +205,13 @@
     "sendingResetLink": "Sending...",
     "resetLinkSent": "Password reset link sent! Please check your email.",
     "resetLinkError": "Failed to send reset link. Please try again.",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "completingSignIn": "Completing sign in...",
+    "pleaseWaitAuth": "Please wait while we authenticate your account",
+    "success": "Success!",
+    "redirectingDashboard": "Redirecting to your dashboard...",
+    "authenticationFailed": "Authentication Failed",
+    "redirectingLogin": "Redirecting to login page..."
   },
   "Register": {
     "createAccount": "Create an account",
