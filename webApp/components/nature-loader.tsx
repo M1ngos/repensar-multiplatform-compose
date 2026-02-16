@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '../lib/utils'
+import { useEffect, useState } from 'react'
 
 interface NatureLoaderProps {
   size?: 'sm' | 'md' | 'lg' | 'xl'
@@ -9,59 +10,104 @@ interface NatureLoaderProps {
 }
 
 export function NatureLoader({ size = 'md', className, text }: NatureLoaderProps) {
+  const [stage, setStage] = useState(0) // 0: seed, 1: sprout, 2: leaves
+
   const sizeMap = {
-    sm: 'w-16 h-16',
-    md: 'w-20 h-20',
-    lg: 'w-28 h-28',
-    xl: 'w-40 h-40'
+    sm: 'w-24 h-24',
+    md: 'w-32 h-32',
+    lg: 'w-40 h-40',
+    xl: 'w-56 h-56'
   }
 
-  const leafSizeMap = {
-    sm: 'w-5 h-5',
-    md: 'w-6 h-6',
-    lg: 'w-9 h-9',
-    xl: 'w-14 h-14'
+  const iconSizeMap = {
+    sm: 'w-8 h-8',
+    md: 'w-12 h-12',
+    lg: 'w-16 h-16',
+    xl: 'w-24 h-24'
   }
+
+  const particleSizeMap = {
+    sm: 'w-1 h-1',
+    md: 'w-1.5 h-1.5',
+    lg: 'w-2 h-2',
+    xl: 'w-3 h-3'
+  }
+
+  // Progressive animation: seed -> sprout -> leaves (faster cycle)
+  useEffect(() => {
+    const timer1 = setTimeout(() => setStage(1), 400)
+    const timer2 = setTimeout(() => setStage(2), 800)
+    const cycleTimer = setInterval(() => {
+      setStage(0)
+      setTimeout(() => setStage(1), 400)
+      setTimeout(() => setStage(2), 800)
+    }, 2000)
+
+    return () => {
+      clearTimeout(timer1)
+      clearTimeout(timer2)
+      clearInterval(cycleTimer)
+    }
+  }, [])
 
   return (
-    <div className={cn('flex flex-col items-center justify-center gap-4', className)}>
+    <div className={cn('flex flex-col items-center justify-center gap-6', className)}>
       <div className={cn('relative', sizeMap[size])}>
-        {/* Ambient glow */}
-        <div className="absolute inset-0 bg-gradient-radial from-leaf/10 via-transparent to-transparent blur-xl" />
+        {/* Ambient glow with pulsing */}
+        <div className="absolute inset-0 bg-gradient-radial from-leaf/20 via-leaf/5 to-transparent blur-2xl animate-pulse-soft" />
 
-        {/* Animated leaves */}
-        {[...Array(6)].map((_, i) => (
+        {/* Rising particles */}
+        {[...Array(8)].map((_, i) => (
           <div
-            key={i}
-            className="absolute inset-0 animate-spin-slow"
+            key={`particle-${i}`}
+            className={cn(
+              'absolute rounded-full bg-leaf/30 animate-particle-rise',
+              particleSizeMap[size]
+            )}
             style={{
-              animationDelay: `${i * 0.2}s`,
-              animationDuration: '4s',
-              animationTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
+              left: `${20 + i * 10}%`,
+              bottom: '20%',
+              animationDelay: `${i * 0.4}s`,
+              animationDuration: `${3 + (i % 3)}s`,
             }}
-          >
-            <div
-              className={cn(
-                'absolute top-0 left-1/2 -translate-x-1/2',
-                leafSizeMap[size]
-              )}
-              style={{
-                transform: `translateX(-50%) rotate(${i * 60}deg) translateY(-${size === 'sm' ? 24 : size === 'md' ? 28 : size === 'lg' ? 40 : 60}px)`,
-                opacity: 0.65 + (i % 3) * 0.1
-              }}
-            >
-              <LeafIcon
-                className={cn('animate-leaf-float', leafSizeMap[size])}
-                style={{ animationDelay: `${i * 0.15}s` }}
-              />
-            </div>
-          </div>
+          />
         ))}
 
-        {/* Center growing seedling */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="animate-grow-pulse">
-            <SeedlingIcon className={cn(leafSizeMap[size], 'text-growth drop-shadow-lg')} />
+        {/* Ground line with wave */}
+        <div className="absolute bottom-[30%] left-1/2 -translate-x-1/2 w-3/4">
+          <div className="h-0.5 bg-gradient-to-r from-transparent via-leaf/40 to-transparent animate-wave-pulse" />
+        </div>
+
+        {/* Main plant container */}
+        <div className="absolute inset-0 flex items-center justify-center pb-4">
+          {/* Stage 0: Seed */}
+          <div
+            className={cn(
+              'absolute transition-all duration-500 ease-out',
+              stage === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
+            )}
+          >
+            <SeedIcon className={cn(iconSizeMap[size], 'text-growth drop-shadow-lg')} />
+          </div>
+
+          {/* Stage 1: Sprout */}
+          <div
+            className={cn(
+              'absolute transition-all duration-500 ease-out',
+              stage === 1 ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-75 translate-y-4'
+            )}
+          >
+            <SproutIcon className={cn(iconSizeMap[size], 'text-growth drop-shadow-lg')} />
+          </div>
+
+          {/* Stage 2: Plant with Leaves */}
+          <div
+            className={cn(
+              'absolute transition-all duration-500 ease-out',
+              stage === 2 ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-75 translate-y-4'
+            )}
+          >
+            <PlantIcon className={cn(iconSizeMap[size], 'text-leaf drop-shadow-lg')} />
           </div>
         </div>
       </div>
@@ -75,51 +121,8 @@ export function NatureLoader({ size = 'md', className, text }: NatureLoaderProps
   )
 }
 
-function LeafIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={cn('text-leaf drop-shadow-md', className)}
-      style={style}
-    >
-      <path
-        d="M12 2C12 2 4 6 4 14C4 18.4183 7.58172 22 12 22C12 22 12 14 12 2Z"
-        fill="currentColor"
-        fillOpacity="0.8"
-      />
-      <path
-        d="M12 2C12 2 20 6 20 14C20 18.4183 16.4183 22 12 22C12 22 12 14 12 2Z"
-        fill="currentColor"
-        fillOpacity="0.6"
-      />
-      <path
-        d="M12 2L12 22"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        opacity="0.5"
-      />
-      <path
-        d="M12 8C12 8 14 10 16 11"
-        stroke="currentColor"
-        strokeWidth="1"
-        strokeLinecap="round"
-        opacity="0.4"
-      />
-      <path
-        d="M12 8C12 8 10 10 8 11"
-        stroke="currentColor"
-        strokeWidth="1"
-        strokeLinecap="round"
-        opacity="0.4"
-      />
-    </svg>
-  )
-}
-
-function SeedlingIcon({ className }: { className?: string }) {
+// Stage 0: Seed
+function SeedIcon({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -127,21 +130,128 @@ function SeedlingIcon({ className }: { className?: string }) {
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
+      {/* Seed shell */}
+      <ellipse
+        cx="12"
+        cy="13"
+        rx="4"
+        ry="5"
+        fill="currentColor"
+        fillOpacity="0.8"
+        className="animate-seed-pulse"
+      />
+      {/* Seed line detail */}
       <path
-        d="M12 22V10"
+        d="M12 8C12 8 10 11 10 13C10 15 10 18 12 18C14 18 14 15 14 13C14 11 12 8 12 8Z"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        opacity="0.4"
+      />
+      {/* Small roots starting */}
+      <path
+        d="M12 18C12 18 11 19 10 20M12 18C12 18 13 19 14 20"
+        stroke="currentColor"
+        strokeWidth="0.5"
+        strokeLinecap="round"
+        opacity="0.3"
+      />
+    </svg>
+  )
+}
+
+// Stage 1: Sprout
+function SproutIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      {/* Stem */}
+      <path
+        d="M12 22V12"
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
+        className="animate-grow-up"
       />
+      {/* First tiny leaf */}
       <path
-        d="M12 10C12 10 8 8 8 4C8 2 9 1 10.5 2C12 3 12 10 12 10Z"
+        d="M12 14C12 14 10 13 9 11C8.5 10 9 9 10 10C11 11 12 14 12 14Z"
+        fill="currentColor"
+        fillOpacity="0.6"
+        className="animate-leaf-emerge"
+      />
+      {/* Root system */}
+      <path
+        d="M12 22C12 22 10 23 8 24M12 22C12 22 14 23 16 24M12 22V24"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        opacity="0.3"
+      />
+    </svg>
+  )
+}
+
+// Stage 2: Full Plant
+function PlantIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      {/* Main stem */}
+      <path
+        d="M12 22V8"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+      {/* Left leaf - larger */}
+      <path
+        d="M12 12C12 12 7 11 6 7C5 4 6 3 8 5C10 7 12 12 12 12Z"
+        fill="currentColor"
+        fillOpacity="0.75"
+        className="animate-leaf-sway"
+      />
+      {/* Right leaf - larger */}
+      <path
+        d="M12 12C12 12 17 11 18 7C19 4 18 3 16 5C14 7 12 12 12 12Z"
+        fill="currentColor"
+        fillOpacity="0.65"
+        className="animate-leaf-sway-alt"
+      />
+      {/* Top left small leaf */}
+      <path
+        d="M12 9C12 9 9 8.5 8 6C7.5 5 8 4 9 5C10 6 12 9 12 9Z"
         fill="currentColor"
         fillOpacity="0.7"
       />
+      {/* Top right small leaf */}
       <path
-        d="M12 10C12 10 16 8 16 4C16 2 15 1 13.5 2C12 3 12 10 12 10Z"
+        d="M12 9C12 9 15 8.5 16 6C16.5 5 16 4 15 5C14 6 12 9 12 9Z"
         fill="currentColor"
-        fillOpacity="0.5"
+        fillOpacity="0.6"
+      />
+      {/* Leaf veins */}
+      <path
+        d="M12 12C11 10.5 9 9 7 8"
+        stroke="currentColor"
+        strokeWidth="0.5"
+        strokeLinecap="round"
+        opacity="0.3"
+      />
+      <path
+        d="M12 12C13 10.5 15 9 17 8"
+        stroke="currentColor"
+        strokeWidth="0.5"
+        strokeLinecap="round"
+        opacity="0.3"
       />
     </svg>
   )

@@ -8,27 +8,40 @@ import { useTranslations } from 'next-intl';
 export function LoadingOverlay() {
     const { isLoading, loadingText } = useLoading();
     const [show, setShow] = useState(false);
+    const [shouldRender, setShouldRender] = useState(false);
     const t = useTranslations('utils');
 
     useEffect(() => {
         if (isLoading) {
-            // Immediately show loading
-            setShow(true);
+            // Immediately mount and show
+            setShouldRender(true);
+            requestAnimationFrame(() => setShow(true));
         } else {
-            // Slight delay before hiding to ensure smooth transition
-            const timer = setTimeout(() => setShow(false), 150);
+            // Fade out, then unmount
+            setShow(false);
+            const timer = setTimeout(() => setShouldRender(false), 300);
             return () => clearTimeout(timer);
         }
     }, [isLoading]);
 
-    if (!show) return null;
+    if (!shouldRender) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-md transition-all duration-300 animate-in fade-in">
-            <NatureLoader
-                size="md"
-                text={loadingText || t('loading')}
-            />
+        <div
+            className={`fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-lg transition-all duration-300 ${
+                show ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+            }`}
+        >
+            <div
+                className={`transition-all duration-500 ease-out ${
+                    show ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'
+                }`}
+            >
+                <NatureLoader
+                    size="md"
+                    text={loadingText || t('loading')}
+                />
+            </div>
         </div>
     );
 }
