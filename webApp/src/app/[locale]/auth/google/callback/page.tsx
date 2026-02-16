@@ -1,14 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from '@/src/i18n/navigation';
 import { authApi } from '@/lib/api/auth';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { toast } from 'sonner';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 export default function GoogleCallbackPage() {
   const t = useTranslations('Login');
+  const locale = useLocale();
   const router = useRouter();
   const searchParams = useSearchParams();
   const { checkAuth } = useAuth();
@@ -38,9 +40,19 @@ export default function GoogleCallbackPage() {
         setStatus('success');
         toast.success(t('googleSignInSuccess'));
 
-        // Redirect to portal after a short delay
+        // Retrieve stored locale (fallback to current page locale)
+        const savedLocale = typeof window !== 'undefined'
+          ? sessionStorage.getItem('oauth_locale') || locale
+          : locale;
+
+        // Clear stored locale
+        if (typeof window !== 'undefined') {
+          sessionStorage.removeItem('oauth_locale');
+        }
+
+        // Redirect to portal with preserved locale after a short delay
         setTimeout(() => {
-          router.push('/portal');
+          router.push('/portal', { locale: savedLocale as 'en' | 'pt' });
         }, 1000);
       } catch (error: any) {
         console.error('[GoogleCallback] Authentication failed:', error);
@@ -52,15 +64,25 @@ export default function GoogleCallbackPage() {
         );
         toast.error(t('googleSignInFailed'));
 
-        // Redirect to login after showing error
+        // Retrieve stored locale (fallback to current page locale)
+        const savedLocale = typeof window !== 'undefined'
+          ? sessionStorage.getItem('oauth_locale') || locale
+          : locale;
+
+        // Clear stored locale
+        if (typeof window !== 'undefined') {
+          sessionStorage.removeItem('oauth_locale');
+        }
+
+        // Redirect to login with preserved locale after showing error
         setTimeout(() => {
-          router.push('/login');
+          router.push('/login', { locale: savedLocale as 'en' | 'pt' });
         }, 3000);
       }
     };
 
     handleCallback();
-  }, [searchParams, router, checkAuth]);
+  }, [searchParams, router, checkAuth, locale, t]);
 
   return (
     <div className="flex min-h-screen items-center justify-center">

@@ -157,9 +157,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const { authorization_url, state } = await authApi.googleLogin();
 
-      // Store state in sessionStorage for validation (optional but recommended)
+      // Store state and locale in sessionStorage for validation and preservation
       if (typeof window !== 'undefined') {
         sessionStorage.setItem('oauth_state', state);
+
+        // Store current locale to preserve it after OAuth redirect
+        const currentPath = window.location.pathname;
+        const localeMatch = currentPath.match(/^\/(en|pt)\//);
+        const currentLocale = localeMatch ? localeMatch[1] : 'pt'; // default to 'pt'
+        sessionStorage.setItem('oauth_locale', currentLocale);
       }
 
       // Redirect to Google
