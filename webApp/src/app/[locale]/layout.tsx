@@ -41,7 +41,7 @@ export default async function RootLayout({
     return (
         <>
             <html lang={locale} suppressHydrationWarning>
-                <body>
+                <body style={{ WebkitUserSelect: 'none', userSelect: 'none' }}>
                     <ThemeProvider
                         attribute="class"
                         defaultTheme="system"
