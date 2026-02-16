@@ -320,6 +320,7 @@
       "team": "Team",
       "timeApprovals": "Time Approvals",
       "contact": "Contact Submissions",
+      "gamification": "Gamification",
       "newsletter": "Newsletter",
       "badges": "Badges",
       "achievements": "Achievements"
@@ -1211,7 +1212,7 @@
     }
   },
   "Notifications": {
-    "loading":"Loading",
+    "loading": "Loading",
     "title": "Notifications",
     "unread": "{count} unread",
     "allCaughtUp": "All caught up!",
@@ -1303,10 +1304,11 @@
       "registerVolunteer": "Register Volunteer",
       "viewAnalytics": "View Analytics"
     },
-          "shortcuts": {
-            "press": "Press",
-            "or": "or",
-            "toggle": "to toggle",      "navigate": "to navigate",
+    "shortcuts": {
+      "press": "Press",
+      "or": "or",
+      "toggle": "to toggle",
+      "navigate": "to navigate",
       "select": "to select"
     }
   },
@@ -2140,7 +2142,146 @@
       "tasksCompleted": "Completed",
       "tasksOverdue": "Overdue",
       "tasksTotal": "Total Tasks",
-      "noTasks": "No tasks found"
+      "noTasks": "No tasks found",
+      "pendingApprovals": "Pending Time Approvals",
+      "pendingApprovalsDesc": "Time logs awaiting approval",
+      "recentContacts": "Recent Contact Submissions",
+      "recentContactsDesc": "Unresolved submissions from last 7 days",
+      "recentAwards": "Recent Gamification Activity",
+      "recentAwardsDesc": "Latest badges and points awarded",
+      "volunteerEngagement": "Volunteer Engagement",
+      "viewOldest": "View oldest",
+      "viewAll": "View all",
+      "noPendingApprovals": "No pending approvals",
+      "noRecentContacts": "No recent contacts",
+      "noRecentAwards": "No recent awards"
+    },
+    "contactSubmissions": {
+      "title": "Contact Submissions",
+      "description": "View and manage contact form submissions",
+      "filters": {
+        "status": "Status",
+        "dateRange": "Date Range",
+        "search": "Search by name or email",
+        "searchPlaceholder": "Search...",
+        "clearFilters": "Clear Filters",
+        "all": "All",
+        "unread": "Unread",
+        "read": "Read"
+      },
+      "statuses": {
+        "new": "New",
+        "read": "Read"
+      },
+      "actions": {
+        "viewDetails": "View Details",
+        "markAsRead": "Mark as Read",
+        "delete": "Delete",
+        "confirmDelete": "Are you sure you want to delete this submission?"
+      },
+      "table": {
+        "date": "Date",
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "viewDialog": {
+        "title": "Contact Details",
+        "from": "From",
+        "email": "Email",
+        "submittedOn": "Submitted on",
+        "message": "Message",
+        "reply": "Reply via email",
+        "close": "Close"
+      },
+      "messages": {
+        "markedAsRead": "Marked as read",
+        "deleteSuccess": "Submission deleted",
+        "deleteError": "Failed to delete submission",
+        "loadError": "Failed to load submissions"
+      },
+      "empty": {
+        "title": "No submissions found",
+        "description": "No contact form submissions match your filters"
+      }
+    },
+    "gamification": {
+      "title": "Gamification Awards",
+      "description": "Award badges and points to volunteers",
+      "tabs": {
+        "badges": "Award Badge",
+        "points": "Award Points"
+      },
+      "awardBadge": {
+        "selectVolunteer": "Select Volunteer",
+        "selectVolunteerPlaceholder": "Search for a volunteer...",
+        "selectBadge": "Select Badge",
+        "filterByCategory": "Filter by Category",
+        "allCategories": "All Categories",
+        "reason": "Reason (optional)",
+        "reasonPlaceholder": "Why is this badge being awarded?",
+        "alreadyHas": "Already earned",
+        "confirm": "Award Badge",
+        "awarding": "Awarding...",
+        "success": "Badge awarded to {volunteer}!",
+        "error": "Failed to award badge",
+        "noBadgesAvailable": "No badges available",
+        "selectVolunteerFirst": "Select a volunteer first"
+      },
+      "awardPoints": {
+        "selectVolunteer": "Select Volunteer",
+        "selectVolunteerPlaceholder": "Search for a volunteer...",
+        "points": "Points",
+        "pointsPlaceholder": "Enter points (1-1000)",
+        "reason": "Reason",
+        "reasonPlaceholder": "Why are these points being awarded? (required)",
+        "confirm": "Award Points",
+        "awarding": "Awarding...",
+        "success": "{points} points awarded to {volunteer}!",
+        "error": "Failed to award points",
+        "validation": {
+          "min": "Minimum 1 point",
+          "max": "Maximum 1000 points",
+          "reasonRequired": "Reason is required"
+        }
+      },
+      "recentAwards": {
+        "title": "Recent Awards",
+        "volunteer": "Volunteer",
+        "award": "Award",
+        "awardedBy": "Awarded By",
+        "date": "Date",
+        "reason": "Reason",
+        "points": "{points} points",
+        "noRecentAwards": "No recent awards"
+      },
+      "badgeCategories": {
+        "all": "All Categories",
+        "milestone": "Milestone",
+        "achievement": "Achievement",
+        "special": "Special",
+        "seasonal": "Seasonal"
+      }
+    },
+    "taskAssignment": {
+      "assignVolunteer": "Assign to Volunteer",
+      "selectVolunteer": "Select Volunteer",
+      "selectVolunteerPlaceholder": "Search for a volunteer...",
+      "skillsMatch": "Skills Match",
+      "dueDate": "Due Date",
+      "notes": "Assignment Notes",
+      "notesPlaceholder": "Add notes for the volunteer...",
+      "sendNotification": "Send notification to volunteer",
+      "confirm": "Assign Task",
+      "assigning": "Assigning...",
+      "success": "Task assigned to {volunteer}!",
+      "error": "Failed to assign task",
+      "unassign": "Unassign",
+      "unassignConfirm": "Remove {volunteer} from this task?",
+      "unassignSuccess": "Volunteer unassigned",
+      "unassignError": "Failed to unassign volunteer"
     }
   },
   "Admin": {

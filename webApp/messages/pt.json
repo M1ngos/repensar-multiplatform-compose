@@ -13,7 +13,7 @@
       "subtitle": "Transformando vidas através da educação ambiental e construindo um futuro sustentável para as próximas gerações.",
       "cta1": "Conheça Nossos Projetos",
       "cta2": "Assista ao Vídeo"
-  },
+    },
     "about": {
       "title": "Sobre a",
       "titleHighlight": "Repensar",
@@ -320,6 +320,7 @@
       "team": "Equipe",
       "timeApprovals": "Aprovações de Tempo",
       "contact": "Submissões de Contato",
+      "gamification": "Gamificação",
       "newsletter": "Newsletter",
       "badges": "Distintivos",
       "achievements": "Conquistas"
@@ -2142,7 +2143,146 @@
       "tasksCompleted": "Concluídas",
       "tasksOverdue": "Atrasadas",
       "tasksTotal": "Total de Tarefas",
-      "noTasks": "Nenhuma tarefa encontrada"
+      "noTasks": "Nenhuma tarefa encontrada",
+      "pendingApprovals": "Aprovações de Tempo Pendentes",
+      "pendingApprovalsDesc": "Registros de tempo aguardando aprovação",
+      "recentContacts": "Submissões de Contato Recentes",
+      "recentContactsDesc": "Submissões não resolvidas dos últimos 7 dias",
+      "recentAwards": "Atividade de Gamificação Recente",
+      "recentAwardsDesc": "Últimas insígnias e pontos atribuídos",
+      "volunteerEngagement": "Engajamento de Voluntários",
+      "viewOldest": "Ver mais antiga",
+      "viewAll": "Ver tudo",
+      "noPendingApprovals": "Nenhuma aprovação pendente",
+      "noRecentContacts": "Nenhum contato recente",
+      "noRecentAwards": "Nenhuma premiação recente"
+    },
+    "contactSubmissions": {
+      "title": "Submissões de Contato",
+      "description": "Visualizar e gerir submissões de formulário de contato",
+      "filters": {
+        "status": "Estado",
+        "dateRange": "Intervalo de Datas",
+        "search": "Pesquisar por nome ou e-mail",
+        "searchPlaceholder": "Pesquisar...",
+        "clearFilters": "Limpar Filtros",
+        "all": "Todos",
+        "unread": "Não Lidas",
+        "read": "Lidas"
+      },
+      "statuses": {
+        "new": "Nova",
+        "read": "Lida"
+      },
+      "actions": {
+        "viewDetails": "Ver Detalhes",
+        "markAsRead": "Marcar como Lida",
+        "delete": "Eliminar",
+        "confirmDelete": "Tem certeza de que deseja eliminar esta submissão?"
+      },
+      "table": {
+        "date": "Data",
+        "name": "Nome",
+        "email": "E-mail",
+        "message": "Mensagem",
+        "status": "Estado",
+        "actions": "Ações"
+      },
+      "viewDialog": {
+        "title": "Detalhes do Contato",
+        "from": "De",
+        "email": "E-mail",
+        "submittedOn": "Submetido em",
+        "message": "Mensagem",
+        "reply": "Responder via email",
+        "close": "Fechar"
+      },
+      "messages": {
+        "markedAsRead": "Marcado como lido",
+        "deleteSuccess": "Submissão eliminada",
+        "deleteError": "Falha ao eliminar submissão",
+        "loadError": "Falha ao carregar submissões"
+      },
+      "empty": {
+        "title": "Nenhuma submissão encontrada",
+        "description": "Nenhuma submissão de formulário de contato corresponde aos seus filtros"
+      }
+    },
+    "gamification": {
+      "title": "Prémios de Gamificação",
+      "description": "Atribuir insígnias e pontos aos voluntários",
+      "tabs": {
+        "badges": "Atribuir Insígnia",
+        "points": "Atribuir Pontos"
+      },
+      "awardBadge": {
+        "selectVolunteer": "Selecionar Voluntário",
+        "selectVolunteerPlaceholder": "Pesquisar por um voluntário...",
+        "selectBadge": "Selecionar Insígnia",
+        "filterByCategory": "Filtrar por Categoria",
+        "allCategories": "Todas as Categorias",
+        "reason": "Motivo (opcional)",
+        "reasonPlaceholder": "Por que esta insígnia está sendo atribuída?",
+        "alreadyHas": "Já conquistada",
+        "confirm": "Atribuir Insígnia",
+        "awarding": "Atribuindo...",
+        "success": "Insígnia atribuída a {volunteer}!",
+        "error": "Falha ao atribuir insígnia",
+        "noBadgesAvailable": "Nenhuma insígnia disponível",
+        "selectVolunteerFirst": "Selecione um voluntário primeiro"
+      },
+      "awardPoints": {
+        "selectVolunteer": "Selecionar Voluntário",
+        "selectVolunteerPlaceholder": "Pesquisar por um voluntário...",
+        "points": "Pontos",
+        "pointsPlaceholder": "Inserir pontos (1-1000)",
+        "reason": "Motivo",
+        "reasonPlaceholder": "Por que estes pontos estão sendo atribuídos? (obrigatório)",
+        "confirm": "Atribuir Pontos",
+        "awarding": "Atribuindo...",
+        "success": "{points} pontos atribuídos a {volunteer}!",
+        "error": "Falha ao atribuir pontos",
+        "validation": {
+          "min": "Mínimo 1 ponto",
+          "max": "Máximo 1000 pontos",
+          "reasonRequired": "Motivo é obrigatório"
+        }
+      },
+      "recentAwards": {
+        "title": "Prémios Recentes",
+        "volunteer": "Voluntário",
+        "award": "Prémio",
+        "awardedBy": "Atribuído Por",
+        "date": "Data",
+        "reason": "Motivo",
+        "points": "{points} pontos",
+        "noRecentAwards": "Nenhum prémio recente"
+      },
+      "badgeCategories": {
+        "all": "Todas as Categorias",
+        "milestone": "Marco",
+        "achievement": "Conquista",
+        "special": "Especial",
+        "seasonal": "Sazonal"
+      }
+    },
+    "taskAssignment": {
+      "assignVolunteer": "Atribuir ao Voluntário",
+      "selectVolunteer": "Selecionar Voluntário",
+      "selectVolunteerPlaceholder": "Pesquisar por um voluntário...",
+      "skillsMatch": "Correspondência de Competências",
+      "dueDate": "Data de Entrega",
+      "notes": "Notas de Atribuição",
+      "notesPlaceholder": "Adicionar notas para o voluntário...",
+      "sendNotification": "Enviar notificação ao voluntário",
+      "confirm": "Atribuir Tarefa",
+      "assigning": "Atribuindo...",
+      "success": "Tarefa atribuída a {volunteer}!",
+      "error": "Falha ao atribuir tarefa",
+      "unassign": "Desatribuir",
+      "unassignConfirm": "Remover {volunteer} desta tarefa?",
+      "unassignSuccess": "Voluntário desatribuído",
+      "unassignError": "Falha ao desatribuir voluntário"
     }
   },
   "Admin": {

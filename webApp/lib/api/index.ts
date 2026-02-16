@@ -46,9 +46,10 @@ import { reportsApi } from './reports';
 import { blogApi } from './blog';
 import { contactApi } from './contact';
 import { newsletterApi } from './newsletter';
+import { badgesApi, achievementsApi, pointsApi, leaderboardsApi, gamificationStatsApi, gamificationApi } from './gamification';
 
 // Export API modules
-export { authApi, projectsApi, tasksApi, volunteersApi, usersApi, resourcesApi, analyticsApi, reportsApi, blogApi, contactApi, newsletterApi };
+export { authApi, projectsApi, tasksApi, volunteersApi, usersApi, resourcesApi, analyticsApi, reportsApi, blogApi, contactApi, newsletterApi, badgesApi, achievementsApi, pointsApi, leaderboardsApi, gamificationStatsApi, gamificationApi };
 
 // Export middleware (when implemented)
 // export {
@@ -79,6 +80,12 @@ export const api = {
   blog: blogApi,
   contact: contactApi,
   newsletter: newsletterApi,
+  gamification: gamificationApi,
+  badges: badgesApi,
+  achievements: achievementsApi,
+  points: pointsApi,
+  leaderboards: leaderboardsApi,
+  gamificationStats: gamificationStatsApi,
 };
 
 // Default export

@@ -1742,6 +1742,30 @@ export interface ContactResponse {
   id: number;
 }
 
+export interface ContactSubmission {
+  id: number;
+  name: string;
+  email: string;
+  message: string;
+  ip_address?: string;
+  is_read: boolean;
+  created_at: string;
+  read_at?: string | null;
+}
+
+export interface ContactSubmissionsResponse {
+  items: ContactSubmission[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
+export interface ContactSubmissionParams {
+  skip?: number;
+  limit?: number;
+  unread_only?: boolean;
+}
+
 // ==================== Newsletter Types ====================
 
 export interface NewsletterSubscribeRequest {

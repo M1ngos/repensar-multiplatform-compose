@@ -22,6 +22,7 @@ import {
     ListTodo,
     Award,
     Trophy,
+    Mail,
 } from 'lucide-react';
 
 import {
@@ -148,6 +149,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             href: `/${locale}/portal/approvals/time-logs`,
             icon: ClipboardCheck,
             roles: ['admin', 'project_manager', 'staff_member'],
+        },
+        {
+            title: t('nav.contact') || 'Contact',
+            href: `/${locale}/portal/contact`,
+            icon: Mail,
+            roles: ['admin', 'staff_member'],
+        },
+        {
+            title: t('nav.gamification') || 'Gamification',
+            href: `/${locale}/portal/gamification`,
+            icon: Award,
+            roles: ['admin', 'staff_member'],
         },
         {
             title: t('nav.users'),
