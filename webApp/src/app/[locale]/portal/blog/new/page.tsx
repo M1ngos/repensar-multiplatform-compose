@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { blogApi } from '@/lib/api';
-import type { BlogPostCreate, BlogCategory, BlogTag } from '@/lib/api/types';
+import type { BlogPostCreate, BlogPostUpdate, BlogCategory, BlogTag } from '@/lib/api/types';
 import { BlogPostForm } from '@/components/blog';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
@@ -36,10 +36,10 @@ export default function NewBlogPostPage() {
         }
     };
 
-    const handleSubmit = async (data: BlogPostCreate) => {
+    const handleSubmit = async (data: BlogPostCreate | BlogPostUpdate) => {
         try {
             setIsLoading(true);
-            const newPost = await blogApi.createPost(data);
+            const newPost = await blogApi.createPost(data as BlogPostCreate);
             toast.success(t('postCreated'));
             router.push(`/${locale}/portal/blog/${newPost.id}`);
         } catch (error) {

@@ -42,7 +42,7 @@ export default function EditBlogPostPage() {
             setTags(tagsRes.items);
         } catch (error) {
             console.error('Error fetching data:', error);
-            toast.error('Failed to load blog post');
+            toast.error(t('loadError'));
         } finally {
             setIsFetching(false);
         }
@@ -85,9 +85,9 @@ export default function EditBlogPostPage() {
         return (
             <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
                 <div className="text-center py-12">
-                    <p className="text-muted-foreground">Post not found</p>
+                    <p className="text-muted-foreground">{t('postNotFound')}</p>
                     <Link href={`/${locale}/portal/blog`}>
-                        <Button className="mt-4">Back to Blog Posts</Button>
+                        <Button className="mt-4">{t('backToPosts')}</Button>
                     </Link>
                 </div>
             </div>

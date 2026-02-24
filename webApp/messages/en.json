@@ -1453,6 +1453,9 @@
       "postCreated": "Post created successfully",
       "postUpdated": "Post updated successfully",
       "saveError": "Failed to save post",
+      "loadError": "Failed to load blog post",
+      "postNotFound": "Post not found",
+      "backToPosts": "Back to Blog Posts",
       "categories": {
         "title": "Blog Categories",
         "subtitle": "Manage blog post categories",
@@ -1460,7 +1463,6 @@
         "noCategories": "No categories",
         "noCategoriesDesc": "Create your first category",
         "name": "Category Name",
-        "slug": "Slug",
         "description": "Description",
         "createCategory": "Create Category",
         "editCategory": "Edit Category",
@@ -1470,7 +1472,12 @@
         "categoryCreated": "Category created successfully",
         "categoryUpdated": "Category updated successfully",
         "categoryDeleted": "Category deleted successfully",
-        "saveError": "Failed to save category"
+        "saveError": "Failed to save category",
+        "cancel": "Cancel",
+        "saving": "Saving...",
+        "update": "Update",
+        "searchPlaceholder": "Search categories...",
+        "errorLoading": "Error loading categories"
       },
       "tags": {
         "title": "Blog Tags",
@@ -1479,7 +1486,6 @@
         "noTags": "No tags",
         "noTagsDesc": "Create your first tag",
         "name": "Tag Name",
-        "slug": "Slug",
         "createTag": "Create Tag",
         "editTag": "Edit Tag",
         "deleteTag": "Delete Tag",
@@ -1488,7 +1494,12 @@
         "tagCreated": "Tag created successfully",
         "tagUpdated": "Tag updated successfully",
         "tagDeleted": "Tag deleted successfully",
-        "saveError": "Failed to save tag"
+        "saveError": "Failed to save tag",
+        "cancel": "Cancel",
+        "saving": "Saving...",
+        "update": "Update",
+        "searchPlaceholder": "Search tags...",
+        "errorLoading": "Error loading tags"
       },
       "form": {
         "title": "Title",
@@ -2312,6 +2323,165 @@
       "tasksOverdue": "Overdue",
       "tasksTotal": "Total Tasks",
       "noTasks": "No tasks found"
+    },
+    "badges": {
+      "title": "Badge Management",
+      "description": "Create and manage gamification badges",
+      "createButton": "Create Badge",
+      "searchTitle": "Search & Filters",
+      "searchLabel": "Search badges",
+      "searchPlaceholder": "Search by name, description...",
+      "categoryLabel": "Category",
+      "allCategories": "All Categories",
+      "clearFilters": "Clear Filters",
+      "noBadgesTitle": "No badges found",
+      "noBadgesDescription": "Try adjusting your filters",
+      "noBadgesEmpty": "Get started by creating your first badge",
+      "points": "Points",
+      "awarded": "Awarded",
+      "editButton": "Edit",
+      "deleteButton": "Delete",
+      "createDialog": {
+        "title": "Create New Badge",
+        "description": "Create a new badge that can be awarded to volunteers",
+        "nameLabel": "Badge Name",
+        "namePlaceholder": "e.g., First Volunteer",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "What this badge represents...",
+        "categoryLabel": "Category",
+        "categoryPlaceholder": "e.g., milestone, contribution, achievement",
+        "pointsLabel": "Points Value",
+        "iconLabel": "Icon (Emoji or URL)",
+        "iconPlaceholder": "🏆 or image URL",
+        "cancelButton": "Cancel",
+        "createButton": "Create Badge",
+        "creating": "Creating..."
+      },
+      "editDialog": {
+        "title": "Edit Badge",
+        "description": "Update the badge details",
+        "updateButton": "Update Badge",
+        "updating": "Updating..."
+      },
+      "deleteDialog": {
+        "title": "Delete Badge?",
+        "description": "Are you sure you want to delete \"{name}\"? This action cannot be undone. Volunteers who have earned this badge will keep it, but it won't be available for future awards.",
+        "cancelButton": "Cancel",
+        "deleteButton": "Delete Badge",
+        "deleting": "Deleting..."
+      },
+      "messages": {
+        "createSuccess": "Badge created successfully",
+        "createError": "Failed to create badge",
+        "updateSuccess": "Badge updated successfully",
+        "updateError": "Failed to update badge",
+        "deleteSuccess": "Badge deleted successfully",
+        "deleteError": "Failed to delete badge",
+        "fillRequired": "Please fill in all required fields"
+      }
+    },
+    "achievements": {
+      "title": "Achievement Management",
+      "description": "Create and manage volunteer achievements",
+      "createButton": "Create Achievement",
+      "searchTitle": "Search & Filters",
+      "searchLabel": "Search achievements",
+      "searchPlaceholder": "Search by name, description...",
+      "categoryLabel": "Category",
+      "allCategories": "All Categories",
+      "clearFilters": "Clear Filters",
+      "noAchievementsTitle": "No achievements found",
+      "noAchievementsDescription": "Try adjusting your filters",
+      "noAchievementsEmpty": "Get started by creating your first achievement",
+      "table": {
+        "achievement": "Achievement",
+        "category": "Category",
+        "target": "Target",
+        "pointsReward": "Points Reward",
+        "completedBy": "Completed By",
+        "actions": "Actions",
+        "volunteers": "volunteers",
+        "pts": "pts"
+      },
+      "createDialog": {
+        "title": "Create New Achievement",
+        "description": "Create a milestone that volunteers can work towards",
+        "nameLabel": "Achievement Name",
+        "namePlaceholder": "e.g., 100 Hour Milestone",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "What this achievement represents...",
+        "categoryLabel": "Category",
+        "categoryPlaceholder": "e.g., hours, tasks, projects",
+        "targetLabel": "Target Value",
+        "targetPlaceholder": "e.g., 100",
+        "pointsLabel": "Points Reward",
+        "badgeLabel": "Badge ID (Optional)",
+        "badgePlaceholder": "Badge to award on completion",
+        "cancelButton": "Cancel",
+        "createButton": "Create Achievement",
+        "creating": "Creating..."
+      },
+      "editDialog": {
+        "title": "Edit Achievement",
+        "description": "Update the achievement details",
+        "updateButton": "Update Achievement",
+        "updating": "Updating..."
+      },
+      "deleteDialog": {
+        "title": "Delete Achievement?",
+        "description": "Are you sure you want to delete \"{name}\"? This action cannot be undone. Progress towards this achievement will be lost for all volunteers.",
+        "cancelButton": "Cancel",
+        "deleteButton": "Delete Achievement",
+        "deleting": "Deleting..."
+      },
+      "messages": {
+        "createSuccess": "Achievement created successfully",
+        "createError": "Failed to create achievement",
+        "updateSuccess": "Achievement updated successfully",
+        "updateError": "Failed to update achievement",
+        "deleteSuccess": "Achievement deleted successfully",
+        "deleteError": "Failed to delete achievement",
+        "fillRequired": "Please fill in all required fields"
+      }
+    },
+    "leaderboards": {
+      "title": "Leaderboard Management",
+      "description": "View and manage volunteer leaderboards",
+      "refreshButton": "Refresh",
+      "exportButton": "Export CSV",
+      "stats": {
+        "totalVolunteers": "Total Volunteers",
+        "onLeaderboard": "On this leaderboard",
+        "topPerformer": "Top Performer",
+        "noData": "No data",
+        "average": "Average"
+      },
+      "filters": {
+        "title": "Filters",
+        "timeframeLabel": "Timeframe",
+        "allTime": "All Time",
+        "monthly": "This Month",
+        "weekly": "This Week"
+      },
+      "leaderboardsTitle": "Leaderboards",
+      "tabs": {
+        "points": "Points",
+        "hours": "Hours",
+        "projects": "Projects"
+      },
+      "noDataTitle": "No leaderboard data",
+      "noDataDescription": "There are no volunteers with activity in this category yet",
+      "table": {
+        "rank": "Rank",
+        "volunteer": "Volunteer",
+        "email": "Email"
+      },
+      "messages": {
+        "refreshSuccess": "Leaderboard refreshed",
+        "refreshError": "Failed to refresh leaderboard",
+        "exportSuccess": "Leaderboard exported",
+        "noDataToExport": "No data to export"
+      }
     }
   },
   "Approvals": {

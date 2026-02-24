@@ -23,6 +23,8 @@ import {
     Award,
     Trophy,
     Mail,
+    ChevronRight,
+    Target,
 } from 'lucide-react';
 
 import {
@@ -36,6 +38,9 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    SidebarMenuSub,
+    SidebarMenuSubButton,
+    SidebarMenuSubItem,
     SidebarSeparator,
     SidebarRail,
 } from '@/components/ui/sidebar';
@@ -50,13 +55,25 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 
 interface NavItem {
     title: string;
-    href: string;
+    href?: string;
     icon: React.ComponentType<{ className?: string }>;
     badge?: number;
     roles?: string[]; // Which roles can see this item
+    items?: NavSubItem[]; // Sub-items for collapsible menus
+}
+
+interface NavSubItem {
+    title: string;
+    href: string;
+    icon?: React.ComponentType<{ className?: string }>;
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -156,12 +173,38 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             icon: Mail,
             roles: ['admin', 'staff_member'],
         },
-        {
-            title: t('nav.gamification') || 'Gamification',
-            href: `/${locale}/portal/gamification`,
-            icon: Award,
-            roles: ['admin', 'staff_member'],
-        },
+        // Gamification - Staff can award, Admins get full management
+        ...(userRole === 'admin'
+            ? [{
+                title: t('nav.gamification') || 'Gamification',
+                icon: Award,
+                roles: ['admin'],
+                items: [
+                    {
+                        title: 'Award Badges/Points',
+                        href: `/${locale}/portal/gamification`,
+                    },
+                    {
+                        title: 'Manage Badges',
+                        href: `/${locale}/portal/gamification/badges`,
+                    },
+                    {
+                        title: 'Manage Achievements',
+                        href: `/${locale}/portal/gamification/achievements`,
+                    },
+                    {
+                        title: 'Leaderboards',
+                        href: `/${locale}/portal/gamification/leaderboards`,
+                    },
+                ],
+            }]
+            : [{
+                title: t('nav.gamification') || 'Gamification',
+                href: `/${locale}/portal/gamification`,
+                icon: Award,
+                roles: ['staff_member'],
+            }]
+        ),
         {
             title: t('nav.users'),
             href: `/${locale}/portal/users`,
@@ -226,10 +269,56 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         <SidebarMenu>
                             {filteredNavItems.map((item) => {
                                 const Icon = item.icon;
+
+                                // Handle items with sub-items (collapsible)
+                                if (item.items && item.items.length > 0) {
+                                    const isAnySubItemActive = item.items.some(
+                                        (subItem) => pathname.startsWith(subItem.href)
+                                    );
+
+                                    return (
+                                        <Collapsible
+                                            key={item.title}
+                                            asChild
+                                            defaultOpen={isAnySubItemActive}
+                                        >
+                                            <SidebarMenuItem>
+                                                <CollapsibleTrigger asChild>
+                                                    <SidebarMenuButton tooltip={item.title}>
+                                                        <Icon />
+                                                        <span>{item.title}</span>
+                                                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                                                    </SidebarMenuButton>
+                                                </CollapsibleTrigger>
+                                                <CollapsibleContent>
+                                                    <SidebarMenuSub>
+                                                        {item.items.map((subItem) => {
+                                                            const isActive = pathname === subItem.href;
+                                                            return (
+                                                                <SidebarMenuSubItem key={subItem.href}>
+                                                                    <SidebarMenuSubButton
+                                                                        asChild
+                                                                        isActive={isActive}
+                                                                    >
+                                                                        <Link href={subItem.href}>
+                                                                            <span>{subItem.title}</span>
+                                                                        </Link>
+                                                                    </SidebarMenuSubButton>
+                                                                </SidebarMenuSubItem>
+                                                            );
+                                                        })}
+                                                    </SidebarMenuSub>
+                                                </CollapsibleContent>
+                                            </SidebarMenuItem>
+                                        </Collapsible>
+                                    );
+                                }
+
+                                // Handle regular items
                                 const isActive =
                                     pathname === item.href ||
                                     (item.href !== `/${locale}/portal` &&
-                                        pathname.startsWith(item.href));
+                                        item.href && pathname.startsWith(item.href));
 
                                 return (
                                     <SidebarMenuItem key={item.href}>
@@ -238,7 +327,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                             isActive={isActive}
                                             tooltip={item.title}
                                         >
-                                            <Link href={item.href}>
+                                            <Link href={item.href!}>
                                                 <Icon />
                                                 <span>{item.title}</span>
                                             </Link>

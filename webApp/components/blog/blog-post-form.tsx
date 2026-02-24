@@ -50,6 +50,7 @@ export function BlogPostForm({
   mode = 'create',
 }: BlogPostFormProps) {
   const t = useTranslations('Blog.form');
+  const tBlog = useTranslations('Blog');
   const [formData, setFormData] = useState({
     title: initialData?.title || '',
     content: initialData?.content || '',
@@ -167,8 +168,8 @@ export function BlogPostForm({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="draft">{t('../draft')}</SelectItem>
-                <SelectItem value="published">{t('../published')}</SelectItem>
+                <SelectItem value="draft">{tBlog('draft')}</SelectItem>
+                <SelectItem value="published">{tBlog('published')}</SelectItem>
               </SelectContent>
             </Select>
           </div>

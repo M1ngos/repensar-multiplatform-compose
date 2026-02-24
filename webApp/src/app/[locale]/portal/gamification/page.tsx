@@ -25,7 +25,7 @@ import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Empty, EmptyHeader, EmptyTitle } from '@/components/ui/empty';
-import type { Badge as BadgeType, Volunteer, PointsHistory } from '@/lib/api/types';
+import type { Badge as BadgeType, VolunteerSummary, PointsHistory } from '@/lib/api/types';
 
 export default function GamificationAwardsPage() {
     const t = useTranslations('StaffMember.gamification');
@@ -35,14 +35,14 @@ export default function GamificationAwardsPage() {
     const [activeTab, setActiveTab] = useState<'badges' | 'points'>('badges');
 
     // Badge award state
-    const [selectedVolunteerForBadge, setSelectedVolunteerForBadge] = useState<Volunteer | null>(null);
+    const [selectedVolunteerForBadge, setSelectedVolunteerForBadge] = useState<VolunteerSummary | null>(null);
     const [selectedBadge, setSelectedBadge] = useState<BadgeType | null>(null);
     const [badgeReason, setBadgeReason] = useState('');
     const [badgeCategory, setBadgeCategory] = useState<string>('all');
     const [isAwardingBadge, setIsAwardingBadge] = useState(false);
 
     // Points award state
-    const [selectedVolunteerForPoints, setSelectedVolunteerForPoints] = useState<Volunteer | null>(null);
+    const [selectedVolunteerForPoints, setSelectedVolunteerForPoints] = useState<VolunteerSummary | null>(null);
     const [pointsAmount, setPointsAmount] = useState<string>('');
     const [pointsReason, setPointsReason] = useState('');
     const [isAwardingPoints, setIsAwardingPoints] = useState(false);
@@ -53,7 +53,7 @@ export default function GamificationAwardsPage() {
 
     // Fetch data
     const { data: badges, isLoading: badgesLoading } = useSWR('badges', () => badgesApi.list());
-    const { data: volunteers, isLoading: volunteersLoading } = useSWR('volunteers', () =>
+    const { data: volunteers } = useSWR('volunteers', () =>
         volunteersApi.getVolunteers({ limit: 100 })
     );
 
@@ -175,7 +175,8 @@ export default function GamificationAwardsPage() {
         try {
             await pointsApi.award(selectedVolunteerForPoints.id, {
                 points,
-                reason: pointsReason,
+                event_type: 'manual_award',
+                description: pointsReason,
             });
 
             toast.success(t('awardPoints.success', {
@@ -478,9 +479,9 @@ export default function GamificationAwardsPage() {
                                                     {t('recentAwards.points', { points: award.points_change })}
                                                 </Badge>
                                             </div>
-                                            <p className="text-xs text-muted-foreground">{award.reason}</p>
+                                            <p className="text-xs text-muted-foreground">{award.description}</p>
                                             <p className="text-xs text-muted-foreground">
-                                                {format(new Date(award.awarded_at), 'MMM dd, yyyy')}
+                                                {format(new Date(award.created_at), 'MMM dd, yyyy')}
                                             </p>
                                         </div>
                                     ))}

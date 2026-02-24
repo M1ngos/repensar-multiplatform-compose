@@ -9,7 +9,7 @@ import type { BlogTagCreate, BlogTagUpdate } from '@/lib/api/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { Card, CardHeader, CardDescription, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
@@ -46,7 +46,6 @@ export default function BlogTagsPage() {
 
     const [formData, setFormData] = useState({
         name: '',
-        slug: '',
     });
 
     // Fetch tags with SWR
@@ -66,12 +65,11 @@ export default function BlogTagsPage() {
             if (tag) {
                 setFormData({
                     name: tag.name,
-                    slug: tag.slug,
                 });
                 setEditingTag(tagId);
             }
         } else {
-            setFormData({ name: '', slug: '' });
+            setFormData({ name: '' });
             setEditingTag(null);
         }
         setDialogOpen(true);
@@ -90,7 +88,7 @@ export default function BlogTagsPage() {
             }
             mutate();
             setDialogOpen(false);
-            setFormData({ name: '', slug: '' });
+            setFormData({ name: '' });
         } catch (error) {
             console.error('Error saving tag:', error);
             toast.error(t('saveError'));
@@ -137,7 +135,7 @@ export default function BlogTagsPage() {
             <div className="relative">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
-                    placeholder="Search tags..."
+                    placeholder={t('searchPlaceholder')}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-9"
@@ -154,7 +152,7 @@ export default function BlogTagsPage() {
                     </div>
                 ) : error ? (
                     <div className="text-center py-12">
-                        <p className="text-muted-foreground">Error loading tags</p>
+                        <p className="text-muted-foreground">{t('errorLoading')}</p>
                     </div>
                 ) : filteredTags.length === 0 ? (
                     <Empty>
@@ -231,15 +229,6 @@ export default function BlogTagsPage() {
                                     required
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="slug">{t('slug')}</Label>
-                                <Input
-                                    id="slug"
-                                    value={formData.slug}
-                                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                                    required
-                                />
-                            </div>
                         </div>
                         <DialogFooter>
                             <Button
@@ -248,10 +237,10 @@ export default function BlogTagsPage() {
                                 onClick={() => setDialogOpen(false)}
                                 disabled={isSubmitting}
                             >
-                                Cancel
+                                {t('cancel')}
                             </Button>
                             <Button type="submit" disabled={isSubmitting}>
-                                {isSubmitting ? 'Saving...' : editingTag ? 'Update' : 'Create'}
+                                {isSubmitting ? t('saving') : editingTag ? t('update') : t('createTag')}
                             </Button>
                         </DialogFooter>
                     </form>
@@ -267,9 +256,9 @@ export default function BlogTagsPage() {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel onClick={() => setTagToDelete(null)}>
-                            Cancel
+                            {t('cancel')}
                         </AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+                        <AlertDialogAction onClick={handleDelete}>{t('deleteTag')}</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

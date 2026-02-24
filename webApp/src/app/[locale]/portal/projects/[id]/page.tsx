@@ -58,6 +58,12 @@ export default function ProjectDetailPage() {
         () => projectsApi.getProject(projectId)
     );
 
+    // Fetch team members separately for reliable refresh after mutations
+    const { data: teamMembers, mutate: mutateTeam } = useSWR(
+        projectId ? ['project-team', projectId] : null,
+        () => projectsApi.getProjectTeam(projectId)
+    );
+
     const getStatusColor = (status: string) => {
         switch (status) {
             case 'planning':
@@ -206,7 +212,7 @@ export default function ProjectDetailPage() {
                                 <CardHeader>
                                     <CardDescription>{t('detail.teamSize')}</CardDescription>
                                     <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                                        {project.team_members.length}
+                                        {teamMembers?.length ?? project.team_members.length}
                                     </CardTitle>
                                     <CardAction>
                                         <Users className="h-5 w-5 text-muted-foreground" />
@@ -324,7 +330,7 @@ export default function ProjectDetailPage() {
                                     <div>
                                         <CardTitle>{t('detail.teamMembers')}</CardTitle>
                                         <CardDescription>
-                                            {project.team_members.length} {t('detail.activeMembers')}
+                                            {(teamMembers ?? project.team_members).length} {t('detail.activeMembers')}
                                         </CardDescription>
                                     </div>
                                     <Button size="sm" onClick={() => setIsAddTeamMemberOpen(true)}>
@@ -344,14 +350,14 @@ export default function ProjectDetailPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {project.team_members.length === 0 ? (
+                                        {(teamMembers ?? project.team_members).length === 0 ? (
                                             <TableRow>
                                                 <TableCell colSpan={4} className="text-center text-muted-foreground">
                                                     {t('detail.noTeamMembers')}
                                                 </TableCell>
                                             </TableRow>
                                         ) : (
-                                            project.team_members.map((member) => (
+                                            (teamMembers ?? project.team_members).map((member) => (
                                                 <TableRow key={member.id}>
                                                     <TableCell className="font-medium">
                                                         {member.name || member.user_name || '-'}
@@ -514,7 +520,7 @@ export default function ProjectDetailPage() {
                     open={isAddTeamMemberOpen}
                     onOpenChange={setIsAddTeamMemberOpen}
                     projectId={projectId}
-                    onSuccess={() => mutate()}
+                    onSuccess={() => { mutateTeam(); mutate(); }}
                 />
 
                 {/* Add Milestone Dialog */}

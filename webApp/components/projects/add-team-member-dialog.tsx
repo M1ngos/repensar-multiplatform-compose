@@ -49,15 +49,17 @@ export function AddTeamMemberDialog({ open, onOpenChange, projectId, onSuccess }
     const [searchQuery, setSearchQuery] = useState('');
 
     // Fetch users or volunteers based on selection
-    const { data: users } = useSWR(
+    const { data: users, isLoading: isLoadingUsers } = useSWR(
         open && !isVolunteer ? ['users', searchQuery] : null,
-        () => usersApi.getUsers({ search: searchQuery, page_size: 50 })
+        () => usersApi.getUsers({ ...(searchQuery && { search: searchQuery }), page_size: 50 })
     );
 
-    const { data: volunteers } = useSWR(
+    const { data: volunteers, isLoading: isLoadingVolunteers } = useSWR(
         open && isVolunteer ? ['volunteers', searchQuery] : null,
-        () => volunteersApi.getVolunteers({ search: searchQuery, limit: 50 })
+        () => volunteersApi.getVolunteers({ ...(searchQuery && { search: searchQuery }), limit: 50 })
     );
+
+    const isLoadingOptions = isVolunteer ? isLoadingVolunteers : isLoadingUsers;
 
     const availableOptions = isVolunteer
         ? volunteers?.map(v => ({
@@ -70,6 +72,17 @@ export function AddTeamMemberDialog({ open, onOpenChange, projectId, onSuccess }
         : users?.data?.map(u => ({ id: u.id, name: u.name, email: u.email }));
 
     const selectedUser = availableOptions?.find(u => u.id === selectedUserId);
+
+    // Reset all state when dialog closes
+    useEffect(() => {
+        if (!open) {
+            setSelectedUserId(null);
+            setRole('');
+            setIsVolunteer(false);
+            setSearchQuery('');
+            setOpenCombobox(false);
+        }
+    }, [open]);
 
     // Reset selection when switching between volunteer/staff
     useEffect(() => {
@@ -166,7 +179,13 @@ export function AddTeamMemberDialog({ open, onOpenChange, projectId, onSuccess }
                                         onValueChange={setSearchQuery}
                                     />
                                     <CommandList>
-                                        <CommandEmpty>{isVolunteer ? t('noVolunteersFound') : t('noUsersFound')}</CommandEmpty>
+                                        {isLoadingOptions ? (
+                                            <div className="flex items-center justify-center py-6">
+                                                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                                            </div>
+                                        ) : (
+                                            <CommandEmpty>{isVolunteer ? t('noVolunteersFound') : t('noUsersFound')}</CommandEmpty>
+                                        )}
                                         <CommandGroup>
                                             {availableOptions?.map((option) => (
                                                 <CommandItem

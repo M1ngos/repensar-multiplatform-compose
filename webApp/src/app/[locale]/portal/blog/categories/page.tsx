@@ -46,7 +46,6 @@ export default function BlogCategoriesPage() {
 
     const [formData, setFormData] = useState({
         name: '',
-        slug: '',
         description: '',
     });
 
@@ -67,13 +66,12 @@ export default function BlogCategoriesPage() {
             if (category) {
                 setFormData({
                     name: category.name,
-                    slug: category.slug,
                     description: category.description || '',
                 });
                 setEditingCategory(categoryId);
             }
         } else {
-            setFormData({ name: '', slug: '', description: '' });
+            setFormData({ name: '', description: '' });
             setEditingCategory(null);
         }
         setDialogOpen(true);
@@ -92,7 +90,7 @@ export default function BlogCategoriesPage() {
             }
             mutate();
             setDialogOpen(false);
-            setFormData({ name: '', slug: '', description: '' });
+            setFormData({ name: '', description: '' });
         } catch (error) {
             console.error('Error saving category:', error);
             toast.error(t('saveError'));
@@ -139,7 +137,7 @@ export default function BlogCategoriesPage() {
             <div className="relative">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
-                    placeholder="Search categories..."
+                    placeholder={t('searchPlaceholder')}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-9"
@@ -159,7 +157,7 @@ export default function BlogCategoriesPage() {
                     ))
                 ) : error ? (
                     <div className="col-span-full text-center py-12">
-                        <p className="text-muted-foreground">Error loading categories</p>
+                        <p className="text-muted-foreground">{t('errorLoading')}</p>
                     </div>
                 ) : filteredCategories.length === 0 ? (
                     <div className="col-span-full">
@@ -240,15 +238,6 @@ export default function BlogCategoriesPage() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="slug">{t('slug')}</Label>
-                                <Input
-                                    id="slug"
-                                    value={formData.slug}
-                                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                                    required
-                                />
-                            </div>
-                            <div className="space-y-2">
                                 <Label htmlFor="description">{t('description')}</Label>
                                 <Textarea
                                     id="description"
@@ -265,10 +254,10 @@ export default function BlogCategoriesPage() {
                                 onClick={() => setDialogOpen(false)}
                                 disabled={isSubmitting}
                             >
-                                Cancel
+                                {t('cancel')}
                             </Button>
                             <Button type="submit" disabled={isSubmitting}>
-                                {isSubmitting ? 'Saving...' : editingCategory ? 'Update' : 'Create'}
+                                {isSubmitting ? t('saving') : editingCategory ? t('update') : t('createCategory')}
                             </Button>
                         </DialogFooter>
                     </form>
@@ -284,9 +273,9 @@ export default function BlogCategoriesPage() {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel onClick={() => setCategoryToDelete(null)}>
-                            Cancel
+                            {t('cancel')}
                         </AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+                        <AlertDialogAction onClick={handleDelete}>{t('deleteCategory')}</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

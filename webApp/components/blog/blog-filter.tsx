@@ -40,6 +40,7 @@ export function BlogFilter({
   initialFilters = {},
 }: BlogFilterProps) {
   const t = useTranslations('Blog.filter');
+  const tBlog = useTranslations('Blog');
   const [filters, setFilters] = useState<BlogFilterParams>(initialFilters);
 
   const handleSearchChange = (value: string) => {
@@ -129,8 +130,8 @@ export function BlogFilter({
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">{t('allStatuses')}</SelectItem>
-                <SelectItem value="published">{t('../published')}</SelectItem>
-                <SelectItem value="draft">{t('../draft')}</SelectItem>
+                <SelectItem value="published">{tBlog('published')}</SelectItem>
+                <SelectItem value="draft">{tBlog('draft')}</SelectItem>
               </SelectContent>
             </Select>
           </div>

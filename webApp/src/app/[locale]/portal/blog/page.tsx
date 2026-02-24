@@ -38,6 +38,7 @@ const POST_STATUSES = ['draft', 'published'] as const;
 
 export default function BlogPostsPage() {
     const t = useTranslations('Blog.Admin');
+    const tBlog = useTranslations('Blog');
     const locale = useLocale();
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState<BlogPostStatus | 'all'>('all');
@@ -128,7 +129,7 @@ export default function BlogPostsPage() {
                 <div className="relative flex-1">
                     <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
-                        placeholder={t('../searchPlaceholder')}
+                        placeholder={tBlog('searchPlaceholder')}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="pl-9"
@@ -137,13 +138,13 @@ export default function BlogPostsPage() {
                 <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as BlogPostStatus | 'all')}>
                     <SelectTrigger className="w-full sm:w-[180px]">
                         <Filter className="mr-2 h-4 w-4" />
-                        <SelectValue placeholder={t('../status')} />
+                        <SelectValue placeholder={tBlog('status')} />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="all">{t('../allStatuses')}</SelectItem>
+                        <SelectItem value="all">{tBlog('allStatuses')}</SelectItem>
                         {POST_STATUSES.map((status) => (
                             <SelectItem key={status} value={status}>
-                                {t(`../${status}`)}
+                                {tBlog(status)}
                             </SelectItem>
                         ))}
                     </SelectContent>
@@ -209,9 +210,9 @@ export default function BlogPostsPage() {
                                     <CardAction>
                                         <Badge className={getStatusColor(post.status)} variant="secondary">
                                             {post.status === 'published' ? (
-                                                <><Globe className="mr-1 h-3 w-3" /> {t('../published')}</>
+                                                <><Globe className="mr-1 h-3 w-3" /> {tBlog('published')}</>
                                             ) : (
-                                                <><Lock className="mr-1 h-3 w-3" /> {t('../draft')}</>
+                                                <><Lock className="mr-1 h-3 w-3" /> {tBlog('draft')}</>
                                             )}
                                         </Badge>
                                     </CardAction>
@@ -252,7 +253,7 @@ export default function BlogPostsPage() {
                                     <div>
                                         <div className="text-muted-foreground">Author</div>
                                         <div className="font-medium line-clamp-1">
-                                            {post.author_name || 'Unknown'}
+                                            {post.author?.full_name || '-'}
                                         </div>
                                     </div>
                                 </div>

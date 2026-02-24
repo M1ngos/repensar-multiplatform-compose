@@ -1454,6 +1454,9 @@
       "postCreated": "Publicação criada com sucesso",
       "postUpdated": "Publicação atualizada com sucesso",
       "saveError": "Falha ao guardar publicação",
+      "loadError": "Falha ao carregar publicação",
+      "postNotFound": "Publicação não encontrada",
+      "backToPosts": "Voltar às Publicações",
       "categories": {
         "title": "Categorias do Blog",
         "subtitle": "Gerencie categorias das publicações",
@@ -1461,7 +1464,6 @@
         "noCategories": "Nenhuma categoria",
         "noCategoriesDesc": "Crie sua primeira categoria",
         "name": "Nome da Categoria",
-        "slug": "Slug",
         "description": "Descrição",
         "createCategory": "Criar Categoria",
         "editCategory": "Editar Categoria",
@@ -1471,7 +1473,12 @@
         "categoryCreated": "Categoria criada com sucesso",
         "categoryUpdated": "Categoria atualizada com sucesso",
         "categoryDeleted": "Categoria eliminada com sucesso",
-        "saveError": "Falha ao guardar categoria"
+        "saveError": "Falha ao guardar categoria",
+        "cancel": "Cancelar",
+        "saving": "Guardando...",
+        "update": "Atualizar",
+        "searchPlaceholder": "Pesquisar categorias...",
+        "errorLoading": "Erro ao carregar categorias"
       },
       "tags": {
         "title": "Etiquetas do Blog",
@@ -1480,7 +1487,6 @@
         "noTags": "Nenhuma etiqueta",
         "noTagsDesc": "Crie sua primeira etiqueta",
         "name": "Nome da Etiqueta",
-        "slug": "Slug",
         "createTag": "Criar Etiqueta",
         "editTag": "Editar Etiqueta",
         "deleteTag": "Eliminar Etiqueta",
@@ -1489,7 +1495,12 @@
         "tagCreated": "Etiqueta criada com sucesso",
         "tagUpdated": "Etiqueta atualizada com sucesso",
         "tagDeleted": "Etiqueta eliminada com sucesso",
-        "saveError": "Falha ao guardar etiqueta"
+        "saveError": "Falha ao guardar etiqueta",
+        "cancel": "Cancelar",
+        "saving": "Guardando...",
+        "update": "Atualizar",
+        "searchPlaceholder": "Pesquisar etiquetas...",
+        "errorLoading": "Erro ao carregar etiquetas"
       },
       "form": {
         "title": "Título",
@@ -2313,6 +2324,165 @@
       "tasksOverdue": "Atrasadas",
       "tasksTotal": "Total de Tarefas",
       "noTasks": "Nenhuma tarefa encontrada"
+    },
+    "badges": {
+      "title": "Gestão de Emblemas",
+      "description": "Criar e gerir emblemas de gamificação",
+      "createButton": "Criar Emblema",
+      "searchTitle": "Pesquisa e Filtros",
+      "searchLabel": "Pesquisar emblemas",
+      "searchPlaceholder": "Pesquisar por nome, descrição...",
+      "categoryLabel": "Categoria",
+      "allCategories": "Todas as Categorias",
+      "clearFilters": "Limpar Filtros",
+      "noBadgesTitle": "Nenhum emblema encontrado",
+      "noBadgesDescription": "Tente ajustar os seus filtros",
+      "noBadgesEmpty": "Comece criando o seu primeiro emblema",
+      "points": "Pontos",
+      "awarded": "Atribuídos",
+      "editButton": "Editar",
+      "deleteButton": "Eliminar",
+      "createDialog": {
+        "title": "Criar Novo Emblema",
+        "description": "Criar um novo emblema que pode ser atribuído aos voluntários",
+        "nameLabel": "Nome do Emblema",
+        "namePlaceholder": "ex.: Primeiro Voluntário",
+        "descriptionLabel": "Descrição",
+        "descriptionPlaceholder": "O que este emblema representa...",
+        "categoryLabel": "Categoria",
+        "categoryPlaceholder": "ex.: marco, contribuição, conquista",
+        "pointsLabel": "Valor em Pontos",
+        "iconLabel": "Ícone (Emoji ou URL)",
+        "iconPlaceholder": "🏆 ou URL da imagem",
+        "cancelButton": "Cancelar",
+        "createButton": "Criar Emblema",
+        "creating": "A criar..."
+      },
+      "editDialog": {
+        "title": "Editar Emblema",
+        "description": "Atualizar os detalhes do emblema",
+        "updateButton": "Atualizar Emblema",
+        "updating": "A atualizar..."
+      },
+      "deleteDialog": {
+        "title": "Eliminar Emblema?",
+        "description": "Tem certeza que deseja eliminar \"{name}\"? Esta ação não pode ser desfeita. Os voluntários que conquistaram este emblema irão mantê-lo, mas não estará disponível para atribuições futuras.",
+        "cancelButton": "Cancelar",
+        "deleteButton": "Eliminar Emblema",
+        "deleting": "A eliminar..."
+      },
+      "messages": {
+        "createSuccess": "Emblema criado com sucesso",
+        "createError": "Falha ao criar emblema",
+        "updateSuccess": "Emblema atualizado com sucesso",
+        "updateError": "Falha ao atualizar emblema",
+        "deleteSuccess": "Emblema eliminado com sucesso",
+        "deleteError": "Falha ao eliminar emblema",
+        "fillRequired": "Por favor preencha todos os campos obrigatórios"
+      }
+    },
+    "achievements": {
+      "title": "Gestão de Conquistas",
+      "description": "Criar e gerir conquistas de voluntários",
+      "createButton": "Criar Conquista",
+      "searchTitle": "Pesquisa e Filtros",
+      "searchLabel": "Pesquisar conquistas",
+      "searchPlaceholder": "Pesquisar por nome, descrição...",
+      "categoryLabel": "Categoria",
+      "allCategories": "Todas as Categorias",
+      "clearFilters": "Limpar Filtros",
+      "noAchievementsTitle": "Nenhuma conquista encontrada",
+      "noAchievementsDescription": "Tente ajustar os seus filtros",
+      "noAchievementsEmpty": "Comece criando a sua primeira conquista",
+      "table": {
+        "achievement": "Conquista",
+        "category": "Categoria",
+        "target": "Meta",
+        "pointsReward": "Recompensa em Pontos",
+        "completedBy": "Concluída Por",
+        "actions": "Ações",
+        "volunteers": "voluntários",
+        "pts": "pts"
+      },
+      "createDialog": {
+        "title": "Criar Nova Conquista",
+        "description": "Criar um marco que os voluntários possam alcançar",
+        "nameLabel": "Nome da Conquista",
+        "namePlaceholder": "ex.: Marco de 100 Horas",
+        "descriptionLabel": "Descrição",
+        "descriptionPlaceholder": "O que esta conquista representa...",
+        "categoryLabel": "Categoria",
+        "categoryPlaceholder": "ex.: horas, tarefas, projetos",
+        "targetLabel": "Valor Meta",
+        "targetPlaceholder": "ex.: 100",
+        "pointsLabel": "Recompensa em Pontos",
+        "badgeLabel": "ID do Emblema (Opcional)",
+        "badgePlaceholder": "Emblema a atribuir na conclusão",
+        "cancelButton": "Cancelar",
+        "createButton": "Criar Conquista",
+        "creating": "A criar..."
+      },
+      "editDialog": {
+        "title": "Editar Conquista",
+        "description": "Atualizar os detalhes da conquista",
+        "updateButton": "Atualizar Conquista",
+        "updating": "A atualizar..."
+      },
+      "deleteDialog": {
+        "title": "Eliminar Conquista?",
+        "description": "Tem certeza que deseja eliminar \"{name}\"? Esta ação não pode ser desfeita. O progresso em direção a esta conquista será perdido para todos os voluntários.",
+        "cancelButton": "Cancelar",
+        "deleteButton": "Eliminar Conquista",
+        "deleting": "A eliminar..."
+      },
+      "messages": {
+        "createSuccess": "Conquista criada com sucesso",
+        "createError": "Falha ao criar conquista",
+        "updateSuccess": "Conquista atualizada com sucesso",
+        "updateError": "Falha ao atualizar conquista",
+        "deleteSuccess": "Conquista eliminada com sucesso",
+        "deleteError": "Falha ao eliminar conquista",
+        "fillRequired": "Por favor preencha todos os campos obrigatórios"
+      }
+    },
+    "leaderboards": {
+      "title": "Gestão de Classificações",
+      "description": "Ver e gerir classificações de voluntários",
+      "refreshButton": "Atualizar",
+      "exportButton": "Exportar CSV",
+      "stats": {
+        "totalVolunteers": "Total de Voluntários",
+        "onLeaderboard": "Nesta classificação",
+        "topPerformer": "Melhor Desempenho",
+        "noData": "Sem dados",
+        "average": "Média"
+      },
+      "filters": {
+        "title": "Filtros",
+        "timeframeLabel": "Período",
+        "allTime": "Todo o Tempo",
+        "monthly": "Este Mês",
+        "weekly": "Esta Semana"
+      },
+      "leaderboardsTitle": "Classificações",
+      "tabs": {
+        "points": "Pontos",
+        "hours": "Horas",
+        "projects": "Projetos"
+      },
+      "noDataTitle": "Sem dados de classificação",
+      "noDataDescription": "Ainda não há voluntários com atividade nesta categoria",
+      "table": {
+        "rank": "Classificação",
+        "volunteer": "Voluntário",
+        "email": "Email"
+      },
+      "messages": {
+        "refreshSuccess": "Classificação atualizada",
+        "refreshError": "Falha ao atualizar classificação",
+        "exportSuccess": "Classificação exportada",
+        "noDataToExport": "Sem dados para exportar"
+      }
     }
   },
   "Approvals": {
