@@ -18,6 +18,7 @@ import {
   Globe,
   ChevronDown,
   Play,
+  Crown,
   Monitor,
   Smartphone,
   Tablet,
@@ -27,8 +28,8 @@ import {
 import ThreeBackground from "@/components/ui/3d/ThreeBackground";
 import { volunteersApi } from "@/lib/api/volunteers";
 import { projectsApi } from "@/lib/api/projects";
-import { blogApi } from "@/lib/api";
-import type { VolunteerStats, ProjectStats, BlogPostSummary } from "@/lib/api/types";
+import { blogApi, leaderboardsApi } from "@/lib/api";
+import { LeaderboardTimeframe, LeaderboardType, type VolunteerStats, type ProjectStats, type BlogPostSummary, type Leaderboard } from "@/lib/api/types";
 import { BlogPostCard } from "@/components/blog";
 import { ArrowRight } from 'lucide-react';
 import { ContactForm } from "@/components/contact/contact-form";
@@ -47,6 +48,8 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
   const [statsLoading, setStatsLoading] = useState(true);
   const [latestPosts, setLatestPosts] = useState<BlogPostSummary[]>([]);
   const [postsLoading, setPostsLoading] = useState(true);
+  const [pointsLeaderboard, setPointsLeaderboard] = useState<Leaderboard | null>(null);
+  const [leaderboardLoading, setLeaderboardLoading] = useState(true);
 
   const programs = [
     {
@@ -143,8 +146,23 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
             }
         };
 
+        const fetchLeaderboard = async () => {
+            try {
+                setLeaderboardLoading(true);
+                const leaderboard = await leaderboardsApi.get(LeaderboardType.POINTS, {
+                    timeframe: LeaderboardTimeframe.ALL_TIME
+                });
+                setPointsLeaderboard(leaderboard);
+            } catch (error) {
+                console.error('Error fetching leaderboard:', error);
+            } finally {
+                setLeaderboardLoading(false);
+            }
+        };
+
         fetchStats();
         fetchBlogPosts();
+        fetchLeaderboard();
     }, []);
 
     useEffect(() => {
@@ -157,6 +175,7 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
     const translateY = Math.min(scrollY * 0.3, 200);
     const opacity = Math.max(1 - scrollY / 500, 0.2);
     const rotateX = Math.min(scrollY * 0.02, 15);
+    const leaderboardEntries = pointsLeaderboard?.rankings.slice(0, 5) ?? [];
 
   return (
     <div className="min-h-screen overflow-x-hidden">
@@ -306,6 +325,120 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
                 <div className="text-emerald-200">{stat.label}</div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Leaderboard Section */}
+      <section id="leaderboard" className="py-20 bg-gradient-to-br from-white to-emerald-50 dark:from-gray-900 dark:to-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-8 items-start">
+            <div className="rounded-3xl border border-emerald-100 dark:border-emerald-900/40 bg-white/90 dark:bg-gray-900/80 p-8 shadow-xl">
+              <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-4 py-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+                <Crown suppressHydrationWarning className="w-4 h-4" />
+                <span>{t('leaderboard.badge')}</span>
+              </div>
+              <h2 className="mt-5 text-4xl font-bold text-gray-900 dark:text-gray-100">
+                {t('leaderboard.title')} <span className="text-emerald-500">{t('leaderboard.titleHighlight')}</span>
+              </h2>
+              <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                {t('leaderboard.subtitle')}
+              </p>
+              <div className="mt-6 grid grid-cols-2 gap-4">
+                <div className="rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 p-4">
+                  <p className="text-sm text-emerald-700 dark:text-emerald-300">{t('leaderboard.metric.period')}</p>
+                  <p className="mt-1 text-xl font-bold text-gray-900 dark:text-gray-100">{t('leaderboard.metric.allTime')}</p>
+                </div>
+                <div className="rounded-2xl bg-teal-50 dark:bg-teal-900/20 p-4">
+                  <p className="text-sm text-teal-700 dark:text-teal-300">{t('leaderboard.metric.participants')}</p>
+                  <p className="mt-1 text-xl font-bold text-gray-900 dark:text-gray-100">
+                    {leaderboardLoading ? '...' : (pointsLeaderboard?.total_participants?.toLocaleString() ?? '0')}
+                  </p>
+                </div>
+              </div>
+              <a
+                href={`/${locale}/portal/leaderboards`}
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-emerald-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-emerald-500"
+              >
+                <span>{t('leaderboard.cta')}</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+
+            <div className="rounded-3xl border border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-900/80 p-6 shadow-xl">
+              <div className="mb-5 flex items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t('leaderboard.tableTitle')}</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{t('leaderboard.tableSubtitle')}</p>
+                </div>
+                <div className="rounded-full bg-amber-100 dark:bg-amber-900/30 px-3 py-1 text-xs font-semibold text-amber-700 dark:text-amber-300">
+                  {t('leaderboard.pointsLabel')}
+                </div>
+              </div>
+
+              {leaderboardLoading ? (
+                <div className="space-y-3">
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <div key={index} className="h-16 rounded-2xl bg-gray-100 dark:bg-gray-800 animate-pulse" />
+                  ))}
+                </div>
+              ) : leaderboardEntries.length > 0 ? (
+                <div className="space-y-3">
+                  {leaderboardEntries.map((entry) => {
+                    const initials = entry.volunteer_name
+                      .split(' ')
+                      .filter(Boolean)
+                      .slice(0, 2)
+                      .map((part) => part[0]?.toUpperCase())
+                      .join('');
+
+                    return (
+                      <div
+                        key={entry.volunteer_id}
+                        className="flex items-center gap-4 rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 px-4 py-3 transition-colors duration-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/10"
+                      >
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/40 font-bold text-emerald-700 dark:text-emerald-300">
+                          #{entry.rank}
+                        </div>
+
+                        <div className="relative h-11 w-11 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                          {entry.volunteer_avatar ? (
+                            <img
+                              src={entry.volunteer_avatar}
+                              alt={entry.volunteer_name}
+                              className="h-full w-full object-cover"
+                            />
+                          ) : (
+                            <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-gray-700 dark:text-gray-200">
+                              {initials || 'VP'}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate font-semibold text-gray-900 dark:text-gray-100">{entry.volunteer_name}</p>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">
+                            {t('leaderboard.positionLabel', { rank: entry.rank })}
+                          </p>
+                        </div>
+
+                        <div className="text-right">
+                          <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
+                            {entry.value.toLocaleString()}
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">{t('leaderboard.pointsLabel')}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="rounded-2xl border border-dashed border-gray-300 dark:border-gray-700 p-8 text-center">
+                  <p className="text-lg font-medium text-gray-900 dark:text-gray-100">{t('leaderboard.emptyTitle')}</p>
+                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">{t('leaderboard.emptyDescription')}</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>

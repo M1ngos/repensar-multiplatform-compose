@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
 import { gamificationApi } from '@/lib/api/gamification';
 import { PageHeader } from '@/components/shared/page-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -27,7 +28,7 @@ import {
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription } from '@/components/ui/empty';
-import { Trophy, Medal, Award } from 'lucide-react';
+import { Trophy, Medal, Award, LocateFixed } from 'lucide-react';
 import { LeaderboardType, LeaderboardTimeframe } from '@/lib/api/types';
 import { cn } from '@/lib/utils';
 
@@ -38,6 +39,9 @@ export default function LeaderboardsPage() {
     // State
     const [leaderboardType, setLeaderboardType] = useState<LeaderboardType>(LeaderboardType.POINTS);
     const [timeframe, setTimeframe] = useState<LeaderboardTimeframe>(LeaderboardTimeframe.ALL_TIME);
+
+    // Ref for the current user's row in the full rankings table
+    const myRowRef = useRef<HTMLTableRowElement>(null);
 
     // Fetch leaderboard data
     const { data: leaderboard, isLoading } = useSWR(
@@ -120,7 +124,7 @@ export default function LeaderboardsPage() {
             <Card>
                 <CardContent className="pt-6">
                     <div className="flex items-center justify-between">
-                        <h3 className="text-sm font-medium">Timeframe</h3>
+                        <h3 className="text-sm font-medium">{t('timeframe')}</h3>
                         <Select value={timeframe} onValueChange={(value) => setTimeframe(value as LeaderboardTimeframe)}>
                             <SelectTrigger className="w-[180px]">
                                 <SelectValue />
@@ -167,7 +171,7 @@ export default function LeaderboardsPage() {
                             {topThree.length >= 3 && (
                                 <Card>
                                     <CardHeader>
-                                        <CardTitle>Top 3</CardTitle>
+                                        <CardTitle>{t('topThreeTitle')}</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="grid grid-cols-3 gap-4">
@@ -286,8 +290,18 @@ export default function LeaderboardsPage() {
 
                             {/* Full Rankings Table */}
                             <Card>
-                                <CardHeader>
-                                    <CardTitle>Full Rankings</CardTitle>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0">
+                                    <CardTitle>{t('fullRankings')}</CardTitle>
+                                    {userPosition && (
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => myRowRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                                        >
+                                            <LocateFixed className="mr-2 h-4 w-4" />
+                                            {t('scrollToMe')}
+                                        </Button>
+                                    )}
                                 </CardHeader>
                                 <CardContent>
                                     <div className="overflow-x-auto">
@@ -307,6 +321,7 @@ export default function LeaderboardsPage() {
                                                     return (
                                                         <TableRow
                                                             key={entry.volunteer_id}
+                                                            ref={isCurrentUser ? myRowRef : undefined}
                                                             className={cn(
                                                                 isCurrentUser && 'bg-emerald-50 dark:bg-emerald-950/20'
                                                             )}

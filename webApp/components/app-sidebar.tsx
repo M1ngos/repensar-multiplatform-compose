@@ -162,13 +162,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             roles: ['admin', 'project_manager', 'staff_member'],
         },
         {
-            title: t('nav.approvals') || 'Approvals',
+            title: t('nav.approvals'),
             href: `/${locale}/portal/approvals/time-logs`,
             icon: ClipboardCheck,
             roles: ['admin', 'project_manager', 'staff_member'],
         },
         {
-            title: t('nav.contact') || 'Contact',
+            title: t('nav.contact'),
             href: `/${locale}/portal/contact`,
             icon: Mail,
             roles: ['admin', 'staff_member'],
@@ -176,30 +176,30 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         // Gamification - Staff can award, Admins get full management
         ...(userRole === 'admin'
             ? [{
-                title: t('nav.gamification') || 'Gamification',
+                title: t('nav.gamification'),
                 icon: Award,
                 roles: ['admin'],
                 items: [
                     {
-                        title: 'Award Badges/Points',
+                        title: t('nav.awardBadgesPoints'),
                         href: `/${locale}/portal/gamification`,
                     },
                     {
-                        title: 'Manage Badges',
+                        title: t('nav.manageBadges'),
                         href: `/${locale}/portal/gamification/badges`,
                     },
                     {
-                        title: 'Manage Achievements',
+                        title: t('nav.manageAchievements'),
                         href: `/${locale}/portal/gamification/achievements`,
                     },
                     {
-                        title: 'Leaderboards',
+                        title: t('nav.leaderboards'),
                         href: `/${locale}/portal/gamification/leaderboards`,
                     },
                 ],
             }]
             : [{
-                title: t('nav.gamification') || 'Gamification',
+                title: t('nav.gamification'),
                 href: `/${locale}/portal/gamification`,
                 icon: Award,
                 roles: ['staff_member'],

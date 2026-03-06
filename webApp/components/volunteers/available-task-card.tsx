@@ -3,7 +3,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, FolderKanban, Users, Award, ArrowRight, UserPlus } from 'lucide-react';
+import { Calendar, Clock, FolderKanban, Users, Award, ArrowRight, UserPlus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
@@ -19,6 +19,7 @@ interface AvailableTaskCardProps {
         priority: TaskPriority;
         project_name: string;
         end_date?: string;
+        estimated_hours?: number;
         volunteer_spots: number;
         volunteers_assigned: number;
         required_skills?: Record<string, any>;
@@ -106,6 +107,14 @@ export function AvailableTaskCard({ task, onSignUp, isSignedUp }: AvailableTaskC
                     <Calendar className="h-4 w-4" />
                     <span>{formatDueDate()}</span>
                 </div>
+
+                {/* Estimated Hours */}
+                {task.estimated_hours != null && task.estimated_hours > 0 && (
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Clock className="h-4 w-4" />
+                        <span>{t('card.estimatedHours', { hours: task.estimated_hours })}</span>
+                    </div>
+                )}
 
                 {/* Spots Available */}
                 <div className="flex items-center gap-2 text-sm">

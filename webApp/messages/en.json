@@ -63,6 +63,24 @@
         "label": "Years of Experience"
       }
     },
+    "leaderboard": {
+      "badge": "Community Highlights",
+      "title": "Volunteer",
+      "titleHighlight": "Leaderboard",
+      "subtitle": "Celebrating volunteers creating the biggest impact across Repensar initiatives.",
+      "cta": "View Full Leaderboard",
+      "tableTitle": "Top Volunteers",
+      "tableSubtitle": "All-time points ranking",
+      "pointsLabel": "points",
+      "positionLabel": "Rank #{rank}",
+      "emptyTitle": "Leaderboard coming soon",
+      "emptyDescription": "We are preparing the first rankings. Check back soon to see top contributors.",
+      "metric": {
+        "period": "Period",
+        "allTime": "All Time",
+        "participants": "Participants"
+      }
+    },
     "volunteer": {
       "title": "Become a",
       "titleHighlight": "Volunteer",
@@ -323,7 +341,10 @@
       "gamification": "Gamification",
       "newsletter": "Newsletter",
       "badges": "Badges",
-      "achievements": "Achievements"
+      "achievements": "Achievements",
+      "awardBadgesPoints": "Award Badges/Points",
+      "manageBadges": "Manage Badges",
+      "manageAchievements": "Manage Achievements"
     },
     "roles": {
       "admin": "Administrator",
@@ -1912,10 +1933,15 @@
         "noProject": "General volunteer work",
         "noActivity": "No description"
       },
+      "timeLogs": "Time Logs",
       "noHours": "No hours logged",
       "noHoursDesc": "Start tracking your volunteer contributions by logging your hours.",
       "noData": "No hours data available",
       "noDataDesc": "Your logged hours will appear here once approved.",
+      "datePicker": {
+        "pickDate": "Pick a date",
+        "clearDate": "Clear"
+      },
       "actions": {
         "edit": "Edit",
         "delete": "Delete"
@@ -1947,7 +1973,8 @@
         "noDueDate": "No due date",
         "signUp": "Sign Up",
         "viewDetails": "View Details",
-        "signedUp": "Signed Up"
+        "signedUp": "Signed Up",
+        "estimatedHours": "{hours}h estimated"
       },
       "noTasks": "No available tasks",
       "noTasksDesc": "There are currently no open volunteer opportunities. Check back soon!",
@@ -1959,7 +1986,8 @@
         "confirmTitle": "Sign Up for Task",
         "confirmDescription": "Are you sure you want to sign up for this task?",
         "cancel": "Cancel",
-        "confirm": "Sign Up"
+        "confirm": "Sign Up",
+        "loading": "Signing up..."
       }
     },
     "achievements": {
@@ -2040,7 +2068,11 @@
       "yourPosition": "Your Position",
       "notRanked": "Not ranked yet",
       "noData": "No leaderboard data available",
-      "noDataDesc": "Rankings will appear here once volunteers start earning points and logging hours."
+      "noDataDesc": "Rankings will appear here once volunteers start earning points and logging hours.",
+      "timeframe": "Timeframe",
+      "topThreeTitle": "Top 3",
+      "fullRankings": "Full Rankings",
+      "scrollToMe": "My Position"
     }
   },
   "ProjectManager": {
@@ -2454,7 +2486,8 @@
         "onLeaderboard": "On this leaderboard",
         "topPerformer": "Top Performer",
         "noData": "No data",
-        "average": "Average"
+        "average": "Average",
+        "acrossAll": "Across all volunteers"
       },
       "filters": {
         "title": "Filters",
@@ -2474,7 +2507,8 @@
       "table": {
         "rank": "Rank",
         "volunteer": "Volunteer",
-        "email": "Email"
+        "email": "Email",
+        "value": "Value"
       },
       "messages": {
         "refreshSuccess": "Leaderboard refreshed",

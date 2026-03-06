@@ -63,6 +63,24 @@
         "label": "Anos de Experiência"
       }
     },
+    "leaderboard": {
+      "badge": "Destaques da Comunidade",
+      "title": "Classificação de",
+      "titleHighlight": "Voluntários",
+      "subtitle": "Celebrando os voluntários que mais geram impacto nas iniciativas da Repensar.",
+      "cta": "Ver Classificação Completa",
+      "tableTitle": "Melhores Voluntários",
+      "tableSubtitle": "Ranking histórico por pontos",
+      "pointsLabel": "pontos",
+      "positionLabel": "Posição #{rank}",
+      "emptyTitle": "Classificação em breve",
+      "emptyDescription": "Estamos preparando as primeiras classificações. Volte em breve para ver os maiores contribuintes.",
+      "metric": {
+        "period": "Período",
+        "allTime": "Todo o período",
+        "participants": "Participantes"
+      }
+    },
     "volunteer": {
       "title": "Seja um",
       "titleHighlight": "Voluntário",
@@ -323,7 +341,10 @@
       "gamification": "Gamificação",
       "newsletter": "Newsletter",
       "badges": "Distintivos",
-      "achievements": "Conquistas"
+      "achievements": "Conquistas",
+      "awardBadgesPoints": "Atribuir Distintivos/Pontos",
+      "manageBadges": "Gerir Distintivos",
+      "manageAchievements": "Gerir Conquistas"
     },
     "roles": {
       "admin": "Administrador",
@@ -1913,10 +1934,15 @@
         "noProject": "Trabalho voluntário geral",
         "noActivity": "Sem descrição"
       },
+      "timeLogs": "Registros de Horas",
       "noHours": "Nenhuma hora registrada",
       "noHoursDesc": "Comece a rastrear suas contribuições voluntárias registrando suas horas.",
       "noData": "Nenhum dado de horas disponível",
       "noDataDesc": "Suas horas registradas aparecerão aqui após serem aprovadas.",
+      "datePicker": {
+        "pickDate": "Selecionar data",
+        "clearDate": "Limpar"
+      },
       "actions": {
         "edit": "Editar",
         "delete": "Excluir"
@@ -1948,7 +1974,8 @@
         "noDueDate": "Sem prazo",
         "signUp": "Inscrever-se",
         "viewDetails": "Ver Detalhes",
-        "signedUp": "Inscrito"
+        "signedUp": "Inscrito",
+        "estimatedHours": "{hours}h estimadas"
       },
       "noTasks": "Nenhuma tarefa disponível",
       "noTasksDesc": "Atualmente não há oportunidades de voluntariado abertas. Volte em breve!",
@@ -1960,7 +1987,8 @@
         "confirmTitle": "Inscrever-se na Tarefa",
         "confirmDescription": "Tem certeza de que deseja se inscrever nesta tarefa?",
         "cancel": "Cancelar",
-        "confirm": "Inscrever-se"
+        "confirm": "Inscrever-se",
+        "loading": "Inscrevendo..."
       }
     },
     "achievements": {
@@ -2041,7 +2069,11 @@
       "yourPosition": "Sua Posição",
       "notRanked": "Ainda não classificado",
       "noData": "Nenhum dado de classificação disponível",
-      "noDataDesc": "As classificações aparecerão aqui assim que os voluntários começarem a ganhar pontos e registrar horas."
+      "noDataDesc": "As classificações aparecerão aqui assim que os voluntários começarem a ganhar pontos e registrar horas.",
+      "timeframe": "Período",
+      "topThreeTitle": "Top 3",
+      "fullRankings": "Classificação Completa",
+      "scrollToMe": "Minha Posição"
     }
   },
   "ProjectManager": {
@@ -2455,7 +2487,8 @@
         "onLeaderboard": "Nesta classificação",
         "topPerformer": "Melhor Desempenho",
         "noData": "Sem dados",
-        "average": "Média"
+        "average": "Média",
+        "acrossAll": "Entre todos os voluntários"
       },
       "filters": {
         "title": "Filtros",
@@ -2475,7 +2508,8 @@
       "table": {
         "rank": "Classificação",
         "volunteer": "Voluntário",
-        "email": "Email"
+        "email": "Email",
+        "value": "Valor"
       },
       "messages": {
         "refreshSuccess": "Classificação atualizada",

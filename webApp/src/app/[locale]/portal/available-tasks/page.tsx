@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
-import { tasksApi, projectsApi } from '@/lib/api';
+import { tasksApi } from '@/lib/api';
 import { PageHeader } from '@/components/shared/page-header';
 import { FilterBar } from '@/components/shared/filter-bar';
 import { AvailableTaskCard } from '@/components/volunteers/available-task-card';
@@ -50,12 +50,6 @@ export default function AvailableTasksPage() {
             suitable_for_volunteers: true,
             status: TaskStatus.NOT_STARTED,
         })
-    );
-
-    // Fetch projects for filter dropdown
-    const { isLoading: projectsLoading } = useSWR(
-        'projects-list',
-        () => projectsApi.getProjects()
     );
 
     // Fetch volunteer's current assignments to check if already signed up
@@ -111,7 +105,7 @@ export default function AvailableTasksPage() {
     };
 
     // Loading state
-    if (tasksLoading || projectsLoading) {
+    if (tasksLoading) {
         return (
             <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
                 <div className="space-y-2">
@@ -213,7 +207,7 @@ export default function AvailableTasksPage() {
                             onClick={handleSignUpConfirm}
                             disabled={isSigningUp}
                         >
-                            {isSigningUp ? 'Signing up...' : t('signUp.confirm')}
+                            {isSigningUp ? t('signUp.loading') : t('signUp.confirm')}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

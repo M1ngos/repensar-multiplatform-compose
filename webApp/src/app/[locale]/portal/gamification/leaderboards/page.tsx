@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
 import { leaderboardsApi } from '@/lib/api';
 import { LeaderboardType as LeaderboardTypeEnum, LeaderboardTimeframe as LeaderboardTimeframeEnum } from '@/lib/api/types';
@@ -32,6 +33,7 @@ import { Empty, EmptyHeader, EmptyTitle, EmptyDescription } from '@/components/u
 
 export default function LeaderboardManagementPage() {
   const { user, isAuthLoading } = useAuth();
+  const t = useTranslations('Admin.leaderboards');
 
   // State
   const [leaderboardType, setLeaderboardType] = useState<LeaderboardTypeEnum>(LeaderboardTypeEnum.POINTS);
@@ -57,16 +59,16 @@ export default function LeaderboardManagementPage() {
   const handleRefresh = async () => {
     try {
       await refreshLeaderboard();
-      toast.success('Leaderboard refreshed');
+      toast.success(t('messages.refreshSuccess'));
     } catch (error) {
       console.error('Failed to refresh leaderboard:', error);
-      toast.error('Failed to refresh leaderboard');
+      toast.error(t('messages.refreshError'));
     }
   };
 
   const handleExportCSV = () => {
     if (rankings.length === 0) {
-      toast.error('No data to export');
+      toast.error(t('messages.noDataToExport'));
       return;
     }
 
@@ -95,19 +97,19 @@ export default function LeaderboardManagementPage() {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
 
-    toast.success('Leaderboard exported');
+    toast.success(t('messages.exportSuccess'));
   };
 
   const getValueLabel = () => {
     switch (leaderboardType) {
       case LeaderboardTypeEnum.POINTS:
-        return 'Points';
+        return t('tabs.points');
       case LeaderboardTypeEnum.HOURS:
-        return 'Hours';
+        return t('tabs.hours');
       case LeaderboardTypeEnum.PROJECTS:
-        return 'Projects';
+        return t('tabs.projects');
       default:
-        return 'Value';
+        return t('table.value');
     }
   };
 
@@ -129,17 +131,17 @@ export default function LeaderboardManagementPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">Leaderboard Management</h1>
-          <p className="text-muted-foreground">View and manage volunteer leaderboards</p>
+          <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={handleRefresh} disabled={isLoading}>
             <RefreshCw className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
-            Refresh
+            {t('refreshButton')}
           </Button>
           <Button variant="outline" onClick={handleExportCSV} disabled={rankings.length === 0}>
             <Download className="mr-2 h-4 w-4" />
-            Export CSV
+            {t('exportButton')}
           </Button>
         </div>
       </div>
@@ -148,18 +150,18 @@ export default function LeaderboardManagementPage() {
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Volunteers</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('stats.totalVolunteers')}</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{rankings.length}</div>
-            <p className="text-xs text-muted-foreground">On this leaderboard</p>
+            <p className="text-xs text-muted-foreground">{t('stats.onLeaderboard')}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Top Performer</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('stats.topPerformer')}</CardTitle>
             <Trophy className="h-4 w-4 text-yellow-600" />
           </CardHeader>
           <CardContent>
@@ -167,14 +169,14 @@ export default function LeaderboardManagementPage() {
               {rankings[0]?.volunteer_name || '-'}
             </div>
             <p className="text-xs text-muted-foreground">
-              {rankings[0] ? formatValue(rankings[0].value) : 'No data'}
+              {rankings[0] ? formatValue(rankings[0].value) : t('stats.noData')}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Average {getValueLabel()}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('stats.average')} {getValueLabel()}</CardTitle>
             <Trophy className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -183,7 +185,7 @@ export default function LeaderboardManagementPage() {
                 ? formatValue(rankings.reduce((sum: number, r: any) => sum + r.value, 0) / rankings.length)
                 : '-'}
             </div>
-            <p className="text-xs text-muted-foreground">Across all volunteers</p>
+            <p className="text-xs text-muted-foreground">{t('stats.acrossAll')}</p>
           </CardContent>
         </Card>
       </div>
@@ -191,20 +193,20 @@ export default function LeaderboardManagementPage() {
       {/* Filters */}
       <Card>
         <CardHeader>
-          <CardTitle>Filters</CardTitle>
+          <CardTitle>{t('filters.title')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex gap-4">
             <div className="space-y-2 flex-1">
-              <label className="text-sm font-medium">Timeframe</label>
+              <label className="text-sm font-medium">{t('filters.timeframeLabel')}</label>
               <Select value={timeframe} onValueChange={(value) => setTimeframe(value as LeaderboardTimeframeEnum)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={LeaderboardTimeframeEnum.ALL_TIME}>All Time</SelectItem>
-                  <SelectItem value={LeaderboardTimeframeEnum.MONTHLY}>This Month</SelectItem>
-                  <SelectItem value={LeaderboardTimeframeEnum.WEEKLY}>This Week</SelectItem>
+                  <SelectItem value={LeaderboardTimeframeEnum.ALL_TIME}>{t('filters.allTime')}</SelectItem>
+                  <SelectItem value={LeaderboardTimeframeEnum.MONTHLY}>{t('filters.monthly')}</SelectItem>
+                  <SelectItem value={LeaderboardTimeframeEnum.WEEKLY}>{t('filters.weekly')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -217,15 +219,15 @@ export default function LeaderboardManagementPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Trophy className="h-5 w-5" />
-            Leaderboards
+            {t('leaderboardsTitle')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <Tabs value={leaderboardType} onValueChange={(value) => setLeaderboardType(value as LeaderboardTypeEnum)}>
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value={LeaderboardTypeEnum.POINTS}>Points</TabsTrigger>
-              <TabsTrigger value={LeaderboardTypeEnum.HOURS}>Hours</TabsTrigger>
-              <TabsTrigger value={LeaderboardTypeEnum.PROJECTS}>Projects</TabsTrigger>
+              <TabsTrigger value={LeaderboardTypeEnum.POINTS}>{t('tabs.points')}</TabsTrigger>
+              <TabsTrigger value={LeaderboardTypeEnum.HOURS}>{t('tabs.hours')}</TabsTrigger>
+              <TabsTrigger value={LeaderboardTypeEnum.PROJECTS}>{t('tabs.projects')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value={leaderboardType} className="mt-6">
@@ -235,9 +237,9 @@ export default function LeaderboardManagementPage() {
                 <Empty>
                   <EmptyHeader>
                     <Trophy className="h-12 w-12 text-muted-foreground" />
-                    <EmptyTitle>No leaderboard data</EmptyTitle>
+                    <EmptyTitle>{t('noDataTitle')}</EmptyTitle>
                     <EmptyDescription>
-                      There are no volunteers with activity in this category yet
+                      {t('noDataDescription')}
                     </EmptyDescription>
                   </EmptyHeader>
                 </Empty>
@@ -304,9 +306,9 @@ export default function LeaderboardManagementPage() {
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead className="w-16">Rank</TableHead>
-                          <TableHead>Volunteer</TableHead>
-                          <TableHead>Email</TableHead>
+                          <TableHead className="w-16">{t('table.rank')}</TableHead>
+                          <TableHead>{t('table.volunteer')}</TableHead>
+                          <TableHead>{t('table.email')}</TableHead>
                           <TableHead className="text-right">{getValueLabel()}</TableHead>
                         </TableRow>
                       </TableHeader>

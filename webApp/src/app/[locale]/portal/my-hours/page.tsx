@@ -20,7 +20,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription } from '@/components/ui/empty';
-import { Clock, CheckCircle, AlertCircle, Plus, Pencil, Trash2 } from 'lucide-react';
+import { Clock, CheckCircle, AlertCircle, Plus, Pencil, Trash2, Calendar as CalendarIcon } from 'lucide-react';
 import { LogHoursDialog } from '@/components/volunteers/log-hours-dialog';
 import { EditTimeLogDialog } from '@/components/volunteers/edit-time-log-dialog';
 import { DeleteTimeLogDialog } from '@/components/volunteers/delete-time-log-dialog';
@@ -33,6 +33,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 
 export default function MyHoursPage() {
     const { user } = useAuth();
@@ -46,6 +50,8 @@ export default function MyHoursPage() {
 
     // State for filters
     const [statusFilter, setStatusFilter] = useState<string>('all');
+    const [dateFrom, setDateFrom] = useState<Date | undefined>(undefined);
+    const [dateTo, setDateTo] = useState<Date | undefined>(undefined);
 
     // Fetch hours summary
     const { data: summary, isLoading: summaryLoading } = useSWR(
@@ -53,10 +59,13 @@ export default function MyHoursPage() {
         () => volunteersApi.getVolunteerHoursSummary(user!.id)
     );
 
-    // Fetch time logs
+    // Fetch time logs — include date range in SWR key so it refetches when dates change
     const { data: timeLogs, isLoading: logsLoading, mutate } = useSWR(
-        user?.id ? ['time-logs', user.id, statusFilter] : null,
-        () => volunteersApi.getVolunteerHours(user!.id)
+        user?.id ? ['time-logs', user.id, dateFrom?.toISOString(), dateTo?.toISOString()] : null,
+        () => volunteersApi.getVolunteerHours(user!.id, {
+            start_date: dateFrom ? format(dateFrom, 'yyyy-MM-dd') : undefined,
+            end_date: dateTo ? format(dateTo, 'yyyy-MM-dd') : undefined,
+        })
     );
 
     // Filter time logs by status
@@ -151,10 +160,67 @@ export default function MyHoursPage() {
             {/* Time Logs Table */}
             <Card>
                 <CardHeader>
-                    <div className="flex items-center justify-between">
-                        <CardTitle>Time Logs</CardTitle>
+                    <div className="flex flex-wrap items-end gap-4">
+                        <div className="flex-1 min-w-0">
+                            <CardTitle>{t('timeLogs')}</CardTitle>
+                        </div>
+                        {/* Date From */}
+                        <div className="space-y-1">
+                            <Label className="text-xs text-muted-foreground">{t('filters.from')}</Label>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className={cn(
+                                            'w-[150px] justify-start text-left font-normal',
+                                            !dateFrom && 'text-muted-foreground'
+                                        )}
+                                    >
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        {dateFrom ? format(dateFrom, 'PP') : t('datePicker.pickDate')}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0" align="start">
+                                    <Calendar
+                                        mode="single"
+                                        selected={dateFrom}
+                                        onSelect={setDateFrom}
+                                        initialFocus
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                        {/* Date To */}
+                        <div className="space-y-1">
+                            <Label className="text-xs text-muted-foreground">{t('filters.to')}</Label>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className={cn(
+                                            'w-[150px] justify-start text-left font-normal',
+                                            !dateTo && 'text-muted-foreground'
+                                        )}
+                                    >
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        {dateTo ? format(dateTo, 'PP') : t('datePicker.pickDate')}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0" align="start">
+                                    <Calendar
+                                        mode="single"
+                                        selected={dateTo}
+                                        onSelect={setDateTo}
+                                        initialFocus
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                        {/* Status Filter */}
                         <Select value={statusFilter} onValueChange={setStatusFilter}>
-                            <SelectTrigger className="w-[180px]">
+                            <SelectTrigger className="w-[160px]">
                                 <SelectValue placeholder={t('filters.status')} />
                             </SelectTrigger>
                             <SelectContent>

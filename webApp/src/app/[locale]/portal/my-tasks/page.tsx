@@ -4,59 +4,32 @@ import { useState } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
-import { tasksApi } from '@/lib/api';
+import { volunteersApi, tasksApi } from '@/lib/api';
 import { PageHeader } from '@/components/shared/page-header';
 import { TaskCard } from '@/components/volunteers/task-card';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription } from '@/components/ui/empty';
-import { TaskStatus, TaskPriority } from '@/lib/api/types';
+import { TaskStatus } from '@/lib/api/types';
 import { toast } from 'sonner';
-
-// Extended type for volunteer task assignments with full task details
-interface VolunteerTaskAssignment {
-    id: number;
-    task_id: number;
-    volunteer_id: number;
-    assigned_at: string;
-    hours_contributed: number;
-    // Task details (from joined query or separate fetch)
-    title: string;
-    status: TaskStatus;
-    priority: TaskPriority;
-    project_name: string;
-    end_date?: string;
-    progress_percentage: number;
-    is_overdue?: boolean;
-    days_remaining?: number;
-}
 
 export default function MyTasksPage() {
     const { user } = useAuth();
     const t = useTranslations('Volunteer.myTasks');
     const [statusFilter, setStatusFilter] = useState<string>('all');
 
-    // Fetch volunteer's task assignments
-    const { data: assignments, isLoading, mutate } = useSWR(
-        user?.id ? ['volunteer-tasks', user.id] : null,
-        async () => {
-            // TODO: This endpoint needs to return extended task data
-            // For now, this will return basic assignment data
-            // Backend should be modified to join task details
-            const response = await tasksApi.getVolunteerAssignments(user!.id);
-            return response as unknown as VolunteerTaskAssignment[];
-        }
+    // Fetch volunteer's tasks with server-side status filtering
+    const { data: tasksData, isLoading, mutate } = useSWR(
+        user?.id ? ['volunteer-tasks', user.id, statusFilter] : null,
+        () => volunteersApi.getVolunteerTasks(user!.id, {
+            page: 1,
+            page_size: 50,
+            status: statusFilter !== 'all' ? statusFilter : undefined,
+        })
     );
 
-    // Filter tasks by status
-    const filteredTasks = assignments?.filter((task) => {
-        if (statusFilter === 'all') return true;
-        if (statusFilter === 'not_started') return task.status === TaskStatus.NOT_STARTED;
-        if (statusFilter === 'in_progress') return task.status === TaskStatus.IN_PROGRESS;
-        if (statusFilter === 'completed') return task.status === TaskStatus.COMPLETED;
-        return true;
-    }) || [];
+    const filteredTasks = tasksData?.items || [];
 
     // Handle task status update
     const handleStatusChange = async (taskId: number, newStatus: TaskStatus) => {
@@ -134,7 +107,7 @@ export default function MyTasksPage() {
                     {filteredTasks.map((task) => (
                         <TaskCard
                             key={task.id}
-                            task={task}
+                            task={{ ...task, task_id: task.id }}
                             onStatusChange={handleStatusChange}
                         />
                     ))}
