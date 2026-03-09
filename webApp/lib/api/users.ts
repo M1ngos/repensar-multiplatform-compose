@@ -21,6 +21,16 @@ export interface UserQueryParams {
   department?: string;
 }
 
+export interface UserCreate {
+  name: string;
+  email: string;
+  password: string;
+  phone?: string;
+  department?: string;
+  employee_id?: string;
+  user_type: string;
+}
+
 export const usersApi = {
   /**
    * Get paginated list of users (admin/staff only)
@@ -28,6 +38,13 @@ export const usersApi = {
    */
   getUsers: (params?: UserQueryParams) =>
     apiClient.get<PaginatedResponse<UserSummary>>('/users', params),
+
+  /**
+   * Create a new user (admin only)
+   * @route POST /users
+   */
+  createUser: (data: UserCreate) =>
+    apiClient.post<UserDetail>('/users', data),
 
   /**
    * Get current user profile

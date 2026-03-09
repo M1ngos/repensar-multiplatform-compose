@@ -209,7 +209,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             title: t('nav.users'),
             href: `/${locale}/portal/users`,
             icon: Users,
-            roles: ['admin', 'project_manager'],
+            roles: ['admin', 'staff_member', 'project_manager'],
         },
         {
             title: t('nav.blog'),

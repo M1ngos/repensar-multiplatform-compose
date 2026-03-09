@@ -944,6 +944,43 @@
       "rejected": "Rejeitado"
     }
   },
+  "Users": {
+    "title": "Utilizadores",
+    "subtitle": "Gerir contas e permissões de utilizadores",
+    "searchPlaceholder": "Pesquisar utilizadores...",
+    "filterByStatus": "Filtrar por estado",
+    "allStatuses": "Todos os estados",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "errorLoading": "Erro ao carregar utilizadores",
+    "noUsers": "Nenhum utilizador encontrado",
+    "noUsersDesc": "Nenhum utilizador corresponde aos seus critérios de pesquisa",
+    "status": "Estado",
+    "department": "Departamento",
+    "showing": "A mostrar",
+    "of": "de",
+    "users": "utilizadores",
+    "backToUsers": "Voltar a Utilizadores",
+    "profile": "Perfil",
+    "details": "Detalhes",
+    "detailsDescription": "Informação da conta do utilizador",
+    "accountInfo": "Informação da Conta",
+    "employeeId": "ID do Funcionário",
+    "role": "Função",
+    "dates": "Datas",
+    "createdAt": "Criado em",
+    "lastLogin": "Último Login",
+    "additionalInfo": "Informação Adicional",
+    "email": "Email",
+    "activate": "Ativar",
+    "deactivate": "Desativar",
+    "roles": {
+      "admin": "Administrador",
+      "project_manager": "Gestor de Projeto",
+      "staff_member": "Membro da Equipa",
+      "volunteer": "Voluntário"
+    }
+  },
   "Resources": {
     "title": "Recursos",
     "subtitle": "Gerir recursos de projetos e alocações",

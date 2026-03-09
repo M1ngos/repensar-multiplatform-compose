@@ -944,6 +944,43 @@
       "rejected": "Rejected"
     }
   },
+  "Users": {
+    "title": "Users",
+    "subtitle": "Manage user accounts and permissions",
+    "searchPlaceholder": "Search users...",
+    "filterByStatus": "Filter by status",
+    "allStatuses": "All statuses",
+    "active": "Active",
+    "inactive": "Inactive",
+    "errorLoading": "Error loading users",
+    "noUsers": "No users found",
+    "noUsersDesc": "No users match your search criteria",
+    "status": "Status",
+    "department": "Department",
+    "showing": "Showing",
+    "of": "of",
+    "users": "users",
+    "backToUsers": "Back to Users",
+    "profile": "Profile",
+    "details": "Details",
+    "detailsDescription": "User account information",
+    "accountInfo": "Account Information",
+    "employeeId": "Employee ID",
+    "role": "Role",
+    "dates": "Dates",
+    "createdAt": "Created At",
+    "lastLogin": "Last Login",
+    "additionalInfo": "Additional Information",
+    "email": "Email",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "roles": {
+      "admin": "Administrator",
+      "project_manager": "Project Manager",
+      "staff_member": "Staff Member",
+      "volunteer": "Volunteer"
+    }
+  },
   "Resources": {
     "title": "Resources",
     "subtitle": "Manage project resources and allocations",
