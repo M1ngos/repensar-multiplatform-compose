@@ -94,4 +94,11 @@ export const usersApi = {
    */
   getDepartments: () =>
     apiClient.get<string[]>('/users/departments/all'),
+
+  /**
+   * Change user role (admin only)
+   * @route PUT /users/{user_id}/role
+   */
+  changeUserRole: (userId: number, userType: string) =>
+    apiClient.put<UserDetail>(`/users/${userId}/role?user_type_name=${encodeURIComponent(userType)}`, undefined),
 };

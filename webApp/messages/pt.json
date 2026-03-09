@@ -182,7 +182,7 @@
         "team": "Equipe"
       },
       "contact": "Contato",
-      "copyright": "© 2025 Cooperativa de Educação Ambiental Repensar. Todos os direitos reservados."
+      "copyright": "© 2026 Cooperativa de Educação Ambiental Repensar. Todos os direitos reservados."
     }
   },
   "Metadata": {
@@ -974,6 +974,31 @@
     "email": "Email",
     "activate": "Ativar",
     "deactivate": "Desativar",
+    "changeRole": "Alterar Função",
+    "roleChanged": "Função atualizada com sucesso",
+    "roleChangeError": "Falha ao atualizar função",
+    "save": "Guardar",
+    "newUser": "Novo Utilizador",
+    "createUser": {
+      "title": "Criar Utilizador",
+      "description": "Criar uma nova conta de utilizador",
+      "name": "Nome Completo",
+      "namePlaceholder": "Digite o nome completo",
+      "email": "Endereço de Email",
+      "emailPlaceholder": "Digite o endereço de email",
+      "password": "Palavra-passe",
+      "passwordPlaceholder": "Digite a palavra-passe (mín 8 caracteres)",
+      "role": "Função",
+      "phone": "Número de Telefone",
+      "phonePlaceholder": "Digite o número de telefone",
+      "department": "Departamento",
+      "departmentPlaceholder": "Digite o departamento",
+      "cancel": "Cancelar",
+      "create": "Criar Utilizador",
+      "creating": "A criar...",
+      "success": "Utilizador criado com sucesso",
+      "error": "Falha ao criar utilizador"
+    },
     "roles": {
       "admin": "Administrador",
       "project_manager": "Gestor de Projeto",
@@ -2624,5 +2649,65 @@
     "success": "Subscrito com sucesso à nossa newsletter!",
     "successConfirmation": "Por favor, verifique seu email para confirmar a subscrição.",
     "error": "Falha ao subscrever. Por favor, tente novamente."
+  },
+  "Onboarding": {
+    "title": "Bem-vindo à Repensar!",
+    "subtitle": "Vamos configurar o seu perfil de voluntário. Pode saltar qualquer passo.",
+    "step": "Passo {current} de {total}",
+    "skip": "Fazer isto mais tarde",
+    "next": "Próximo",
+    "finish": "Concluir",
+    "back": "Voltar",
+    "saving": "A guardar...",
+    "steps": {
+      "gender": {
+        "title": "Qual é o seu género?",
+        "description": "Ajude-nos a personalizar a sua experiência.",
+        "male": "Masculino",
+        "female": "Feminino",
+        "other": "Outro",
+        "preferNotToSay": "Prefiro não dizer"
+      },
+      "dateOfBirth": {
+        "title": "Quando nasceu?",
+        "description": "A sua data de nascimento ajuda-nos a cumprir as regulamentações de voluntariado.",
+        "label": "Data de Nascimento",
+        "placeholder": "Escolher data"
+      },
+      "city": {
+        "title": "Onde está localizado?",
+        "description": "Selecione a cidade mais próxima de si.",
+        "label": "Cidade",
+        "placeholder": "Selecionar cidade"
+      },
+      "address": {
+        "title": "Qual é a sua morada?",
+        "description": "A sua morada é mantida privada e usada apenas para coordenação.",
+        "addressLabel": "Morada",
+        "addressPlaceholder": "Rua, número, bairro",
+        "postalCodeLabel": "Código Postal",
+        "postalCodePlaceholder": "Código postal"
+      },
+      "emergencyContact": {
+        "title": "Contacto de Emergência",
+        "description": "Em caso de emergência, quem devemos contactar?",
+        "nameLabel": "Nome do Contacto",
+        "namePlaceholder": "Nome completo",
+        "phoneLabel": "Número de Telefone",
+        "phonePlaceholder": "+258 84 000 0000",
+        "relationshipLabel": "Relação",
+        "relationshipPlaceholder": "ex. Pai/Mãe, Cônjuge, Amigo"
+      },
+      "motivation": {
+        "title": "Porque quer ser voluntário?",
+        "description": "Partilhe o que o motiva a juntar-se à Repensar.",
+        "label": "A sua motivação",
+        "placeholder": "Conte-nos o que o trouxe até aqui e o que espera contribuir..."
+      }
+    },
+    "success": {
+      "title": "Perfil completo!",
+      "description": "O seu perfil de voluntário foi configurado. Bem-vindo à comunidade Repensar!"
+    }
   }
 }

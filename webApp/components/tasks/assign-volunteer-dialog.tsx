@@ -46,9 +46,12 @@ export function AssignVolunteerDialog({ open, onOpenChange, taskId, onSuccess }:
     const [searchQuery, setSearchQuery] = useState('');
 
     // Fetch volunteers
-    const { data: volunteers } = useSWR(
+    const { data: volunteers, error } = useSWR(
         open ? ['volunteers', searchQuery] : null,
-        () => volunteersApi.getVolunteers({ search: searchQuery, limit: 50, status: 'active' })
+        () => volunteersApi.getVolunteers({
+            ...(searchQuery && { search: searchQuery }),
+            limit: 50
+        })
     );
 
     const selectedVolunteer = volunteers?.find(v => v.id === selectedVolunteerId);

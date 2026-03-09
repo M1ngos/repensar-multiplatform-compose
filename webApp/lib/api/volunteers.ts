@@ -5,6 +5,7 @@ import type {
     VolunteerSummary,
     VolunteerRegistration,
     VolunteerUpdate,
+    VolunteerOnboardingUpdate,
     VolunteerStats,
     VolunteerSkill,
     VolunteerSkillAssignment,
@@ -30,6 +31,9 @@ export const volunteersApi = {
 
     getVolunteer: (volunteerId: number) =>
         apiClient.get<VolunteerProfile>(`/volunteers/${volunteerId}`),
+
+    getMyVolunteerProfile: () =>
+        apiClient.get<VolunteerProfile>('/volunteers/me'),
 
     registerVolunteer: (data: VolunteerRegistration) =>
         apiClient.post<Volunteer>('/volunteers/register', data),
@@ -132,4 +136,16 @@ export const volunteersApi = {
         }
     ) =>
         apiClient.get<PaginatedResponse<ActivityLog>>(`/volunteers/${volunteerId}/activity`, params),
+
+    /**
+     * Update volunteer onboarding data (wizard step submission)
+     */
+    updateOnboarding: (
+        volunteerId: number,
+        data: VolunteerOnboardingUpdate
+    ) =>
+        apiClient.patch<{ message: string; onboarding_completed: boolean }>(
+            `/volunteers/${volunteerId}/onboarding`,
+            data
+        ),
 };

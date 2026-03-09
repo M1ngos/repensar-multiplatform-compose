@@ -1,15 +1,24 @@
 'use client';
 
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import useSWR from 'swr';
-import { ArrowLeft, Shield, Mail, Phone, Building, User as UserIcon, Calendar } from 'lucide-react';
+import { ArrowLeft, Shield, Mail, Phone, Building, User as UserIcon, Calendar, Save } from 'lucide-react';
 import { usersApi } from '@/lib/api';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
+import { toast } from 'sonner';
 import Link from 'next/link';
 import { format } from 'date-fns';
 
@@ -24,6 +33,10 @@ export default function UserDetailPage() {
     const isStaffOrAdmin = currentUser?.user_type === 'admin' || currentUser?.user_type === 'staff_member';
     const canEdit = isStaffOrAdmin;
     const canActivate = isAdmin;
+    const canChangeRole = isAdmin && currentUser?.id !== userId;
+
+    const [selectedRole, setSelectedRole] = useState<string>('');
+    const [isChangingRole, setIsChangingRole] = useState(false);
 
     // Fetch user
     const { data: user, error, isLoading, mutate } = useSWR(
@@ -79,6 +92,23 @@ export default function UserDetailPage() {
         }
     };
 
+    const handleRoleChange = async () => {
+        if (!selectedRole || selectedRole === user.user_type.name) return;
+        
+        setIsChangingRole(true);
+        try {
+            await usersApi.changeUserRole(userId, selectedRole);
+            toast.success(t('roleChanged'));
+            mutate();
+            setSelectedRole('');
+        } catch (err: any) {
+            console.error('Failed to change role:', err);
+            toast.error(err?.detail || err?.message || t('roleChangeError'));
+        } finally {
+            setIsChangingRole(false);
+        }
+    };
+
     if (isLoading) {
         return (
             <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
@@ -125,16 +155,50 @@ export default function UserDetailPage() {
 
                 {/* Action buttons for admin */}
                 {canActivate && currentUser?.id !== userId && (
-                    <div className="flex gap-2">
-                        {user.is_active ? (
-                            <Button variant="destructive" onClick={handleDeactivate}>
-                                {t('deactivate')}
-                            </Button>
-                        ) : (
-                            <Button onClick={handleActivate}>
-                                {t('activate')}
-                            </Button>
+                    <div className="flex flex-col gap-2">
+                        {/* Role Change */}
+                        {canChangeRole && (
+                            <div className="flex gap-2 items-center">
+                                <Select
+                                    value={selectedRole || user.user_type.name}
+                                    onValueChange={(value) => setSelectedRole(value)}
+                                >
+                                    <SelectTrigger className="w-[180px]">
+                                        <Shield className="mr-2 h-4 w-4" />
+                                        <SelectValue placeholder={t('changeRole')} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="volunteer">{t('roles.volunteer')}</SelectItem>
+                                        <SelectItem value="staff_member">{t('roles.staff_member')}</SelectItem>
+                                        <SelectItem value="project_manager">{t('roles.project_manager')}</SelectItem>
+                                        <SelectItem value="admin">{t('roles.admin')}</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                {selectedRole && selectedRole !== user.user_type.name && (
+                                    <Button 
+                                        size="sm" 
+                                        onClick={handleRoleChange}
+                                        disabled={isChangingRole}
+                                    >
+                                        <Save className="mr-1 h-4 w-4" />
+                                        {t('save')}
+                                    </Button>
+                                )}
+                            </div>
                         )}
+
+                        {/* Activate/Deactivate */}
+                        <div className="flex gap-2">
+                            {user.is_active ? (
+                                <Button variant="destructive" onClick={handleDeactivate}>
+                                    {t('deactivate')}
+                                </Button>
+                            ) : (
+                                <Button onClick={handleActivate}>
+                                    {t('activate')}
+                                </Button>
+                            )}
+                        </div>
                     </div>
                 )}
             </div>

@@ -259,6 +259,7 @@ export interface Volunteer {
   background_check_status: BackgroundCheckStatus;
   orientation_completed: boolean;
   orientation_date?: string;
+  onboarding_completed: boolean;
   joined_date: string;
   motivation?: string;
   notes?: string;
@@ -321,6 +322,19 @@ export interface VolunteerUpdate {
   orientation_date?: string;
   motivation?: string;
   notes?: string;
+}
+
+export interface VolunteerOnboardingUpdate {
+  gender?: string;
+  date_of_birth?: string;
+  city?: string;
+  address?: string;
+  postal_code?: string;
+  emergency_contact_name?: string;
+  emergency_contact_phone?: string;
+  emergency_contact_relationship?: string;
+  motivation?: string;
+  onboarding_completed?: boolean;
 }
 
 export interface VolunteerStats {

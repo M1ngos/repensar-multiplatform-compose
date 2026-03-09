@@ -21,7 +21,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription } from '@/components/ui/empty';
-// import { CreateUserDialog } from './create-user-dialog';
+import { CreateUserDialog } from './create-user-dialog';
 
 export default function UsersPage() {
   const t = useTranslations('Users');
@@ -228,11 +228,11 @@ export default function UsersPage() {
       )}
 
       {/* Create User Dialog */}
-      {/*   <CreateUserDialog */}
-      {/*     open={isCreateDialogOpen} */}
-      {/*     onOpenChange={setIsCreateDialogOpen} */}
-      {/*     onSuccess={handleCreateSuccess} */}
-      {/*   /> */}
+      <CreateUserDialog
+        open={isCreateDialogOpen}
+        onOpenChange={setIsCreateDialogOpen}
+        onSuccess={handleCreateSuccess}
+      />
     </div>
   );
 }

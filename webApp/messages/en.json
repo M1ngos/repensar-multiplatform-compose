@@ -182,7 +182,7 @@
         "team": "Team"
       },
       "contact": "Contact",
-      "copyright": "© 2025 Repensar Environmental Education Cooperative. All rights reserved."
+      "copyright": "© 2026 Repensar Environmental Education Cooperative. All rights reserved."
     }
   },
   "Metadata": {
@@ -974,6 +974,31 @@
     "email": "Email",
     "activate": "Activate",
     "deactivate": "Deactivate",
+    "changeRole": "Change Role",
+    "roleChanged": "Role updated successfully",
+    "roleChangeError": "Failed to update role",
+    "save": "Save",
+    "newUser": "New User",
+    "createUser": {
+      "title": "Create User",
+      "description": "Create a new user account",
+      "name": "Full Name",
+      "namePlaceholder": "Enter full name",
+      "email": "Email Address",
+      "emailPlaceholder": "Enter email address",
+      "password": "Password",
+      "passwordPlaceholder": "Enter password (min 8 characters)",
+      "role": "Role",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Enter phone number",
+      "department": "Department",
+      "departmentPlaceholder": "Enter department",
+      "cancel": "Cancel",
+      "create": "Create User",
+      "creating": "Creating...",
+      "success": "User created successfully",
+      "error": "Failed to create user"
+    },
     "roles": {
       "admin": "Administrator",
       "project_manager": "Project Manager",
@@ -2623,5 +2648,65 @@
     "success": "Successfully subscribed to our newsletter!",
     "successConfirmation": "Please check your email to confirm your subscription.",
     "error": "Failed to subscribe. Please try again."
+  },
+  "Onboarding": {
+    "title": "Welcome to Repensar!",
+    "subtitle": "Let's set up your volunteer profile. You can skip any step.",
+    "step": "Step {current} of {total}",
+    "skip": "Do this later",
+    "next": "Next",
+    "finish": "Finish",
+    "back": "Back",
+    "saving": "Saving...",
+    "steps": {
+      "gender": {
+        "title": "What is your gender?",
+        "description": "Help us personalize your experience.",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other",
+        "preferNotToSay": "Prefer not to say"
+      },
+      "dateOfBirth": {
+        "title": "When were you born?",
+        "description": "Your date of birth helps us comply with volunteering regulations.",
+        "label": "Date of Birth",
+        "placeholder": "Pick a date"
+      },
+      "city": {
+        "title": "Where are you based?",
+        "description": "Select the city closest to you.",
+        "label": "City",
+        "placeholder": "Select a city"
+      },
+      "address": {
+        "title": "What is your address?",
+        "description": "Your address is kept private and used only for coordination.",
+        "addressLabel": "Address",
+        "addressPlaceholder": "Street, number, neighbourhood",
+        "postalCodeLabel": "Postal Code",
+        "postalCodePlaceholder": "Postal code"
+      },
+      "emergencyContact": {
+        "title": "Emergency Contact",
+        "description": "In case of emergency, who should we contact?",
+        "nameLabel": "Contact Name",
+        "namePlaceholder": "Full name",
+        "phoneLabel": "Phone Number",
+        "phonePlaceholder": "+258 84 000 0000",
+        "relationshipLabel": "Relationship",
+        "relationshipPlaceholder": "e.g. Parent, Spouse, Friend"
+      },
+      "motivation": {
+        "title": "Why do you want to volunteer?",
+        "description": "Share what motivates you to join Repensar.",
+        "label": "Your motivation",
+        "placeholder": "Tell us what brought you here and what you hope to contribute..."
+      }
+    },
+    "success": {
+      "title": "Profile complete!",
+      "description": "Your volunteer profile has been set up. Welcome to the Repensar community!"
+    }
   }
 }
