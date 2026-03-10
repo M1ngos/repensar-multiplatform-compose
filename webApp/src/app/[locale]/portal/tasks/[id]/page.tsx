@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import useSWR from 'swr';
 import { tasksApi } from '@/lib/api';
+import { useAuth } from '@/lib/hooks/useAuth';
 import { TaskStatus, TaskPriority, DependencyType } from '@/lib/api/types';
 import type { TaskDetail, TaskDependency, TaskVolunteerAssignment } from '@/lib/api/types';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardAction } from '@/components/ui/card';
@@ -58,6 +59,8 @@ export default function TaskDetailPage() {
     const locale = useLocale();
     const taskId = parseInt(params.id as string);
     const t = useTranslations('Tasks');
+    const { user } = useAuth();
+    const isVolunteer = user?.user_type === 'volunteer';
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -164,7 +167,7 @@ export default function TaskDetailPage() {
             <div className="@container/main flex flex-col gap-4 p-4 md:p-6">
                 {/* Header */}
                 <div className="flex flex-col gap-4">
-                    <Link href={`/${locale}/portal/tasks`}>
+                    <Link href={isVolunteer ? `/${locale}/portal/my-tasks` : `/${locale}/portal/tasks`}>
                         <Button variant="ghost" size="sm">
                             <ArrowLeft className="mr-2 h-4 w-4" />
                             {t('detail.backToTasks')}
@@ -194,16 +197,18 @@ export default function TaskDetailPage() {
                                 </Link>
                             </p>
                         </div>
-                        <div className="flex gap-2">
-                            <Button variant="outline" onClick={() => setIsEditDialogOpen(true)}>
-                                <Edit className="mr-2 h-4 w-4" />
-                                {t('detail.editTask')}
-                            </Button>
-                            <Button variant="destructive" onClick={() => setIsDeleteDialogOpen(true)}>
-                                <Trash2 className="mr-2 h-4 w-4" />
-                                {t('detail.deleteTask')}
-                            </Button>
-                        </div>
+                        {!isVolunteer && (
+                            <div className="flex gap-2">
+                                <Button variant="outline" onClick={() => setIsEditDialogOpen(true)}>
+                                    <Edit className="mr-2 h-4 w-4" />
+                                    {t('detail.editTask')}
+                                </Button>
+                                <Button variant="destructive" onClick={() => setIsDeleteDialogOpen(true)}>
+                                    <Trash2 className="mr-2 h-4 w-4" />
+                                    {t('detail.deleteTask')}
+                                </Button>
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -401,10 +406,12 @@ export default function TaskDetailPage() {
                     <TabsContent value="dependencies" className="space-y-4">
                         <div className="flex justify-between items-center">
                             <h3 className="text-lg font-semibold">{t('detail.taskDependencies')}</h3>
-                            <Button onClick={() => setIsAddDependencyOpen(true)}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                {t('detail.addDependency')}
-                            </Button>
+                            {!isVolunteer && (
+                                <Button onClick={() => setIsAddDependencyOpen(true)}>
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    {t('detail.addDependency')}
+                                </Button>
+                            )}
                         </div>
 
                         <div className="rounded-lg border">
@@ -414,7 +421,9 @@ export default function TaskDetailPage() {
                                         <TableHead>{t('detail.dependenciesTable.task')}</TableHead>
                                         <TableHead>{t('detail.dependenciesTable.type')}</TableHead>
                                         <TableHead>{t('detail.dependenciesTable.direction')}</TableHead>
-                                        <TableHead className="text-right">{t('detail.dependenciesTable.actions')}</TableHead>
+                                        {!isVolunteer && (
+                                            <TableHead className="text-right">{t('detail.dependenciesTable.actions')}</TableHead>
+                                        )}
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -435,21 +444,23 @@ export default function TaskDetailPage() {
                                                     <TableCell>
                                                         {isPredecessor ? t('detail.predecessor') : t('detail.successor')}
                                                     </TableCell>
-                                                    <TableCell className="text-right">
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            onClick={() => handleRemoveDependency(dep.id)}
-                                                        >
-                                                            <X className="h-4 w-4" />
-                                                        </Button>
-                                                    </TableCell>
+                                                    {!isVolunteer && (
+                                                        <TableCell className="text-right">
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                onClick={() => handleRemoveDependency(dep.id)}
+                                                            >
+                                                                <X className="h-4 w-4" />
+                                                            </Button>
+                                                        </TableCell>
+                                                    )}
                                                 </TableRow>
                                             );
                                         })
                                     ) : (
                                         <TableRow>
-                                            <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                                            <TableCell colSpan={isVolunteer ? 3 : 4} className="text-center py-8 text-muted-foreground">
                                                 {t('detail.noDependencies')}
                                             </TableCell>
                                         </TableRow>
@@ -463,10 +474,12 @@ export default function TaskDetailPage() {
                     <TabsContent value="volunteers" className="space-y-4">
                         <div className="flex justify-between items-center">
                             <h3 className="text-lg font-semibold">{t('detail.assignedVolunteers')}</h3>
-                            <Button onClick={() => setIsAssignVolunteerOpen(true)}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                {t('detail.assignVolunteer')}
-                            </Button>
+                            {!isVolunteer && (
+                                <Button onClick={() => setIsAssignVolunteerOpen(true)}>
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    {t('detail.assignVolunteer')}
+                                </Button>
+                            )}
                         </div>
 
                         <div className="rounded-lg border">
@@ -476,7 +489,9 @@ export default function TaskDetailPage() {
                                         <TableHead>{t('detail.volunteersTable.name')}</TableHead>
                                         <TableHead>{t('detail.volunteersTable.assignedAt')}</TableHead>
                                         <TableHead>{t('detail.volunteersTable.hoursContributed')}</TableHead>
-                                        <TableHead className="text-right">{t('detail.volunteersTable.actions')}</TableHead>
+                                        {!isVolunteer && (
+                                            <TableHead className="text-right">{t('detail.volunteersTable.actions')}</TableHead>
+                                        )}
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -497,20 +512,22 @@ export default function TaskDetailPage() {
                                                 <TableCell className="text-sm font-semibold tabular-nums">
                                                     {assignment.hours_contributed}h
                                                 </TableCell>
-                                                <TableCell className="text-right">
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        onClick={() => handleRemoveVolunteer(assignment.volunteer_id)}
-                                                    >
-                                                        <X className="h-4 w-4" />
-                                                    </Button>
-                                                </TableCell>
+                                                {!isVolunteer && (
+                                                    <TableCell className="text-right">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            onClick={() => handleRemoveVolunteer(assignment.volunteer_id)}
+                                                        >
+                                                            <X className="h-4 w-4" />
+                                                        </Button>
+                                                    </TableCell>
+                                                )}
                                             </TableRow>
                                         ))
                                     ) : (
                                         <TableRow>
-                                            <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                                            <TableCell colSpan={isVolunteer ? 3 : 4} className="text-center py-8 text-muted-foreground">
                                                 {t('detail.noVolunteers')}
                                             </TableCell>
                                         </TableRow>
@@ -521,48 +538,53 @@ export default function TaskDetailPage() {
                     </TabsContent>
                 </Tabs>
 
-                {/* Edit Task Dialog */}
-                <TaskFormDialog
-                    open={isEditDialogOpen}
-                    onOpenChange={setIsEditDialogOpen}
-                    task={task}
-                    projectId={task?.project_id}
-                    onSuccess={() => mutate()}
-                />
+                {/* Admin/Manager-only dialogs */}
+                {!isVolunteer && (
+                    <>
+                        {/* Edit Task Dialog */}
+                        <TaskFormDialog
+                            open={isEditDialogOpen}
+                            onOpenChange={setIsEditDialogOpen}
+                            task={task}
+                            projectId={task?.project_id}
+                            onSuccess={() => mutate()}
+                        />
 
-                {/* Add Dependency Dialog */}
-                <AddDependencyDialog
-                    open={isAddDependencyOpen}
-                    onOpenChange={setIsAddDependencyOpen}
-                    taskId={taskId}
-                    onSuccess={() => mutate()}
-                />
+                        {/* Add Dependency Dialog */}
+                        <AddDependencyDialog
+                            open={isAddDependencyOpen}
+                            onOpenChange={setIsAddDependencyOpen}
+                            taskId={taskId}
+                            onSuccess={() => mutate()}
+                        />
 
-                {/* Assign Volunteer Dialog */}
-                <AssignVolunteerDialog
-                    open={isAssignVolunteerOpen}
-                    onOpenChange={setIsAssignVolunteerOpen}
-                    taskId={taskId}
-                    onSuccess={() => mutate()}
-                />
+                        {/* Assign Volunteer Dialog */}
+                        <AssignVolunteerDialog
+                            open={isAssignVolunteerOpen}
+                            onOpenChange={setIsAssignVolunteerOpen}
+                            taskId={taskId}
+                            onSuccess={() => mutate()}
+                        />
 
-                {/* Delete Confirmation Dialog */}
-                <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-                    <AlertDialogContent>
-                        <AlertDialogHeader>
-                            <AlertDialogTitle>{t('detail.deleteConfirmTitle')}</AlertDialogTitle>
-                            <AlertDialogDescription>
-                                {t('detail.deleteConfirmDescription')}
-                            </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                            <AlertDialogCancel>{t('detail.cancel')}</AlertDialogCancel>
-                            <AlertDialogAction onClick={handleDeleteTask} disabled={isDeleting}>
-                                {isDeleting ? t('detail.deleting') : t('detail.delete')}
-                            </AlertDialogAction>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
+                        {/* Delete Confirmation Dialog */}
+                        <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>{t('detail.deleteConfirmTitle')}</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        {t('detail.deleteConfirmDescription')}
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>{t('detail.cancel')}</AlertDialogCancel>
+                                    <AlertDialogAction onClick={handleDeleteTask} disabled={isDeleting}>
+                                        {isDeleting ? t('detail.deleting') : t('detail.delete')}
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                    </>
+                )}
             </div>
         </div>
     );
