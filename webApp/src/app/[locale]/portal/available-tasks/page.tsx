@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
-import { tasksApi } from '@/lib/api';
+import { tasksApi, volunteersApi } from '@/lib/api';
 import { PageHeader } from '@/components/shared/page-header';
 import { FilterBar } from '@/components/shared/filter-bar';
 import { AvailableTaskCard } from '@/components/volunteers/available-task-card';
@@ -52,10 +52,16 @@ export default function AvailableTasksPage() {
         })
     );
 
+    // Fetch the volunteer profile to get the volunteer PK (different from user.id)
+    const { data: volunteerProfile } = useSWR(
+        user?.id ? 'my-volunteer-profile' : null,
+        () => volunteersApi.getMyVolunteerProfile()
+    );
+
     // Fetch volunteer's current assignments to check if already signed up
-    const { data: myAssignments } = useSWR(
-        user?.id ? ['my-assignments', user.id] : null,
-        () => tasksApi.getVolunteerAssignments(user!.id)
+    const { data: myAssignments, mutate: mutateAssignments } = useSWR(
+        user?.id ? 'my-task-assignments' : null,
+        () => tasksApi.getMyAssignments()
     );
 
     // Filter tasks
@@ -86,16 +92,17 @@ export default function AvailableTasksPage() {
 
     // Handle sign-up confirmation
     const handleSignUpConfirm = async () => {
-        if (!selectedTaskId || !user?.id) return;
+        if (!selectedTaskId || !volunteerProfile?.id) return;
 
         setIsSigningUp(true);
         try {
             await tasksApi.assignVolunteer(selectedTaskId, {
-                volunteer_id: user.id,
+                volunteer_id: volunteerProfile.id,
             });
             toast.success(t('signUp.success'));
             setSignUpDialogOpen(false);
             mutate(); // Refresh available tasks
+            mutateAssignments(); // Refresh signed-up status
         } catch (error) {
             toast.error(t('signUp.error'));
             console.error('Failed to sign up for task:', error);
@@ -205,7 +212,7 @@ export default function AvailableTasksPage() {
                         </Button>
                         <Button
                             onClick={handleSignUpConfirm}
-                            disabled={isSigningUp}
+                            disabled={isSigningUp || !volunteerProfile?.id}
                         >
                             {isSigningUp ? t('signUp.loading') : t('signUp.confirm')}
                         </Button>

@@ -19,17 +19,23 @@ export default function MyTasksPage() {
     const t = useTranslations('Volunteer.myTasks');
     const [statusFilter, setStatusFilter] = useState<string>('all');
 
-    // Fetch volunteer's tasks with server-side status filtering
+    // Fetch volunteer profile to get the volunteers table PK (different from user.id)
+    const { data: volunteerProfile } = useSWR(
+        user?.id ? 'my-volunteer-profile' : null,
+        () => volunteersApi.getMyVolunteerProfile()
+    );
+
+    // Fetch volunteer's tasks using the volunteer PK, not user.id
     const { data: tasksData, isLoading, mutate } = useSWR(
-        user?.id ? ['volunteer-tasks', user.id, statusFilter] : null,
-        () => volunteersApi.getVolunteerTasks(user!.id, {
+        volunteerProfile?.id ? ['volunteer-tasks', volunteerProfile.id, statusFilter] : null,
+        () => volunteersApi.getVolunteerTasks(volunteerProfile!.id, {
             page: 1,
             page_size: 50,
             status: statusFilter !== 'all' ? statusFilter : undefined,
         })
     );
 
-    const filteredTasks = tasksData?.items || [];
+    const filteredTasks = tasksData?.data || [];
 
     // Handle task status update
     const handleStatusChange = async (taskId: number, newStatus: TaskStatus) => {

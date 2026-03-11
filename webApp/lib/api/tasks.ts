@@ -153,9 +153,18 @@ export const tasksApi = {
   /**
    * Get volunteer's task assignments
    *
-   * @param volunteerId Volunteer ID
+   * @param volunteerId Volunteer ID (volunteers table PK)
    * @returns Array of task assignments
    */
   getVolunteerAssignments: (volunteerId: number) =>
     apiClient.get<TaskVolunteerAssignment[]>(`/tasks/volunteers/${volunteerId}/assignments`),
+
+  /**
+   * Get the current authenticated volunteer's task assignments.
+   * Uses the server-side /me route so no volunteer PK is needed.
+   *
+   * @returns Array of task assignments for the logged-in volunteer
+   */
+  getMyAssignments: () =>
+    apiClient.get<TaskVolunteerAssignment[]>('/tasks/volunteers/me/assignments'),
 };
