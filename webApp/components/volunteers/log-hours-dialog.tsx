@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
 import { volunteersApi, projectsApi, tasksApi, usersApi } from '@/lib/api';
+import type { UserSummary } from '@/lib/api/types';
 import {
     Dialog,
     DialogContent,
@@ -84,7 +85,7 @@ export function LogHoursDialog({ open, onOpenChange, volunteerId, onSuccess }: L
 
     const selectedProject = projects?.find(p => p.id === selectedProjectId);
     const selectedTask = tasks?.find(t => t.id === selectedTaskId);
-    const selectedSupervisor = supervisorsData?.items?.find(u => u.id === selectedSupervisorId);
+    const selectedSupervisor = supervisorsData?.data?.find((u: UserSummary) => u.id === selectedSupervisorId);
 
     // Reset task selection when project changes
     useEffect(() => {
@@ -171,12 +172,11 @@ export function LogHoursDialog({ open, onOpenChange, volunteerId, onSuccess }: L
 
         try {
             await volunteersApi.logVolunteerHours(volunteerId, {
-                volunteer_id: volunteerId,
                 date: format(date, 'yyyy-MM-dd'),
                 hours: parseFloat(hours),
                 start_time: startTime || undefined,
                 end_time: endTime || undefined,
-                activity_description: activityDescription || undefined,
+                activity: activityDescription || undefined,
                 project_id: selectedProjectId || undefined,
                 task_id: selectedTaskId || undefined,
                 supervisor_id: selectedSupervisorId || undefined,
@@ -468,7 +468,7 @@ export function LogHoursDialog({ open, onOpenChange, volunteerId, onSuccess }: L
                                     className="w-full justify-between"
                                 >
                                     {selectedSupervisor ? (
-                                        <span className="truncate">{selectedSupervisor.full_name || selectedSupervisor.username}</span>
+                                        <span className="truncate">{selectedSupervisor.name}</span>
                                     ) : (
                                         <span className="text-muted-foreground">
                                             {t('detail.searchSupervisor') || 'Optional - select supervisor...'}
@@ -487,10 +487,10 @@ export function LogHoursDialog({ open, onOpenChange, volunteerId, onSuccess }: L
                                     <CommandList>
                                         <CommandEmpty>{t('detail.noSupervisorsFound') || 'No supervisors found.'}</CommandEmpty>
                                         <CommandGroup>
-                                            {supervisorsData?.items?.map((supervisor) => (
+                                            {supervisorsData?.data?.map((supervisor: UserSummary) => (
                                                 <CommandItem
                                                     key={supervisor.id}
-                                                    value={supervisor.full_name || supervisor.username}
+                                                    value={supervisor.name}
                                                     onSelect={() => {
                                                         setSelectedSupervisorId(supervisor.id);
                                                         setOpenSupervisorCombobox(false);
@@ -503,7 +503,7 @@ export function LogHoursDialog({ open, onOpenChange, volunteerId, onSuccess }: L
                                                         )}
                                                     />
                                                     <div className="flex flex-col">
-                                                        <span className="font-medium">{supervisor.full_name || supervisor.username}</span>
+                                                        <span className="font-medium">{supervisor.name}</span>
                                                         <span className="text-xs text-muted-foreground">
                                                             {supervisor.email}
                                                         </span>

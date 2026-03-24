@@ -53,14 +53,21 @@ export const tasksApi = {
     apiClient.post<Task>('/tasks/', data),
 
   /**
-   * Update existing task
+   * Update existing task.
+   *
+   * The backend PUT /tasks/{id} requires the full Task object (not a partial).
+   * We fetch the current task first, merge the partial update, then PUT the
+   * complete object — keeping this transparent to all callers.
    *
    * @param taskId Task ID
-   * @param data Task update data
+   * @param data Partial task update fields
    * @returns Updated task
    */
-  updateTask: (taskId: number, data: TaskUpdate) =>
-    apiClient.put<Task>(`/tasks/${taskId}`, data),
+  updateTask: async (taskId: number, data: TaskUpdate): Promise<Task> => {
+    const current = await apiClient.get<TaskDetail>(`/tasks/${taskId}`);
+    const merged = { ...current, ...data };
+    return apiClient.put<Task>(`/tasks/${taskId}`, merged);
+  },
 
   /**
    * Delete task

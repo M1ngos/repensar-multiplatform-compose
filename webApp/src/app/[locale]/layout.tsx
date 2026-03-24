@@ -1,6 +1,13 @@
 import './globals.css'
 import type { Metadata, Viewport } from 'next';
+import { Inter } from 'next/font/google';
 import { SWRConfig } from 'swr';
+
+const inter = Inter({
+    subsets: ['latin'],
+    variable: '--font-inter',
+    display: 'swap',
+});
 import {NextIntlClientProvider, hasLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import {routing} from "@/src/i18n/routing.ts";
@@ -40,7 +47,7 @@ export default async function RootLayout({
     setRequestLocale(locale);
     return (
         <>
-            <html lang={locale} suppressHydrationWarning>
+            <html lang={locale} suppressHydrationWarning className={inter.variable}>
                 <body style={{ WebkitUserSelect: 'none', userSelect: 'none' }}>
                     <ThemeProvider
                         attribute="class"

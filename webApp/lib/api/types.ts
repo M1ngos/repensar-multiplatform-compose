@@ -581,6 +581,9 @@ export interface ProjectTeamMember {
   // Legacy field names for backwards compatibility
   user_name?: string;
   user_email?: string;
+  // Extended fields for team tab display
+  hours_contributed?: number;
+  tasks_assigned?: number;
 }
 
 export interface ProjectTeamCreate {
@@ -1198,11 +1201,25 @@ export interface NotificationUpdate {
   is_read?: boolean;
 }
 
-export interface NotificationQueryParams extends PaginationParams {
-  is_read?: boolean;
+export interface NotificationQueryParams {
+  limit?: number;
+  offset?: number;
+  unread_only?: boolean;
   type?: NotificationType;
-  project_id?: number;
-  task_id?: number;
+}
+
+/** Shape returned by GET /notifications */
+export interface NotificationListResponse {
+  notifications: Notification[];
+  total: number;
+  limit: number;
+  offset: number;
+  unread_count: number;
+}
+
+/** Shape returned by GET /notifications/unread-count */
+export interface NotificationUnreadCountResponse {
+  unread_count: number;
 }
 
 // ==================== Files & Attachments Types ====================

@@ -1,6 +1,6 @@
 'use client';
 
-import { Bell, Check, CheckCheck, Trash2, X, Leaf, AlertTriangle, AlertCircle, Info } from 'lucide-react';
+import { Bell, Check, CheckCheck, Trash2, Leaf, AlertTriangle, AlertCircle, Info } from 'lucide-react';
 import { useNotifications } from '@/lib/hooks/useNotifications';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,10 +14,13 @@ import { Separator } from '@/components/ui/separator';
 import { formatDistanceToNow } from 'date-fns';
 import { NotificationType } from '@/lib/api/types';
 import { cn } from '@/lib/utils';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 export function NotificationCenter() {
   const t = useTranslations('Notifications');
+  const locale = useLocale();
+  const router = useRouter();
   const {
     notifications = [],
     unreadCount = 0,
@@ -55,7 +58,7 @@ export function NotificationCenter() {
   };
 
   return (
-    <Popover>
+    <Popover onOpenChange={(open) => !open && router.push(`/${locale}/portal/notifications`)}>
       <PopoverTrigger asChild>
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5" />
@@ -176,7 +179,7 @@ export function NotificationCenter() {
               <Button
                 variant="ghost"
                 className="w-full text-xs"
-                onClick={() => window.location.href = '/portal/notifications'}
+                onClick={() => router.push(`/${locale}/portal/notifications`)}
               >
                 {t('viewAll')}
               </Button>

@@ -16,6 +16,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import {
     Select,
@@ -44,13 +45,14 @@ interface TaskFormDialogProps {
     onOpenChange: (open: boolean) => void;
     task?: TaskDetail;
     projectId?: number;
+    defaultStatus?: TaskStatus;
     onSuccess?: () => void;
 }
 
 const TASK_STATUSES: TaskStatus[] = ['not_started', 'in_progress', 'completed', 'cancelled'];
 const TASK_PRIORITIES: TaskPriority[] = ['low', 'medium', 'high', 'critical'];
 
-export function TaskFormDialog({ open, onOpenChange, task, projectId, onSuccess }: TaskFormDialogProps) {
+export function TaskFormDialog({ open, onOpenChange, task, projectId, defaultStatus, onSuccess }: TaskFormDialogProps) {
     const t = useTranslations('Tasks.form');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -96,8 +98,11 @@ export function TaskFormDialog({ open, onOpenChange, task, projectId, onSuccess 
             if (projectId) {
                 setSelectedProjectId(projectId);
             }
+            if (defaultStatus) {
+                setStatus(defaultStatus);
+            }
         }
-    }, [task, projectId, open]);
+    }, [task, projectId, defaultStatus, open]);
 
     const resetForm = () => {
         setTitle('');
@@ -364,14 +369,12 @@ export function TaskFormDialog({ open, onOpenChange, task, projectId, onSuccess 
 
                     <div className="space-y-4 pt-4 border-t">
                         <div className="flex items-center space-x-2">
-                            <input
-                                type="checkbox"
+                            <Checkbox
                                 id="suitableForVolunteers"
                                 checked={suitableForVolunteers}
-                                onChange={(e) => setSuitableForVolunteers(e.target.checked)}
-                                className="h-4 w-4 rounded border-gray-300"
+                                onCheckedChange={(checked) => setSuitableForVolunteers(checked === true)}
                             />
-                            <Label htmlFor="suitableForVolunteers" className="cursor-pointer">
+                            <Label htmlFor="suitableForVolunteers" className="cursor-pointer font-normal">
                                 {t('suitableForVolunteers')}
                             </Label>
                         </div>

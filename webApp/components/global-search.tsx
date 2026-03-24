@@ -9,6 +9,10 @@ import {
   FileText,
   Loader2,
   Leaf,
+  Clock,
+  ListTodo,
+  Trophy,
+  BarChart3,
 } from 'lucide-react';
 import { searchApi, SearchResults } from '@/lib/api/search';
 import {
@@ -22,10 +26,13 @@ import {
 } from '@/components/ui/command';
 import { cn } from '@/lib/utils';
 import { useTranslations, useLocale } from 'next-intl';
+import { useAuth } from '@/lib/hooks/useAuth.tsx';
 
 export function GlobalSearch() {
   const t = useTranslations('Search');
   const locale = useLocale();
+  const { user } = useAuth();
+  const userRole = user?.user_type ?? 'volunteer';
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResults | null>(null);
@@ -107,34 +114,67 @@ export function GlobalSearch() {
     [handleSelect, router, locale]
   );
 
-  const quickActions = [
+  // All possible quick actions, each tagged with the roles that may see them
+  const allQuickActions = [
+    // Volunteer-only actions
+    {
+      label: t('actions.myTasks'),
+      icon: ListTodo,
+      roles: ['volunteer'],
+      action: () => handleSelect(() => router.push(`/${locale}/portal/my-tasks`)),
+    },
+    {
+      label: t('actions.logHours'),
+      icon: Clock,
+      roles: ['volunteer'],
+      action: () => handleSelect(() => router.push(`/${locale}/portal/my-hours`)),
+    },
+    {
+      label: t('actions.availableTasks'),
+      icon: CheckSquare,
+      roles: ['volunteer'],
+      action: () => handleSelect(() => router.push(`/${locale}/portal/available-tasks`)),
+    },
+    {
+      label: t('actions.leaderboards'),
+      icon: Trophy,
+      roles: ['volunteer'],
+      action: () => handleSelect(() => router.push(`/${locale}/portal/leaderboards`)),
+    },
+    // Admin / Project Manager / Staff actions
     {
       label: t('actions.newProject'),
       icon: FolderTree,
+      roles: ['admin', 'project_manager', 'staff_member'],
       action: () => handleSelect(() => router.push(`/${locale}/portal/projects?action=new`)),
     },
     {
       label: t('actions.newTask'),
       icon: CheckSquare,
+      roles: ['admin', 'project_manager', 'staff_member'],
       action: () => handleSelect(() => router.push(`/${locale}/portal/tasks?action=new`)),
     },
     {
       label: t('actions.registerVolunteer'),
       icon: Users,
+      roles: ['admin', 'project_manager', 'staff_member'],
       action: () => handleSelect(() => router.push(`/${locale}/portal/volunteers?action=register`)),
     },
     {
       label: t('actions.viewAnalytics'),
-      icon: FileText,
+      icon: BarChart3,
+      roles: ['admin', 'project_manager'],
       action: () => handleSelect(() => router.push(`/${locale}/portal/analytics`)),
+    },
+    {
+      label: t('actions.viewReports'),
+      icon: FileText,
+      roles: ['admin', 'project_manager', 'staff_member'],
+      action: () => handleSelect(() => router.push(`/${locale}/portal/reports`)),
     },
   ];
 
-  const hasResults = results && (
-    (results.projects?.length ?? 0) > 0 ||
-    (results.tasks?.length ?? 0) > 0 ||
-    (results.volunteers?.length ?? 0) > 0
-  );
+  const quickActions = allQuickActions.filter((a) => a.roles.includes(userRole));
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
@@ -201,7 +241,7 @@ export function GlobalSearch() {
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{project.name}</p>
                     <p className="text-xs text-muted-foreground truncate">
-                      {project.description}
+                      {project.category}
                     </p>
                   </div>
                   <span
@@ -238,7 +278,7 @@ export function GlobalSearch() {
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{task.title}</p>
                     <p className="text-xs text-muted-foreground truncate">
-                      {task.description}
+                      {task.project_name}
                     </p>
                   </div>
                   <span
@@ -273,7 +313,7 @@ export function GlobalSearch() {
                     <Users className="h-4 w-4 text-amber" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">{volunteer.user?.name}</p>
+                    <p className="font-medium truncate">{volunteer.name}</p>
                     <p className="text-xs text-muted-foreground">
                       {volunteer.total_hours_contributed} {t('hoursContributed')}
                     </p>

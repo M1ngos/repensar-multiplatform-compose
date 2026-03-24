@@ -4,16 +4,22 @@ import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
-import {ArrowLeft, Edit, Trash2, Users, Target, BarChart3, Calendar, MapPin, DollarSign, Loader2} from 'lucide-react';
+import {ArrowLeft, Edit, Trash2, Users, Target, BarChart3, Calendar, MapPin, DollarSign, Loader2, MoreHorizontal} from 'lucide-react';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import { projectsApi } from '@/lib/api';
+import type { ProjectTeamMember } from '@/lib/api/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { ProjectFormDialog } from '@/components/projects/project-form-dialog';
 import { AddTeamMemberDialog } from '@/components/projects/add-team-member-dialog';
 import { AddMilestoneDialog } from '@/components/projects/add-milestone-dialog';
 import { AddMetricDialog } from '@/components/projects/add-metric-dialog';
+import { ProjectTasksTab } from '@/components/projects/project-tasks-tab';
+import { ProjectActivityTab } from '@/components/projects/project-activity-tab';
+import { TaskFormDialog } from '@/components/tasks/task-form-dialog';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -24,6 +30,20 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardAction } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -51,6 +71,11 @@ export default function ProjectDetailPage() {
     const [isAddMetricOpen, setIsAddMetricOpen] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
+    const [memberToRemove, setMemberToRemove] = useState<ProjectTeamMember | null>(null);
+    const [editRoleMember, setEditRoleMember] = useState<ProjectTeamMember | null>(null);
+    const [newRole, setNewRole] = useState('');
+    const [isTeamMutating, setIsTeamMutating] = useState(false);
 
     // Fetch project details
     const { data: project, error, isLoading, mutate } = useSWR(
@@ -65,35 +90,25 @@ export default function ProjectDetailPage() {
     );
 
     const getStatusColor = (status: string) => {
-        switch (status) {
-            case 'planning':
-                return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
-            case 'in_progress':
-                return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
-            case 'suspended':
-                return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
-            case 'completed':
-                return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300';
-            case 'cancelled':
-                return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
-            default:
-                return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
-        }
+        const map: Record<string, string> = {
+            planning: 'bg-sky/10 text-sky border-sky/20',
+            in_progress: 'bg-leaf/10 text-leaf border-leaf/20',
+            suspended: 'bg-sunset/10 text-sunset border-sunset/20',
+            completed: 'bg-growth/10 text-growth border-growth/20',
+            cancelled: 'bg-destructive/10 text-destructive border-destructive/20',
+            not_started: 'bg-muted text-muted-foreground border-border',
+        };
+        return map[status] ?? 'bg-muted text-muted-foreground border-border';
     };
 
     const getPriorityColor = (priority: string) => {
-        switch (priority) {
-            case 'critical':
-                return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
-            case 'high':
-                return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300';
-            case 'medium':
-                return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
-            case 'low':
-                return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
-            default:
-                return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
-        }
+        const map: Record<string, string> = {
+            critical: 'bg-destructive/10 text-destructive border-destructive/20',
+            high: 'bg-sunset/10 text-sunset border-sunset/20',
+            medium: 'bg-amber/10 text-amber border-amber/20',
+            low: 'bg-moss/10 text-moss border-moss/20',
+        };
+        return map[priority] ?? 'bg-muted text-muted-foreground border-border';
     };
 
     const handleDeleteProject = async () => {
@@ -102,11 +117,42 @@ export default function ProjectDetailPage() {
             await projectsApi.deleteProject(projectId);
             toast.success(t('detail.deleteSuccess'));
             router.push(`/${locale}/portal/projects`);
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Error deleting project:', error);
-            toast.error(error.detail || t('detail.deleteError'));
+            const apiError = error as { detail?: string };
+            toast.error(apiError.detail || t('detail.deleteError'));
             setIsDeleting(false);
             setIsDeleteDialogOpen(false);
+        }
+    };
+
+    const handleRemoveMember = async () => {
+        if (!memberToRemove) return;
+        setIsTeamMutating(true);
+        try {
+            await projectsApi.removeTeamMember(projectId, memberToRemove.user_id);
+            toast.success(t('detail.memberRemoved'));
+            mutateTeam(); mutate();
+        } catch {
+            toast.error(t('detail.memberRemoveError'));
+        } finally {
+            setMemberToRemove(null);
+            setIsTeamMutating(false);
+        }
+    };
+
+    const handleUpdateRole = async () => {
+        if (!editRoleMember) return;
+        setIsTeamMutating(true);
+        try {
+            await projectsApi.updateTeamMember(projectId, editRoleMember.user_id, { role: newRole });
+            toast.success(t('detail.roleUpdated'));
+            mutateTeam(); mutate();
+        } catch {
+            toast.error(t('detail.roleUpdateError'));
+        } finally {
+            setEditRoleMember(null);
+            setIsTeamMutating(false);
         }
     };
 
@@ -186,6 +232,8 @@ export default function ProjectDetailPage() {
                         <TabsTrigger value="team">{t('detail.tabs.team')}</TabsTrigger>
                         <TabsTrigger value="milestones">{t('detail.tabs.milestones')}</TabsTrigger>
                         <TabsTrigger value="metrics">{t('detail.tabs.metrics')}</TabsTrigger>
+                        <TabsTrigger value="tasks">{t('detail.tabs.tasks')}</TabsTrigger>
+                        <TabsTrigger value="activity">{t('detail.tabs.activity')}</TabsTrigger>
                     </TabsList>
 
                     {/* Overview Tab */}
@@ -347,12 +395,15 @@ export default function ProjectDetailPage() {
                                             <TableHead>{t('detail.role')}</TableHead>
                                             <TableHead>{t('detail.type')}</TableHead>
                                             <TableHead>{t('detail.joinedDate')}</TableHead>
+                                            <TableHead>{t('detail.hoursContributed')}</TableHead>
+                                            <TableHead>{t('detail.tasksAssigned')}</TableHead>
+                                            <TableHead className="w-[50px]">{t('detail.actions')}</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {(teamMembers ?? project.team_members).length === 0 ? (
                                             <TableRow>
-                                                <TableCell colSpan={4} className="text-center text-muted-foreground">
+                                                <TableCell colSpan={7} className="text-center text-muted-foreground">
                                                     {t('detail.noTeamMembers')}
                                                 </TableCell>
                                             </TableRow>
@@ -372,6 +423,30 @@ export default function ProjectDetailPage() {
                                                         {member.joined_date ? format(new Date(member.joined_date), 'PP')
                                                          : member.assigned_at ? format(new Date(member.assigned_at), 'PP')
                                                          : '-'}
+                                                    </TableCell>
+                                                    <TableCell className="tabular-nums">
+                                                        {member.hours_contributed != null ? `${member.hours_contributed}h` : '-'}
+                                                    </TableCell>
+                                                    <TableCell className="tabular-nums">
+                                                        {member.tasks_assigned ?? '-'}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <DropdownMenu>
+                                                            <DropdownMenuTrigger asChild>
+                                                                <Button variant="ghost" size="icon">
+                                                                    <MoreHorizontal className="h-4 w-4" />
+                                                                </Button>
+                                                            </DropdownMenuTrigger>
+                                                            <DropdownMenuContent align="end">
+                                                                <DropdownMenuItem onClick={() => { setEditRoleMember(member); setNewRole(member.role ?? ''); }}>
+                                                                    {t('detail.editRole')}
+                                                                </DropdownMenuItem>
+                                                                <DropdownMenuSeparator />
+                                                                <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => setMemberToRemove(member)}>
+                                                                    {t('detail.removeMember')}
+                                                                </DropdownMenuItem>
+                                                            </DropdownMenuContent>
+                                                        </DropdownMenu>
                                                     </TableCell>
                                                 </TableRow>
                                             ))
@@ -505,6 +580,16 @@ export default function ProjectDetailPage() {
                             </CardContent>
                         </Card>
                     </TabsContent>
+
+                    {/* Tasks Tab */}
+                    <TabsContent value="tasks" className="space-y-4">
+                        <ProjectTasksTab projectId={projectId} locale={locale} />
+                    </TabsContent>
+
+                    {/* Activity Tab */}
+                    <TabsContent value="activity">
+                        <ProjectActivityTab projectId={projectId} />
+                    </TabsContent>
                 </Tabs>
 
                 {/* Edit Project Dialog */}
@@ -539,6 +624,52 @@ export default function ProjectDetailPage() {
                     onSuccess={() => mutate()}
                 />
 
+                {/* Create Task Dialog (managed by ProjectTasksTab internally, but exposed here for future use) */}
+                <TaskFormDialog
+                    open={isCreateTaskOpen}
+                    onOpenChange={setIsCreateTaskOpen}
+                    projectId={projectId}
+                    onSuccess={() => {}}
+                />
+
+                {/* Remove Team Member Dialog */}
+                <AlertDialog open={!!memberToRemove} onOpenChange={(open) => { if (!open) setMemberToRemove(null); }}>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>{t('detail.removeMemberTitle')}</AlertDialogTitle>
+                            <AlertDialogDescription>{t('detail.removeMemberDesc')}</AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel disabled={isTeamMutating}>{t('detail.deleteCancel')}</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleRemoveMember} disabled={isTeamMutating} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                                {t('detail.removeMember')}
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+
+                {/* Edit Role Dialog */}
+                <Dialog open={!!editRoleMember} onOpenChange={(open) => { if (!open) setEditRoleMember(null); }}>
+                    <DialogContent className="max-w-sm">
+                        <DialogHeader>
+                            <DialogTitle>{t('detail.editRole')}</DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-2 py-2">
+                            <Label htmlFor="newRole">{t('detail.newRole')}</Label>
+                            <Input
+                                id="newRole"
+                                value={newRole}
+                                onChange={(e) => setNewRole(e.target.value)}
+                                placeholder={t('detail.newRolePlaceholder')}
+                            />
+                        </div>
+                        <DialogFooter>
+                            <Button variant="outline" onClick={() => setEditRoleMember(null)}>{t('detail.deleteCancel')}</Button>
+                            <Button onClick={handleUpdateRole} disabled={isTeamMutating}>{t('detail.save')}</Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+
                 {/* Delete Confirmation Dialog */}
                 <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
                     <AlertDialogContent>
@@ -555,7 +686,7 @@ export default function ProjectDetailPage() {
                             <AlertDialogAction
                                 onClick={handleDeleteProject}
                                 disabled={isDeleting}
-                                className="bg-red-600 hover:bg-red-700"
+                                className="bg-destructive hover:bg-destructive/90"
                             >
                                 {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                                 {t('detail.deleteConfirm')}

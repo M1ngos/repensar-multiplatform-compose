@@ -26,13 +26,15 @@ export function useNotifications(options: UseNotificationsOptions = {}) {
     try {
       setIsLoading(true);
       const response = await notificationsApi.getNotifications({
-        page: 1,
-        page_size: 20,
+        limit: 20,
+        offset: 0,
       });
-      setNotifications(response.data || []);
+      setNotifications(response.notifications || []);
+      // Sync unread count from the same response to avoid a second request
+      setUnreadCount(response.unread_count ?? 0);
     } catch (error) {
       console.error('Failed to fetch notifications:', error);
-      setNotifications([]); // Set empty array on error
+      setNotifications([]);
     } finally {
       setIsLoading(false);
     }
@@ -42,10 +44,10 @@ export function useNotifications(options: UseNotificationsOptions = {}) {
   const fetchUnreadCount = useCallback(async () => {
     try {
       const response = await notificationsApi.getUnreadCount();
-      setUnreadCount(response.count || 0);
+      setUnreadCount(response.unread_count ?? 0);
     } catch (error) {
       console.error('Failed to fetch unread count:', error);
-      setUnreadCount(0); // Set to 0 on error
+      setUnreadCount(0);
     }
   }, []);
 

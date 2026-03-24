@@ -15,6 +15,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import {
     Select,
@@ -332,14 +333,12 @@ export function ProjectFormDialog({ open, onOpenChange, project, onSuccess }: Pr
                     {/* Volunteer Section */}
                     <div className="space-y-4 pt-4 border-t">
                         <div className="flex items-center space-x-2">
-                            <input
-                                type="checkbox"
+                            <Checkbox
                                 id="requiresVolunteers"
                                 checked={requiresVolunteers}
-                                onChange={(e) => setRequiresVolunteers(e.target.checked)}
-                                className="h-4 w-4 rounded border-gray-300"
+                                onCheckedChange={(checked) => setRequiresVolunteers(checked === true)}
                             />
-                            <Label htmlFor="requiresVolunteers" className="cursor-pointer">
+                            <Label htmlFor="requiresVolunteers" className="cursor-pointer font-normal">
                                 {t('requiresVolunteers')}
                             </Label>
                         </div>

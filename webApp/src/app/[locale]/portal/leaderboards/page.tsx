@@ -5,6 +5,7 @@ import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
 import { gamificationApi } from '@/lib/api/gamification';
+import { volunteersApi } from '@/lib/api';
 import { PageHeader } from '@/components/shared/page-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -43,15 +44,21 @@ export default function LeaderboardsPage() {
     // Ref for the current user's row in the full rankings table
     const myRowRef = useRef<HTMLTableRowElement>(null);
 
+    // Resolve volunteer profile (DB PK) — needed to match against leaderboard entry.volunteer_id
+    const { data: volunteerProfile } = useSWR(
+        user?.id ? 'my-volunteer-profile' : null,
+        () => volunteersApi.getMyVolunteerProfile()
+    );
+
     // Fetch leaderboard data
     const { data: leaderboard, isLoading } = useSWR(
         ['leaderboard', leaderboardType, timeframe],
         () => gamificationApi.leaderboards.get(leaderboardType, { timeframe })
     );
 
-    // Get user's position in current leaderboard
+    // Get user's position in current leaderboard (match on volunteer PK, not user PK)
     const userPosition = leaderboard?.rankings.find(
-        entry => entry.volunteer_id === user?.id
+        entry => entry.volunteer_id === volunteerProfile?.id
     );
 
     // Get top 3 for podium
@@ -315,7 +322,7 @@ export default function LeaderboardsPage() {
                                             </TableHeader>
                                             <TableBody>
                                                 {leaderboard.rankings.map((entry) => {
-                                                    const isCurrentUser = entry.volunteer_id === user?.id;
+                                                    const isCurrentUser = entry.volunteer_id === volunteerProfile?.id;
                                                     const RankIcon = getRankIcon(entry.rank);
 
                                                     return (

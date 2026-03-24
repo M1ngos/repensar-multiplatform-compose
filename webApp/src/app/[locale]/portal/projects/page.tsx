@@ -19,6 +19,7 @@ import {
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardAction, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Progress } from '@/components/ui/progress';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent } from '@/components/ui/empty';
@@ -227,9 +228,10 @@ export default function ProjectsPage() {
                                                 <div className="text-sm font-semibold">{project.team_size}</div>
                                             </div>
                                             <div>
-                                                <div className="text-xs text-muted-foreground">{t('table.progress')}</div>
-                                                <div className="text-sm font-semibold">
-                                                    {project.progress_percentage !== null && project.progress_percentage !== undefined
+                                                <div className="text-xs text-muted-foreground mb-1">{t('table.progress')}</div>
+                                                <Progress value={project.progress_percentage ?? 0} className="h-1.5" />
+                                                <div className="text-xs text-muted-foreground mt-1 tabular-nums">
+                                                    {project.progress_percentage != null
                                                         ? `${Math.round(project.progress_percentage)}%`
                                                         : '-'}
                                                 </div>

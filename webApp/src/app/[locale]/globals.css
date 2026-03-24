@@ -12,7 +12,7 @@ body * {
 }
 
 @theme inline {
-  --font-sans: Outfit, sans-serif;
+  --font-sans: var(--font-sans);
   --font-mono: monospace;
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --radius: 0.75rem;
@@ -157,7 +157,7 @@ body * {
   --growth-foreground: oklch(0.2346 0.0123 148.9123);
   --amber: oklch(0.7923 0.1456 125.9123);
   --amber-foreground: oklch(0.2234 0.0089 130.3456);
-  --font-sans: Outfit, sans-serif;
+  --font-sans: var(--font-sans);
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-mono: monospace;
   --shadow-color: #000000;
@@ -232,7 +232,7 @@ body * {
   --amber: oklch(0.6823 0.1456 125.9123);
   --amber-foreground: oklch(0.1234 0.0089 130.3456);
   --radius: 0.75rem;
-  --font-sans: Outfit, sans-serif;
+  --font-sans: var(--font-sans);
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-mono: monospace;
   --shadow-color: #000000;

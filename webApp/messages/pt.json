@@ -471,7 +471,9 @@
         "overview": "Visão Geral",
         "team": "Equipa",
         "milestones": "Marcos",
-        "metrics": "Métricas"
+        "metrics": "Métricas",
+        "tasks": "Tarefas",
+        "activity": "Atividade"
       },
       "progress": "Progresso",
       "tasksCompleted": "tarefas concluídas",
@@ -521,7 +523,31 @@
       "deleteCancel": "Cancelar",
       "deleteConfirm": "Eliminar Projeto",
       "deleteSuccess": "Projeto eliminado com sucesso",
-      "deleteError": "Falha ao eliminar projeto"
+      "deleteError": "Falha ao eliminar projeto",
+      "taskCount": "tarefas",
+      "noProjectTasks": "Sem tarefas ainda",
+      "noProjectTasksDesc": "Crie a primeira tarefa deste projeto",
+      "addTask": "Adicionar Tarefa",
+      "allStatuses": "Todos os Status",
+      "hoursContributed": "Horas",
+      "tasksAssigned": "Tarefas",
+      "actions": "Ações",
+      "editRole": "Editar Função",
+      "removeMember": "Remover",
+      "memberRemoved": "Membro removido",
+      "memberRemoveError": "Falha ao remover membro",
+      "roleUpdated": "Função atualizada",
+      "roleUpdateError": "Falha ao atualizar função",
+      "removeMemberTitle": "Remover Membro?",
+      "removeMemberDesc": "Isso removerá o membro do projeto.",
+      "newRole": "Função",
+      "newRolePlaceholder": "ex: Voluntário Líder",
+      "save": "Salvar",
+      "activityDescription": "Alterações e ações recentes",
+      "noActivity": "Sem atividade ainda",
+      "noActivityDesc": "Ações e alterações aparecerão aqui",
+      "systemAction": "Sistema",
+      "loadMore": "Carregar mais"
     },
     "milestoneStatuses": {
       "pending": "Pendente",
@@ -658,6 +684,17 @@
     "filterByPriority": "Filtrar por prioridade",
     "allStatuses": "Todos os status",
     "allPriorities": "Todas as prioridades",
+    "filterByProject": "Filtrar por Projeto",
+    "allProjects": "Todos os Projetos",
+    "actions": "Ações",
+    "edit": "Editar",
+    "assignVolunteer": "Atribuir Voluntário",
+    "addTask": "Adicionar tarefa",
+    "cancelTask": "Cancelar Tarefa",
+    "cancelTaskConfirmTitle": "Cancelar Tarefa?",
+    "cancelTaskConfirmDesc": "Isto irá cancelar a tarefa. Esta ação não pode ser desfeita.",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
     "kanbanView": "Quadro",
     "tableView": "Lista",
     "tasks": "tarefas",
@@ -783,6 +820,11 @@
       "volunteerRemoveError": "Falha ao remover voluntário",
       "volunteerAssigned": "Voluntário atribuído com sucesso!",
       "volunteerAssignError": "Falha ao atribuir voluntário",
+      "startTask": "Iniciar Tarefa",
+      "markComplete": "Marcar como Concluída",
+      "reopen": "Reabrir",
+      "statusUpdated": "Status atualizado",
+      "statusUpdateError": "Falha ao atualizar status",
       "addDependencyDescription": "Adicionar relação de dependência entre tarefas",
       "selectTask": "Selecionar Tarefa",
       "searchTask": "Pesquisar e selecionar uma tarefa...",
@@ -1343,7 +1385,12 @@
       "newProject": "Novo Projeto",
       "newTask": "Nova Tarefa",
       "registerVolunteer": "Registar Voluntário",
-      "viewAnalytics": "Ver Análises"
+      "viewAnalytics": "Ver Análises",
+      "viewReports": "Ver Relatórios",
+      "myTasks": "Minhas Tarefas",
+      "logHours": "Registar Horas",
+      "availableTasks": "Tarefas Disponíveis",
+      "leaderboards": "Classificação"
     },
     "shortcuts": {
       "press": "Pressione",
@@ -1947,7 +1994,7 @@
         "inProgress": "Em Progresso",
         "completed": "Concluídas"
       },
-      "card": {
+        "card": {
         "project": "Projeto",
         "dueDate": "Prazo",
         "status": "Status",
@@ -1958,12 +2005,36 @@
         "noDueDate": "Sem prazo",
         "viewDetails": "Ver Detalhes",
         "startTask": "Iniciar Tarefa",
+        "pauseTask": "Pausar",
+        "resumeTask": "Retomar",
         "markComplete": "Marcar como Concluída",
-        "continueTask": "Continuar"
+        "continueTask": "Continuar",
+        "elapsed": "Decorrido: {time}",
+        "sessionStale": "Sessão > 24h",
+        "paused": "Pausada",
+        "autoPaused": "Pausada automaticamente",
+        "autoPausedHint": "Cronômetro pausado após 1 hora — retome quando estiver pronto",
+        "almostAutoPause": "Pausa automática em breve"
       },
       "statusUpdate": {
-        "success": "Status da tarefa atualizado com sucesso",
+        "success": "Tarefa concluída com sucesso",
+        "started": "Tarefa iniciada — cronômetro em execução",
         "error": "Falha ao atualizar status da tarefa"
+      },
+      "timer": {
+        "hoursLogged": "Tarefa concluída — {hours}h registradas para aprovação",
+        "logFailed": "Tarefa concluída, mas as horas não puderam ser registradas. Por favor, registre-as manualmente.",
+        "noSession": "Tarefa concluída. Nenhuma sessão de cronômetro ativa foi encontrada.",
+        "autoPaused": "Cronômetro pausado automaticamente",
+        "autoPausedDesc": "Seu cronômetro foi pausado após 1 hora de rastreamento contínuo. Retome quando voltar."
+      },
+      "confirmComplete": {
+        "title": "Marcar tarefa como concluída?",
+        "description": "Você está prestes a concluir \"{task}\".",
+        "timeLogged": "Tempo registrado",
+        "approvalNote": "As horas registradas serão enviadas para aprovação do seu supervisor.",
+        "cancel": "Cancelar",
+        "confirm": "Concluir Tarefa"
       }
     },
     "myHours": {
@@ -1990,6 +2061,7 @@
         "date": "Data",
         "hours": "Horas",
         "project": "Projeto",
+        "task": "Tarefa",
         "activity": "Atividade",
         "status": "Status",
         "actions": "Ações",

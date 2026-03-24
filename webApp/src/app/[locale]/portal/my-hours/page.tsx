@@ -22,6 +22,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription } from '@/components/ui/empty';
 import { Clock, CheckCircle, AlertCircle, Plus, Pencil, Trash2, Calendar as CalendarIcon } from 'lucide-react';
 import { LogHoursDialog } from '@/components/volunteers/log-hours-dialog';
+import { canManuallyLogHours } from '@/lib/permissions/timeTracking';
 import { EditTimeLogDialog } from '@/components/volunteers/edit-time-log-dialog';
 import { DeleteTimeLogDialog } from '@/components/volunteers/delete-time-log-dialog';
 import { VolunteerTimeLog } from '@/lib/api/types';
@@ -53,22 +54,29 @@ export default function MyHoursPage() {
     const [dateFrom, setDateFrom] = useState<Date | undefined>(undefined);
     const [dateTo, setDateTo] = useState<Date | undefined>(undefined);
 
+    // Resolve volunteers.id (DB PK) from users.id — required for all volunteer API calls
+    const { data: volunteerProfile } = useSWR(
+        user?.id ? 'my-volunteer-profile' : null,
+        () => volunteersApi.getMyVolunteerProfile()
+    );
+
     // Fetch hours summary
     const { data: summary, isLoading: summaryLoading } = useSWR(
-        user?.id ? ['hours-summary', user.id] : null,
-        () => volunteersApi.getVolunteerHoursSummary(user!.id)
+        volunteerProfile?.id ? ['hours-summary', volunteerProfile.id] : null,
+        () => volunteersApi.getVolunteerHoursSummary(volunteerProfile!.id)
     );
 
     // Fetch time logs — include date range in SWR key so it refetches when dates change
     const { data: timeLogs, isLoading: logsLoading, mutate } = useSWR(
-        user?.id ? ['time-logs', user.id, dateFrom?.toISOString(), dateTo?.toISOString()] : null,
-        () => volunteersApi.getVolunteerHours(user!.id, {
+        volunteerProfile?.id ? ['time-logs', volunteerProfile.id, dateFrom?.toISOString(), dateTo?.toISOString()] : null,
+        () => volunteersApi.getVolunteerHours(volunteerProfile!.id, {
             start_date: dateFrom ? format(dateFrom, 'yyyy-MM-dd') : undefined,
             end_date: dateTo ? format(dateTo, 'yyyy-MM-dd') : undefined,
         })
     );
 
-    // Filter time logs by status
+    // Filter time logs by status (pending = not approved, approved = approved)
+    // Note: rejected status is handled in approval system - currently shows as pending
     const filteredTimeLogs = timeLogs?.filter((log) => {
         if (statusFilter === 'all') return true;
         if (statusFilter === 'pending') return !log.approved;
@@ -103,8 +111,8 @@ export default function MyHoursPage() {
         return approved ? 'default' : 'secondary';
     };
 
-    // Loading state
-    if (summaryLoading || logsLoading) {
+    // Loading state — wait for volunteer profile resolution before fetching hours
+    if (!volunteerProfile || summaryLoading || logsLoading) {
         return (
             <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
                 <div className="space-y-2">
@@ -127,10 +135,12 @@ export default function MyHoursPage() {
                 title={t('title')}
                 description={t('subtitle')}
                 actions={
-                    <Button onClick={() => setLogHoursOpen(true)}>
-                        <Plus className="mr-2 h-4 w-4" />
-                        {t('logHours')}
-                    </Button>
+                    canManuallyLogHours(user) ? (
+                        <Button onClick={() => setLogHoursOpen(true)}>
+                            <Plus className="mr-2 h-4 w-4" />
+                            {t('logHours')}
+                        </Button>
+                    ) : null
                 }
             />
 
@@ -247,6 +257,7 @@ export default function MyHoursPage() {
                                         <TableHead>{t('table.date')}</TableHead>
                                         <TableHead>{t('table.hours')}</TableHead>
                                         <TableHead>{t('table.project')}</TableHead>
+                                        <TableHead>{t('table.task')}</TableHead>
                                         <TableHead>{t('table.activity')}</TableHead>
                                         <TableHead>{t('table.status')}</TableHead>
                                         <TableHead className="text-right">{t('table.actions')}</TableHead>
@@ -260,7 +271,10 @@ export default function MyHoursPage() {
                                             </TableCell>
                                             <TableCell>{log.hours.toFixed(1)}</TableCell>
                                             <TableCell className="max-w-[200px] truncate">
-                                                {log.project_id ? `Project ${log.project_id}` : t('table.noProject')}
+                                                {log.project_name || t('table.noProject')}
+                                            </TableCell>
+                                            <TableCell className="max-w-[200px] truncate">
+                                                {log.task_title || '-'}
                                             </TableCell>
                                             <TableCell className="max-w-[300px] truncate">
                                                 {log.activity_description || t('table.noActivity')}
@@ -303,7 +317,7 @@ export default function MyHoursPage() {
             <LogHoursDialog
                 open={logHoursOpen}
                 onOpenChange={setLogHoursOpen}
-                volunteerId={user!.id}
+                volunteerId={volunteerProfile!.id}
                 onSuccess={handleSuccess}
             />
 

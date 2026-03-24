@@ -471,7 +471,9 @@
         "overview": "Overview",
         "team": "Team",
         "milestones": "Milestones",
-        "metrics": "Metrics"
+        "metrics": "Metrics",
+        "tasks": "Tasks",
+        "activity": "Activity"
       },
       "progress": "Progress",
       "tasksCompleted": "tasks completed",
@@ -521,7 +523,31 @@
       "deleteCancel": "Cancel",
       "deleteConfirm": "Delete Project",
       "deleteSuccess": "Project deleted successfully",
-      "deleteError": "Failed to delete project"
+      "deleteError": "Failed to delete project",
+      "taskCount": "tasks",
+      "noProjectTasks": "No tasks yet",
+      "noProjectTasksDesc": "Create the first task for this project",
+      "addTask": "Add Task",
+      "allStatuses": "All Statuses",
+      "hoursContributed": "Hours",
+      "tasksAssigned": "Tasks",
+      "actions": "Actions",
+      "editRole": "Edit Role",
+      "removeMember": "Remove",
+      "memberRemoved": "Member removed",
+      "memberRemoveError": "Failed to remove member",
+      "roleUpdated": "Role updated",
+      "roleUpdateError": "Failed to update role",
+      "removeMemberTitle": "Remove Team Member?",
+      "removeMemberDesc": "This will remove the member from the project.",
+      "newRole": "Role",
+      "newRolePlaceholder": "e.g. Lead Volunteer",
+      "save": "Save",
+      "activityDescription": "Recent changes and actions",
+      "noActivity": "No activity yet",
+      "noActivityDesc": "Actions and changes will appear here",
+      "systemAction": "System",
+      "loadMore": "Load more"
     },
     "milestoneStatuses": {
       "pending": "Pending",
@@ -658,6 +684,17 @@
     "filterByPriority": "Filter by priority",
     "allStatuses": "All statuses",
     "allPriorities": "All priorities",
+    "filterByProject": "Filter by Project",
+    "allProjects": "All Projects",
+    "actions": "Actions",
+    "edit": "Edit",
+    "assignVolunteer": "Assign Volunteer",
+    "addTask": "Add task",
+    "cancelTask": "Cancel Task",
+    "cancelTaskConfirmTitle": "Cancel Task?",
+    "cancelTaskConfirmDesc": "This will cancel the task. This action cannot be undone.",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
     "kanbanView": "Board",
     "tableView": "List",
     "tasks": "tasks",
@@ -783,6 +820,11 @@
       "volunteerRemoveError": "Failed to remove volunteer",
       "volunteerAssigned": "Volunteer assigned successfully!",
       "volunteerAssignError": "Failed to assign volunteer",
+      "startTask": "Start Task",
+      "markComplete": "Mark Complete",
+      "reopen": "Reopen",
+      "statusUpdated": "Status updated",
+      "statusUpdateError": "Failed to update status",
       "addDependencyDescription": "Add a dependency relationship between tasks",
       "selectTask": "Select Task",
       "searchTask": "Search and select a task...",
@@ -1385,7 +1427,12 @@
       "newProject": "New Project",
       "newTask": "New Task",
       "registerVolunteer": "Register Volunteer",
-      "viewAnalytics": "View Analytics"
+      "viewAnalytics": "View Analytics",
+      "viewReports": "View Reports",
+      "myTasks": "My Tasks",
+      "logHours": "Log Hours",
+      "availableTasks": "Available Tasks",
+      "leaderboards": "Leaderboard"
     },
     "shortcuts": {
       "press": "Press",
@@ -1946,7 +1993,7 @@
         "inProgress": "In Progress",
         "completed": "Completed"
       },
-      "card": {
+        "card": {
         "project": "Project",
         "dueDate": "Due",
         "status": "Status",
@@ -1957,12 +2004,36 @@
         "noDueDate": "No due date",
         "viewDetails": "View Details",
         "startTask": "Start Task",
+        "pauseTask": "Pause",
+        "resumeTask": "Resume",
         "markComplete": "Mark Complete",
-        "continueTask": "Continue"
+        "continueTask": "Continue",
+        "elapsed": "Elapsed: {time}",
+        "sessionStale": "Session > 24h",
+        "paused": "Paused",
+        "autoPaused": "Auto-paused",
+        "autoPausedHint": "Timer paused after 1 hour — resume when ready",
+        "almostAutoPause": "Auto-pause soon"
       },
       "statusUpdate": {
-        "success": "Task status updated successfully",
+        "success": "Task completed successfully",
+        "started": "Task started — timer is running",
         "error": "Failed to update task status"
+      },
+      "timer": {
+        "hoursLogged": "Task completed — {hours}h logged for approval",
+        "logFailed": "Task completed, but hours could not be logged. Please log them manually.",
+        "noSession": "Task completed. No active timer session was found.",
+        "autoPaused": "Timer auto-paused",
+        "autoPausedDesc": "Your task timer was paused after 1 hour of continuous tracking. Resume when you're back."
+      },
+      "confirmComplete": {
+        "title": "Mark task as complete?",
+        "description": "You are about to complete \"{task}\".",
+        "timeLogged": "Time tracked",
+        "approvalNote": "Logged hours will be submitted for approval by your supervisor.",
+        "cancel": "Cancel",
+        "confirm": "Complete Task"
       }
     },
     "myHours": {
@@ -1989,6 +2060,7 @@
         "date": "Date",
         "hours": "Hours",
         "project": "Project",
+        "task": "Task",
         "activity": "Activity",
         "status": "Status",
         "actions": "Actions",

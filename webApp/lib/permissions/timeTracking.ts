@@ -158,6 +158,15 @@ export function canLogHoursForOthers(user: UserProfile | null | undefined): bool
 }
 
 /**
+ * Check if user can manually register hours via the Log Hours form
+ * Volunteers must use the automatic task-based time tracking instead.
+ * Only staff, managers, and admins may use the manual log form.
+ */
+export function canManuallyLogHours(user: UserProfile | null | undefined): boolean {
+  return hasAnyRole(user, SUPERVISOR_ROLES);
+}
+
+/**
  * Check if user can export time log reports
  * Staff, managers, and admins can export reports
  */

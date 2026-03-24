@@ -5,6 +5,7 @@ import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
 import { gamificationApi } from '@/lib/api/gamification';
+import { volunteersApi } from '@/lib/api';
 import { PageHeader } from '@/components/shared/page-header';
 import { StatCard } from '@/components/shared/stat-card';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,34 +25,40 @@ export default function AchievementsPage() {
     const t = useTranslations('Volunteer.achievements');
     const [activeTab, setActiveTab] = useState('badges');
 
+    // Resolve volunteers.id (DB PK) from users.id — required for all gamification API calls
+    const { data: volunteerProfile } = useSWR(
+        user?.id ? 'my-volunteer-profile' : null,
+        () => volunteersApi.getMyVolunteerProfile()
+    );
+
     // Fetch gamification summary
     const { data: summary, isLoading: summaryLoading } = useSWR(
-        user?.id ? ['gamification-summary', user.id] : null,
-        () => gamificationApi.stats.getVolunteerSummary(user!.id)
+        volunteerProfile?.id ? ['gamification-summary', volunteerProfile.id] : null,
+        () => gamificationApi.stats.getVolunteerSummary(volunteerProfile!.id)
     );
 
     // Fetch badges
     const { data: badgesData, isLoading: badgesLoading, mutate: mutateBadges } = useSWR(
-        user?.id ? ['volunteer-badges', user.id] : null,
-        () => gamificationApi.badges.getVolunteerBadges(user!.id)
+        volunteerProfile?.id ? ['volunteer-badges', volunteerProfile.id] : null,
+        () => gamificationApi.badges.getVolunteerBadges(volunteerProfile!.id)
     );
 
     // Fetch points
     const { data: pointsData, isLoading: pointsLoading } = useSWR(
-        user?.id ? ['volunteer-points', user.id] : null,
-        () => gamificationApi.points.getSummary(user!.id)
+        volunteerProfile?.id ? ['volunteer-points', volunteerProfile.id] : null,
+        () => gamificationApi.points.getSummary(volunteerProfile!.id)
     );
 
     // Fetch achievements
     const { data: achievementsData, isLoading: achievementsLoading } = useSWR(
-        user?.id ? ['volunteer-achievements', user.id] : null,
-        () => gamificationApi.achievements.getVolunteerAchievements(user!.id)
+        volunteerProfile?.id ? ['volunteer-achievements', volunteerProfile.id] : null,
+        () => gamificationApi.achievements.getVolunteerAchievements(volunteerProfile!.id)
     );
 
     // Toggle badge showcase
     const handleToggleShowcase = async (badgeId: number, currentShowcased: boolean) => {
         try {
-            await gamificationApi.badges.toggleShowcase(user!.id, badgeId, {
+            await gamificationApi.badges.toggleShowcase(volunteerProfile!.id, badgeId, {
                 is_showcased: !currentShowcased
             });
             toast.success(t('badges.showcaseSuccess'));
@@ -62,8 +69,8 @@ export default function AchievementsPage() {
         }
     };
 
-    // Loading state
-    if (summaryLoading) {
+    // Loading state — wait for both volunteer profile resolution and summary fetch
+    if (!volunteerProfile || summaryLoading) {
         return (
             <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
                 <div className="space-y-2">

@@ -12,9 +12,9 @@ import { apiClient } from './client';
 import type {
   Notification,
   NotificationCreate,
-  NotificationUpdate,
   NotificationQueryParams,
-  PaginatedResponse,
+  NotificationListResponse,
+  NotificationUnreadCountResponse,
 } from './types';
 
 export const notificationsApi = {
@@ -27,7 +27,7 @@ export const notificationsApi = {
    * @returns Paginated list of notifications
    */
   getNotifications: (params?: NotificationQueryParams) =>
-    apiClient.get<PaginatedResponse<Notification>>('/notifications', params),
+    apiClient.get<NotificationListResponse>('/notifications', params),
 
   /**
    * Get a specific notification by ID
@@ -44,7 +44,7 @@ export const notificationsApi = {
    * @returns Count of unread notifications
    */
   getUnreadCount: () =>
-    apiClient.get<{ count: number }>('/notifications/unread-count'),
+    apiClient.get<NotificationUnreadCountResponse>('/notifications/unread-count'),
 
   /**
    * Mark notification as read
@@ -104,7 +104,7 @@ export function createNotificationStream(
   // We'll need to pass the token as a query parameter
   const eventSource = new EventSource(`${url}?token=${token}`);
 
-  eventSource.addEventListener('connected', (event) => {
+  eventSource.addEventListener('connected', () => {
     console.log('Connected to notification stream');
     onConnected?.();
   });

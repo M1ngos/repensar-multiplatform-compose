@@ -4,37 +4,34 @@ import { useTranslations, useLocale } from 'next-intl';
 import type { TaskSummary, TaskStatus } from '@/lib/api/types';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardAction, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Clock, Users, AlertCircle } from 'lucide-react';
+import { Clock, Users, AlertCircle, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { format } from 'date-fns';
 
 interface TasksKanbanViewProps {
     tasks?: TaskSummary[];
     isLoading: boolean;
-    error: any;
+    error: unknown;
     onRefresh: () => void;
+    onCreateInStatus?: (status: TaskStatus) => void;
 }
 
 const TASK_STATUSES: TaskStatus[] = ['not_started', 'in_progress', 'completed', 'cancelled'];
 
-export function TasksKanbanView({ tasks, isLoading, error, onRefresh }: TasksKanbanViewProps) {
+export function TasksKanbanView({ tasks, isLoading, error, onRefresh, onCreateInStatus }: TasksKanbanViewProps) {
     const t = useTranslations('Tasks');
     const locale = useLocale();
 
     const getPriorityColor = (priority: string) => {
-        switch (priority) {
-            case 'critical':
-                return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
-            case 'high':
-                return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300';
-            case 'medium':
-                return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
-            case 'low':
-                return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
-            default:
-                return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
-        }
+        const map: Record<string, string> = {
+            critical: 'bg-destructive/10 text-destructive border-destructive/20',
+            high: 'bg-sunset/10 text-sunset border-sunset/20',
+            medium: 'bg-amber/10 text-amber border-amber/20',
+            low: 'bg-moss/10 text-moss border-moss/20',
+        };
+        return map[priority] ?? 'bg-muted text-muted-foreground border-border';
     };
 
     const getTasksByStatus = (status: TaskStatus) => {
@@ -82,6 +79,7 @@ export function TasksKanbanView({ tasks, isLoading, error, onRefresh }: TasksKan
                                         href={`/${locale}/portal/tasks/${task.id}`}
                                         className="block"
                                     >
+
                                         <Card className="hover:bg-accent/50 transition-colors">
                                             <CardHeader>
                                                 <div className="flex items-start justify-between gap-2">
@@ -129,9 +127,9 @@ export function TasksKanbanView({ tasks, isLoading, error, onRefresh }: TasksKan
                                                                 <span className="tabular-nums">
                                                                     {format(new Date(task.end_date), 'MMM d')}
                                                                 </span>
-                                                                {task.is_overdue && (
-                                                                    <AlertCircle className="h-3.5 w-3.5 text-red-500" />
-                                                                )}
+                                                {task.is_overdue && (
+                                                    <AlertCircle className="h-3.5 w-3.5 text-destructive" />
+                                                )}
                                                             </div>
                                                         )}
                                                         {task.volunteers_assigned > 0 && (
@@ -153,6 +151,17 @@ export function TasksKanbanView({ tasks, isLoading, error, onRefresh }: TasksKan
                                 ))
                             )}
                         </div>
+                        {onCreateInStatus && (
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="w-full mt-2 text-muted-foreground border border-dashed hover:border-solid"
+                                onClick={(e) => { e.preventDefault(); onCreateInStatus(status); }}
+                            >
+                                <Plus className="mr-1 h-3 w-3" />
+                                {t('addTask')}
+                            </Button>
+                        )}
                     </div>
                 );
             })}

@@ -33,16 +33,22 @@ export function VolunteerDashboard() {
     const t = useTranslations('Dashboard');
     const tVolunteer = useTranslations('Volunteer');
 
+    // Resolve volunteers.id (DB PK) from users.id — required for all volunteer/gamification API calls
+    const { data: volunteerProfile } = useSWR(
+        user?.id ? 'my-volunteer-profile' : null,
+        () => volunteersApi.getMyVolunteerProfile()
+    );
+
     // Fetch gamification stats
     const { data: stats, isLoading: statsLoading } = useSWR(
-        user?.id ? ['gamification-summary', user.id] : null,
-        () => gamificationApi.stats.getVolunteerSummary(user!.id)
+        volunteerProfile?.id ? ['gamification-summary', volunteerProfile.id] : null,
+        () => gamificationApi.stats.getVolunteerSummary(volunteerProfile!.id)
     );
 
     // Fetch current tasks (v2.0 paginated)
     const { data: tasks, isLoading: tasksLoading } = useSWR(
-        user?.id ? ['volunteer-tasks-dashboard', user.id] : null,
-        () => volunteersApi.getVolunteerTasks(user!.id, {
+        volunteerProfile?.id ? ['volunteer-tasks-dashboard', volunteerProfile.id] : null,
+        () => volunteersApi.getVolunteerTasks(volunteerProfile!.id, {
             status: 'in_progress',
             page_size: 5
         })
@@ -50,22 +56,22 @@ export function VolunteerDashboard() {
 
     // Fetch hours summary for this-month stat card
     const { data: hoursSummary, isLoading: summaryLoading } = useSWR(
-        user?.id ? ['volunteer-hours-summary-dash', user.id] : null,
-        () => volunteersApi.getVolunteerHoursSummary(user!.id)
+        volunteerProfile?.id ? ['volunteer-hours-summary-dash', volunteerProfile.id] : null,
+        () => volunteersApi.getVolunteerHoursSummary(volunteerProfile!.id)
     );
 
     // Fetch recent badges
     const { data: badgesData, isLoading: badgesLoading } = useSWR(
-        user?.id ? ['volunteer-badges-dashboard', user.id] : null,
-        () => gamificationApi.badges.getVolunteerBadges(user!.id)
+        volunteerProfile?.id ? ['volunteer-badges-dashboard', volunteerProfile.id] : null,
+        () => gamificationApi.badges.getVolunteerBadges(volunteerProfile!.id)
     );
 
     // Fetch hours for chart (last 6 months)
     const { data: hoursData, isLoading: hoursLoading } = useSWR(
-        user?.id ? ['volunteer-hours-chart', user.id] : null,
+        volunteerProfile?.id ? ['volunteer-hours-chart', volunteerProfile.id] : null,
         async () => {
             const sixMonthsAgo = subMonths(new Date(), 6);
-            const hours = await volunteersApi.getVolunteerHours(user!.id, {
+            const hours = await volunteersApi.getVolunteerHours(volunteerProfile!.id, {
                 start_date: format(sixMonthsAgo, 'yyyy-MM-dd'),
                 end_date: format(new Date(), 'yyyy-MM-dd'),
                 approval_status: 'approved'

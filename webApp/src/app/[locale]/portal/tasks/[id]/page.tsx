@@ -27,6 +27,8 @@ import {
     User,
     Plus,
     X,
+    Play,
+    RotateCcw,
 } from 'lucide-react';
 import { format } from 'date-fns';
 import Link from 'next/link';
@@ -64,6 +66,7 @@ export default function TaskDetailPage() {
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
     const [isAddDependencyOpen, setIsAddDependencyOpen] = useState(false);
     const [isAssignVolunteerOpen, setIsAssignVolunteerOpen] = useState(false);
 
@@ -74,33 +77,23 @@ export default function TaskDetailPage() {
     );
 
     const getStatusColor = (status: TaskStatus) => {
-        switch (status) {
-            case 'not_started':
-                return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
-            case 'in_progress':
-                return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
-            case 'completed':
-                return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
-            case 'cancelled':
-                return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
-            default:
-                return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
-        }
+        const map: Record<string, string> = {
+            not_started: 'bg-muted text-muted-foreground border-border',
+            in_progress: 'bg-leaf/10 text-leaf border-leaf/20',
+            completed: 'bg-growth/10 text-growth border-growth/20',
+            cancelled: 'bg-destructive/10 text-destructive border-destructive/20',
+        };
+        return map[status] ?? 'bg-muted text-muted-foreground border-border';
     };
 
     const getPriorityColor = (priority: TaskPriority) => {
-        switch (priority) {
-            case 'critical':
-                return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
-            case 'high':
-                return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300';
-            case 'medium':
-                return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
-            case 'low':
-                return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
-            default:
-                return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
-        }
+        const map: Record<string, string> = {
+            critical: 'bg-destructive/10 text-destructive border-destructive/20',
+            high: 'bg-sunset/10 text-sunset border-sunset/20',
+            medium: 'bg-amber/10 text-amber border-amber/20',
+            low: 'bg-moss/10 text-moss border-moss/20',
+        };
+        return map[priority] ?? 'bg-muted text-muted-foreground border-border';
     };
 
     const handleDeleteTask = async () => {
@@ -112,6 +105,19 @@ export default function TaskDetailPage() {
         } catch (error) {
             toast.error(t('detail.deleteError'));
             setIsDeleting(false);
+        }
+    };
+
+    const handleQuickStatus = async (newStatus: TaskStatus) => {
+        setIsUpdatingStatus(true);
+        try {
+            await tasksApi.updateTask(taskId, { status: newStatus });
+            toast.success(t('detail.statusUpdated'));
+            mutate();
+        } catch {
+            toast.error(t('detail.statusUpdateError'));
+        } finally {
+            setIsUpdatingStatus(false);
         }
     };
 
@@ -199,6 +205,24 @@ export default function TaskDetailPage() {
                         </div>
                         {!isVolunteer && (
                             <div className="flex gap-2">
+                                {task.status === TaskStatus.NOT_STARTED && (
+                                    <Button size="sm" variant="outline" onClick={() => handleQuickStatus(TaskStatus.IN_PROGRESS)} disabled={isUpdatingStatus}>
+                                        <Play className="mr-2 h-4 w-4" />
+                                        {t('detail.startTask')}
+                                    </Button>
+                                )}
+                                {task.status === TaskStatus.IN_PROGRESS && (
+                                    <Button size="sm" variant="outline" onClick={() => handleQuickStatus(TaskStatus.COMPLETED)} disabled={isUpdatingStatus}>
+                                        <CheckCircle2 className="mr-2 h-4 w-4" />
+                                        {t('detail.markComplete')}
+                                    </Button>
+                                )}
+                                {(task.status === TaskStatus.COMPLETED || task.status === TaskStatus.CANCELLED) && (
+                                    <Button size="sm" variant="outline" onClick={() => handleQuickStatus(TaskStatus.NOT_STARTED)} disabled={isUpdatingStatus}>
+                                        <RotateCcw className="mr-2 h-4 w-4" />
+                                        {t('detail.reopen')}
+                                    </Button>
+                                )}
                                 <Button variant="outline" onClick={() => setIsEditDialogOpen(true)}>
                                     <Edit className="mr-2 h-4 w-4" />
                                     {t('detail.editTask')}
@@ -356,7 +380,7 @@ export default function TaskDetailPage() {
                                     )}
                                     {task.requires_volunteers && (
                                         <div className="flex items-center gap-2">
-                                            <Badge variant="secondary" className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                                            <Badge variant="secondary" className="bg-leaf/10 text-leaf border-leaf/20">
                                                 <Users className="mr-1 h-3 w-3" />
                                                 {t('detail.requiresVolunteers')}
                                             </Badge>
@@ -388,7 +412,7 @@ export default function TaskDetailPage() {
                                                                 href={`/${locale}/portal/tasks/${subtask.id}`}
                                                                 className="hover:underline flex items-center gap-2"
                                                             >
-                                                                <CheckCircle2 className={`h-3 w-3 ${subtask.status === 'completed' ? 'text-green-500' : 'text-gray-300'}`} />
+                                                                <CheckCircle2 className={`h-3 w-3 ${subtask.status === 'completed' ? 'text-growth' : 'text-muted-foreground'}`} />
                                                                 {subtask.title}
                                                             </Link>
                                                         </li>

@@ -67,11 +67,8 @@ export function AssignVolunteerDialog({ open, onOpenChange, taskId, onSuccess }:
         setIsSubmitting(true);
 
         try {
-            // Fetch volunteer profile to get user_id (same pattern as add-team-member-dialog)
-            const volunteerProfile = await volunteersApi.getVolunteer(selectedVolunteerId);
-
             await tasksApi.assignVolunteer(taskId, {
-                volunteer_id: volunteerProfile.user_id,
+                volunteer_id: selectedVolunteerId, // volunteers table PK, not user.id
             });
 
             toast.success(t('detail.volunteerAssigned') || 'Volunteer assigned successfully!');
