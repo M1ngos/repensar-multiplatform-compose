@@ -1316,7 +1316,22 @@
       "passwordMismatch": "New passwords do not match",
       "passwordTooShort": "Password must be at least 8 characters long",
       "passwordChangeSuccess": "Password changed successfully",
-      "passwordChangeError": "Failed to change password. Please check your current password."
+      "passwordChangeError": "Failed to change password. Please check your current password.",
+      "passwordRequirementsNotMet": "Password does not meet all requirements",
+      "passwordsMatch": "Passwords match",
+      "strengthLabel": "Password Strength",
+      "strengthWeak": "Weak",
+      "strengthFair": "Fair",
+      "strengthGood": "Good",
+      "strengthStrong": "Strong",
+      "requirements": {
+        "title": "Password Requirements",
+        "minLength": "At least 8 characters",
+        "uppercase": "At least one uppercase letter",
+        "lowercase": "At least one lowercase letter",
+        "number": "At least one number",
+        "special": "At least one special character"
+      }
     },
     "notifications": {
       "title": "Notifications",

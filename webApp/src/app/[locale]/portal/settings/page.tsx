@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import useSWR from 'swr';
@@ -10,13 +10,15 @@ import type { UserPreferences } from '@/lib/api/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
+import { PasswordInput } from '@/components/ui/password-input';
+import { PasswordRequirements } from '@/components/settings/password-requirements';
+import { Progress } from '@/components/ui/progress';
 
 export default function SettingsPage() {
   const t = useTranslations('Settings');
@@ -26,6 +28,57 @@ export default function SettingsPage() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  // Password strength calculation
+  const passwordStrength = useMemo(() => {
+    if (!newPassword) return { score: 0, level: 'empty' as const, label: '' };
+
+    let score = 0;
+
+    // Length checks
+    if (newPassword.length >= 8) score += 1;
+    if (newPassword.length >= 12) score += 1;
+
+    // Character type checks
+    if (/[a-z]/.test(newPassword)) score += 1;
+    if (/[A-Z]/.test(newPassword)) score += 1;
+    if (/[0-9]/.test(newPassword)) score += 1;
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(newPassword)) score += 1;
+
+    const levels = [
+      { threshold: 0, level: 'empty' as const, label: '' },
+      { threshold: 2, level: 'weak' as const, label: t('security.strengthWeak') },
+      { threshold: 3, level: 'fair' as const, label: t('security.strengthFair') },
+      { threshold: 5, level: 'good' as const, label: t('security.strengthGood') },
+      { threshold: 7, level: 'strong' as const, label: t('security.strengthStrong') },
+    ];
+
+    const { level, label } = [...levels].reverse().find((l) => newPassword.length > 0 && score >= l.threshold) || levels[0];
+
+    return {
+      score: Math.min((score / 7) * 100, 100),
+      level,
+      label,
+    };
+  }, [newPassword, t]);
+
+  // Check if passwords match
+  const passwordsMatch = useMemo(() => {
+    if (!confirmPassword) return null;
+    return newPassword === confirmPassword;
+  }, [newPassword, confirmPassword]);
+
+  // Check if all requirements are met
+  const requirementsMet = useMemo(() => {
+    if (!newPassword) return false;
+    return (
+      newPassword.length >= 8 &&
+      /[A-Z]/.test(newPassword) &&
+      /[a-z]/.test(newPassword) &&
+      /[0-9]/.test(newPassword) &&
+      /[!@#$%^&*(),.?":{}|<>]/.test(newPassword)
+    );
+  }, [newPassword]);
 
   // Fetch preferences using SWR
   const { data: preferences, isLoading, mutate } = useSWR<UserPreferences>(
@@ -89,13 +142,13 @@ export default function SettingsPage() {
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (newPassword !== confirmPassword) {
-      toast.error(t('security.passwordMismatch'));
+    if (!requirementsMet) {
+      toast.error(t('security.passwordRequirementsNotMet'));
       return;
     }
 
-    if (newPassword.length < 8) {
-      toast.error(t('security.passwordTooShort'));
+    if (newPassword !== confirmPassword) {
+      toast.error(t('security.passwordMismatch'));
       return;
     }
 
@@ -203,46 +256,90 @@ export default function SettingsPage() {
               <form onSubmit={handleChangePassword} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="current-password">{t('security.currentPassword')}</Label>
-                  <Input
+                  <PasswordInput
                     id="current-password"
-                    type="password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
                     placeholder={t('security.currentPasswordPlaceholder')}
                     required
+                    showToggle
                   />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="new-password">{t('security.newPassword')}</Label>
-                  <Input
+                  <PasswordInput
                     id="new-password"
-                    type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder={t('security.newPasswordPlaceholder')}
                     required
-                    minLength={8}
                   />
-                  <p className="text-sm text-muted-foreground">
-                    {t('security.passwordRequirements')}
-                  </p>
+                  {newPassword && (
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">{t('security.strengthLabel')}</span>
+                        <span
+                          className={cn(
+                            'font-medium',
+                            passwordStrength.level === 'weak' && 'text-red-500',
+                            passwordStrength.level === 'fair' && 'text-yellow-500',
+                            passwordStrength.level === 'good' && 'text-blue-500',
+                            passwordStrength.level === 'strong' && 'text-green-500'
+                          )}
+                        >
+                          {passwordStrength.label}
+                        </span>
+                      </div>
+                      <Progress
+                        value={passwordStrength.score}
+                        className="h-2"
+                        indicatorClassName={cn(
+                          passwordStrength.level === 'weak' && 'bg-red-500',
+                          passwordStrength.level === 'fair' && 'bg-yellow-500',
+                          passwordStrength.level === 'good' && 'bg-blue-500',
+                          passwordStrength.level === 'strong' && 'bg-green-500'
+                        )}
+                      />
+                      <PasswordRequirements password={newPassword} />
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="confirm-password">{t('security.confirmPassword')}</Label>
-                  <Input
+                  <PasswordInput
                     id="confirm-password"
-                    type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder={t('security.confirmPasswordPlaceholder')}
                     required
-                    minLength={8}
                   />
+                  {confirmPassword && passwordsMatch !== null && (
+                    <p
+                      className={cn(
+                        'text-sm',
+                        passwordsMatch ? 'text-green-500' : 'text-red-500'
+                      )}
+                    >
+                      {passwordsMatch
+                        ? t('security.passwordsMatch')
+                        : t('security.passwordMismatch')}
+                    </p>
+                  )}
                 </div>
 
-                <Button type="submit" disabled={isPasswordLoading}>
+                <Button
+                  type="submit"
+                  disabled={
+                    isPasswordLoading ||
+                    !currentPassword ||
+                    !newPassword ||
+                    !confirmPassword ||
+                    !requirementsMet ||
+                    passwordsMatch === false
+                  }
+                >
                   {isPasswordLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   {t('security.changePasswordButton')}
                 </Button>

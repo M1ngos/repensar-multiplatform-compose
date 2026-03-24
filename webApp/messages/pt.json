@@ -1316,7 +1316,22 @@
       "passwordMismatch": "As novas palavras-passe não coincidem",
       "passwordTooShort": "A palavra-passe deve ter pelo menos 8 caracteres",
       "passwordChangeSuccess": "Palavra-passe alterada com sucesso",
-      "passwordChangeError": "Falha ao alterar palavra-passe. Por favor, verifique a sua palavra-passe atual."
+      "passwordChangeError": "Falha ao alterar palavra-passe. Por favor, verifique a sua palavra-passe atual.",
+      "passwordRequirementsNotMet": "A palavra-passe não cumpre todos os requisitos",
+      "passwordsMatch": "As palavras-passe coincidem",
+      "strengthLabel": "Força da Palavra-passe",
+      "strengthWeak": "Fraca",
+      "strengthFair": "Razoável",
+      "strengthGood": "Boa",
+      "strengthStrong": "Forte",
+      "requirements": {
+        "title": "Requisitos da Palavra-passe",
+        "minLength": "Pelo menos 8 caracteres",
+        "uppercase": "Pelo menos uma letra maiúscula",
+        "lowercase": "Pelo menos uma letra minúscula",
+        "number": "Pelo menos um número",
+        "special": "Pelo menos um caractere especial"
+      }
     },
     "notifications": {
       "title": "Notificações",
