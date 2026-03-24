@@ -1321,12 +1321,32 @@
     "notifications": {
       "title": "Notifications",
       "description": "Configure how you receive notifications",
-      "comingSoon": "Notification settings will be available soon"
+      "email": "Email Notifications",
+      "emailTaskAssigned": "Task assigned to me",
+      "emailTaskCompleted": "Task completed",
+      "emailProjectUpdates": "Project updates",
+      "emailWeeklyDigest": "Weekly digest",
+      "inApp": "In-App Notifications",
+      "inAppAll": "Enable all in-app notifications",
+      "inAppTaskUpdates": "Task updates",
+      "inAppProjectUpdates": "Project updates",
+      "inAppGamification": "Achievements & badges",
+      "saveSuccess": "Notification preferences saved",
+      "saveError": "Failed to save notification preferences"
     },
     "preferences": {
       "title": "Preferences",
       "description": "Customize your experience",
-      "comingSoon": "Preference settings will be available soon"
+      "appearance": "Appearance",
+      "themeLight": "Light",
+      "themeDark": "Dark",
+      "themeSystem": "System",
+      "compactMode": "Compact mode",
+      "compactModeDesc": "Reduce spacing and padding throughout the interface",
+      "showTutorials": "Show tutorials",
+      "showTutorialsDesc": "Display help tips and guided tours",
+      "saveSuccess": "Preferences saved",
+      "saveError": "Failed to save preferences"
     },
     "language": {
       "title": "Language & Region",

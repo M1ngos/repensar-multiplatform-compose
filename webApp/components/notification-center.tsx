@@ -15,12 +15,15 @@ import { formatDistanceToNow } from 'date-fns';
 import { NotificationType } from '@/lib/api/types';
 import { cn } from '@/lib/utils';
 import { useTranslations, useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from '@/src/i18n/navigation.ts';
+import { useState, useEffect } from 'react';
 
 export function NotificationCenter() {
   const t = useTranslations('Notifications');
   const locale = useLocale();
   const router = useRouter();
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
   const {
     notifications = [],
     unreadCount = 0,
@@ -30,6 +33,12 @@ export function NotificationCenter() {
     markAllAsRead,
     deleteNotification,
   } = useNotifications();
+
+  useEffect(() => {
+    if (pathname === `/${locale}/portal/notifications`) {
+      setOpen(false);
+    }
+  }, [pathname, locale]);
 
   const getNotificationIcon = (type: NotificationType) => {
     switch (type) {
@@ -58,7 +67,7 @@ export function NotificationCenter() {
   };
 
   return (
-    <Popover onOpenChange={(open) => !open && router.push(`/${locale}/portal/notifications`)}>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5" />

@@ -1321,18 +1321,39 @@
     "notifications": {
       "title": "Notificações",
       "description": "Configurar como recebe notificações",
-      "comingSoon": "As definições de notificações estarão disponíveis em breve"
+      "email": "Notificações por Email",
+      "emailTaskAssigned": "Tarefa atribuída a mim",
+      "emailTaskCompleted": "Tarefa concluída",
+      "emailProjectUpdates": "Atualizações de projetos",
+      "emailWeeklyDigest": "Resumo semanal",
+      "inApp": "Notificações na Aplicação",
+      "inAppAll": "Ativar todas as notificações",
+      "inAppTaskUpdates": "Atualizações de tarefas",
+      "inAppProjectUpdates": "Atualizações de projetos",
+      "inAppGamification": "Conquistas e badges",
+      "saveSuccess": "Preferências de notificações guardadas",
+      "saveError": "Falha ao guardar preferências de notificações"
     },
     "preferences": {
       "title": "Preferências",
       "description": "Personalizar a sua experiência",
-      "comingSoon": "As definições de preferências estarão disponíveis em breve"
+      "appearance": "Aparência",
+      "themeLight": "Claro",
+      "themeDark": "Escuro",
+      "themeSystem": "Sistema",
+      "compactMode": "Modo compacto",
+      "compactModeDesc": "Reduzir espaçamento e preenchimento na interface",
+      "showTutorials": "Mostrar tutoriais",
+      "showTutorialsDesc": "Exibir dicas de ajuda e tours guiados",
+      "saveSuccess": "Preferências guardadas",
+      "saveError": "Falha ao guardar preferências"
     },
     "language": {
       "title": "Idioma e Região",
       "description": "Definir as suas preferências de idioma e região",
+      "currentLanguage": "Idioma atual",
       "selectLanguage": "Selecionar idioma",
-      "currentLanguage": "O idioma atual é definido pela localização do seu navegador"
+      "languageUpdated": "Idioma atualizado com sucesso"
     }
   },
   "Notifications": {
