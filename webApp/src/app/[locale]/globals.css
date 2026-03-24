@@ -89,6 +89,18 @@ body * {
   --color-growth-foreground: var(--growth-foreground);
   --color-amber: var(--amber);
   --color-amber-foreground: var(--amber-foreground);
+  --color-water: var(--water);
+  --color-water-foreground: var(--water-foreground);
+  --color-mountain: var(--mountain);
+  --color-mountain-foreground: var(--mountain-foreground);
+  --color-sand: var(--sand);
+  --color-sand-foreground: var(--sand-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   /* Organic radius values */
   --radius-2xs: 0.25rem;
   --radius-xs: 0.375rem;
@@ -106,77 +118,117 @@ body * {
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.9911 0 0);
-  --foreground: oklch(0.2046 0 0);
-  --card: oklch(0.9911 0 0);
-  --card-foreground: oklch(0.2046 0 0);
-  --popover: oklch(0.9911 0 0);
-  --popover-foreground: oklch(0.4386 0 0);
-  --primary: oklch(0.6789 0.1521 155.8234);
-  --primary-foreground: oklch(0.9911 0.0089 158.6547);
-  --secondary: oklch(0.9561 0.0134 142.8765);
-  --secondary-foreground: oklch(0.2626 0.0147 166.4589);
-  --muted: oklch(0.9461 0.0089 145.2341);
-  --muted-foreground: oklch(0.4386 0.0234 152.7891);
-  --accent: oklch(0.8789 0.1234 150.2345);
-  --accent-foreground: oklch(0.2346 0.0089 155.6789);
-  --destructive: oklch(0.5523 0.1927 32.7272);
-  --border: oklch(0.9037 0.0056 148.9123);
-  --input: oklch(0.9731 0.0067 151.2345);
-  --ring: oklch(0.6789 0.1521 155.8234);
-  --chart-1: oklch(0.6789 0.1521 155.8234);
-  --chart-2: oklch(0.7456 0.1345 138.6789);
-  --chart-3: oklch(0.7123 0.1567 148.9012);
-  --chart-4: oklch(0.8234 0.0987 178.4567);
-  --chart-5: oklch(0.6456 0.1234 140.3456);
-  --sidebar: oklch(0.9823 0.0045 155.1234);
-  --sidebar-foreground: oklch(0.3456 0.0123 158.6789);
-  --sidebar-primary: oklch(0.6789 0.1521 155.8234);
-  --sidebar-primary-foreground: oklch(0.9911 0.0089 158.6547);
-  --sidebar-accent: oklch(0.9456 0.0089 148.9123);
-  --sidebar-accent-foreground: oklch(0.2626 0.0147 166.4589);
-  --sidebar-border: oklch(0.9123 0.0067 152.3456);
-  --sidebar-ring: oklch(0.6789 0.1521 155.8234);
-  --destructive-foreground: oklch(0.9934 0.0032 17.2118);
-  /* Nature-themed colors - Light mode */
-  --forest: oklch(0.4567 0.1234 152.3456);
-  --forest-foreground: oklch(0.9823 0.0089 158.6547);
-  --leaf: oklch(0.7234 0.1456 142.8765);
-  --leaf-foreground: oklch(0.2346 0.0123 148.9123);
-  --earth: oklch(0.5678 0.0987 145.6789);
-  --earth-foreground: oklch(0.9734 0.0067 148.9012);
-  --moss: oklch(0.6123 0.0856 135.4567);
-  --moss-foreground: oklch(0.9911 0.0045 138.6789);
-  --sky: oklch(0.7823 0.1123 225.6789);
-  --sky-foreground: oklch(0.2046 0.0089 228.4567);
-  --sunset: oklch(0.7456 0.1678 42.3456);
-  --sunset-foreground: oklch(0.2123 0.0123 45.6789);
-  --bark: oklch(0.3789 0.0567 38.9123);
-  --bark-foreground: oklch(0.9823 0.0034 42.3456);
-  --growth: oklch(0.7234 0.1456 142.8765);
-  --growth-foreground: oklch(0.2346 0.0123 148.9123);
-  --amber: oklch(0.7923 0.1456 125.9123);
-  --amber-foreground: oklch(0.2234 0.0089 130.3456);
+  /* Warmer, inviting background with subtle warmth */
+  --background: oklch(0.985 0.015 45);
+  --foreground: oklch(0.145 0.02 265);
+  /* Cards have subtle depth - slightly different from background */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0.02 265);
+  /* Popovers are slightly elevated */
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0.02 265);
+  /* Primary: Fresh teal-green - community, growth, trust */
+  --primary: oklch(0.55 0.15 170);
+  --primary-foreground: oklch(1 0 0);
+  /* Secondary: Warm neutral for less emphasis */
+  --secondary: oklch(0.96 0.02 265);
+  --secondary-foreground: oklch(0.35 0.02 265);
+  /* Muted areas: Subtle backgrounds */
+  --muted: oklch(0.96 0.015 265);
+  --muted-foreground: oklch(0.55 0.02 265);
+  /* Accent: Coral-orange for CTAs and highlights */
+  --accent: oklch(0.65 0.18 30);
+  --accent-foreground: oklch(1 0 0);
+  /* Destructive: Clear red - WCAG AA compliant */
+  --destructive: oklch(0.55 0.18 25);
+  --destructive-foreground: oklch(1 0 0);
+  /* Borders: Soft but visible */
+  --border: oklch(0.88 0.02 265);
+  --input: oklch(0.88 0.02 265);
+  --ring: oklch(0.55 0.15 170);
+  /* Chart colors: Harmonious palette */
+  --chart-1: oklch(0.55 0.15 170);
+  --chart-2: oklch(0.65 0.18 30);
+  --chart-3: oklch(0.6 0.12 240);
+  --chart-4: oklch(0.55 0.10 150);
+  --chart-5: oklch(0.5 0.14 280);
+  /* Sidebar: Slightly more contrast than main background */
+  --sidebar: oklch(0.97 0.01 265);
+  --sidebar-foreground: oklch(0.25 0.02 265);
+  --sidebar-primary: oklch(0.55 0.15 170);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.93 0.02 265);
+  --sidebar-accent-foreground: oklch(0.35 0.02 265);
+  --sidebar-border: oklch(0.9 0.015 265);
+  --sidebar-ring: oklch(0.55 0.15 170);
+  /* Nature-themed colors - Light mode: Vibrant and purposeful */
+  /* Forest: Deep green - primary brand accent */
+  --forest: oklch(0.42 0.12 165);
+  --forest-foreground: oklch(1 0 0);
+  /* Leaf: Light green - success, positive */
+  --leaf: oklch(0.70 0.12 155);
+  --leaf-foreground: oklch(0.2 0.02 265);
+  /* Earth: Warm brown - earthy, organic feel */
+  --earth: oklch(0.50 0.08 45);
+  --earth-foreground: oklch(1 0 0);
+  /* Moss: Sage green - calm, supportive */
+  --moss: oklch(0.58 0.08 145);
+  --moss-foreground: oklch(0.2 0.02 265);
+  /* Sky: Soft blue - trust, reliability */
+  --sky: oklch(0.70 0.10 230);
+  --sky-foreground: oklch(0.2 0.02 265);
+  /* Sunset: Warm orange - energy, enthusiasm */
+  --sunset: oklch(0.72 0.16 35);
+  --sunset-foreground: oklch(0.15 0.02 265);
+  /* Bark: Dark brown - grounded, stability */
+  --bark: oklch(0.35 0.05 40);
+  --bark-foreground: oklch(1 0 0);
+  /* Growth: Vibrant green - progress, achievement */
+  --growth: oklch(0.62 0.15 155);
+  --growth-foreground: oklch(0.15 0.02 265);
+  /* Amber: Golden yellow - warning, attention */
+  --amber: oklch(0.75 0.14 80);
+  --amber-foreground: oklch(0.2 0.02 265);
+  /* Water: Ocean blue - depth, calm */
+  --water: oklch(0.65 0.12 220);
+  --water-foreground: oklch(1 0 0);
+  /* Mountain: Slate blue-gray - professional */
+  --mountain: oklch(0.52 0.08 250);
+  --mountain-foreground: oklch(1 0 0);
+  /* Sand: Warm neutral */
+  --sand: oklch(0.85 0.04 70);
+  --sand-foreground: oklch(0.25 0.02 265);
+  /* Warning: Yellow-amber */
+  --warning: oklch(0.78 0.14 85);
+  --warning-foreground: oklch(0.2 0.02 265);
+  /* Info: Sky blue */
+  --info: oklch(0.65 0.12 220);
+  --info-foreground: oklch(1 0 0);
+  /* Success: Leaf green */
+  --success: oklch(0.70 0.12 155);
+  --success-foreground: oklch(0.2 0.02 265);
   --font-sans: var(--font-sans);
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-mono: monospace;
-  --shadow-color: #000000;
-  --shadow-opacity: 0.17;
-  --shadow-blur: 3px;
+  /* Layered shadows with subtle blue tint for depth */
+  --shadow-color: oklch(0.15 0.02 265);
+  --shadow-opacity: 0.08;
+  --shadow-blur: 8px;
   --shadow-spread: 0px;
   --shadow-offset-x: 0px;
-  --shadow-offset-y: 1px;
-  --letter-spacing: 0.025em;
+  --shadow-offset-y: 2px;
+  --letter-spacing: 0.015em;
   --spacing: 0.25rem;
-  --shadow-2xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.09);
-  --shadow-xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.09);
-  --shadow-sm: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 1px 2px -1px hsl(0 0% 0% / 0.17);
-  --shadow: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 1px 2px -1px hsl(0 0% 0% / 0.17);
-  --shadow-md: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 2px 4px -1px hsl(0 0% 0% / 0.17);
-  --shadow-lg: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 4px 6px -1px hsl(0 0% 0% / 0.17);
-  --shadow-xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 8px 10px -1px hsl(0 0% 0% / 0.17);
-  --shadow-2xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.43);
-  --tracking-normal: 0.025em;
+  /* Elevated shadow system */
+  --shadow-2xs: 0px 1px 2px 0px oklch(0 0 0 / 0.04);
+  --shadow-xs: 0px 1px 3px 0px oklch(0 0 0 / 0.05), 0px 1px 2px -1px oklch(0 0 0 / 0.05);
+  --shadow-sm: 0px 2px 4px 0px oklch(0 0 0 / 0.05), 0px 1px 3px -1px oklch(0 0 0 / 0.05);
+  --shadow: 0px 2px 6px 0px oklch(0 0 0 / 0.06), 0px 1px 4px -1px oklch(0 0 0 / 0.06);
+  --shadow-md: 0px 4px 8px 0px oklch(0 0 0 / 0.07), 0px 2px 5px -1px oklch(0 0 0 / 0.07);
+  --shadow-lg: 0px 8px 16px 0px oklch(0 0 0 / 0.08), 0px 4px 8px -1px oklch(0 0 0 / 0.08);
+  --shadow-xl: 0px 12px 24px 0px oklch(0 0 0 / 0.1), 0px 6px 12px -1px oklch(0 0 0 / 0.1);
+  --shadow-2xl: 0px 20px 40px 0px oklch(0 0 0 / 0.12), 0px 8px 16px -1px oklch(0 0 0 / 0.12);
+  --tracking-normal: 0.015em;
 }
 
 .dark {
@@ -320,6 +372,42 @@ body * {
   }
   .text-amber {
     color: oklch(var(--amber));
+  }
+  .bg-water {
+    background-color: oklch(var(--water));
+  }
+  .text-water {
+    color: oklch(var(--water));
+  }
+  .bg-mountain {
+    background-color: oklch(var(--mountain));
+  }
+  .text-mountain {
+    color: oklch(var(--mountain));
+  }
+  .bg-sand {
+    background-color: oklch(var(--sand));
+  }
+  .text-sand {
+    color: oklch(var(--sand));
+  }
+  .bg-warning {
+    background-color: oklch(var(--warning));
+  }
+  .text-warning {
+    color: oklch(var(--warning));
+  }
+  .bg-info {
+    background-color: oklch(var(--info));
+  }
+  .text-info {
+    color: oklch(var(--info));
+  }
+  .bg-success {
+    background-color: oklch(var(--success));
+  }
+  .text-success {
+    color: oklch(var(--success));
   }
 
   /* Organic shapes */
