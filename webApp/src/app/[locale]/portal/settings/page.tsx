@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
+import useSWR from 'swr';
 import { Lock, Loader2, Shield, Bell, Globe, Palette, Moon, Sun, Monitor } from 'lucide-react';
-import { authApi } from '@/lib/api';
+import { authApi, preferencesApi } from '@/lib/api';
+import type { UserPreferences } from '@/lib/api/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -14,59 +16,75 @@ import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
-
-interface NotificationSettings {
-  email_task_assigned: boolean;
-  email_task_completed: boolean;
-  email_project_updates: boolean;
-  email_weekly_digest: boolean;
-  push_task_reminders: boolean;
-  push_volunteer_hours: boolean;
-  in_app_all: boolean;
-  in_app_task_updates: boolean;
-  in_app_project_updates: boolean;
-  in_app_gamification: boolean;
-}
-
-interface PreferenceSettings {
-  theme: 'light' | 'dark' | 'system';
-  timezone: string;
-  language: string;
-  compact_mode: boolean;
-  show_tutorials: boolean;
-}
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function SettingsPage() {
   const t = useTranslations('Settings');
-  const { theme, setTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const [isPasswordLoading, setIsPasswordLoading] = useState(false);
-  const [isNotificationSaving, setIsNotificationSaving] = useState(false);
-  const [isPreferenceSaving, setIsPreferenceSaving] = useState(false);
 
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [notifications, setNotifications] = useState<NotificationSettings>({
+  // Fetch preferences using SWR
+  const { data: preferences, isLoading, mutate } = useSWR<UserPreferences>(
+    'preferences',
+    () => preferencesApi.getPreferences(),
+    {
+      revalidateOnFocus: false,
+      shouldRetryOnError: false,
+    }
+  );
+
+  // Local state for form handling
+  const [notifications, setNotifications] = useState({
     email_task_assigned: true,
     email_task_completed: true,
     email_project_updates: true,
     email_weekly_digest: false,
-    push_task_reminders: true,
-    push_volunteer_hours: true,
     in_app_all: true,
     in_app_task_updates: true,
     in_app_project_updates: true,
     in_app_gamification: true,
   });
 
-  const [preferences, setPreferences] = useState<PreferenceSettings>({
-    theme: 'system',
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  const [preferencesState, setPreferencesState] = useState({
+    theme: 'system' as 'light' | 'dark' | 'system',
     language: 'en',
     compact_mode: false,
     show_tutorials: true,
   });
+
+  // Sync theme from next-themes (when changed from sidebar)
+  useEffect(() => {
+    if (resolvedTheme) {
+      setPreferencesState(prev => ({ ...prev, theme: resolvedTheme as 'light' | 'dark' | 'system' }));
+    }
+  }, [resolvedTheme]);
+
+  // Update local state when preferences are loaded
+  useEffect(() => {
+    if (preferences) {
+      setNotifications({
+        email_task_assigned: preferences.email_task_assigned,
+        email_task_completed: preferences.email_task_completed,
+        email_project_updates: preferences.email_project_updates,
+        email_weekly_digest: preferences.email_weekly_digest,
+        in_app_all: preferences.in_app_all,
+        in_app_task_updates: preferences.in_app_task_updates,
+        in_app_project_updates: preferences.in_app_project_updates,
+        in_app_gamification: preferences.in_app_gamification,
+      });
+
+      setPreferencesState({
+        theme: preferences.theme,
+        language: preferences.language,
+        compact_mode: preferences.compact_mode,
+        show_tutorials: preferences.show_tutorials,
+      });
+    }
+  }, [preferences]);
 
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -101,39 +119,38 @@ export default function SettingsPage() {
     }
   };
 
-  const handleNotificationChange = async (key: keyof NotificationSettings, value: boolean) => {
+  const handleNotificationChange = async (key: keyof typeof notifications, value: boolean) => {
     const previous = notifications[key];
     setNotifications(prev => ({ ...prev, [key]: value }));
 
-    setIsNotificationSaving(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await preferencesApi.patchPreferences({ [key]: value });
+      mutate(); // Revalidate cache
       toast.success(t('notifications.saveSuccess'));
     } catch (error) {
       setNotifications(prev => ({ ...prev, [key]: previous }));
       toast.error(t('notifications.saveError'));
-    } finally {
-      setIsNotificationSaving(false);
     }
   };
 
-  const handlePreferenceChange = async (key: keyof PreferenceSettings, value: string | boolean) => {
-    const previous = preferences[key];
-    setPreferences(prev => ({ ...prev, [key]: value }));
+  const handlePreferenceChange = async (key: keyof typeof preferencesState, value: string | boolean) => {
+    const previous = preferencesState[key];
+    setPreferencesState(prev => ({ ...prev, [key]: value }));
 
     if (key === 'theme' && typeof value === 'string') {
       setTheme(value);
     }
 
-    setIsPreferenceSaving(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await preferencesApi.patchPreferences({ [key]: value });
+      mutate(); // Revalidate cache
       toast.success(t('preferences.saveSuccess'));
     } catch (error) {
-      setPreferences(prev => ({ ...prev, [key]: previous }));
+      setPreferencesState(prev => ({ ...prev, [key]: previous }));
+      if (key === 'theme' && typeof previous === 'string') {
+        setTheme(previous);
+      }
       toast.error(t('preferences.saveError'));
-    } finally {
-      setIsPreferenceSaving(false);
     }
   };
 
@@ -142,6 +159,23 @@ export default function SettingsPage() {
     { value: 'dark', label: t('preferences.themeDark'), icon: Moon },
     { value: 'system', label: t('preferences.themeSystem'), icon: Monitor },
   ] as const;
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+        <div>
+          <Skeleton className="h-10 w-64" />
+          <Skeleton className="mt-2 h-5 w-96" />
+        </div>
+        <div className="grid gap-6">
+          <Skeleton className="h-64" />
+          <Skeleton className="h-96" />
+          <Skeleton className="h-48" />
+          <Skeleton className="h-32" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
@@ -225,7 +259,6 @@ export default function SettingsPage() {
                 <Bell className="h-5 w-5" />
                 <CardTitle>{t('notifications.title')}</CardTitle>
               </div>
-              {isNotificationSaving && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
             </div>
             <CardDescription>{t('notifications.description')}</CardDescription>
           </CardHeader>
@@ -342,7 +375,6 @@ export default function SettingsPage() {
                 <Palette className="h-5 w-5" />
                 <CardTitle>{t('preferences.title')}</CardTitle>
               </div>
-              {isPreferenceSaving && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
             </div>
             <CardDescription>{t('preferences.description')}</CardDescription>
           </CardHeader>
@@ -360,7 +392,7 @@ export default function SettingsPage() {
                       onClick={() => handlePreferenceChange('theme', item.value)}
                       className={cn(
                         'flex items-center gap-2 rounded-lg border px-4 py-2 text-sm transition-colors',
-                        theme === item.value
+                        preferencesState.theme === item.value
                           ? 'border-primary bg-primary/10 text-primary'
                           : 'border-border hover:bg-accent'
                       )}
@@ -383,7 +415,7 @@ export default function SettingsPage() {
                   <p className="text-sm text-muted-foreground">{t('preferences.compactModeDesc')}</p>
                 </div>
                 <Switch
-                  checked={preferences.compact_mode}
+                  checked={preferencesState.compact_mode}
                   onCheckedChange={(checked) => handlePreferenceChange('compact_mode', checked)}
                 />
               </div>
@@ -394,7 +426,7 @@ export default function SettingsPage() {
                   <p className="text-sm text-muted-foreground">{t('preferences.showTutorialsDesc')}</p>
                 </div>
                 <Switch
-                  checked={preferences.show_tutorials}
+                  checked={preferencesState.show_tutorials}
                   onCheckedChange={(checked) => handlePreferenceChange('show_tutorials', checked)}
                 />
               </div>

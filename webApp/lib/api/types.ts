@@ -1824,3 +1824,39 @@ export interface NewsletterUnsubscribeResponse {
   message: string;
   email: string;
 }
+
+// ==================== User Preferences Types ====================
+
+export interface UserPreferences {
+  id: number;
+  user_id: number;
+  email_task_assigned: boolean;
+  email_task_completed: boolean;
+  email_project_updates: boolean;
+  email_weekly_digest: boolean;
+  in_app_all: boolean;
+  in_app_task_updates: boolean;
+  in_app_project_updates: boolean;
+  in_app_gamification: boolean;
+  theme: 'light' | 'dark' | 'system';
+  compact_mode: boolean;
+  show_tutorials: boolean;
+  language: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface UserPreferencesUpdate {
+  email_task_assigned?: boolean;
+  email_task_completed?: boolean;
+  email_project_updates?: boolean;
+  email_weekly_digest?: boolean;
+  in_app_all?: boolean;
+  in_app_task_updates?: boolean;
+  in_app_project_updates?: boolean;
+  in_app_gamification?: boolean;
+  theme?: 'light' | 'dark' | 'system';
+  compact_mode?: boolean;
+  show_tutorials?: boolean;
+  language?: string;
+}

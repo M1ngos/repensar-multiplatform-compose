@@ -4,6 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
+import useSWR from 'swr';
 import {
     LayoutDashboard,
     FolderKanban,
@@ -46,6 +47,7 @@ import {
 } from '@/components/ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
+import { preferencesApi } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { Moon, Sun, Monitor } from 'lucide-react';
 import { useTheme } from 'next-themes';
@@ -384,15 +386,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent side="top" align="end" className="w-[--radix-dropdown-menu-trigger-width]">
-                                <DropdownMenuItem onClick={() => setTheme('light')}>
+                                <DropdownMenuItem onClick={() => {
+                                    setTheme('light');
+                                    preferencesApi.patchPreferences({ theme: 'light' });
+                                }}>
                                     <Sun className="mr-2 size-4" />
                                     {t('nav.themeLight')}
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => setTheme('dark')}>
+                                <DropdownMenuItem onClick={() => {
+                                    setTheme('dark');
+                                    preferencesApi.patchPreferences({ theme: 'dark' });
+                                }}>
                                     <Moon className="mr-2 size-4" />
                                     {t('nav.themeDark')}
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => setTheme('system')}>
+                                <DropdownMenuItem onClick={() => {
+                                    setTheme('system');
+                                    preferencesApi.patchPreferences({ theme: 'system' });
+                                }}>
                                     <Monitor className="mr-2 size-4" />
                                     {t('nav.themeSystem')}
                                 </DropdownMenuItem>
