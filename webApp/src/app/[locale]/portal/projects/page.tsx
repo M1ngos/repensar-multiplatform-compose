@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
-import { Plus, Search, Filter, MapPin, Users, FolderKanban } from 'lucide-react';
+import { Plus, Search, Filter, MapPin, Users, FolderKanban, CircleHelp } from 'lucide-react';
+import { useTour } from '@/lib/hooks/useTour';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { projectsApi } from '@/lib/api';
 import type { ProjectQueryParams, ProjectStatus, ProjectCategory } from '@/lib/api/types';
 import { Button } from '@/components/ui/button';
@@ -39,7 +41,16 @@ const PROJECT_CATEGORIES = [
 
 export default function ProjectsPage() {
     const t = useTranslations('Projects');
+    const tTour = useTranslations('Tour.projects');
+    const tTourCommon = useTranslations('Tour');
     const locale = useLocale();
+    const { startTour } = useTour({
+        tourId: 'projects',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState<(typeof PROJECT_STATUSES)[number] | 'all'>('all');
     const [categoryFilter, setCategoryFilter] = useState<(typeof PROJECT_CATEGORIES)[number] | 'all'>('all');
@@ -98,14 +109,25 @@ export default function ProjectsPage() {
                     <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
                     <p className="text-muted-foreground">{t('subtitle')}</p>
                 </div>
-                <Button onClick={() => setIsFormOpen(true)}>
-                    <Plus className="mr-2 h-4 w-4" />
-                    {t('newProject')}
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon" onClick={startTour} className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                                <CircleHelp className="h-4 w-4" />
+                                <span className="sr-only">{tTourCommon('takeTour')}</span>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{tTourCommon('takeTour')}</TooltipContent>
+                    </Tooltip>
+                    <Button onClick={() => setIsFormOpen(true)}>
+                        <Plus className="mr-2 h-4 w-4" />
+                        {t('newProject')}
+                    </Button>
+                </div>
             </div>
 
             {/* Filters */}
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center" data-tour="projects-filters">
                 <div className="relative flex-1">
                     <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
@@ -146,7 +168,7 @@ export default function ProjectsPage() {
             </div>
 
             {/* Projects Grid */}
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-tour="projects-grid">
                     {isLoading ? (
                         // Loading skeleton
                         Array.from({ length: 6 }).map((_, i) => (

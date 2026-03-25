@@ -3,10 +3,13 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
-import { TrendingUp, Users, CheckCircle, Clock, DollarSign, BarChart3 } from 'lucide-react';
+import { TrendingUp, Users, CheckCircle, Clock, DollarSign, BarChart3, CircleHelp } from 'lucide-react';
+import { useTour } from '@/lib/hooks/useTour';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { analyticsApi } from '@/lib/api';
 import { Granularity } from '@/lib/api/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
     Select,
@@ -21,6 +24,15 @@ type DateRange = '7days' | '30days' | '3months' | '6months' | '1year';
 
 export default function AnalyticsPage() {
     const t = useTranslations('Analytics');
+    const tTour = useTranslations('Tour.analytics');
+    const tTourCommon = useTranslations('Tour');
+    const { startTour } = useTour({
+        tourId: 'analytics',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
     const [dateRange, setDateRange] = useState<DateRange>('30days');
 
     // Calculate date range
@@ -79,7 +91,17 @@ export default function AnalyticsPage() {
                     <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
                     <p className="text-muted-foreground">{t('subtitle')}</p>
                 </div>
-                <Select value={dateRange} onValueChange={(value) => setDateRange(value as DateRange)}>
+                <div className="flex items-center gap-2">
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon" onClick={startTour} className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                                <CircleHelp className="h-4 w-4" />
+                                <span className="sr-only">{tTourCommon('takeTour')}</span>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{tTourCommon('takeTour')}</TooltipContent>
+                    </Tooltip>
+                    <Select value={dateRange} onValueChange={(value) => setDateRange(value as DateRange)}>
                     <SelectTrigger className="w-full sm:w-[180px]">
                         <SelectValue />
                     </SelectTrigger>
@@ -91,6 +113,7 @@ export default function AnalyticsPage() {
                         <SelectItem value="1year">{t('dateRanges.1year')}</SelectItem>
                     </SelectContent>
                 </Select>
+                </div>
             </div>
 
             {isLoading ? (
@@ -115,6 +138,7 @@ export default function AnalyticsPage() {
                     <p className="text-muted-foreground">{t('noDataDesc')}</p>
                 </div>
             ) : (
+                <div data-tour="analytics-stats">
                 <>
                     {/* Project Metrics */}
                     <div>
@@ -331,6 +355,7 @@ export default function AnalyticsPage() {
                         </Card>
                     )}
                 </>
+                </div>
             )}
         </div>
     );

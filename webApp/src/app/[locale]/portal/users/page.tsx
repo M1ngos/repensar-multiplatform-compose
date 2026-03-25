@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import useSWR from 'swr';
-import { Search, Filter, User as UserIcon, Shield, Plus } from 'lucide-react';
+import { Search, Filter, User as UserIcon, Shield, Plus, CircleHelp } from 'lucide-react';
+import { useTour } from '@/lib/hooks/useTour';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { usersApi } from '@/lib/api';
 import { useAuth } from '@/lib/hooks/useAuth';
 import type { UserSummary, UserQueryParams, UserCreate } from '@/lib/api/users';
@@ -25,9 +27,18 @@ import { CreateUserDialog } from './create-user-dialog';
 
 export default function UsersPage() {
   const t = useTranslations('Users');
+  const tTour = useTranslations('Tour.users');
+  const tTourCommon = useTranslations('Tour');
   const locale = useLocale();
   const { user: currentUser } = useAuth();
   const isAdmin = currentUser?.user_type === 'admin';
+  const { startTour } = useTour({
+    tourId: 'users',
+    tSteps: tTour,
+    nextBtnText: tTourCommon('next'),
+    prevBtnText: tTourCommon('prev'),
+    doneBtnText: tTourCommon('done'),
+  });
 
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
@@ -90,16 +101,27 @@ export default function UsersPage() {
           <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
           <p className="text-muted-foreground">{t('subtitle')}</p>
         </div>
-        {isAdmin && (
-          <Button onClick={() => setIsCreateDialogOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" />
-            {t('newUser')}
-          </Button>
-        )}
+        <div className="flex items-center gap-2">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={startTour} className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                  <CircleHelp className="h-4 w-4" />
+                  <span className="sr-only">{tTourCommon('takeTour')}</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{tTourCommon('takeTour')}</TooltipContent>
+            </Tooltip>
+            {isAdmin && (
+              <Button onClick={() => setIsCreateDialogOpen(true)}>
+                <Plus className="mr-2 h-4 w-4" />
+                {t('newUser')}
+              </Button>
+            )}
+        </div>
       </div>
 
       {/* Filters */}
-      <Card>
+      <Card data-tour="users-filters">
         <CardContent className="pt-6">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
             <div className="relative flex-1">
@@ -127,7 +149,7 @@ export default function UsersPage() {
       </Card>
 
       {/* Users Grid */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-tour="users-table">
         {isLoading ? (
           // Loading skeleton
           Array.from({ length: 6 }).map((_, i) => (

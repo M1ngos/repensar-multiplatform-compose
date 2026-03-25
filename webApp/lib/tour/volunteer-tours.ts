@@ -1,4 +1,22 @@
-export type TourId = 'my-tasks' | 'available-tasks' | 'my-hours' | 'achievements' | 'dashboard';
+export type TourId =
+    // Volunteer pages
+    | 'my-tasks'
+    | 'available-tasks'
+    | 'my-hours'
+    | 'achievements'
+    | 'dashboard'
+    // Admin / PM / Staff pages
+    | 'projects'
+    | 'tasks'
+    | 'volunteers'
+    | 'resources'
+    | 'approvals'
+    | 'reports'
+    | 'analytics'
+    | 'users'
+    | 'team'
+    | 'gamification'
+    | 'my-projects';
 
 export const TOUR_SEEN_KEY = (tourId: TourId) => `tour_seen_${tourId}`;
 
@@ -30,6 +48,7 @@ export type TourStepDef = {
 };
 
 export const TOUR_STEPS: Record<TourId, TourStepDef[]> = {
+    // ── Volunteer ──────────────────────────────────────────────────────────────
     dashboard: [
         {
             element: '[data-tour="stat-cards"]',
@@ -94,6 +113,122 @@ export const TOUR_STEPS: Record<TourId, TourStepDef[]> = {
         {
             element: '[data-tour="achievement-tabs"]',
             popover: { titleKey: 'tabs.title', descriptionKey: 'tabs.desc', side: 'bottom' },
+        },
+    ],
+
+    // ── Admin / PM / Staff ─────────────────────────────────────────────────────
+    projects: [
+        {
+            element: '[data-tour="projects-filters"]',
+            popover: { titleKey: 'filters.title', descriptionKey: 'filters.desc', side: 'bottom' },
+        },
+        {
+            element: '[data-tour="projects-grid"]',
+            popover: { titleKey: 'grid.title', descriptionKey: 'grid.desc', side: 'top' },
+        },
+    ],
+    tasks: [
+        {
+            element: '[data-tour="tasks-filters"]',
+            popover: { titleKey: 'filters.title', descriptionKey: 'filters.desc', side: 'bottom' },
+        },
+        {
+            element: '[data-tour="tasks-view-toggle"]',
+            popover: { titleKey: 'viewToggle.title', descriptionKey: 'viewToggle.desc', side: 'bottom' },
+        },
+        {
+            element: '[data-tour="tasks-board"]',
+            popover: { titleKey: 'board.title', descriptionKey: 'board.desc', side: 'top' },
+        },
+    ],
+    volunteers: [
+        {
+            element: '[data-tour="volunteers-filters"]',
+            popover: { titleKey: 'filters.title', descriptionKey: 'filters.desc', side: 'bottom' },
+        },
+        {
+            element: '[data-tour="volunteers-grid"]',
+            popover: { titleKey: 'grid.title', descriptionKey: 'grid.desc', side: 'top' },
+        },
+    ],
+    resources: [
+        {
+            element: '[data-tour="resources-filters"]',
+            popover: { titleKey: 'filters.title', descriptionKey: 'filters.desc', side: 'bottom' },
+        },
+        {
+            element: '[data-tour="resources-grid"]',
+            popover: { titleKey: 'grid.title', descriptionKey: 'grid.desc', side: 'top' },
+        },
+    ],
+    approvals: [
+        {
+            element: '[data-tour="approvals-filters"]',
+            popover: { titleKey: 'filters.title', descriptionKey: 'filters.desc', side: 'bottom' },
+        },
+        {
+            element: '[data-tour="approvals-table"]',
+            popover: { titleKey: 'table.title', descriptionKey: 'table.desc', side: 'top' },
+        },
+    ],
+    reports: [
+        {
+            element: '[data-tour="reports-tabs"]',
+            popover: { titleKey: 'tabs.title', descriptionKey: 'tabs.desc', side: 'bottom' },
+        },
+        {
+            element: '[data-tour="reports-export"]',
+            popover: { titleKey: 'export.title', descriptionKey: 'export.desc', side: 'bottom' },
+        },
+    ],
+    analytics: [
+        {
+            element: '[data-tour="analytics-stats"]',
+            popover: { titleKey: 'stats.title', descriptionKey: 'stats.desc', side: 'bottom' },
+        },
+        {
+            element: '[data-tour="analytics-charts"]',
+            popover: { titleKey: 'charts.title', descriptionKey: 'charts.desc', side: 'top' },
+        },
+    ],
+    users: [
+        {
+            element: '[data-tour="users-filters"]',
+            popover: { titleKey: 'filters.title', descriptionKey: 'filters.desc', side: 'bottom' },
+        },
+        {
+            element: '[data-tour="users-table"]',
+            popover: { titleKey: 'table.title', descriptionKey: 'table.desc', side: 'top' },
+        },
+    ],
+    team: [
+        {
+            element: '[data-tour="team-filters"]',
+            popover: { titleKey: 'filters.title', descriptionKey: 'filters.desc', side: 'bottom' },
+        },
+        {
+            element: '[data-tour="team-grid"]',
+            popover: { titleKey: 'grid.title', descriptionKey: 'grid.desc', side: 'top' },
+        },
+    ],
+    gamification: [
+        {
+            element: '[data-tour="gamification-search"]',
+            popover: { titleKey: 'search.title', descriptionKey: 'search.desc', side: 'bottom' },
+        },
+        {
+            element: '[data-tour="gamification-award"]',
+            popover: { titleKey: 'award.title', descriptionKey: 'award.desc', side: 'bottom' },
+        },
+    ],
+    'my-projects': [
+        {
+            element: '[data-tour="my-projects-grid"]',
+            popover: { titleKey: 'grid.title', descriptionKey: 'grid.desc', side: 'top' },
+        },
+        {
+            element: '[data-tour="my-projects-stats"]',
+            popover: { titleKey: 'stats.title', descriptionKey: 'stats.desc', side: 'bottom' },
         },
     ],
 };

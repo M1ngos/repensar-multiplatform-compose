@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import useSWR from 'swr';
-import { Plus, Search, Filter, Clock, Award } from 'lucide-react';
+import { Plus, Search, Filter, Clock, Award, CircleHelp } from 'lucide-react';
+import { useTour } from '@/lib/hooks/useTour';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { volunteersApi } from '@/lib/api';
 import type { VolunteerSummary, VolunteerQueryParams } from '@/lib/api/types';
 import { VolunteerStatus } from '@/lib/api/types';
@@ -60,6 +62,16 @@ export default function VolunteersPage() {
         }
     };
 
+    const tTour = useTranslations('Tour.volunteers');
+    const tTourCommon = useTranslations('Tour');
+    const { startTour } = useTour({
+        tourId: 'volunteers',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
+
     return (
         <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
             {/* Header */}
@@ -68,14 +80,25 @@ export default function VolunteersPage() {
                     <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
                     <p className="text-muted-foreground">{t('subtitle')}</p>
                 </div>
+                <div className="flex items-center gap-2">
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon" onClick={startTour} className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                                <CircleHelp className="h-4 w-4" />
+                                <span className="sr-only">{tTourCommon('takeTour')}</span>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{tTourCommon('takeTour')}</TooltipContent>
+                    </Tooltip>
                     <Button>
                         <Plus className="mr-2 h-4 w-4" />
                         {t('newVolunteer')}
                     </Button>
                 </div>
+            </div>
 
-                {/* Filters */}
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+            {/* Filters */}
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center" data-tour="volunteers-filters">
                     <div className="relative flex-1">
                         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                         <Input
@@ -102,7 +125,7 @@ export default function VolunteersPage() {
                 </div>
 
                 {/* Volunteers Grid */}
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-tour="volunteers-grid">
                     {isLoading ? (
                         // Loading skeleton
                         Array.from({ length: 6 }).map((_, i) => (

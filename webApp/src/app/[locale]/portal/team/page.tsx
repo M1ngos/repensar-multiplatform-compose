@@ -4,7 +4,10 @@ import React, { useState } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useTranslations, useLocale } from 'next-intl';
 import useSWR from 'swr';
-import { Search } from 'lucide-react';
+import { Search, CircleHelp } from 'lucide-react';
+import { useTour } from '@/lib/hooks/useTour';
+import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { PageHeader } from '@/components/shared/page-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -28,6 +31,15 @@ export default function TeamPage() {
     const { user } = useAuth();
     const locale = useLocale();
     const t = useTranslations('ProjectManager');
+    const tTour = useTranslations('Tour.team');
+    const tTourCommon = useTranslations('Tour');
+    const { startTour } = useTour({
+        tourId: 'team',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
     const [searchQuery, setSearchQuery] = useState('');
 
     // Fetch PM's projects
@@ -111,10 +123,21 @@ export default function TeamPage() {
             <PageHeader
                 title={t('team.title')}
                 description={t('team.subtitle')}
+                actions={
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon" onClick={startTour} className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                                <CircleHelp className="h-4 w-4" />
+                                <span className="sr-only">{tTourCommon('takeTour')}</span>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{tTourCommon('takeTour')}</TooltipContent>
+                    </Tooltip>
+                }
             />
 
             {/* Search */}
-            <div className="max-w-sm">
+            <div className="max-w-sm" data-tour="team-filters">
                 <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
@@ -163,7 +186,7 @@ export default function TeamPage() {
             </div>
 
             {/* Team Table */}
-            <Card>
+            <Card data-tour="team-grid">
                 <CardContent className="pt-6">
                     {filteredTeam.length === 0 ? (
                         <Empty>

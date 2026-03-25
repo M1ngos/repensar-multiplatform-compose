@@ -20,7 +20,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { Award, Trophy, Star, Loader2, Search } from 'lucide-react';
+import { Award, Trophy, Star, Loader2, Search, CircleHelp } from 'lucide-react';
+import { useTour } from '@/lib/hooks/useTour';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -29,7 +31,16 @@ import type { Badge as BadgeType, VolunteerSummary, PointsHistory } from '@/lib/
 
 export default function GamificationAwardsPage() {
     const t = useTranslations('StaffMember.gamification');
+    const tTour = useTranslations('Tour.gamification');
+    const tTourCommon = useTranslations('Tour');
     const { user, isAuthLoading } = useAuth();
+    const { startTour } = useTour({
+        tourId: 'gamification',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
 
     // Tab state
     const [activeTab, setActiveTab] = useState<'badges' | 'points'>('badges');
@@ -199,9 +210,20 @@ export default function GamificationAwardsPage() {
     return (
         <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
             {/* Header */}
-            <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
-                <p className="text-muted-foreground">{t('description')}</p>
+            <div className="flex items-start justify-between gap-4">
+                <div className="space-y-2">
+                    <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
+                    <p className="text-muted-foreground">{t('description')}</p>
+                </div>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon" onClick={startTour} className="h-8 w-8 text-muted-foreground hover:text-foreground shrink-0">
+                            <CircleHelp className="h-4 w-4" />
+                            <span className="sr-only">{tTourCommon('takeTour')}</span>
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>{tTourCommon('takeTour')}</TooltipContent>
+                </Tooltip>
             </div>
 
             <div className="grid gap-6 lg:grid-cols-3">
@@ -232,7 +254,7 @@ export default function GamificationAwardsPage() {
                                     {/* Volunteer Selection */}
                                     <div className="space-y-2">
                                         <Label>{t('awardBadge.selectVolunteer')}</Label>
-                                        <div className="relative">
+                                        <div className="relative" data-tour="gamification-search">
                                             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                                             <Input
                                                 placeholder={t('awardBadge.selectVolunteerPlaceholder')}
@@ -343,6 +365,7 @@ export default function GamificationAwardsPage() {
 
                                             {/* Submit Button */}
                                             <Button
+                                                data-tour="gamification-award"
                                                 onClick={handleAwardBadge}
                                                 disabled={!selectedBadge || isAwardingBadge}
                                                 className="w-full"

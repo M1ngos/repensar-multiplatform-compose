@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import useSWR from 'swr';
-import { Plus, Search, Filter, Package, Wrench, DollarSign, Users as UsersIcon } from 'lucide-react';
+import { Plus, Search, Filter, Package, Wrench, DollarSign, Users as UsersIcon, CircleHelp } from 'lucide-react';
+import { useTour } from '@/lib/hooks/useTour';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { resourcesApi } from '@/lib/api';
 import { ResourceType } from '@/lib/api/types';
 import type { ResourceQueryParams } from '@/lib/api/types';
@@ -81,6 +83,16 @@ export default function ResourcesPage() {
         }
     };
 
+    const tTour = useTranslations('Tour.resources');
+    const tTourCommon = useTranslations('Tour');
+    const { startTour } = useTour({
+        tourId: 'resources',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
+
     return (
         <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
             {/* Header */}
@@ -89,14 +101,25 @@ export default function ResourcesPage() {
                     <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
                     <p className="text-muted-foreground">{t('subtitle')}</p>
                 </div>
-                <Button onClick={() => setIsFormDialogOpen(true)}>
-                    <Plus className="mr-2 h-4 w-4" />
-                    {t('newResource')}
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon" onClick={startTour} className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                                <CircleHelp className="h-4 w-4" />
+                                <span className="sr-only">{tTourCommon('takeTour')}</span>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{tTourCommon('takeTour')}</TooltipContent>
+                    </Tooltip>
+                    <Button onClick={() => setIsFormDialogOpen(true)}>
+                        <Plus className="mr-2 h-4 w-4" />
+                        {t('newResource')}
+                    </Button>
+                </div>
             </div>
 
             {/* Filters */}
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center" data-tour="resources-filters">
                 <div className="relative flex-1">
                     <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
@@ -134,6 +157,7 @@ export default function ResourcesPage() {
             </div>
 
             {/* Resources Grid */}
+            <div data-tour="resources-grid">
             {isLoading ? (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {Array.from({ length: 6 }).map((_, i) => (
@@ -225,6 +249,8 @@ export default function ResourcesPage() {
                     ))}
                 </div>
             )}
+
+            </div>
 
             {/* Create/Edit Resource Dialog */}
             <ResourceFormDialog

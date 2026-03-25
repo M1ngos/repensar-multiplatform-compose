@@ -2792,6 +2792,51 @@
     "achievements": {
       "stats": { "title": "Your Progress", "desc": "Points earned, badges collected, current streak, and your global rank — all at a glance." },
       "tabs": { "title": "Explore Achievements", "desc": "Switch between Badges, Points history, and Achievements with progress bars to see how far you've come." }
+    },
+    "projects": {
+      "filters": { "title": "Filter Projects", "desc": "Search by name and filter by status or category to find the projects you're looking for." },
+      "grid": { "title": "Projects Grid", "desc": "Each card shows the project's status, progress, location, and assigned volunteers. Click a project to view full details." }
+    },
+    "tasks": {
+      "filters": { "title": "Filter Tasks", "desc": "Search, filter by status, priority, or project to zero in on the tasks that need attention." },
+      "viewToggle": { "title": "Switch View", "desc": "Toggle between Kanban (drag-and-drop columns) and Table view depending on how you prefer to work." },
+      "board": { "title": "Task Board", "desc": "Manage all tasks here. Click a task to edit, or drag it between columns to update its status in Kanban view." }
+    },
+    "volunteers": {
+      "filters": { "title": "Filter Volunteers", "desc": "Search by name or filter by status (Active, Inactive, Suspended) to find specific volunteers." },
+      "grid": { "title": "Volunteer Cards", "desc": "Each card shows the volunteer's status, hours contributed, badges earned, and skills. Click to view their full profile." }
+    },
+    "resources": {
+      "filters": { "title": "Filter Resources", "desc": "Search by name and filter by type (Human, Equipment, Material, Financial) or active status." },
+      "grid": { "title": "Resources", "desc": "All available resources. Click a resource card to view or edit details." }
+    },
+    "approvals": {
+      "filters": { "title": "Filter Approvals", "desc": "Filter by project, volunteer, date range, or search to find specific time log entries awaiting review." },
+      "table": { "title": "Pending Approvals", "desc": "Review each time log entry here. Click Approve to confirm hours or Reject to decline with a note." }
+    },
+    "reports": {
+      "tabs": { "title": "Export Reports", "desc": "Choose a report type (Projects, Volunteers, Tasks, Time Logs) and apply filters before exporting." },
+      "export": { "title": "Export Formats", "desc": "Download reports as CSV for spreadsheets or JSON for developer integrations." }
+    },
+    "analytics": {
+      "stats": { "title": "Key Metrics", "desc": "High-level numbers for projects, volunteers, tasks, and hours — updated in real time." },
+      "charts": { "title": "Trends & Charts", "desc": "Visualise activity trends over your selected date range. Use the dropdown in the header to change the period." }
+    },
+    "users": {
+      "filters": { "title": "Filter Users", "desc": "Search by name or email and filter by active status to find specific user accounts." },
+      "table": { "title": "User List", "desc": "All registered users. Click a user to view their profile or manage their account details." }
+    },
+    "team": {
+      "filters": { "title": "Search Team", "desc": "Type a name to search your project team members." },
+      "grid": { "title": "Team Members", "desc": "Your assigned volunteers and staff. Click a row to view their full volunteer profile." }
+    },
+    "gamification": {
+      "search": { "title": "Find a Volunteer", "desc": "Search for a volunteer by name to award them a badge or points." },
+      "award": { "title": "Award Button", "desc": "Once you've selected a volunteer and a badge (or entered points), click here to confirm the award." }
+    },
+    "my-projects": {
+      "grid": { "title": "Your Projects", "desc": "All projects you manage. Click a card to open the project details, tasks, and volunteer assignments." },
+      "stats": { "title": "Filter by Status", "desc": "Switch between All, Active, Completed, and On Hold to focus on the projects that need your attention." }
     }
   },
   "Onboarding": {

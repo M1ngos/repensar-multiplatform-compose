@@ -6,13 +6,14 @@ import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
 import { useTour } from '@/lib/hooks/useTour';
 import useSWR from 'swr';
-import { Star, Clock, Award, CheckSquare, Calendar, ArrowRight, AlertCircle, Search } from 'lucide-react';
+import { Star, Clock, Award, CheckSquare, Calendar, ArrowRight, AlertCircle, Search, CircleHelp } from 'lucide-react';
 import { StatCard } from '@/components/shared/stat-card';
 import { PageHeader } from '@/components/shared/page-header';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription } from '@/components/ui/empty';
 import { gamificationApi } from '@/lib/api/gamification';
 import { volunteersApi } from '@/lib/api/volunteers';
@@ -164,9 +165,15 @@ export function VolunteerDashboard() {
                 title={`${t('welcome')}, ${user?.name?.split(' ')[0] || 'Volunteer'}!`}
                 description={tVolunteer('dashboard.subtitle')}
                 actions={
-                    <Button variant="outline" size="sm" onClick={startTour}>
-                        {tTourCommon('takeTour')}
-                    </Button>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon" onClick={startTour} className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                                <CircleHelp className="h-4 w-4" />
+                                <span className="sr-only">{tTourCommon('takeTour')}</span>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{tTourCommon('takeTour')}</TooltipContent>
+                    </Tooltip>
                 }
             />
 

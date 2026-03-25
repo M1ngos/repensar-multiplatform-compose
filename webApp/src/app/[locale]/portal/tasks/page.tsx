@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
-import { Plus, Search, Filter, LayoutGrid, List } from 'lucide-react';
+import { Plus, Search, Filter, LayoutGrid, List, CircleHelp } from 'lucide-react';
+import { useTour } from '@/lib/hooks/useTour';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { tasksApi, projectsApi } from '@/lib/api';
 import type { TaskSummary, TaskDetail, TaskQueryParams, TaskStatus, TaskPriority } from '@/lib/api/types';
 import { Button } from '@/components/ui/button';
@@ -28,6 +30,15 @@ type ViewMode = 'kanban' | 'table';
 
 export default function TasksPage() {
     const t = useTranslations('Tasks');
+    const tTour = useTranslations('Tour.tasks');
+    const tTourCommon = useTranslations('Tour');
+    const { startTour } = useTour({
+        tourId: 'tasks',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState<TaskStatus | 'all'>('all');
     const [priorityFilter, setPriorityFilter] = useState<TaskPriority | 'all'>('all');
@@ -63,14 +74,25 @@ export default function TasksPage() {
                     <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
                     <p className="text-muted-foreground">{t('subtitle')}</p>
                 </div>
-                <Button onClick={() => setIsFormOpen(true)}>
-                    <Plus className="mr-2 h-4 w-4" />
-                    {t('newTask')}
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon" onClick={startTour} className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                                <CircleHelp className="h-4 w-4" />
+                                <span className="sr-only">{tTourCommon('takeTour')}</span>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{tTourCommon('takeTour')}</TooltipContent>
+                    </Tooltip>
+                    <Button onClick={() => setIsFormOpen(true)}>
+                        <Plus className="mr-2 h-4 w-4" />
+                        {t('newTask')}
+                    </Button>
+                </div>
             </div>
 
             {/* View Toggle and Filters */}
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between" data-tour="tasks-filters">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center flex-1">
                     <div className="relative flex-1">
                         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -123,7 +145,7 @@ export default function TasksPage() {
                     </Select>
                 </div>
 
-                <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as ViewMode)}>
+                <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as ViewMode)} data-tour="tasks-view-toggle">
                     <TabsList>
                         <TabsTrigger value="kanban">
                             <LayoutGrid className="mr-2 h-4 w-4" />
@@ -138,6 +160,7 @@ export default function TasksPage() {
             </div>
 
             {/* Views */}
+            <div data-tour="tasks-board">
             {viewMode === 'kanban' ? (
                 <TasksKanbanView
                     tasks={tasks}
@@ -176,6 +199,7 @@ export default function TasksPage() {
                 taskId={assignTaskId ?? 0}
                 onSuccess={() => mutate()}
             />
+            </div>
         </div>
     );
 }

@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useTranslations, useLocale } from 'next-intl';
 import useSWR from 'swr';
-import { Plus, Calendar, Users, Trash2 } from 'lucide-react';
+import { Plus, Calendar, Users, Trash2, CircleHelp } from 'lucide-react';
+import { useTour } from '@/lib/hooks/useTour';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { PageHeader } from '@/components/shared/page-header';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -34,6 +36,15 @@ export default function MyProjectsPage() {
     const { user } = useAuth();
     const locale = useLocale();
     const t = useTranslations('ProjectManager');
+    const tTour = useTranslations('Tour.my-projects');
+    const tTourCommon = useTranslations('Tour');
+    const { startTour } = useTour({
+        tourId: 'my-projects',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
 
     const [statusFilter, setStatusFilter] = useState('all');
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -101,15 +112,26 @@ export default function MyProjectsPage() {
                 title={t('myProjects.title')}
                 description={t('myProjects.subtitle')}
                 actions={
-                    <Button onClick={() => setCreateDialogOpen(true)}>
-                        <Plus className="mr-2 h-4 w-4" />
-                        {t('myProjects.newProject')}
-                    </Button>
+                    <div className="flex items-center gap-2">
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="ghost" size="icon" onClick={startTour} className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                                    <CircleHelp className="h-4 w-4" />
+                                    <span className="sr-only">{tTourCommon('takeTour')}</span>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>{tTourCommon('takeTour')}</TooltipContent>
+                        </Tooltip>
+                        <Button onClick={() => setCreateDialogOpen(true)}>
+                            <Plus className="mr-2 h-4 w-4" />
+                            {t('myProjects.newProject')}
+                        </Button>
+                    </div>
                 }
             />
 
             {/* Status Filter Tabs */}
-            <Tabs value={statusFilter} onValueChange={setStatusFilter}>
+            <Tabs value={statusFilter} onValueChange={setStatusFilter} data-tour="my-projects-stats">
                 <TabsList className="grid w-full grid-cols-4 lg:w-auto">
                     <TabsTrigger value="all">{t('myProjects.filters.all')}</TabsTrigger>
                     <TabsTrigger value="active">{t('myProjects.filters.active')}</TabsTrigger>
@@ -130,7 +152,7 @@ export default function MyProjectsPage() {
                             </CardContent>
                         </Card>
                     ) : (
-                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-tour="my-projects-grid">
                             {filteredProjects.map((project) => (
                                 <Card key={project.id} className={cn(
                                     project.status === ProjectStatus.COMPLETED && 'border-emerald-500',

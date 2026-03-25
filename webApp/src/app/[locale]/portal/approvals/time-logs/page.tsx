@@ -30,7 +30,9 @@ import {
 } from '@/components/ui/select';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Calendar as CalendarIcon, Clock, Filter, CheckCircle2, XCircle, Eye, Loader2 } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, Filter, CheckCircle2, XCircle, Eye, Loader2, CircleHelp } from 'lucide-react';
+import { useTour } from '@/lib/hooks/useTour';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -40,7 +42,16 @@ import type { VolunteerTimeLog } from '@/lib/api/types';
 
 export default function TimeLogsApprovalPage() {
     const t = useTranslations('Approvals');
+    const tTour = useTranslations('Tour.approvals');
+    const tTourCommon = useTranslations('Tour');
     const { user, isAuthLoading } = useAuth();
+    const { startTour } = useTour({
+        tourId: 'approvals',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
 
     // Filters state (must declare all hooks before conditional returns)
     const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
@@ -192,14 +203,25 @@ export default function TimeLogsApprovalPage() {
                         {t('subtitle')}
                     </p>
                 </div>
-                <Badge variant="outline" className="text-lg px-4 py-2">
-                    <Clock className="w-4 h-4 mr-2" />
-                    {filteredTimeLogs.length} {t('pending')}
-                </Badge>
+                <div className="flex items-center gap-2">
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon" onClick={startTour} className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                                <CircleHelp className="h-4 w-4" />
+                                <span className="sr-only">{tTourCommon('takeTour')}</span>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{tTourCommon('takeTour')}</TooltipContent>
+                    </Tooltip>
+                    <Badge variant="outline" className="text-lg px-4 py-2">
+                        <Clock className="w-4 h-4 mr-2" />
+                        {filteredTimeLogs.length} {t('pending')}
+                    </Badge>
+                </div>
             </div>
 
             {/* Filters */}
-            <Card>
+            <Card data-tour="approvals-filters">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <Filter className="w-5 h-5" />
@@ -322,7 +344,7 @@ export default function TimeLogsApprovalPage() {
             )}
 
             {/* Time Logs Table */}
-            <Card>
+            <Card data-tour="approvals-table">
                 <CardHeader>
                     <CardTitle>{t('table.title')}</CardTitle>
                     <CardDescription>

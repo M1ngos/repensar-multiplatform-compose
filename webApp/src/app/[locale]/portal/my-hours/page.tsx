@@ -9,6 +9,8 @@ import { volunteersApi } from '@/lib/api';
 import { PageHeader } from '@/components/shared/page-header';
 import { StatCard } from '@/components/shared/stat-card';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { CircleHelp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Table,
@@ -143,9 +145,15 @@ export default function MyHoursPage() {
                 description={t('subtitle')}
                 actions={
                     <div className="flex items-center gap-2">
-                        <Button variant="outline" size="sm" onClick={startTour}>
-                            {tTourCommon('takeTour')}
-                        </Button>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="ghost" size="icon" onClick={startTour} className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                                    <CircleHelp className="h-4 w-4" />
+                                    <span className="sr-only">{tTourCommon('takeTour')}</span>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>{tTourCommon('takeTour')}</TooltipContent>
+                        </Tooltip>
                         {canManuallyLogHours(user) && (
                             <Button onClick={() => setLogHoursOpen(true)} data-tour="log-hours-btn">
                                 <Plus className="mr-2 h-4 w-4" />

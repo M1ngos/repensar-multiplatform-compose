@@ -2794,6 +2794,51 @@
     "achievements": {
       "stats": { "title": "O Seu Progresso", "desc": "Pontos ganhos, crachás colecionados, sequência atual e classificação global — tudo de um relance." },
       "tabs": { "title": "Explorar Conquistas", "desc": "Alterne entre Crachás, Histórico de Pontos e Conquistas com barras de progresso." }
+    },
+    "projects": {
+      "filters": { "title": "Filtrar Projetos", "desc": "Pesquise por nome e filtre por estado ou categoria para encontrar os projetos que procura." },
+      "grid": { "title": "Grelha de Projetos", "desc": "Cada cartão mostra o estado, progresso, localização e voluntários do projeto. Clique para ver todos os detalhes." }
+    },
+    "tasks": {
+      "filters": { "title": "Filtrar Tarefas", "desc": "Pesquise e filtre por estado, prioridade ou projeto para focar nas tarefas que precisam de atenção." },
+      "viewToggle": { "title": "Alternar Vista", "desc": "Alterne entre Kanban (colunas de arrastar e largar) e Vista de Tabela." },
+      "board": { "title": "Quadro de Tarefas", "desc": "Gerencie todas as tarefas aqui. Clique numa tarefa para editar ou arraste entre colunas na vista Kanban." }
+    },
+    "volunteers": {
+      "filters": { "title": "Filtrar Voluntários", "desc": "Pesquise por nome ou filtre por estado (Ativo, Inativo, Suspenso)." },
+      "grid": { "title": "Cartões de Voluntários", "desc": "Cada cartão mostra o estado, horas contribuídas, crachás e competências do voluntário. Clique para ver o perfil completo." }
+    },
+    "resources": {
+      "filters": { "title": "Filtrar Recursos", "desc": "Pesquise por nome e filtre por tipo (Humano, Equipamento, Material, Financeiro) ou estado ativo." },
+      "grid": { "title": "Recursos", "desc": "Todos os recursos disponíveis. Clique num cartão para ver ou editar os detalhes." }
+    },
+    "approvals": {
+      "filters": { "title": "Filtrar Aprovações", "desc": "Filtre por projeto, voluntário, intervalo de datas ou pesquise entradas de registo de horas." },
+      "table": { "title": "Aprovações Pendentes", "desc": "Reveja cada entrada de horas aqui. Clique em Aprovar para confirmar ou Rejeitar para recusar com uma nota." }
+    },
+    "reports": {
+      "tabs": { "title": "Exportar Relatórios", "desc": "Escolha um tipo de relatório e aplique filtros antes de exportar." },
+      "export": { "title": "Formatos de Exportação", "desc": "Descarregue relatórios em CSV para folhas de cálculo ou JSON para integrações." }
+    },
+    "analytics": {
+      "stats": { "title": "Métricas Principais", "desc": "Números de alto nível para projetos, voluntários, tarefas e horas — atualizados em tempo real." },
+      "charts": { "title": "Tendências e Gráficos", "desc": "Visualize tendências de atividade no período selecionado. Use o menu pendente no cabeçalho para alterar o período." }
+    },
+    "users": {
+      "filters": { "title": "Filtrar Utilizadores", "desc": "Pesquise por nome ou email e filtre por estado ativo." },
+      "table": { "title": "Lista de Utilizadores", "desc": "Todos os utilizadores registados. Clique num utilizador para ver o seu perfil ou gerir os detalhes da conta." }
+    },
+    "team": {
+      "filters": { "title": "Pesquisar Equipa", "desc": "Escreva um nome para pesquisar membros da equipa do projeto." },
+      "grid": { "title": "Membros da Equipa", "desc": "Os seus voluntários e colaboradores. Clique numa linha para ver o perfil completo de voluntário." }
+    },
+    "gamification": {
+      "search": { "title": "Encontrar Voluntário", "desc": "Pesquise um voluntário pelo nome para lhe atribuir um crachá ou pontos." },
+      "award": { "title": "Botão de Atribuição", "desc": "Depois de selecionar um voluntário e um crachá (ou inserir pontos), clique aqui para confirmar a atribuição." }
+    },
+    "my-projects": {
+      "grid": { "title": "Os Seus Projetos", "desc": "Todos os projetos que gere. Clique num cartão para abrir os detalhes, tarefas e atribuições de voluntários." },
+      "stats": { "title": "Filtrar por Estado", "desc": "Alterne entre Todos, Ativos, Concluídos e Em Espera para focar nos projetos que precisam da sua atenção." }
     }
   },
   "Onboarding": {

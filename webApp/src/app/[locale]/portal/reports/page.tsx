@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Download, FileText, FileJson, Users, FolderKanban, CheckSquare, Clock } from 'lucide-react';
+import { Download, FileText, FileJson, Users, FolderKanban, CheckSquare, Clock, CircleHelp } from 'lucide-react';
+import { useTour } from '@/lib/hooks/useTour';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { reportsApi } from '@/lib/api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,6 +24,15 @@ type ExportFormat = 'csv' | 'json';
 
 export default function ReportsPage() {
     const t = useTranslations('Reports');
+    const tTour = useTranslations('Tour.reports');
+    const tTourCommon = useTranslations('Tour');
+    const { startTour } = useTour({
+        tourId: 'reports',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
     const [exporting, setExporting] = useState<string | null>(null);
 
     // Filters
@@ -183,13 +194,24 @@ export default function ReportsPage() {
     return (
         <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
             {/* Header */}
-            <div className="flex flex-col gap-2">
-                <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
-                <p className="text-muted-foreground">{t('subtitle')}</p>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
+                    <p className="text-muted-foreground">{t('subtitle')}</p>
+                </div>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon" onClick={startTour} className="h-8 w-8 text-muted-foreground hover:text-foreground self-start">
+                            <CircleHelp className="h-4 w-4" />
+                            <span className="sr-only">{tTourCommon('takeTour')}</span>
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>{tTourCommon('takeTour')}</TooltipContent>
+                </Tooltip>
             </div>
 
             {/* Export Cards */}
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-2" data-tour="reports-tabs">
                 {/* Projects Export */}
                 <ExportCard
                     title={t('projects.title')}
