@@ -740,6 +740,7 @@ export interface TaskSummary {
   volunteers_assigned: number;
   days_remaining?: number;
   is_overdue: boolean;
+  required_skills?: Record<string, string>;
 }
 
 export interface TaskDetail extends Task {

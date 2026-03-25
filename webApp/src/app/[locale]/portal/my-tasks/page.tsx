@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useTranslations } from 'next-intl';
+import { useTour } from '@/lib/hooks/useTour';
 import useSWR, { mutate as globalMutate } from 'swr';
 import { volunteersApi, tasksApi } from '@/lib/api';
 import { PageHeader } from '@/components/shared/page-header';
@@ -10,6 +11,7 @@ import { TaskCard } from '@/components/volunteers/task-card';
 import { ConfirmCompleteDialog } from '@/components/volunteers/confirm-complete-dialog';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription } from '@/components/ui/empty';
 import { TaskStatus } from '@/lib/api/types';
@@ -27,6 +29,15 @@ import {
 export default function MyTasksPage() {
     const { user } = useAuth();
     const t = useTranslations('Volunteer.myTasks');
+    const tTour = useTranslations('Tour.my-tasks');
+    const tTourCommon = useTranslations('Tour');
+    const { startTour } = useTour({
+        tourId: 'my-tasks',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
     const [statusFilter, setStatusFilter] = useState<string>('all');
 
     // ─── Confirm-complete dialog state ────────────────────────────────────────
@@ -218,10 +229,15 @@ export default function MyTasksPage() {
             <PageHeader
                 title={t('title')}
                 description={t('subtitle')}
+                actions={
+                    <Button variant="outline" size="sm" onClick={startTour}>
+                        {tTourCommon('takeTour')}
+                    </Button>
+                }
             />
 
             {/* Status Filter Tabs */}
-            <Card>
+            <Card data-tour="task-filters">
                 <CardContent className="pt-6">
                     <Tabs value={statusFilter} onValueChange={setStatusFilter}>
                         <TabsList className="grid w-full grid-cols-4 lg:w-auto">
@@ -247,7 +263,7 @@ export default function MyTasksPage() {
                     </CardContent>
                 </Card>
             ) : (
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-tour="task-grid">
                     {filteredTasks.map((task) => (
                         <TaskCard
                             key={task.id}

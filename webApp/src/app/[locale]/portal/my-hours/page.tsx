@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useTranslations } from 'next-intl';
+import { useTour } from '@/lib/hooks/useTour';
 import useSWR from 'swr';
 import { volunteersApi } from '@/lib/api';
 import { PageHeader } from '@/components/shared/page-header';
@@ -42,6 +43,15 @@ import { cn } from '@/lib/utils';
 export default function MyHoursPage() {
     const { user } = useAuth();
     const t = useTranslations('Volunteer.myHours');
+    const tTour = useTranslations('Tour.my-hours');
+    const tTourCommon = useTranslations('Tour');
+    const { startTour } = useTour({
+        tourId: 'my-hours',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
 
     // State for dialogs
     const [logHoursOpen, setLogHoursOpen] = useState(false);
@@ -106,10 +116,7 @@ export default function MyHoursPage() {
         setDeleteTimeLogOpen(true);
     };
 
-    // Get status badge variant
-    const getStatusVariant = (approved: boolean): 'default' | 'secondary' | 'destructive' => {
-        return approved ? 'default' : 'secondary';
-    };
+
 
     // Loading state — wait for volunteer profile resolution before fetching hours
     if (!volunteerProfile || summaryLoading || logsLoading) {
@@ -135,17 +142,22 @@ export default function MyHoursPage() {
                 title={t('title')}
                 description={t('subtitle')}
                 actions={
-                    canManuallyLogHours(user) ? (
-                        <Button onClick={() => setLogHoursOpen(true)}>
-                            <Plus className="mr-2 h-4 w-4" />
-                            {t('logHours')}
+                    <div className="flex items-center gap-2">
+                        <Button variant="outline" size="sm" onClick={startTour}>
+                            {tTourCommon('takeTour')}
                         </Button>
-                    ) : null
+                        {canManuallyLogHours(user) && (
+                            <Button onClick={() => setLogHoursOpen(true)} data-tour="log-hours-btn">
+                                <Plus className="mr-2 h-4 w-4" />
+                                {t('logHours')}
+                            </Button>
+                        )}
+                    </div>
                 }
             />
 
             {/* Summary Cards */}
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-3" data-tour="hours-summary">
                 <StatCard
                     title={t('summary.totalHours')}
                     value={summary?.total_hours?.toFixed(1) || '0'}
@@ -161,14 +173,21 @@ export default function MyHoursPage() {
                 />
                 <StatCard
                     title={t('summary.pendingApproval')}
-                    value={summary?.pending_hours?.toFixed(1) || '0'}
+                    value={summary?.pending_hours?.toFixed(1) ?? '0.0'}
                     icon={AlertCircle}
-                    variant="orange"
+                    variant={
+                        (summary?.pending_hours ?? 0) > 0 ? 'orange' : 'default'
+                    }
+                    description={
+                        (summary?.pending_hours ?? 0) > 0
+                            ? t('summary.awaitingReview')
+                            : t('summary.allApproved')
+                    }
                 />
             </div>
 
             {/* Time Logs Table */}
-            <Card>
+            <Card data-tour="hours-table">
                 <CardHeader>
                     <div className="flex flex-wrap items-end gap-4">
                         <div className="flex-1 min-w-0">
@@ -280,7 +299,15 @@ export default function MyHoursPage() {
                                                 {log.activity_description || t('table.noActivity')}
                                             </TableCell>
                                             <TableCell>
-                                                <Badge variant={getStatusVariant(log.approved)}>
+                                                <Badge
+                                                    className={cn(
+                                                        "text-xs",
+                                                        log.approved
+                                                            ? "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 hover:bg-emerald-100"
+                                                            : "bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 hover:bg-amber-100"
+                                                    )}
+                                                    variant="outline"
+                                                >
                                                     {log.approved ? t('status.approved') : t('status.pending')}
                                                 </Badge>
                                             </TableCell>

@@ -4,8 +4,9 @@ import React from 'react';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
+import { useTour } from '@/lib/hooks/useTour';
 import useSWR from 'swr';
-import { Star, Clock, Award, CheckSquare, Calendar, ArrowRight, AlertCircle } from 'lucide-react';
+import { Star, Clock, Award, CheckSquare, Calendar, ArrowRight, AlertCircle, Search } from 'lucide-react';
 import { StatCard } from '@/components/shared/stat-card';
 import { PageHeader } from '@/components/shared/page-header';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -32,6 +33,15 @@ export function VolunteerDashboard() {
     const locale = useLocale();
     const t = useTranslations('Dashboard');
     const tVolunteer = useTranslations('Volunteer');
+    const tTour = useTranslations('Tour.dashboard');
+    const tTourCommon = useTranslations('Tour');
+    const { startTour } = useTour({
+        tourId: 'dashboard',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
 
     // Resolve volunteers.id (DB PK) from users.id — required for all volunteer/gamification API calls
     const { data: volunteerProfile } = useSWR(
@@ -153,10 +163,15 @@ export function VolunteerDashboard() {
             <PageHeader
                 title={`${t('welcome')}, ${user?.name?.split(' ')[0] || 'Volunteer'}!`}
                 description={tVolunteer('dashboard.subtitle')}
+                actions={
+                    <Button variant="outline" size="sm" onClick={startTour}>
+                        {tTourCommon('takeTour')}
+                    </Button>
+                }
             />
 
             {/* Stats Cards */}
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4" data-tour="stat-cards">
                 <StatCard
                     title={tVolunteer('achievements.summary.totalPoints')}
                     value={stats?.points?.total_points || 0}
@@ -183,10 +198,32 @@ export function VolunteerDashboard() {
                 />
             </div>
 
+            {/* Quick Actions */}
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3" data-tour="quick-actions">
+                <Button asChild variant="outline" className="h-16 flex-col gap-1 text-sm">
+                    <Link href={`/${locale}/portal/available-tasks`}>
+                        <Search className="h-5 w-5 text-teal-600" />
+                        {tVolunteer('dashboard.actions.findTasks')}
+                    </Link>
+                </Button>
+                <Button asChild variant="outline" className="h-16 flex-col gap-1 text-sm">
+                    <Link href={`/${locale}/portal/my-hours`}>
+                        <Clock className="h-5 w-5 text-blue-600" />
+                        {tVolunteer('dashboard.actions.logHours')}
+                    </Link>
+                </Button>
+                <Button asChild variant="outline" className="h-16 flex-col gap-1 text-sm">
+                    <Link href={`/${locale}/portal/achievements`}>
+                        <Award className="h-5 w-5 text-purple-600" />
+                        {tVolunteer('dashboard.actions.myAchievements')}
+                    </Link>
+                </Button>
+            </div>
+
             {/* Current Tasks & Recent Badges Widgets */}
             <div className="grid gap-4 md:grid-cols-2">
                 {/* Current Tasks Widget */}
-                <Card>
+                <Card data-tour="current-tasks">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <div>
                             <CardTitle>{tVolunteer('myTasks.title')}</CardTitle>
@@ -213,38 +250,34 @@ export function VolunteerDashboard() {
                                     <Link
                                         key={task.id}
                                         href={`/${locale}/portal/tasks/${task.id}`}
-                                        className="block"
+                                        className={cn(
+                                            "group flex items-start justify-between rounded-lg border p-3 transition-all hover:shadow-sm hover:bg-muted/30",
+                                            task.is_overdue && "border-red-200 bg-red-50/40 dark:border-red-900/50 dark:bg-red-950/10"
+                                        )}
                                     >
-                                        <div className={cn(
-                                            "rounded-lg border p-3 transition-colors hover:bg-muted/50",
-                                            task.is_overdue && "border-red-200 bg-red-50/50 dark:border-red-900 dark:bg-red-950/20"
-                                        )}>
-                                            <div className="flex items-start justify-between gap-2">
-                                                <div className="flex-1 min-w-0">
-                                                    <p className="font-medium text-sm truncate">{task.title}</p>
-                                                    <p className="text-xs text-muted-foreground truncate">
-                                                        {task.project_name || tVolunteer('myTasks.noProject')}
-                                                    </p>
-                                                    {task.end_date && (
-                                                        <div className={cn(
-                                                            "flex items-center gap-1 text-xs mt-1",
-                                                            task.is_overdue ? "text-red-600 dark:text-red-400" : "text-muted-foreground"
-                                                        )}>
-                                                            {task.is_overdue && <AlertCircle className="h-3 w-3" />}
-                                                            <Calendar className="h-3 w-3" />
-                                                            <span>{format(parseISO(task.end_date), 'MMM dd, yyyy')}</span>
-                                                        </div>
-                                                    )}
+                                        <div className="flex-1 min-w-0 space-y-1">
+                                            <p className="font-medium text-sm truncate group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                                                {task.title}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground truncate">
+                                                {task.project_name || tVolunteer('myTasks.noProject')}
+                                            </p>
+                                            {task.end_date && (
+                                                <div className={cn(
+                                                    "flex items-center gap-1 text-xs",
+                                                    task.is_overdue ? "text-red-600 dark:text-red-400" : "text-muted-foreground"
+                                                )}>
+                                                    {task.is_overdue ? <AlertCircle className="h-3 w-3 shrink-0" /> : <Calendar className="h-3 w-3 shrink-0" />}
+                                                    <span>{format(parseISO(task.end_date), 'MMM dd, yyyy')}</span>
                                                 </div>
-                                                <Badge variant={
-                                                    task.status === TaskStatus.COMPLETED ? 'default' :
-                                                    task.status === TaskStatus.IN_PROGRESS ? 'secondary' :
-                                                    'outline'
-                                                }>
-                                                    {tVolunteer(`myTasks.status.${task.status}`)}
-                                                </Badge>
-                                            </div>
+                                            )}
                                         </div>
+                                        <Badge
+                                            variant={task.status === TaskStatus.COMPLETED ? 'default' : task.status === TaskStatus.IN_PROGRESS ? 'secondary' : 'outline'}
+                                            className="ml-2 shrink-0 self-start mt-0.5"
+                                        >
+                                            {tVolunteer(`myTasks.status.${task.status}`)}
+                                        </Badge>
                                     </Link>
                                 ))}
                             </div>
@@ -253,7 +286,7 @@ export function VolunteerDashboard() {
                 </Card>
 
                 {/* Recent Badges Widget */}
-                <Card>
+                <Card data-tour="recent-badges">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <div>
                             <CardTitle>{tVolunteer('achievements.tabs.badges')}</CardTitle>
@@ -275,25 +308,21 @@ export function VolunteerDashboard() {
                                 </EmptyHeader>
                             </Empty>
                         ) : (
-                            <div className="grid grid-cols-2 gap-3">
+                            <div className="grid grid-cols-2 gap-2">
                                 {recentBadges.map((badge) => (
                                     <Link
                                         key={badge.id}
                                         href={`/${locale}/portal/achievements`}
-                                        className="block"
+                                        className="group flex items-center gap-2 rounded-lg border p-2.5 transition-all hover:shadow-sm hover:bg-muted/30"
                                     >
-                                        <div className="rounded-lg border p-3 transition-colors hover:bg-muted/50">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30">
-                                                    <Award className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-                                                </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <p className="font-medium text-sm truncate">
-                                                        {badge.badge.name}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <p className="text-xs text-muted-foreground">
+                                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-950/50 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition-colors">
+                                            <Award className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-xs font-medium truncate group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                                                {badge.badge.name}
+                                            </p>
+                                            <p className="text-[10px] text-muted-foreground">
                                                 {format(parseISO(badge.earned_at), 'MMM dd, yyyy')}
                                             </p>
                                         </div>
@@ -306,7 +335,7 @@ export function VolunteerDashboard() {
             </div>
 
             {/* Hours Chart */}
-            <Card>
+            <Card data-tour="hours-chart">
                 <CardHeader>
                     <CardTitle>{tVolunteer('dashboard.hoursChart')}</CardTitle>
                     <CardDescription>{tVolunteer('dashboard.hoursChartDesc')}</CardDescription>

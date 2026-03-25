@@ -22,7 +22,7 @@ interface AvailableTaskCardProps {
         estimated_hours?: number;
         volunteer_spots: number;
         volunteers_assigned: number;
-        required_skills?: Record<string, any>;
+        required_skills?: Record<string, string>;
     };
     onSignUp?: (taskId: number) => Promise<void>;
     isSignedUp?: boolean;
@@ -117,45 +117,51 @@ export function AvailableTaskCard({ task, onSignUp, isSignedUp }: AvailableTaskC
                 )}
 
                 {/* Spots Available */}
-                <div className="flex items-center gap-2 text-sm">
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                    <span className={cn(
-                        'font-medium',
-                        isFull ? 'text-red-600' : 'text-emerald-600'
-                    )}>
-                        {isFull
-                            ? t('card.spotsFull')
-                            : t('card.spotsAvailable', {
-                                available: spotsAvailable,
-                                total: task.volunteer_spots
-                            })
-                        }
-                    </span>
+                <div className="flex items-center gap-2 text-xs">
+                    <Users className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                    {isFull ? (
+                        <Badge variant="destructive" className="text-xs h-5">
+                            {t('card.spotsFull')}
+                        </Badge>
+                    ) : (
+                        <Badge
+                            variant="outline"
+                            className={cn(
+                                "text-xs h-5",
+                                spotsAvailable <= 2 ? "border-orange-400 text-orange-700 dark:text-orange-400" : "border-emerald-400 text-emerald-700 dark:text-emerald-400"
+                            )}
+                        >
+                            {t('card.spotsAvailable', { available: spotsAvailable, total: task.volunteer_spots })}
+                        </Badge>
+                    )}
                 </div>
 
                 {/* Required Skills */}
                 {skills && skills.length > 0 ? (
-                    <div className="space-y-2">
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Award className="h-4 w-4" />
-                            <span>{t('card.requiredSkills')}:</span>
+                    <div className="space-y-1">
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <Award className="h-3.5 w-3.5 shrink-0" />
+                            <span className="font-medium">{t('filters.skills')}</span>
                         </div>
-                        <div className="flex flex-wrap gap-1">
-                            {skills.slice(0, 3).map((skill) => (
-                                <Badge key={skill} variant="secondary" className="text-xs">
+                        <div className="flex flex-wrap gap-1.5">
+                            {skills.slice(0, 3).map(skill => (
+                                <span
+                                    key={skill}
+                                    className="inline-flex items-center rounded-full bg-teal-50 px-2 py-0.5 text-xs font-medium text-teal-700 ring-1 ring-inset ring-teal-600/20 dark:bg-teal-950/30 dark:text-teal-300 dark:ring-teal-500/30"
+                                >
                                     {skill}
-                                </Badge>
+                                </span>
                             ))}
                             {skills.length > 3 && (
-                                <Badge variant="secondary" className="text-xs">
+                                <span className="inline-flex items-center rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
                                     +{skills.length - 3}
-                                </Badge>
+                                </span>
                             )}
                         </div>
                     </div>
                 ) : (
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Award className="h-4 w-4" />
+                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                        <Award className="h-3.5 w-3.5 shrink-0" />
                         <span>{t('card.noSkills')}</span>
                     </div>
                 )}

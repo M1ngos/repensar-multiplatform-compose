@@ -2007,7 +2007,12 @@
       "currentTasksDesc": "Tarefas em que você está trabalhando",
       "recentBadgesDesc": "Suas conquistas mais recentes",
       "hoursChart": "Horas ao Longo do Tempo",
-      "hoursChartDesc": "Suas horas de voluntariado nos últimos 6 meses"
+      "hoursChartDesc": "Suas horas de voluntariado nos últimos 6 meses",
+      "actions": {
+        "findTasks": "Encontrar Tarefas",
+        "logHours": "Registar Horas",
+        "myAchievements": "As Minhas Conquistas"
+      }
     },
     "myTasks": {
       "title": "Minhas Tarefas",
@@ -2081,7 +2086,9 @@
         "totalHours": "Total de Horas",
         "thisMonth": "Este Mês",
         "pendingApproval": "Pendente de Aprovação",
-        "approved": "Aprovadas"
+        "approved": "Aprovadas",
+        "awaitingReview": "Aguardando revisão do supervisor",
+        "allApproved": "Todas as horas aprovadas"
       },
       "filters": {
         "dateRange": "Período",
@@ -2151,6 +2158,7 @@
       "noTasksDesc": "Atualmente não há oportunidades de voluntariado abertas. Volte em breve!",
       "noResults": "Nenhuma tarefa corresponde aos seus filtros",
       "noResultsDesc": "Tente ajustar seus critérios de pesquisa ou filtro.",
+      "clearFilters": "Limpar todos os filtros",
       "signUp": {
         "success": "Inscrito na tarefa com sucesso!",
         "error": "Falha ao inscrever-se na tarefa",
@@ -2758,6 +2766,36 @@
     "successConfirmation": "Por favor, verifique seu email para confirmar a subscrição.",
     "error": "Falha ao subscrever. Por favor, tente novamente."
   },
+  "Tour": {
+    "takeTour": "Fazer Tour",
+    "next": "Próximo",
+    "prev": "Voltar",
+    "done": "Concluído",
+    "dashboard": {
+      "statCards": { "title": "As Suas Estatísticas", "desc": "Pontos, horas, crachás e tarefas ativas — a sua atividade de voluntariado de um relance." },
+      "quickActions": { "title": "Ações Rápidas", "desc": "Atalhos para encontrar tarefas, registar horas ou ver as suas conquistas sem navegar pelo menu." },
+      "currentTasks": { "title": "Tarefas Ativas", "desc": "Tarefas em que está a trabalhar. Clique em qualquer tarefa para abri-la e iniciar ou retomar o temporizador." },
+      "recentBadges": { "title": "Crachás Recentes", "desc": "Crachás que ganhou recentemente. Continue a contribuir para desbloquear mais!" },
+      "hoursChart": { "title": "Horas ao Longo do Tempo", "desc": "As suas horas de voluntariado aprovadas nos últimos 6 meses." }
+    },
+    "my-tasks": {
+      "filters": { "title": "Filtrar por Estado", "desc": "Alterne entre Todas, Não Iniciadas, Em Progresso e Concluídas para focar no que importa." },
+      "taskCard": { "title": "Cartões de Tarefas", "desc": "Cada cartão mostra o projeto, data limite, prioridade e progresso. Use Iniciar / Pausar para registar automaticamente o seu tempo." }
+    },
+    "available-tasks": {
+      "search": { "title": "Pesquisar e Filtrar", "desc": "Pesquise por nome e filtre por projeto ou competências necessárias para encontrar as melhores oportunidades." },
+      "skillFilter": { "title": "Filtrar por Competência", "desc": "Selecione uma competência para ver apenas tarefas correspondentes." },
+      "taskCard": { "title": "Inscrever-se em Tarefas", "desc": "Clique em Inscrever-se para participar. Verifique as vagas disponíveis — algumas tarefas têm vagas limitadas." }
+    },
+    "my-hours": {
+      "summary": { "title": "Resumo de Horas", "desc": "Total de horas, horas este mês e entradas aguardando aprovação do supervisor." },
+      "table": { "title": "Histórico de Horas", "desc": "Todas as suas horas registadas. Entradas pendentes aguardam aprovação; entradas aprovadas contam para o seu total." }
+    },
+    "achievements": {
+      "stats": { "title": "O Seu Progresso", "desc": "Pontos ganhos, crachás colecionados, sequência atual e classificação global — tudo de um relance." },
+      "tabs": { "title": "Explorar Conquistas", "desc": "Alterne entre Crachás, Histórico de Pontos e Conquistas com barras de progresso." }
+    }
+  },
   "Onboarding": {
     "title": "Bem-vindo à Repensar!",
     "subtitle": "Vamos configurar o seu perfil de voluntário. Pode saltar qualquer passo.",
@@ -2767,6 +2805,12 @@
     "finish": "Concluir",
     "back": "Voltar",
     "saving": "A guardar...",
+    "saveError": "Falha ao guardar. Por favor, tente novamente.",
+    "welcome": {
+      "title": "Complete o Seu Perfil",
+      "description": "Ajude-nos a personalizar a sua experiência de voluntariado. Demora cerca de 2 minutos.",
+      "getStarted": "Começar"
+    },
     "steps": {
       "gender": {
         "title": "Qual é o seu género?",

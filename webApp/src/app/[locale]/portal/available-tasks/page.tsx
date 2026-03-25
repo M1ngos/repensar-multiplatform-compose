@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useTranslations } from 'next-intl';
+import { useTour } from '@/lib/hooks/useTour';
 import useSWR from 'swr';
 import { tasksApi, volunteersApi } from '@/lib/api';
 import { PageHeader } from '@/components/shared/page-header';
@@ -33,10 +34,20 @@ import { Button } from '@/components/ui/button';
 export default function AvailableTasksPage() {
     const { user } = useAuth();
     const t = useTranslations('Volunteer.availableTasks');
+    const tTour = useTranslations('Tour.available-tasks');
+    const tTourCommon = useTranslations('Tour');
+    const { startTour } = useTour({
+        tourId: 'available-tasks',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
 
     // State for filters
     const [searchQuery, setSearchQuery] = useState('');
     const [projectFilter, setProjectFilter] = useState<string>('all');
+    const [skillFilter, setSkillFilter] = useState<string>('all');
 
     // State for sign-up confirmation dialog
     const [signUpDialogOpen, setSignUpDialogOpen] = useState(false);
@@ -64,6 +75,18 @@ export default function AvailableTasksPage() {
         () => tasksApi.getMyAssignments()
     );
 
+    // Compute unique skills across all available tasks
+    const allSkills = useMemo(() => {
+        if (!tasks) return [];
+        const skillSet = new Set<string>();
+        tasks.forEach(task => {
+            if (task.required_skills) {
+                Object.keys(task.required_skills).forEach(s => skillSet.add(s));
+            }
+        });
+        return Array.from(skillSet).sort();
+    }, [tasks]);
+
     // Filter tasks
     const filteredTasks = tasks?.filter((task) => {
         // Search filter
@@ -74,6 +97,12 @@ export default function AvailableTasksPage() {
         // Project filter
         if (projectFilter !== 'all' && task.project_name !== projectFilter) {
             return false;
+        }
+
+        // Skill filter
+        if (skillFilter !== 'all') {
+            const hasSkill = task.required_skills && skillFilter in task.required_skills;
+            if (!hasSkill) return false;
         }
 
         return true;
@@ -137,18 +166,24 @@ export default function AvailableTasksPage() {
             <PageHeader
                 title={t('title')}
                 description={t('subtitle')}
+                actions={
+                    <Button variant="outline" size="sm" onClick={startTour}>
+                        {tTourCommon('takeTour')}
+                    </Button>
+                }
             />
 
             {/* Filters */}
-            <Card>
+            <Card data-tour="available-filters">
                 <CardContent className="pt-6">
                     <FilterBar
                         searchQuery={searchQuery}
                         onSearchChange={setSearchQuery}
                         searchPlaceholder={t('search')}
+                        data-tour="search-bar"
                     >
                         <Select value={projectFilter} onValueChange={setProjectFilter}>
-                            <SelectTrigger className="w-[200px]">
+                            <SelectTrigger className="w-[180px]">
                                 <SelectValue placeholder={t('filters.project')} />
                             </SelectTrigger>
                             <SelectContent>
@@ -160,6 +195,21 @@ export default function AvailableTasksPage() {
                                 ))}
                             </SelectContent>
                         </Select>
+                        {allSkills.length > 0 && (
+                            <Select value={skillFilter} onValueChange={setSkillFilter}>
+                                <SelectTrigger className="w-[180px]" data-tour="skill-filter">
+                                    <SelectValue placeholder={t('filters.allSkills')} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">{t('filters.allSkills')}</SelectItem>
+                                    {allSkills.map((skill) => (
+                                        <SelectItem key={skill} value={skill}>
+                                            {skill}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        )}
                     </FilterBar>
                 </CardContent>
             </Card>
@@ -168,20 +218,32 @@ export default function AvailableTasksPage() {
             {filteredTasks.length === 0 ? (
                 <Card>
                     <CardContent className="pt-6">
-                        <Empty>
-                            <EmptyHeader>
-                                <EmptyTitle>
-                                    {tasks && tasks.length > 0 ? t('noResults') : t('noTasks')}
-                                </EmptyTitle>
-                                <EmptyDescription>
-                                    {tasks && tasks.length > 0 ? t('noResultsDesc') : t('noTasksDesc')}
-                                </EmptyDescription>
-                            </EmptyHeader>
-                        </Empty>
+                        {tasks && tasks.length > 0 ? (
+                            <Empty>
+                                <EmptyHeader>
+                                    <EmptyTitle>{t('noResults')}</EmptyTitle>
+                                    <EmptyDescription>{t('noResultsDesc')}</EmptyDescription>
+                                </EmptyHeader>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => { setSearchQuery(''); setProjectFilter('all'); setSkillFilter('all'); }}
+                                >
+                                    {t('clearFilters')}
+                                </Button>
+                            </Empty>
+                        ) : (
+                            <Empty>
+                                <EmptyHeader>
+                                    <EmptyTitle>{t('noTasks')}</EmptyTitle>
+                                    <EmptyDescription>{t('noTasksDesc')}</EmptyDescription>
+                                </EmptyHeader>
+                            </Empty>
+                        )}
                     </CardContent>
                 </Card>
             ) : (
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-tour="available-grid">
                     {filteredTasks.map((task) => (
                         <AvailableTaskCard
                             key={task.id}

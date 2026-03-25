@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useTranslations } from 'next-intl';
+import { useTour } from '@/lib/hooks/useTour';
 import useSWR from 'swr';
 import { gamificationApi } from '@/lib/api/gamification';
 import { volunteersApi } from '@/lib/api';
@@ -23,6 +24,15 @@ import { cn } from '@/lib/utils';
 export default function AchievementsPage() {
     const { user } = useAuth();
     const t = useTranslations('Volunteer.achievements');
+    const tTour = useTranslations('Tour.achievements');
+    const tTourCommon = useTranslations('Tour');
+    const { startTour } = useTour({
+        tourId: 'achievements',
+        tSteps: tTour,
+        nextBtnText: tTourCommon('next'),
+        prevBtnText: tTourCommon('prev'),
+        doneBtnText: tTourCommon('done'),
+    });
     const [activeTab, setActiveTab] = useState('badges');
 
     // Resolve volunteers.id (DB PK) from users.id — required for all gamification API calls
@@ -92,10 +102,15 @@ export default function AchievementsPage() {
             <PageHeader
                 title={t('title')}
                 description={t('subtitle')}
+                actions={
+                    <Button variant="outline" size="sm" onClick={startTour}>
+                        {tTourCommon('takeTour')}
+                    </Button>
+                }
             />
 
             {/* Summary Cards */}
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4" data-tour="achievement-stats">
                 <StatCard
                     title={t('summary.totalPoints')}
                     value={summary?.points.total_points || 0}
@@ -123,7 +138,7 @@ export default function AchievementsPage() {
             </div>
 
             {/* Tabs */}
-            <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <Tabs value={activeTab} onValueChange={setActiveTab} data-tour="achievement-tabs">
                 <TabsList className="grid w-full grid-cols-3 lg:w-auto">
                     <TabsTrigger value="badges">{t('tabs.badges')}</TabsTrigger>
                     <TabsTrigger value="points">{t('tabs.points')}</TabsTrigger>

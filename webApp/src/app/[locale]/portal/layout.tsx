@@ -18,6 +18,7 @@ import useSWR from 'swr';
 
 function PortalContent({ children }: { children: React.ReactNode }) {
     const t = useTranslations('Search');
+    const tNav = useTranslations('Dashboard');
     const { user } = useAuth();
     const [showOnboarding, setShowOnboarding] = useState(false);
     const [volunteerDbId, setVolunteerDbId] = useState<number | null>(null);
@@ -49,7 +50,7 @@ function PortalContent({ children }: { children: React.ReactNode }) {
                     <Breadcrumb>
                         <BreadcrumbList>
                             <BreadcrumbItem>
-                                <BreadcrumbPage>Portal</BreadcrumbPage>
+                                <BreadcrumbPage>{tNav('nav.overview')}</BreadcrumbPage>
                             </BreadcrumbItem>
                         </BreadcrumbList>
                     </Breadcrumb>

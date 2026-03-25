@@ -194,18 +194,15 @@ export function TaskCard({ task, onStatusChange, onPause, onResume, onRequestCom
         // Running
         return (
             <div className={cn(
-                'flex items-center gap-2 rounded-md px-3 py-2 text-sm',
+                "flex items-center gap-2 rounded-md px-3 py-2 text-xs font-medium",
                 shouldAutoPause
-                    ? 'bg-orange-50 text-orange-700'
-                    : 'bg-blue-50 text-blue-700'
+                    ? "bg-orange-50 text-orange-700 border border-orange-200 dark:bg-orange-950/20 dark:text-orange-400 dark:border-orange-900"
+                    : "bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-900 shadow-sm shadow-blue-100 dark:shadow-none animate-[pulse_3s_ease-in-out_infinite]"
             )}>
-                <Timer className={cn(
-                    'h-4 w-4 shrink-0',
-                    shouldAutoPause ? 'text-orange-500' : 'animate-pulse'
-                )} />
-                <span className="font-mono font-medium">{elapsed}</span>
+                <Timer className={cn("h-3.5 w-3.5 shrink-0", !shouldAutoPause && "animate-pulse")} />
+                <span className="font-mono tabular-nums flex-1">{elapsed}</span>
                 {shouldAutoPause && (
-                    <span className="ml-auto text-xs">{t('card.almostAutoPause')}</span>
+                    <span className="text-orange-600 dark:text-orange-400">{t('card.almostAutoPause')}</span>
                 )}
             </div>
         );
@@ -215,6 +212,8 @@ export function TaskCard({ task, onStatusChange, onPause, onResume, onRequestCom
 
     const cardBorderClass = cn(
         'hover:shadow-md transition-shadow',
+        task.priority === TaskPriority.CRITICAL && !task.is_overdue && 'border-l-red-500 border-l-2',
+        task.priority === TaskPriority.HIGH && !task.is_overdue && 'border-l-orange-500 border-l-2',
         task.is_overdue && 'border-red-200',
         isRunning && !shouldAutoPause && 'border-blue-300 ring-1 ring-blue-200',
         (isAutoPaused || shouldAutoPause) && 'border-orange-300 ring-1 ring-orange-200',
@@ -260,7 +259,16 @@ export function TaskCard({ task, onStatusChange, onPause, onResume, onRequestCom
                             <span className="text-muted-foreground">{t('card.progress')}</span>
                             <span className="font-medium">{task.progress_percentage}%</span>
                         </div>
-                        <Progress value={task.progress_percentage} className="h-2" />
+                        <Progress
+                            value={task.progress_percentage}
+                            className={cn(
+                                "h-1.5",
+                                task.progress_percentage >= 100 ? "[&>div]:bg-emerald-500" :
+                                task.progress_percentage >= 60 ? "[&>div]:bg-teal-500" :
+                                task.progress_percentage >= 30 ? "[&>div]:bg-blue-500" :
+                                "[&>div]:bg-muted-foreground/50"
+                            )}
+                        />
                     </div>
                 )}
 

@@ -2005,7 +2005,12 @@
       "currentTasksDesc": "Tasks you're working on",
       "recentBadgesDesc": "Your latest achievements",
       "hoursChart": "Hours Over Time",
-      "hoursChartDesc": "Your volunteer hours in the last 6 months"
+      "hoursChartDesc": "Your volunteer hours in the last 6 months",
+      "actions": {
+        "findTasks": "Find Tasks",
+        "logHours": "Log Hours",
+        "myAchievements": "My Achievements"
+      }
     },
     "myTasks": {
       "title": "My Tasks",
@@ -2079,7 +2084,9 @@
         "totalHours": "Total Hours",
         "thisMonth": "This Month",
         "pendingApproval": "Pending Approval",
-        "approved": "Approved"
+        "approved": "Approved",
+        "awaitingReview": "Awaiting supervisor review",
+        "allApproved": "All hours approved"
       },
       "filters": {
         "dateRange": "Date Range",
@@ -2149,6 +2156,7 @@
       "noTasksDesc": "There are currently no open volunteer opportunities. Check back soon!",
       "noResults": "No tasks match your filters",
       "noResultsDesc": "Try adjusting your search or filter criteria.",
+      "clearFilters": "Clear all filters",
       "signUp": {
         "success": "Successfully signed up for task!",
         "error": "Failed to sign up for task",
@@ -2756,6 +2764,36 @@
     "successConfirmation": "Please check your email to confirm your subscription.",
     "error": "Failed to subscribe. Please try again."
   },
+  "Tour": {
+    "takeTour": "Take a Tour",
+    "next": "Next",
+    "prev": "Back",
+    "done": "Done",
+    "dashboard": {
+      "statCards": { "title": "Your Stats", "desc": "Points, hours, badges, and active tasks — your volunteer activity at a glance." },
+      "quickActions": { "title": "Quick Actions", "desc": "Shortcuts to find tasks, log hours, or view your achievements without navigating the sidebar." },
+      "currentTasks": { "title": "Active Tasks", "desc": "Tasks you're currently working on. Click any task to open it and start or resume your timer." },
+      "recentBadges": { "title": "Recent Badges", "desc": "Badges you've earned recently. Keep contributing to unlock more!" },
+      "hoursChart": { "title": "Hours Over Time", "desc": "Your approved volunteer hours over the last 6 months." }
+    },
+    "my-tasks": {
+      "filters": { "title": "Filter by Status", "desc": "Switch between All, Not Started, In Progress, and Completed to focus on what matters most." },
+      "taskCard": { "title": "Task Cards", "desc": "Each card shows the project, due date, priority, and progress. Use Start / Pause to automatically track your time." }
+    },
+    "available-tasks": {
+      "search": { "title": "Search & Filter", "desc": "Search by task name and filter by project or required skills to find the best opportunities for you." },
+      "skillFilter": { "title": "Filter by Skill", "desc": "Select a skill to see only tasks that match — helpful when you want to contribute your expertise." },
+      "taskCard": { "title": "Sign Up for Tasks", "desc": "Click Sign Up on any task to join. Check the spots available — some tasks have limited openings." }
+    },
+    "my-hours": {
+      "summary": { "title": "Hours Summary", "desc": "Total hours, hours this month, and any entries awaiting supervisor approval." },
+      "table": { "title": "Time Log History", "desc": "All your logged hours. Pending entries await approval; approved entries count toward your volunteer total." }
+    },
+    "achievements": {
+      "stats": { "title": "Your Progress", "desc": "Points earned, badges collected, current streak, and your global rank — all at a glance." },
+      "tabs": { "title": "Explore Achievements", "desc": "Switch between Badges, Points history, and Achievements with progress bars to see how far you've come." }
+    }
+  },
   "Onboarding": {
     "title": "Welcome to Repensar!",
     "subtitle": "Let's set up your volunteer profile. You can skip any step.",
@@ -2765,6 +2803,12 @@
     "finish": "Finish",
     "back": "Back",
     "saving": "Saving...",
+    "saveError": "Failed to save. Please try again.",
+    "welcome": {
+      "title": "Complete Your Profile",
+      "description": "Help us personalize your volunteer experience. This takes about 2 minutes.",
+      "getStarted": "Get Started"
+    },
     "steps": {
       "gender": {
         "title": "What is your gender?",
