@@ -12,6 +12,8 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { ImagePicker } from '@/components/ui/image-picker';
+import { FileCategory } from '@/lib/api/types';
 import {
     Dialog,
     DialogContent,
@@ -287,13 +289,11 @@ export default function ProfilePage() {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="profile-picture">{t('profilePicture')}</Label>
-                            <Input
-                                id="profile-picture"
-                                type="url"
+                            <ImagePicker
+                                label={t('profilePicture')}
                                 value={profilePicture}
-                                onChange={(e) => setProfilePicture(e.target.value)}
-                                placeholder={t('profilePicturePlaceholder')}
+                                onChange={setProfilePicture}
+                                category={FileCategory.OTHER}
                             />
                         </div>
 

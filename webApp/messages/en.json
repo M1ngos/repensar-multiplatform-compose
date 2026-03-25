@@ -2764,6 +2764,17 @@
     "successConfirmation": "Please check your email to confirm your subscription.",
     "error": "Failed to subscribe. Please try again."
   },
+  "ImagePicker": {
+    "select": "Click to select an image",
+    "formats": "JPG, PNG, GIF, WebP, SVG — max 10 MB",
+    "change": "Change",
+    "remove": "Remove",
+    "uploading": "Uploading...",
+    "preview": "Image preview",
+    "uploadSuccess": "Image uploaded",
+    "uploadError": "Upload failed. Please try again.",
+    "tooLarge": "Image must be smaller than 10 MB"
+  },
   "Tour": {
     "takeTour": "Take a Tour",
     "next": "Next",

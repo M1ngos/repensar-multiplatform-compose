@@ -2766,6 +2766,17 @@
     "successConfirmation": "Por favor, verifique seu email para confirmar a subscrição.",
     "error": "Falha ao subscrever. Por favor, tente novamente."
   },
+  "ImagePicker": {
+    "select": "Clique para selecionar uma imagem",
+    "formats": "JPG, PNG, GIF, WebP, SVG — máx. 10 MB",
+    "change": "Alterar",
+    "remove": "Remover",
+    "uploading": "A carregar...",
+    "preview": "Pré-visualização da imagem",
+    "uploadSuccess": "Imagem carregada",
+    "uploadError": "Falha ao carregar. Por favor, tente novamente.",
+    "tooLarge": "A imagem deve ter menos de 10 MB"
+  },
   "Tour": {
     "takeTour": "Fazer Tour",
     "next": "Próximo",

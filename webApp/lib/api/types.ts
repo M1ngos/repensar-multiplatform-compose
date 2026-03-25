@@ -1240,12 +1240,17 @@ export interface FileUpload {
   file_path: string;
   file_size: number;
   mime_type: string;
+  /** Absolute or relative URL to access the file (returned by upload endpoint) */
+  url: string;
+  thumbnail_url?: string;
   thumbnail_path?: string;
+  width?: number;
+  height?: number;
   category: FileCategory;
   project_id?: number;
   task_id?: number;
   volunteer_id?: number;
-  uploaded_by_id: number;
+  uploaded_by_id?: number;
   created_at: string;
 }
 

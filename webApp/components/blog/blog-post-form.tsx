@@ -5,6 +5,8 @@ import { useTranslations } from 'next-intl';
 import { BlogPostCreate, BlogPostUpdate, BlogCategory, BlogTag, BlogPostStatus } from '@/lib/api/types';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { ImagePicker } from '@/components/ui/image-picker';
+import { FileCategory } from '@/lib/api/types';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import {
@@ -141,19 +143,13 @@ export function BlogPostForm({
             />
           </div>
 
-          {/* Featured Image URL */}
-          <div className="space-y-2">
-            <Label htmlFor="featured_image_url">{t('featuredImage')}</Label>
-            <Input
-              id="featured_image_url"
-              type="url"
-              value={formData.featured_image_url}
-              onChange={(e) =>
-                setFormData({ ...formData, featured_image_url: e.target.value })
-              }
-              placeholder={t('featuredImagePlaceholder')}
-            />
-          </div>
+          {/* Featured Image */}
+          <ImagePicker
+            label={t('featuredImage')}
+            value={formData.featured_image_url}
+            onChange={(url) => setFormData({ ...formData, featured_image_url: url })}
+            category={FileCategory.OTHER}
+          />
 
           {/* Status */}
           <div className="space-y-2">
