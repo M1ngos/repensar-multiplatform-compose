@@ -35,13 +35,14 @@ export default function EditBlogPostPage() {
             const [postData, categoriesRes, tagsRes] = await Promise.all([
                 blogApi.getPost(postId),
                 blogApi.getCategories({ limit: 100 }),
-                blogApi.getTags({ limit: 200 }),
+                blogApi.getTags({ limit: 100 }),
             ]);
             setPost(postData);
             setCategories(categoriesRes.items);
             setTags(tagsRes.items);
         } catch (error) {
-            console.error('Error fetching data:', error);
+            const detail = (error as { detail?: string })?.detail ?? String(error);
+            console.error('Error fetching data:', detail);
             toast.error(t('loadError'));
         } finally {
             setIsFetching(false);

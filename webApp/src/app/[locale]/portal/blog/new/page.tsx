@@ -27,12 +27,13 @@ export default function NewBlogPostPage() {
         try {
             const [categoriesRes, tagsRes] = await Promise.all([
                 blogApi.getCategories({ limit: 100 }),
-                blogApi.getTags({ limit: 200 }),
+                blogApi.getTags({ limit: 100 }),
             ]);
             setCategories(categoriesRes.items);
             setTags(tagsRes.items);
         } catch (error) {
-            console.error('Error fetching metadata:', error);
+            const detail = (error as { detail?: string })?.detail ?? String(error);
+            console.error('Error fetching metadata:', detail);
         }
     };
 
