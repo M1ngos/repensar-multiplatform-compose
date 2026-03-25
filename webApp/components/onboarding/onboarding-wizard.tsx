@@ -195,7 +195,7 @@ export function OnboardingWizard({ open, volunteerId, onDismiss, onComplete }: O
                                     <Leaf className="h-10 w-10 text-teal-600 dark:text-teal-400" />
                                 </div>
                                 <div className="space-y-2">
-                                    <h2 className="text-xl font-semibold">{t('welcome.title')}</h2>
+                                    <DialogTitle className="text-xl font-semibold">{t('welcome.title')}</DialogTitle>
                                     <p className="text-sm text-muted-foreground">{t('welcome.description')}</p>
                                 </div>
                                 <div className="flex flex-col gap-2 pt-2">
