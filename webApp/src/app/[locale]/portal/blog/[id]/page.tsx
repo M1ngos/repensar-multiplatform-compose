@@ -7,9 +7,10 @@ import { blogApi } from '@/lib/api';
 import type { BlogPost, BlogPostUpdate, BlogCategory, BlogTag } from '@/lib/api/types';
 import { BlogPostForm } from '@/components/blog';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Edit3, Leaf } from 'lucide-react';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
 
 export default function EditBlogPostPage() {
@@ -71,13 +72,20 @@ export default function EditBlogPostPage() {
         return (
             <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
                 <div className="flex items-center gap-4">
-                    <Skeleton className="h-10 w-10" />
+                    <Skeleton className="h-10 w-10 rounded-xl" />
                     <div className="space-y-2">
                         <Skeleton className="h-8 w-48" />
                         <Skeleton className="h-4 w-64" />
                     </div>
                 </div>
-                <Skeleton className="h-96 w-full" />
+                <Card className="overflow-hidden">
+                    <div className="h-1 bg-gradient-to-r from-emerald-300 to-teal-300" />
+                    <CardContent className="pt-6 space-y-4">
+                        <Skeleton className="h-10 w-full" />
+                        <Skeleton className="h-24 w-full" />
+                        <Skeleton className="h-64 w-full" />
+                    </CardContent>
+                </Card>
             </div>
         );
     }
@@ -85,12 +93,19 @@ export default function EditBlogPostPage() {
     if (!post) {
         return (
             <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-                <div className="text-center py-12">
-                    <p className="text-muted-foreground">{t('postNotFound')}</p>
-                    <Link href={`/${locale}/portal/blog`}>
-                        <Button className="mt-4">{t('backToPosts')}</Button>
-                    </Link>
-                </div>
+                <Card className="border-emerald-100 dark:border-emerald-900">
+                    <CardContent className="py-12 text-center">
+                        <div className="mx-auto w-fit rounded-full bg-emerald-100 dark:bg-emerald-900/30 p-4 mb-4">
+                            <Leaf className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
+                        </div>
+                        <p className="text-lg font-medium text-emerald-600 dark:text-emerald-400">{t('postNotFound')}</p>
+                        <Link href={`/${locale}/portal/blog`} className="mt-4 inline-block">
+                            <Button className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white">
+                                {t('backToPosts')}
+                            </Button>
+                        </Link>
+                    </CardContent>
+                </Card>
             </div>
         );
     }
@@ -111,13 +126,20 @@ export default function EditBlogPostPage() {
             {/* Header */}
             <div className="flex items-center gap-4">
                 <Link href={`/${locale}/portal/blog`}>
-                    <Button variant="ghost" size="icon">
-                        <ChevronLeft className="h-4 w-4" />
+                    <Button variant="ghost" size="icon" className="rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-900/30">
+                        <ChevronLeft className="h-4 w-4 text-emerald-600" />
                     </Button>
                 </Link>
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight">{t('editPost')}</h1>
-                    <p className="text-muted-foreground">{post.title}</p>
+                <div className="flex items-center gap-4 flex-1">
+                    <div className="rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 p-2.5 shadow-lg shadow-emerald-500/20">
+                        <Edit3 className="h-5 w-5 text-white" />
+                    </div>
+                    <div>
+                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                            {t('editPost')}
+                        </h1>
+                        <p className="text-muted-foreground line-clamp-1">{post.title}</p>
+                    </div>
                 </div>
             </div>
 

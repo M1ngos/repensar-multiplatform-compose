@@ -1378,6 +1378,7 @@ export interface BlogPostListParams {
   author_id?: number;
   skip?: number;
   limit?: number;
+  locale?: string;
 }
 
 export interface BlogPostListResponse {

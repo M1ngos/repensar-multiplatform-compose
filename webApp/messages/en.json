@@ -1536,7 +1536,8 @@
     },
     "detail": {
       "draft": "Draft",
-      "tags": "Tags"
+      "tags": "Tags",
+      "backToBlog": "Back to Blog"
     },
     "form": {
       "createTitle": "Create Blog Post",

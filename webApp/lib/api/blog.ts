@@ -11,7 +11,6 @@
 import { apiClient } from './client';
 import type {
   BlogPost,
-  BlogPostSummary,
   BlogPostCreate,
   BlogPostUpdate,
   BlogPostListParams,
@@ -53,10 +52,11 @@ export const blogApi = {
    * Get single blog post by slug
    *
    * @param slug Blog post slug
+   * @param locale Optional locale for i18n support
    * @returns Full blog post details
    */
-  getPostBySlug: (slug: string) =>
-    apiClient.get<BlogPost>(`/blog/posts/by-slug/${slug}`),
+  getPostBySlug: (slug: string, locale?: string) =>
+    apiClient.get<BlogPost>(`/blog/posts/by-slug/${slug}`, locale ? { locale } : undefined),
 
   /**
    * Create a new blog post (Admin only)

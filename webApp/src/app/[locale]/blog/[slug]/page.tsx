@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { blogApi } from '@/lib/api';
 import type { BlogPost, BlogPostSummary } from '@/lib/api/types';
@@ -14,7 +14,6 @@ import Link from 'next/link';
 
 export default function BlogPostPage() {
   const params = useParams<{ slug: string }>();
-  const router = useRouter();
   const slug = params?.slug || '';
   const locale = useLocale();
   const t = useTranslations('Blog');
@@ -35,13 +34,14 @@ export default function BlogPostPage() {
       setIsLoading(true);
       setError(null);
 
-      const postData = await blogApi.getPostBySlug(slug);
+      const postData = await blogApi.getPostBySlug(slug, locale);
       setPost(postData);
 
       // Fetch related posts from the same category
       if (postData.categories.length > 0) {
         const relatedRes = await blogApi.getPosts({
           category: postData.categories[0].slug,
+          locale,
           limit: 3,
         });
         // Filter out current post
