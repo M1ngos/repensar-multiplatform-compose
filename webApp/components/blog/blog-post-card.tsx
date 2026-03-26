@@ -59,10 +59,12 @@ export function BlogPostCard({ post, locale = 'en' }: BlogPostCardProps) {
 
         <CardContent>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-1">
-              <IconUser className="h-4 w-4" />
-              <span>{post.author.full_name}</span>
-            </div>
+            {post.author && (
+              <div className="flex items-center gap-1">
+                <IconUser className="h-4 w-4" />
+                <span>{post.author.full_name ?? post.author.email}</span>
+              </div>
+            )}
             <div className="flex items-center gap-1">
               <IconCalendar className="h-4 w-4" />
               <time dateTime={post.published_at || post.created_at}>

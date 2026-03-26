@@ -51,7 +51,7 @@ export default function BlogTagsPage() {
     // Fetch tags with SWR
     const { data: response, error, isLoading, mutate } = useSWR(
         'blog-tags',
-        () => blogApi.getTags({ limit: 200 })
+        () => blogApi.getTags({ limit: 100 })
     );
 
     const tags = response?.items || [];

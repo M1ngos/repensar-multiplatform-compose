@@ -168,13 +168,13 @@ export function BlogFilter({
         {/* Tag Filter */}
         {tags.length > 0 && (
           <div className="space-y-2">
-            <Label htmlFor="tag">{t('filter.tag')}</Label>
+            <Label htmlFor="tag">{t('tag')}</Label>
             <Select value={filters.tag || 'all'} onValueChange={handleTagChange}>
               <SelectTrigger id="tag">
-                <SelectValue placeholder={t('filter.allTags')} />
+                <SelectValue placeholder={t('allTags')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t('filter.allTags')}</SelectItem>
+                <SelectItem value="all">{t('allTags')}</SelectItem>
                 {tags.map((tag) => (
                   <SelectItem key={tag.id} value={tag.slug}>
                     #{tag.name}
@@ -193,26 +193,26 @@ export function BlogFilter({
         {/* Active Filters */}
         {hasActiveFilters && (
           <div className="space-y-2 pt-2 border-t">
-            <Label className="text-xs text-muted-foreground">{t('filter.activeFilters')}</Label>
+            <Label className="text-xs text-muted-foreground">{t('activeFilters')}</Label>
             <div className="flex flex-wrap gap-2">
               {filters.search && (
                 <Badge variant="secondary">
-                  {t('filter.searchLabel')} {filters.search}
+                  {t('searchLabel')} {filters.search}
                 </Badge>
               )}
               {filters.status && (
                 <Badge variant="secondary">
-                  {t('filter.statusLabel')} {filters.status}
+                  {t('statusLabel')} {filters.status}
                 </Badge>
               )}
               {filters.category && (
                 <Badge variant="secondary">
-                  {t('filter.categoryLabel')} {categories.find((c) => c.slug === filters.category)?.name}
+                  {t('categoryLabel')} {categories.find((c) => c.slug === filters.category)?.name}
                 </Badge>
               )}
               {filters.tag && (
                 <Badge variant="secondary">
-                  {t('filter.tagLabel')} {tags.find((t) => t.slug === filters.tag)?.name}
+                  {t('tagLabel')} {tags.find((t) => t.slug === filters.tag)?.name}
                 </Badge>
               )}
             </div>
