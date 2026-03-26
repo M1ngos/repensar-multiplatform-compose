@@ -130,15 +130,15 @@ export default function BlogPage() {
             <div className="mt-10 flex flex-wrap justify-center gap-8">
               <div className="text-center">
                 <div className="text-3xl font-bold">{pagination.total}+</div>
-                <div className="text-sm text-white/70">Articles</div>
+                <div className="text-sm text-white/70">{t('stats.articles')}</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold">{categories.length}</div>
-                <div className="text-sm text-white/70">Categories</div>
+                <div className="text-sm text-white/70">{t('stats.categories')}</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold">{tags.length}</div>
-                <div className="text-sm text-white/70">Topics</div>
+                <div className="text-sm text-white/70">{t('stats.topics')}</div>
               </div>
             </div>
           </div>
@@ -163,21 +163,21 @@ export default function BlogPage() {
                   className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-500 data-[state=active]:to-teal-600 data-[state=active]:text-white data-[state=active]:shadow-md"
                 >
                   <BookOpen className="w-4 h-4 mr-2" />
-                  Posts
+                  {t('tabs.posts')}
                 </TabsTrigger>
                 <TabsTrigger 
                   value="categories" 
                   className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-500 data-[state=active]:to-teal-600 data-[state=active]:text-white data-[state=active]:shadow-md"
                 >
                   <Leaf className="w-4 h-4 mr-2" />
-                  Categories
+                  {t('tabs.categories')}
                 </TabsTrigger>
                 <TabsTrigger 
                   value="tags" 
                   className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-500 data-[state=active]:to-teal-600 data-[state=active]:text-white data-[state=active]:shadow-md"
                 >
                   <TagIcon className="w-4 h-4 mr-2" />
-                  Tags
+                  {t('tabs.tags')}
                 </TabsTrigger>
               </TabsList>
             </div>
@@ -257,10 +257,10 @@ export default function BlogPage() {
             <TabsContent value="categories">
               <div className="mb-8">
                 <h2 className="text-2xl font-bold text-center mb-2 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                  Browse by Category
+                  {t('categoriesSection.title')}
                 </h2>
                 <p className="text-center text-muted-foreground">
-                  Find articles organized by topic
+                  {t('categoriesSection.description')}
                 </p>
               </div>
               <CategoryList categories={categories} locale={locale} />
@@ -270,10 +270,10 @@ export default function BlogPage() {
               <div className="max-w-4xl mx-auto">
                 <div className="mb-8 text-center">
                   <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                    Popular Topics
+                    {t('tagsSection.title')}
                   </h2>
                   <p className="text-muted-foreground">
-                    Explore articles by keyword
+                    {t('tagsSection.description')}
                   </p>
                 </div>
                 <Card className="border-emerald-100 dark:border-emerald-900 bg-gradient-to-br from-white to-emerald-50/30 dark:from-gray-900 dark:to-emerald-950/20 p-8">

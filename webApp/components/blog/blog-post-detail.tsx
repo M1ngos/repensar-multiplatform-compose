@@ -1,12 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { BlogPost } from '@/lib/api/types';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
-import { IconCalendar, IconTag, IconFolder, IconClock, IconArrowLeft } from '@tabler/icons-react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { IconCalendar, IconTag, IconFolder, IconClock, IconBrandTwitter, IconBrandFacebook, IconBrandLinkedin, IconBrandWhatsapp, IconLink, IconCheck } from '@tabler/icons-react';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -18,9 +20,60 @@ interface BlogPostDetailProps {
 
 export function BlogPostDetail({ post, locale = 'en' }: BlogPostDetailProps) {
   const t = useTranslations('Blog.detail');
+  const [copied, setCopied] = useState(false);
+
   const publishedDate = post.published_at
     ? format(new Date(post.published_at), 'MMMM dd, yyyy')
     : format(new Date(post.created_at), 'MMMM dd, yyyy');
+
+  const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const encodedUrl = encodeURIComponent(pageUrl);
+  const encodedTitle = encodeURIComponent(post.title);
+
+  const shareLinks = [
+    {
+      label: 'Twitter / X',
+      icon: IconBrandTwitter,
+      href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+      color: 'hover:text-sky-500 hover:border-sky-300 dark:hover:border-sky-700',
+    },
+    {
+      label: 'Facebook',
+      icon: IconBrandFacebook,
+      href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+      color: 'hover:text-blue-600 hover:border-blue-300 dark:hover:border-blue-700',
+    },
+    {
+      label: 'LinkedIn',
+      icon: IconBrandLinkedin,
+      href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+      color: 'hover:text-blue-500 hover:border-blue-300 dark:hover:border-blue-700',
+    },
+    {
+      label: 'WhatsApp',
+      icon: IconBrandWhatsapp,
+      href: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
+      color: 'hover:text-green-500 hover:border-green-300 dark:hover:border-green-700',
+    },
+  ];
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(pageUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // fallback for older browsers
+      const el = document.createElement('input');
+      el.value = pageUrl;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   // Calculate reading time
   const wordCount = post.content?.replace(/<[^>]*>/g, '').split(/\s+/).length || 0;
@@ -160,10 +213,44 @@ export function BlogPostDetail({ post, locale = 'en' }: BlogPostDetailProps) {
       )}
 
       {/* Share Section */}
-      <div className="mt-8 pt-8 border-t">
-        <p className="text-sm text-muted-foreground text-center">
-          Share this article with your network
+      <div className="mt-8 pt-8 border-t border-emerald-100 dark:border-emerald-900">
+        <p className="text-sm font-medium text-center text-muted-foreground mb-4">
+          {t('share')}
         </p>
+        <div className="flex items-center justify-center gap-2 flex-wrap">
+          {shareLinks.map(({ label, icon: Icon, href, color }) => (
+            <Tooltip key={label}>
+              <TooltipTrigger asChild>
+                <a href={href} target="_blank" rel="noopener noreferrer">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={`h-10 w-10 transition-all duration-200 ${color}`}
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span className="sr-only">{label}</span>
+                  </Button>
+                </a>
+              </TooltipTrigger>
+              <TooltipContent>{label}</TooltipContent>
+            </Tooltip>
+          ))}
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className={`h-10 w-10 transition-all duration-200 ${copied ? 'text-emerald-600 border-emerald-400' : 'hover:text-emerald-600 hover:border-emerald-300 dark:hover:border-emerald-700'}`}
+                onClick={handleCopyLink}
+              >
+                {copied ? <IconCheck className="h-4 w-4" /> : <IconLink className="h-4 w-4" />}
+                <span className="sr-only">{copied ? t('linkCopied') : t('copyLink')}</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{copied ? t('linkCopied') : t('copyLink')}</TooltipContent>
+          </Tooltip>
+        </div>
       </div>
     </article>
   );

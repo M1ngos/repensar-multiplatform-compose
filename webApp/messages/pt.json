@@ -1539,7 +1539,10 @@
     "detail": {
       "draft": "Rascunho",
       "tags": "Etiquetas",
-      "backToBlog": "Voltar ao Blog"
+      "backToBlog": "Voltar ao Blog",
+      "share": "Partilhar este artigo",
+      "copyLink": "Copiar link",
+      "linkCopied": "Link copiado!"
     },
     "form": {
       "createTitle": "Criar Publicação no Blog",
@@ -1582,6 +1585,19 @@
       "posts": "Publicações",
       "categories": "Categorias",
       "tags": "Etiquetas"
+    },
+    "stats": {
+      "articles": "Artigos",
+      "categories": "Categorias",
+      "topics": "Tópicos"
+    },
+    "categoriesSection": {
+      "title": "Explorar por Categoria",
+      "description": "Encontre artigos organizados por tema"
+    },
+    "tagsSection": {
+      "title": "Tópicos Populares",
+      "description": "Explore artigos por palavra-chave"
     },
     "pagination": {
       "previous": "Anterior",

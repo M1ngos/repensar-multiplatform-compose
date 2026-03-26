@@ -1537,7 +1537,10 @@
     "detail": {
       "draft": "Draft",
       "tags": "Tags",
-      "backToBlog": "Back to Blog"
+      "backToBlog": "Back to Blog",
+      "share": "Share this article",
+      "copyLink": "Copy link",
+      "linkCopied": "Link copied!"
     },
     "form": {
       "createTitle": "Create Blog Post",
@@ -1580,6 +1583,19 @@
       "posts": "Posts",
       "categories": "Categories",
       "tags": "Tags"
+    },
+    "stats": {
+      "articles": "Articles",
+      "categories": "Categories",
+      "topics": "Topics"
+    },
+    "categoriesSection": {
+      "title": "Browse by Category",
+      "description": "Find articles organized by topic"
+    },
+    "tagsSection": {
+      "title": "Popular Topics",
+      "description": "Explore articles by keyword"
     },
     "pagination": {
       "previous": "Previous",
