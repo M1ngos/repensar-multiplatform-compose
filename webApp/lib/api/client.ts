@@ -12,7 +12,10 @@
 
 import { ApiError, Token, RefreshTokenRequest } from './types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+// Empty string = use relative URLs (browser resolves to same host as Next.js,
+// which proxies to the backend via rewrites in next.config.ts).
+// A full URL can be set via NEXT_PUBLIC_API_URL for non-proxied setups.
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
 
 // Token storage keys
 const ACCESS_TOKEN_KEY = 'access_token';

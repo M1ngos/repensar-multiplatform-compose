@@ -23,7 +23,9 @@ export const filesApi = {
    * @returns Uploaded file information
    */
   uploadFile: async (formData: FormData): Promise<FileUpload> => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    // Empty string = relative URL, proxied to backend via Next.js rewrites in next.config.ts.
+    // A full URL can be set via NEXT_PUBLIC_API_URL for non-proxied setups.
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? '';
     const token = localStorage.getItem('access_token');
 
     const response = await fetch(`${baseUrl}/files/upload`, {
@@ -76,7 +78,9 @@ export const filesApi = {
    * @returns Download URL
    */
   getFileUrl: (filePath: string): string => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    // Empty string = relative URL, proxied to backend via Next.js rewrites in next.config.ts.
+    // A full URL can be set via NEXT_PUBLIC_API_URL for non-proxied setups.
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? '';
     return `${baseUrl}${filePath}`;
   },
 };

@@ -77,11 +77,10 @@ export function ImagePicker({
 
             const uploaded = await filesApi.uploadFile(formData);
 
-            // Resolve to absolute URL so <img> can display it
-            const apiBase = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
-            const absoluteUrl = uploaded.url.startsWith('http')
-                ? uploaded.url
-                : `${apiBase}${uploaded.url}`;
+            // Use the URL as-is: if it is already absolute (http/https) keep it;
+            // otherwise it is a relative path (e.g. /uploads/profile/image.jpg) that
+            // will be served through the Next.js rewrite proxy — no base-URL injection needed.
+            const absoluteUrl = uploaded.url;
 
             onChange(absoluteUrl);
             toast.success(t('uploadSuccess'));
