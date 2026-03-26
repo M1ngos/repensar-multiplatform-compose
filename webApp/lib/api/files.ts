@@ -24,7 +24,7 @@ export const filesApi = {
    */
   uploadFile: async (formData: FormData): Promise<FileUpload> => {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('access_token');
 
     const response = await fetch(`${baseUrl}/files/upload`, {
       method: 'POST',
