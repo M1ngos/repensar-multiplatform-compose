@@ -138,9 +138,10 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
             try {
                 setPostsLoading(true);
                 const response = await blogApi.getPosts({ limit: 3 });
-                setLatestPosts(response.items);
+                setLatestPosts(response?.items ?? []);
             } catch (error) {
                 console.error('Error fetching blog posts:', error);
+                setLatestPosts([]);
             } finally {
                 setPostsLoading(false);
             }
@@ -600,7 +601,7 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
                 <div key={i} className="bg-gray-200 dark:bg-gray-700 rounded-2xl h-96 animate-pulse" />
               ))}
             </div>
-          ) : latestPosts.length > 0 ? (
+          ) : (latestPosts ?? []).length > 0 ? (
             <>
               <div className="grid md:grid-cols-3 gap-8">
                 {latestPosts.map((post) => (

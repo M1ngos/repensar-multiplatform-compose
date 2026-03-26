@@ -60,12 +60,12 @@ export function BlogPostDetail({ post, locale = 'en' }: BlogPostDetailProps) {
       {/* Header */}
       <header className="mb-8 space-y-6">
         {/* Back link */}
-        <Link href={`/${locale}/blog`}>
-          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-emerald-600 -ml-2">
-            <IconArrowLeft className="mr-2 h-4 w-4" />
-            {t('backToBlog') || 'Back to Blog'}
-          </Button>
-        </Link>
+        {/* <Link href={`/${locale}/blog`}> */}
+        {/*   <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-emerald-600 -ml-2"> */}
+        {/*     <IconArrowLeft className="mr-2 h-4 w-4" /> */}
+        {/*     {t('backToBlog') || 'Back to Blog'} */}
+        {/*   </Button> */}
+        {/* </Link> */}
 
         {/* Categories */}
         {post.categories.length > 0 && (
@@ -144,8 +144,8 @@ export function BlogPostDetail({ post, locale = 'en' }: BlogPostDetailProps) {
                       key={tag.id}
                       href={`/${locale}/blog?tag=${tag.slug}`}
                     >
-                      <Badge 
-                        variant="outline" 
+                      <Badge
+                        variant="outline"
                         className="cursor-pointer text-sm px-3 py-1 bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900 transition-colors"
                       >
                         #{tag.name}
