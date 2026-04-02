@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import useSWR from "swr";
 import { gamificationApi } from "@/lib/api/gamification";
+import { volunteersApi } from "@/lib/api";
 import { useAuth } from "@/lib/hooks/useAuth";
 
 export function GamificationSummaryCard() {
@@ -18,13 +19,23 @@ export function GamificationSummaryCard() {
 
   const { user } = useAuth();
 
-  // Fetch gamification summary
-  const { data: summary, error, isLoading } = useSWR(
-    user ? ['gamification-summary', user.id] : null,
-    () => user ? gamificationApi.stats.getVolunteerSummary(user.id) : null
+  // First resolve volunteers.id (DB PK) from users.id — required for gamification API
+  const { data: volunteerProfile } = useSWR(
+    user?.id ? 'my-volunteer-profile' : null,
+    () => volunteersApi.getMyVolunteerProfile()
   );
 
-  if (isLoading) {
+  // Fetch gamification summary using volunteerProfile.id (not user.id)
+  const { data: summary, error, isLoading } = useSWR(
+    volunteerProfile?.id ? ['gamification-summary', volunteerProfile.id] : null,
+    () => volunteerProfile ? gamificationApi.stats.getVolunteerSummary(volunteerProfile.id) : null
+  );
+
+  // Show skeleton while resolving volunteer profile or fetching summary
+  const isLoadingProfile = !volunteerProfile && !error;
+  const isLoadingSummary = isLoading;
+
+  if (isLoadingProfile || isLoadingSummary) {
     return (
       <Card>
         <CardHeader>
@@ -38,8 +49,9 @@ export function GamificationSummaryCard() {
     );
   }
 
-  if (error || !summary) {
-    return null; // Hide widget if gamification data is not available
+  // Hide widget if no volunteer profile (user is not a volunteer) or gamification data unavailable
+  if (!volunteerProfile || error || !summary) {
+    return null;
   }
 
   const stats = [
