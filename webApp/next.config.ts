@@ -26,6 +26,7 @@ const nextConfig: NextConfig = {
             '/newsletter',
             '/contact',
             '/api/v1',
+            '/communication',
         ];
 
         // Two rules per prefix:

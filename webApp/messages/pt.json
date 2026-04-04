@@ -344,7 +344,49 @@
       "achievements": "Conquistas",
       "awardBadgesPoints": "Atribuir Distintivos/Pontos",
       "manageBadges": "Gerir Distintivos",
-      "manageAchievements": "Gerir Conquistas"
+      "manageAchievements": "Gerir Conquistas",
+      "messages": "Mensagens"
+    },
+    "messages": {
+      "title": "Mensagens",
+      "subtitle": "Suas conversas e anúncios",
+      "tabs": {
+        "conversations": "Conversas",
+        "announcements": "Anúncios"
+      },
+      "conversations": {
+        "title": "Conversas",
+        "empty": "Nenhuma conversa ainda",
+        "participants": "participantes",
+        "direct": "Mensagem Direta",
+        "noMessages": "Nenhuma mensagem ainda. Comece a conversa!",
+        "placeholder": "Escreva uma mensagem...",
+        "select": "Selecione uma conversa para começar",
+        "new": "Nova Conversa",
+        "newTitle": "Nova Conversa",
+        "newDesc": "Selecione utilizadores para iniciar uma conversa",
+        "groupName": "Nome do Grupo (opcional)",
+        "groupNamePlaceholder": "Digite um nome para conversas em grupo",
+        "selectUsers": "Selecionar Utilizadores",
+        "cancel": "Cancelar",
+        "create": "Criar",
+        "creating": "A criar...",
+        "created": "Conversa criada",
+        "createError": "Falha ao criar conversa",
+        "selectUsersError": "Por favor selecione pelo menos um utilizador"
+      },
+      "announcements": {
+        "empty": "Nenhum anúncio",
+        "pinned": "Fixado",
+        "read": "Lido"
+      },
+      "priority": {
+        "0": "Normal",
+        "5": "Importante",
+        "10": "Crítico"
+      },
+      "messageSent": "Mensagem enviada",
+      "messageError": "Falha ao enviar mensagem"
     },
     "roles": {
       "admin": "Administrador",

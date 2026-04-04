@@ -125,6 +125,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             icon: Trophy,
             roles: ['volunteer'],
         },
+        {
+            title: t('nav.messages'),
+            href: `/${locale}/portal/messages`,
+            icon: Mail,
+            roles: ['volunteer', 'staff_member', 'project_manager', 'admin'],
+        },
         // Project Manager-specific navigation
         {
             title: t('nav.myProjects'),

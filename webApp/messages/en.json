@@ -344,7 +344,49 @@
       "achievements": "Achievements",
       "awardBadgesPoints": "Award Badges/Points",
       "manageBadges": "Manage Badges",
-      "manageAchievements": "Manage Achievements"
+      "manageAchievements": "Manage Achievements",
+      "messages": "Messages"
+    },
+    "messages": {
+      "title": "Messages",
+      "subtitle": "Your conversations and announcements",
+      "tabs": {
+        "conversations": "Conversations",
+        "announcements": "Announcements"
+      },
+      "conversations": {
+        "title": "Conversations",
+        "empty": "No conversations yet",
+        "participants": "participants",
+        "direct": "Direct Message",
+        "noMessages": "No messages yet. Start the conversation!",
+        "placeholder": "Type a message...",
+        "select": "Select a conversation to start messaging",
+        "new": "New Conversation",
+        "newTitle": "New Conversation",
+        "newDesc": "Select users to start a conversation with",
+        "groupName": "Group Name (optional)",
+        "groupNamePlaceholder": "Enter a name for group conversations",
+        "selectUsers": "Select Users",
+        "cancel": "Cancel",
+        "create": "Create",
+        "creating": "Creating...",
+        "created": "Conversation created",
+        "createError": "Failed to create conversation",
+        "selectUsersError": "Please select at least one user"
+      },
+      "announcements": {
+        "empty": "No announcements",
+        "pinned": "Pinned",
+        "read": "Read"
+      },
+      "priority": {
+        "0": "Normal",
+        "5": "Important",
+        "10": "Critical"
+      },
+      "messageSent": "Message sent",
+      "messageError": "Failed to send message"
     },
     "roles": {
       "admin": "Administrator",

@@ -9,5 +9,5 @@ export const config = {
     // NOTE: blog/(posts|categories|tags) are excluded (backend API sub-paths) but
     // blog/[slug] is NOT excluded so Portuguese (default locale, no prefix) blog post
     // pages like /blog/testtest go through next-intl to resolve locale correctly.
-    matcher: '/((?!api|trpc|_next|_vercel|auth|users|volunteers|projects|tasks|resources|reports|analytics|gamification|blog/(?:posts|categories|tags)|files|uploads|search|sync|notifications|newsletter|contact|.*\\..*).*)'
+    matcher: '/((?!api|trpc|_next|_vercel|auth|users|volunteers|projects|tasks|resources|reports|analytics|gamification|blog/(?:posts|categories|tags)|files|uploads|search|sync|notifications|newsletter|contact|communication|.*\\..*).*)'
 }
