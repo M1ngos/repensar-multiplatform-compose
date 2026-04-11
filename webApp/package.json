@@ -6,8 +6,8 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "dev": "next dev --turbopack -H 0.0.0.0",
-    "build": " i18nexus pull && next build",
-    "start": " i18nexus pull && next start",
+    "build": " next build",
+    "start": " next start",
     "lint": "next lint"
   },
   "dependencies": {
