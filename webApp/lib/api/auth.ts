@@ -113,7 +113,7 @@ export const authApi = {
    * - Audit logging
    */
   logout: async (): Promise<void> => {
-    await apiClient.post<{}>('/auth/logout');
+    await apiClient.post<Record<string, never>>('/auth/logout');
     apiClient.clearAuthToken();
   },
 
@@ -125,7 +125,7 @@ export const authApi = {
    * - Audit logging
    */
   logoutAllDevices: async (): Promise<void> => {
-    await apiClient.post<{}>('/auth/logout-all-devices');
+    await apiClient.post<Record<string, never>>('/auth/logout-all-devices');
     apiClient.clearAuthToken();
   },
 

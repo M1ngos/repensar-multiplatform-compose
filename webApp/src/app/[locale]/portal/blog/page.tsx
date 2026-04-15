@@ -67,7 +67,7 @@ export default function BlogPostsPage() {
             await blogApi.deletePost(postToDelete);
             toast.success(t('deleteSuccess'));
             mutate();
-        } catch (error) {
+        } catch (_error) {
             toast.error(t('deleteError'));
         } finally {
             setDeleteDialogOpen(false);
@@ -85,7 +85,7 @@ export default function BlogPostsPage() {
                 toast.success(t('publishSuccess'));
             }
             mutate();
-        } catch (error) {
+        } catch (_error) {
             toast.error(t('statusUpdateError'));
         }
     };

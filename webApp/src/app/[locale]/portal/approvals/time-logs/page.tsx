@@ -30,7 +30,7 @@ import {
 } from '@/components/ui/select';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Calendar as CalendarIcon, Clock, Filter, CheckCircle2, XCircle, Eye, Loader2, CircleHelp } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, Filter, CheckCircle2, Eye, Loader2, CircleHelp } from 'lucide-react';
 import { useTour } from '@/lib/hooks/useTour';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { format } from 'date-fns';

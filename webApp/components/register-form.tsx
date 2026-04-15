@@ -20,7 +20,6 @@ import { Input } from "@/components/ui/input"
 import { useTranslations } from 'next-intl';
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { toast } from 'sonner';

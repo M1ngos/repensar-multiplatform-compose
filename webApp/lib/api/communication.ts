@@ -37,14 +37,14 @@ export interface ConversationParticipantResponse {
   notifications_enabled: boolean;
 }
 
-export interface ConversationCreate {
+interface ConversationCreate {
   type: 'direct' | 'group' | 'project';
   title?: string;
   project_id?: number;
   participant_ids: number[];
 }
 
-export interface MessageResponse {
+interface MessageResponse {
   id: number;
   conversation_id: number;
   sender_id: number;
@@ -61,21 +61,21 @@ export interface MessageResponse {
   sender_avatar: string | null;
 }
 
-export interface MessageReadReceiptResponse {
+interface MessageReadReceiptResponse {
   id: number;
   message_id: number;
   user_id: number;
   read_at: string;
 }
 
-export interface MessageCreate {
+interface MessageCreate {
   content: string;
   message_type?: 'direct' | 'group' | 'announcement';
   reply_to_id?: number;
   attachments?: unknown[];
 }
 
-export interface MessageListResponse {
+interface MessageListResponse {
   messages: MessageResponse[];
   total: number;
   page: number;
@@ -83,7 +83,7 @@ export interface MessageListResponse {
   has_more: boolean;
 }
 
-export interface AnnouncementResponse {
+interface AnnouncementResponse {
   id: number;
   title: string;
   content: string;
@@ -103,7 +103,7 @@ export interface AnnouncementResponse {
   creator_name: string | null;
 }
 
-export interface AnnouncementCreate {
+interface AnnouncementCreate {
   title: string;
   content: string;
   target_user_types?: string[];
@@ -117,7 +117,7 @@ export interface AnnouncementCreate {
   attachments?: unknown[];
 }
 
-export interface AnnouncementUpdate {
+interface AnnouncementUpdate {
   title?: string;
   content?: string;
   target_user_types?: string[];
@@ -131,7 +131,7 @@ export interface AnnouncementUpdate {
   attachments?: unknown[];
 }
 
-export interface AnnouncementListResponse {
+interface AnnouncementListResponse {
   announcements: AnnouncementResponse[];
   total: number;
   page: number;
@@ -139,7 +139,7 @@ export interface AnnouncementListResponse {
   has_more: boolean;
 }
 
-export interface EmailDigestPreferenceResponse {
+interface EmailDigestPreferenceResponse {
   id: number;
   user_id: number;
   enabled: boolean;
@@ -154,7 +154,7 @@ export interface EmailDigestPreferenceResponse {
   updated_at: string;
 }
 
-export interface EmailDigestPreferenceUpdate {
+interface EmailDigestPreferenceUpdate {
   enabled?: boolean;
   frequency?: 'daily' | 'weekly' | 'never';
   preferred_hour?: number;

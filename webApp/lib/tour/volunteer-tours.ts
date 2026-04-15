@@ -18,7 +18,7 @@ export type TourId =
     | 'gamification'
     | 'my-projects';
 
-export const TOUR_SEEN_KEY = (tourId: TourId) => `tour_seen_${tourId}`;
+const TOUR_SEEN_KEY = (tourId: TourId) => `tour_seen_${tourId}`;
 
 export function isTourSeen(tourId: TourId): boolean {
     if (typeof window === 'undefined') return true;
@@ -38,7 +38,7 @@ export function markTourSeen(tourId: TourId): void {
     }
 }
 
-export type TourStepDef = {
+type TourStepDef = {
     element: string;
     popover: {
         titleKey: string;

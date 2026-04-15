@@ -6,8 +6,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import useSWR from 'swr';
 import { tasksApi } from '@/lib/api';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { TaskStatus, TaskPriority, DependencyType } from '@/lib/api/types';
-import type { TaskDetail, TaskDependency, TaskVolunteerAssignment } from '@/lib/api/types';
+import { TaskStatus, TaskPriority } from '@/lib/api/types';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardAction } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -102,7 +101,7 @@ export default function TaskDetailPage() {
             await tasksApi.deleteTask(taskId);
             toast.success(t('detail.deleteSuccess'));
             router.push(`/${locale}/portal/tasks`);
-        } catch (error) {
+        } catch (_error) {
             toast.error(t('detail.deleteError'));
             setIsDeleting(false);
         }
@@ -126,7 +125,7 @@ export default function TaskDetailPage() {
             await tasksApi.removeTaskDependency(dependencyId);
             toast.success(t('detail.dependencyRemoved'));
             mutate();
-        } catch (error) {
+        } catch (_error) {
             toast.error(t('detail.dependencyRemoveError'));
         }
     };
@@ -136,7 +135,7 @@ export default function TaskDetailPage() {
             await tasksApi.removeVolunteer(taskId, volunteerId);
             toast.success(t('detail.volunteerRemoved'));
             mutate();
-        } catch (error) {
+        } catch (_error) {
             toast.error(t('detail.volunteerRemoveError'));
         }
     };

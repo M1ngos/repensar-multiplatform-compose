@@ -7,7 +7,7 @@ import { Plus, Search, Filter, Clock, Award, CircleHelp } from 'lucide-react';
 import { useTour } from '@/lib/hooks/useTour';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { volunteersApi } from '@/lib/api';
-import type { VolunteerSummary, VolunteerQueryParams } from '@/lib/api/types';
+import type { VolunteerQueryParams } from '@/lib/api/types';
 import { VolunteerStatus } from '@/lib/api/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -44,7 +44,7 @@ export default function VolunteersPage() {
     };
 
     // Fetch volunteers with SWR
-    const { data: volunteers, error, isLoading, mutate } = useSWR(
+    const { data: volunteers, error, isLoading } = useSWR(
         ['volunteers', params],
         () => volunteersApi.getVolunteers(params)
     );

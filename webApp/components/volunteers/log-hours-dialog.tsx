@@ -105,7 +105,7 @@ export function LogHoursDialog({ open, onOpenChange, volunteerId, onSuccess }: L
                     const calculatedHours = (minutes / 60).toFixed(2);
                     setHours(calculatedHours);
                 }
-            } catch (error) {
+            } catch (_error) {
                 // Invalid time format, ignore
             }
         }
@@ -140,7 +140,7 @@ export function LogHoursDialog({ open, onOpenChange, volunteerId, onSuccess }: L
                 if (end <= start) {
                     errors.endTime = 'End time must be after start time';
                 }
-            } catch (error) {
+            } catch (_error) {
                 errors.endTime = 'Invalid time format';
             }
         }

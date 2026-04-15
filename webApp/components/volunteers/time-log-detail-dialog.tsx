@@ -11,7 +11,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { format, parse } from 'date-fns';
-import { Calendar, Clock, Briefcase, CheckCircle2, XCircle, User, FileText } from 'lucide-react';
+import { Calendar, Clock, Briefcase, CheckCircle2, User, FileText } from 'lucide-react';
 import type { VolunteerTimeLog } from '@/lib/api/types';
 
 interface TimeLogDetailDialogProps {

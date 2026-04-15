@@ -14,7 +14,7 @@ import type { VolunteerTimeLog } from '@/lib/api/types';
 /**
  * User role constants
  */
-export const USER_ROLES = {
+const USER_ROLES = {
   VOLUNTEER: 'volunteer',
   STAFF_MEMBER: 'staff_member',
   PROJECT_MANAGER: 'project_manager',
@@ -38,7 +38,7 @@ const ADMIN_ROLES = [USER_ROLES.ADMIN];
 /**
  * Check if user has a specific role
  */
-export function hasRole(user: UserProfile | null | undefined, role: string): boolean {
+function hasRole(user: UserProfile | null | undefined, role: string): boolean {
   if (!user) return false;
   return user.user_type === role;
 }
@@ -46,7 +46,7 @@ export function hasRole(user: UserProfile | null | undefined, role: string): boo
 /**
  * Check if user has any of the specified roles
  */
-export function hasAnyRole(user: UserProfile | null | undefined, roles: string[]): boolean {
+function hasAnyRole(user: UserProfile | null | undefined, roles: string[]): boolean {
   if (!user) return false;
   return roles.includes(user.user_type);
 }
@@ -61,7 +61,7 @@ export function canApproveTimeLogs(user: UserProfile | null | undefined): boolea
 /**
  * Check if user is an admin with full system access
  */
-export function isAdmin(user: UserProfile | null | undefined): boolean {
+function isAdmin(user: UserProfile | null | undefined): boolean {
   return hasAnyRole(user, ADMIN_ROLES);
 }
 

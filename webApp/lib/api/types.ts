@@ -214,7 +214,7 @@ export interface UserUpdate {
   profile_picture?: string;
 }
 
-export interface ValidationError {
+interface ValidationError {
   loc: (string | number)[];
   msg: string;
   type: string;
@@ -960,9 +960,7 @@ export enum MetricType {
 }
 
 export enum Granularity {
-  HOURLY = "hourly",
   DAILY = "daily",
-  WEEKLY = "weekly",
   MONTHLY = "monthly"
 }
 

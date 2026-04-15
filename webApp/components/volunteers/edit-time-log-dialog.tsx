@@ -119,7 +119,7 @@ export function EditTimeLogDialog({ open, onOpenChange, timeLog, onSuccess }: Ed
                     const calculatedHours = (minutes / 60).toFixed(2);
                     setHours(calculatedHours);
                 }
-            } catch (error) {
+            } catch (_error) {
                 // Invalid time format, ignore
             }
         }
@@ -154,7 +154,7 @@ export function EditTimeLogDialog({ open, onOpenChange, timeLog, onSuccess }: Ed
                 if (end <= start) {
                     errors.endTime = 'End time must be after start time';
                 }
-            } catch (error) {
+            } catch (_error) {
                 errors.endTime = 'Invalid time format';
             }
         }

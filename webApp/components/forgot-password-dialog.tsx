@@ -49,7 +49,7 @@ export function ForgotPasswordDialog({ open, onOpenChange }: ForgotPasswordDialo
       setTimeout(() => {
         onOpenChange(false);
       }, 1000);
-    } catch (err) {
+    } catch (_err) {
       toast.error(t('resetLinkError'));
     } finally {
       setIsLoading(false);

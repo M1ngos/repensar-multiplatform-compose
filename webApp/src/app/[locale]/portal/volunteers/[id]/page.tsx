@@ -6,7 +6,7 @@
  import useSWR from 'swr';
  import {volunteersApi} from '@/lib/api';
  import {useAuth} from '@/lib/hooks/useAuth';
- import {canEditTimeLog, canDeleteTimeLog, canLogHoursForOthers, canApproveTimeLogs} from '@/lib/permissions/timeTracking';
+ import {canEditTimeLog, canDeleteTimeLog, canLogHoursForOthers} from '@/lib/permissions/timeTracking';
  import {Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
  import {Badge} from '@/components/ui/badge';
  import {Skeleton} from '@/components/ui/skeleton';

@@ -4,46 +4,44 @@ import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
-import useSWR from 'swr';
 import {
-    LayoutDashboard,
-    FolderKanban,
-    FileText,
-    CheckSquare,
-    Users,
-    Heart,
-    BarChart3,
-    FileDown,
-    Settings,
-    LogOut,
-    Leaf,
-    BookOpen,
-    ClipboardCheck,
-    Clock,
-    ListTodo,
-    Award,
-    Trophy,
-    Mail,
-    ChevronRight,
-    Target,
+  LayoutDashboard,
+  FolderKanban,
+  FileText,
+  CheckSquare,
+  Users,
+  Heart,
+  BarChart3,
+  FileDown,
+  Settings,
+  LogOut,
+  Leaf,
+  BookOpen,
+  ClipboardCheck,
+  Clock,
+  ListTodo,
+  Award,
+  Trophy,
+  Mail,
+  ChevronRight,
 } from 'lucide-react';
 
 import {
-    Sidebar,
-    SidebarContent,
-    SidebarFooter,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarHeader,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-    SidebarMenuSub,
-    SidebarMenuSubButton,
-    SidebarMenuSubItem,
-    SidebarSeparator,
-    SidebarRail,
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarSeparator,
+  SidebarRail,
 } from '@/components/ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/lib/hooks/useAuth.tsx';
@@ -52,406 +50,406 @@ import { useRouter } from 'next/navigation';
 import { Moon, Sun, Monitor } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 
 interface NavItem {
-    title: string;
-    href?: string;
-    icon: React.ComponentType<{ className?: string }>;
-    badge?: number;
-    roles?: string[]; // Which roles can see this item
-    items?: NavSubItem[]; // Sub-items for collapsible menus
+  title: string;
+  href?: string;
+  icon: React.ComponentType<{ className?: string }>;
+  badge?: number;
+  roles?: string[]; // Which roles can see this item
+  items?: NavSubItem[]; // Sub-items for collapsible menus
 }
 
 interface NavSubItem {
-    title: string;
-    href: string;
-    icon?: React.ComponentType<{ className?: string }>;
+  title: string;
+  href: string;
+  icon?: React.ComponentType<{ className?: string }>;
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-    const pathname = usePathname();
-    const router = useRouter();
-    const locale = useLocale();
-    const t = useTranslations('Dashboard');
-    const { user, logout, isLogoutLoading } = useAuth();
+  const pathname = usePathname();
+  const router = useRouter();
+  const locale = useLocale();
+  const t = useTranslations('Dashboard');
+  const { user, logout, isLogoutLoading } = useAuth();
 
-    // Get user role
-    const userRole = user?.user_type || 'volunteer';
+  // Get user role
+  const userRole = user?.user_type || 'volunteer';
 
-    const navItems: NavItem[] = [
-        {
-            title: t('nav.overview'),
-            href: `/${locale}/portal`,
-            icon: LayoutDashboard,
-        },
-        // Volunteer-specific navigation
-        {
-            title: t('nav.myTasks'),
-            href: `/${locale}/portal/my-tasks`,
-            icon: ListTodo,
-            roles: ['volunteer'],
-        },
-        {
-            title: t('nav.myHours'),
-            href: `/${locale}/portal/my-hours`,
-            icon: Clock,
-            roles: ['volunteer'],
-        },
-        {
-            title: t('nav.availableTasks'),
-            href: `/${locale}/portal/available-tasks`,
-            icon: CheckSquare,
-            roles: ['volunteer'],
-        },
-        {
-            title: t('nav.myAchievements'),
-            href: `/${locale}/portal/achievements`,
-            icon: Award,
-            roles: ['volunteer'],
-        },
-        {
+  const navItems: NavItem[] = [
+    {
+      title: t('nav.overview'),
+      href: `/${locale}/portal`,
+      icon: LayoutDashboard,
+    },
+    // Volunteer-specific navigation
+    {
+      title: t('nav.myTasks'),
+      href: `/${locale}/portal/my-tasks`,
+      icon: ListTodo,
+      roles: ['volunteer'],
+    },
+    {
+      title: t('nav.myHours'),
+      href: `/${locale}/portal/my-hours`,
+      icon: Clock,
+      roles: ['volunteer'],
+    },
+    {
+      title: t('nav.availableTasks'),
+      href: `/${locale}/portal/available-tasks`,
+      icon: CheckSquare,
+      roles: ['volunteer'],
+    },
+    {
+      title: t('nav.myAchievements'),
+      href: `/${locale}/portal/achievements`,
+      icon: Award,
+      roles: ['volunteer'],
+    },
+    {
+      title: t('nav.leaderboards'),
+      href: `/${locale}/portal/leaderboards`,
+      icon: Trophy,
+      roles: ['volunteer'],
+    },
+    {
+      title: t('nav.messages'),
+      href: `/${locale}/portal/messages`,
+      icon: Mail,
+      roles: ['volunteer', 'staff_member', 'project_manager', 'admin'],
+    },
+    // Project Manager-specific navigation
+    {
+      title: t('nav.myProjects'),
+      href: `/${locale}/portal/my-projects`,
+      icon: FolderKanban,
+      roles: ['project_manager'],
+    },
+    {
+      title: t('nav.team'),
+      href: `/${locale}/portal/team`,
+      icon: Users,
+      roles: ['project_manager'],
+    },
+    // Admin/PM/Staff navigation
+    {
+      title: t('nav.projects'),
+      href: `/${locale}/portal/projects`,
+      icon: FolderKanban,
+      roles: ['admin', 'staff_member'],
+    },
+    {
+      title: t('nav.resources'),
+      href: `/${locale}/portal/resources`,
+      icon: FileText,
+      roles: ['admin', 'project_manager', 'staff_member'],
+    },
+    {
+      title: t('nav.tasks'),
+      href: `/${locale}/portal/tasks`,
+      icon: CheckSquare,
+      roles: ['admin', 'project_manager', 'staff_member'],
+    },
+    {
+      title: t('nav.volunteers'),
+      href: `/${locale}/portal/volunteers`,
+      icon: Heart,
+      roles: ['admin', 'project_manager', 'staff_member'],
+    },
+    {
+      title: t('nav.approvals'),
+      href: `/${locale}/portal/approvals/time-logs`,
+      icon: ClipboardCheck,
+      roles: ['admin', 'project_manager', 'staff_member'],
+    },
+    {
+      title: t('nav.contact'),
+      href: `/${locale}/portal/contact`,
+      icon: Mail,
+      roles: ['admin', 'staff_member'],
+    },
+    // Gamification - Staff can award, Admins get full management
+    ...(userRole === 'admin'
+      ? [{
+        title: t('nav.gamification'),
+        icon: Award,
+        roles: ['admin'],
+        items: [
+          {
+            title: t('nav.awardBadgesPoints'),
+            href: `/${locale}/portal/gamification`,
+          },
+          {
+            title: t('nav.manageBadges'),
+            href: `/${locale}/portal/gamification/badges`,
+          },
+          {
+            title: t('nav.manageAchievements'),
+            href: `/${locale}/portal/gamification/achievements`,
+          },
+          {
             title: t('nav.leaderboards'),
-            href: `/${locale}/portal/leaderboards`,
-            icon: Trophy,
-            roles: ['volunteer'],
-        },
-        {
-            title: t('nav.messages'),
-            href: `/${locale}/portal/messages`,
-            icon: Mail,
-            roles: ['volunteer', 'staff_member', 'project_manager', 'admin'],
-        },
-        // Project Manager-specific navigation
-        {
-            title: t('nav.myProjects'),
-            href: `/${locale}/portal/my-projects`,
-            icon: FolderKanban,
-            roles: ['project_manager'],
-        },
-        {
-            title: t('nav.team'),
-            href: `/${locale}/portal/team`,
-            icon: Users,
-            roles: ['project_manager'],
-        },
-        // Admin/PM/Staff navigation
-        {
-            title: t('nav.projects'),
-            href: `/${locale}/portal/projects`,
-            icon: FolderKanban,
-            roles: ['admin', 'staff_member'],
-        },
-        {
-            title: t('nav.resources'),
-            href: `/${locale}/portal/resources`,
-            icon: FileText,
-            roles: ['admin', 'project_manager', 'staff_member'],
-        },
-        {
-            title: t('nav.tasks'),
-            href: `/${locale}/portal/tasks`,
-            icon: CheckSquare,
-            roles: ['admin', 'project_manager', 'staff_member'],
-        },
-        {
-            title: t('nav.volunteers'),
-            href: `/${locale}/portal/volunteers`,
-            icon: Heart,
-            roles: ['admin', 'project_manager', 'staff_member'],
-        },
-        {
-            title: t('nav.approvals'),
-            href: `/${locale}/portal/approvals/time-logs`,
-            icon: ClipboardCheck,
-            roles: ['admin', 'project_manager', 'staff_member'],
-        },
-        {
-            title: t('nav.contact'),
-            href: `/${locale}/portal/contact`,
-            icon: Mail,
-            roles: ['admin', 'staff_member'],
-        },
-        // Gamification - Staff can award, Admins get full management
-        ...(userRole === 'admin'
-            ? [{
-                title: t('nav.gamification'),
-                icon: Award,
-                roles: ['admin'],
-                items: [
-                    {
-                        title: t('nav.awardBadgesPoints'),
-                        href: `/${locale}/portal/gamification`,
-                    },
-                    {
-                        title: t('nav.manageBadges'),
-                        href: `/${locale}/portal/gamification/badges`,
-                    },
-                    {
-                        title: t('nav.manageAchievements'),
-                        href: `/${locale}/portal/gamification/achievements`,
-                    },
-                    {
-                        title: t('nav.leaderboards'),
-                        href: `/${locale}/portal/gamification/leaderboards`,
-                    },
-                ],
-            }]
-            : [{
-                title: t('nav.gamification'),
-                href: `/${locale}/portal/gamification`,
-                icon: Award,
-                roles: ['staff_member'],
-            }]
-        ),
-        {
-            title: t('nav.users'),
-            href: `/${locale}/portal/users`,
-            icon: Users,
-            roles: ['admin', 'staff_member', 'project_manager'],
-        },
-        {
-            title: t('nav.blog'),
-            href: `/${locale}/portal/blog`,
-            icon: BookOpen,
-            roles: ['admin', 'project_manager'],
-        },
-        {
-            title: t('nav.analytics'),
-            href: `/${locale}/portal/analytics`,
-            icon: BarChart3,
-            roles: ['admin', 'project_manager'],
-        },
-        {
-            title: t('nav.reports'),
-            href: `/${locale}/portal/reports`,
-            icon: FileDown,
-            roles: ['admin', 'project_manager', 'staff_member'],
-        },
-    ];
+            href: `/${locale}/portal/gamification/leaderboards`,
+          },
+        ],
+      }]
+      : [{
+        title: t('nav.gamification'),
+        href: `/${locale}/portal/gamification`,
+        icon: Award,
+        roles: ['staff_member'],
+      }]
+    ),
+    {
+      title: t('nav.users'),
+      href: `/${locale}/portal/users`,
+      icon: Users,
+      roles: ['admin', 'staff_member', 'project_manager'],
+    },
+    {
+      title: t('nav.blog'),
+      href: `/${locale}/portal/blog`,
+      icon: BookOpen,
+      roles: ['admin', 'project_manager'],
+    },
+    {
+      title: t('nav.analytics'),
+      href: `/${locale}/portal/analytics`,
+      icon: BarChart3,
+      roles: ['admin', 'project_manager'],
+    },
+    {
+      title: t('nav.reports'),
+      href: `/${locale}/portal/reports`,
+      icon: FileDown,
+      roles: ['admin', 'project_manager', 'staff_member'],
+    },
+  ];
 
-    const filteredNavItems = navItems.filter(
-        (item) => !item.roles || item.roles.includes(userRole)
-    );
+  const filteredNavItems = navItems.filter(
+    (item) => !item.roles || item.roles.includes(userRole)
+  );
 
-    const handleLogout = async () => {
-        await logout();
-        router.push(`/${locale}`);
-    };
+  const handleLogout = async () => {
+    await logout();
+    router.push(`/${locale}`);
+  };
 
-    const { theme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
-    return (
-        <Sidebar collapsible="icon" {...props}>
-            <SidebarHeader>
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
-                            <Link href={`/${locale}/portal`}>
-                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-emerald-500 text-sidebar-primary-foreground">
-                                    <Leaf className="size-4" />
-                                </div>
-                                <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-semibold">Repensar</span>
-                                    <span className="truncate text-xs">{t('appSubtitle')}</span>
-                                </div>
-                            </Link>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-            </SidebarHeader>
+  return (
+    <Sidebar collapsible="icon" {...props}>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <Link href={`/${locale}/portal`}>
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-emerald-500 text-sidebar-primary-foreground">
+                  <Leaf className="size-4" />
+                </div>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-semibold">Repensar</span>
+                  <span className="truncate text-xs">{t('appSubtitle')}</span>
+                </div>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
 
-            <SidebarContent>
-                <SidebarGroup>
-                    <SidebarGroupLabel>{t('nav.main')}</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            {filteredNavItems.map((item) => {
-                                const Icon = item.icon;
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>{t('nav.main')}</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {filteredNavItems.map((item) => {
+                const Icon = item.icon;
 
-                                // Handle items with sub-items (collapsible)
-                                if (item.items && item.items.length > 0) {
-                                    const isAnySubItemActive = item.items.some(
-                                        (subItem) => pathname.startsWith(subItem.href)
-                                    );
+                // Handle items with sub-items (collapsible)
+                if (item.items && item.items.length > 0) {
+                  const isAnySubItemActive = item.items.some(
+                    (subItem) => pathname.startsWith(subItem.href)
+                  );
 
-                                    return (
-                                        <Collapsible
-                                            key={item.title}
-                                            asChild
-                                            defaultOpen={isAnySubItemActive}
-                                        >
-                                            <SidebarMenuItem>
-                                                <CollapsibleTrigger asChild>
-                                                    <SidebarMenuButton tooltip={item.title}>
-                                                        <Icon />
-                                                        <span>{item.title}</span>
-                                                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                                                    </SidebarMenuButton>
-                                                </CollapsibleTrigger>
-                                                <CollapsibleContent>
-                                                    <SidebarMenuSub>
-                                                        {item.items.map((subItem) => {
-                                                            const isActive = pathname === subItem.href;
-                                                            return (
-                                                                <SidebarMenuSubItem key={subItem.href}>
-                                                                    <SidebarMenuSubButton
-                                                                        asChild
-                                                                        isActive={isActive}
-                                                                    >
-                                                                        <Link href={subItem.href}>
-                                                                            <span>{subItem.title}</span>
-                                                                        </Link>
-                                                                    </SidebarMenuSubButton>
-                                                                </SidebarMenuSubItem>
-                                                            );
-                                                        })}
-                                                    </SidebarMenuSub>
-                                                </CollapsibleContent>
-                                            </SidebarMenuItem>
-                                        </Collapsible>
-                                    );
-                                }
-
-                                // Handle regular items
-                                const isActive =
-                                    pathname === item.href ||
-                                    (item.href !== `/${locale}/portal` &&
-                                        item.href && pathname.startsWith(item.href));
-
-                                return (
-                                    <SidebarMenuItem key={item.href}>
-                                        <SidebarMenuButton
-                                            asChild
-                                            isActive={isActive}
-                                            tooltip={item.title}
-                                        >
-                                            <Link href={item.href!}>
-                                                <Icon />
-                                                <span>{item.title}</span>
-                                            </Link>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                );
-                            })}
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-
-                <SidebarSeparator />
-
-                <SidebarGroup>
-                    <SidebarGroupLabel>{t('nav.other')}</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton
+                  return (
+                    <Collapsible
+                      key={item.title}
+                      asChild
+                      defaultOpen={isAnySubItemActive}
+                    >
+                      <SidebarMenuItem>
+                        <CollapsibleTrigger asChild>
+                          <SidebarMenuButton tooltip={item.title}>
+                            <Icon />
+                            <span>{item.title}</span>
+                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                          </SidebarMenuButton>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent>
+                          <SidebarMenuSub>
+                            {item.items.map((subItem) => {
+                              const isActive = pathname === subItem.href;
+                              return (
+                                <SidebarMenuSubItem key={subItem.href}>
+                                  <SidebarMenuSubButton
                                     asChild
-                                    isActive={pathname === `/${locale}/portal/settings`}
-                                    tooltip={t('nav.settings')}
-                                >
-                                    <Link href={`/${locale}/portal/settings`}>
-                                        <Settings />
-                                        <span>{t('nav.settings')}</span>
+                                    isActive={isActive}
+                                  >
+                                    <Link href={subItem.href}>
+                                      <span>{subItem.title}</span>
                                     </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-            </SidebarContent>
+                                  </SidebarMenuSubButton>
+                                </SidebarMenuSubItem>
+                              );
+                            })}
+                          </SidebarMenuSub>
+                        </CollapsibleContent>
+                      </SidebarMenuItem>
+                    </Collapsible>
+                  );
+                }
 
-            <SidebarFooter>
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <SidebarMenuButton
-                                    size="lg"
-                                    tooltip={t('nav.theme')}
-                                >
-                                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                                        <Sun className="size-4 rotate-0 scale-100 transition-all dark:scale-0 dark:-rotate-90" />
-                                        <Moon className="absolute size-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                                    </div>
-                                    <div className="grid flex-1 text-left text-sm leading-tight">
-                                        <span className="truncate font-semibold">{t('nav.theme')}</span>
-                                        <span className="truncate text-xs capitalize">
-                                            {theme === 'system' ? t('nav.themeSystem') : theme}
-                                        </span>
-                                    </div>
-                                </SidebarMenuButton>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent side="top" align="end" className="w-[--radix-dropdown-menu-trigger-width]">
-                                <DropdownMenuItem onClick={() => {
-                                    setTheme('light');
-                                    preferencesApi.patchPreferences({ theme: 'light' });
-                                }}>
-                                    <Sun className="mr-2 size-4" />
-                                    {t('nav.themeLight')}
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => {
-                                    setTheme('dark');
-                                    preferencesApi.patchPreferences({ theme: 'dark' });
-                                }}>
-                                    <Moon className="mr-2 size-4" />
-                                    {t('nav.themeDark')}
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => {
-                                    setTheme('system');
-                                    preferencesApi.patchPreferences({ theme: 'system' });
-                                }}>
-                                    <Monitor className="mr-2 size-4" />
-                                    {t('nav.themeSystem')}
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
-                            <Link href={`/${locale}/portal/profile`}>
-                                <Avatar className="size-8 rounded-lg">
-                                    <AvatarImage alt={user?.name || 'User'} />
-                                    <AvatarFallback className="rounded-lg bg-emerald-100 text-emerald-700">
-                                        {user?.name
-                                            ?.split(' ')
-                                            .map((n) => n[0])
-                                            .join('')
-                                            .toUpperCase() || 'U'}
-                                    </AvatarFallback>
-                                </Avatar>
-                                <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-semibold">{user?.name}</span>
-                                    <span className="truncate text-xs">
-                                        {t(`roles.${userRole}`)}
-                                    </span>
-                                </div>
-                            </Link>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton
-                            onClick={handleLogout}
-                            disabled={isLogoutLoading}
-                            tooltip={t('nav.logout')}
-                        >
-                            <LogOut />
-                            <span>{t('nav.logout')}</span>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-            </SidebarFooter>
+                // Handle regular items
+                const isActive =
+                  pathname === item.href ||
+                  (item.href !== `/${locale}/portal` &&
+                    !!item.href && pathname.startsWith(item.href));
 
-            <SidebarRail />
-        </Sidebar>
-    );
+                return (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive}
+                      tooltip={item.title}
+                    >
+                      <Link href={item.href!}>
+                        <Icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarSeparator />
+
+        <SidebarGroup>
+          <SidebarGroupLabel>{t('nav.other')}</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === `/${locale}/portal/settings`}
+                  tooltip={t('nav.settings')}
+                >
+                  <Link href={`/${locale}/portal/settings`}>
+                    <Settings />
+                    <span>{t('nav.settings')}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton
+                  size="lg"
+                  tooltip={t('nav.theme')}
+                >
+                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                    <Sun className="size-4 rotate-0 scale-100 transition-all dark:scale-0 dark:-rotate-90" />
+                    <Moon className="absolute size-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                  </div>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-semibold">{t('nav.theme')}</span>
+                    <span className="truncate text-xs capitalize">
+                      {theme === 'system' ? t('nav.themeSystem') : theme}
+                    </span>
+                  </div>
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side="top" align="end" className="w-[--radix-dropdown-menu-trigger-width]">
+                <DropdownMenuItem onClick={() => {
+                  setTheme('light');
+                  preferencesApi.patchPreferences({ theme: 'light' });
+                }}>
+                  <Sun className="mr-2 size-4" />
+                  {t('nav.themeLight')}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => {
+                  setTheme('dark');
+                  preferencesApi.patchPreferences({ theme: 'dark' });
+                }}>
+                  <Moon className="mr-2 size-4" />
+                  {t('nav.themeDark')}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => {
+                  setTheme('system');
+                  preferencesApi.patchPreferences({ theme: 'system' });
+                }}>
+                  <Monitor className="mr-2 size-4" />
+                  {t('nav.themeSystem')}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <Link href={`/${locale}/portal/profile`}>
+                <Avatar className="size-8 rounded-lg">
+                  <AvatarImage alt={user?.name || 'User'} />
+                  <AvatarFallback className="rounded-lg bg-emerald-100 text-emerald-700">
+                    {user?.name
+                      ?.split(' ')
+                      .map((n) => n[0])
+                      .join('')
+                      .toUpperCase() || 'U'}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-semibold">{user?.name}</span>
+                  <span className="truncate text-xs">
+                    {t(`roles.${userRole}`)}
+                  </span>
+                </div>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              onClick={handleLogout}
+              disabled={isLogoutLoading}
+              tooltip={t('nav.logout')}
+            >
+              <LogOut />
+              <span>{t('nav.logout')}</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+
+      <SidebarRail />
+    </Sidebar>
+  );
 }

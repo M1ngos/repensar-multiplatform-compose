@@ -90,7 +90,7 @@ export default function MessagesPage() {
             mutateMessages();
             mutateConversations();
             toast.success(t('messageSent'));
-        } catch (error) {
+        } catch (_error) {
             toast.error(t('messageError'));
         } finally {
             setIsSending(false);
@@ -116,7 +116,7 @@ export default function MessagesPage() {
             mutateConversations();
             setSelectedConversation(newConv);
             toast.success(t('conversations.created'));
-        } catch (error) {
+        } catch (_error) {
             toast.error(t('conversations.createError'));
         } finally {
             setIsCreating(false);
@@ -147,7 +147,7 @@ export default function MessagesPage() {
                 if (msg.sender_id !== user?.id) {
                     try {
                         await communicationApi.markAsRead(selectedConversation.id, msg.id);
-                    } catch (e) {
+                    } catch (_e) {
                         // Ignore errors for mark as read
                     }
                 }

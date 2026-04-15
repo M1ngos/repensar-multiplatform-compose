@@ -22,7 +22,6 @@ import { useAuth } from '@/lib/hooks/useAuth.tsx';
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { ForgotPasswordDialog } from '@/components/forgot-password-dialog';
-import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 

@@ -8,8 +8,6 @@ import type {
   Badge,
   BadgeCreate,
   BadgeUpdate,
-  BadgeSummary,
-  VolunteerBadge,
   VolunteerBadgesResponse,
   Achievement,
   AchievementCreate,
@@ -38,9 +36,7 @@ import type {
   PointsHistoryParams,
   LeaderboardParams,
   RankingsParams,
-  BadgeCategory,
   LeaderboardType,
-  LeaderboardTimeframe,
 } from './types';
 
 const BASE_PATH = '/gamification';

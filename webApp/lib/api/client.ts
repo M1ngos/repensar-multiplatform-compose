@@ -183,7 +183,7 @@ class ApiClient {
     const {
       skipAuth = false,
       skipRetry = false,
-      retryCount = 0,
+      retryCount: _retryCount = 0,
       ...requestInit
     } = options;
 
@@ -208,7 +208,7 @@ class ApiClient {
       if (this.isTokenExpired()) {
         try {
           await this.refreshAccessToken();
-        } catch (error) {
+        } catch (_error) {
           // If refresh fails, continue with current token
           // The 401 handler will catch it
         }
@@ -248,7 +248,7 @@ class ApiClient {
               ...options,
               skipRetry: true, // Prevent infinite retry loop
             });
-          } catch (refreshError) {
+          } catch (_refreshError) {
             // Refresh failed, clear tokens and throw error
             this.clearAuthToken();
             throw {
@@ -423,5 +423,5 @@ class ApiClient {
 export const apiClient = new ApiClient();
 
 // Export class for testing or multiple instances
-export { ApiClient };
-export type { RequestConfig, RequestInterceptor };
+;
+;

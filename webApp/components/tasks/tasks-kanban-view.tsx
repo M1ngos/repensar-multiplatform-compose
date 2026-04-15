@@ -20,7 +20,7 @@ interface TasksKanbanViewProps {
 
 const TASK_STATUSES: TaskStatus[] = ['not_started', 'in_progress', 'completed', 'cancelled'];
 
-export function TasksKanbanView({ tasks, isLoading, error, onRefresh, onCreateInStatus }: TasksKanbanViewProps) {
+export function TasksKanbanView({ tasks, isLoading, error, onRefresh: _onRefresh, onCreateInStatus }: TasksKanbanViewProps) {
     const t = useTranslations('Tasks');
     const locale = useLocale();
 

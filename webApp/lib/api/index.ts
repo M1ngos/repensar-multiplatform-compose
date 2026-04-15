@@ -31,8 +31,8 @@
  */
 
 // Export API client
-export { apiClient, ApiClient } from './client';
-export type { RequestConfig, RequestInterceptor } from './client';
+;
+;
 
 // Import API modules
 import { authApi } from './auth';
@@ -51,7 +51,7 @@ import { preferencesApi } from './preferences';
 import { communicationApi } from './communication';
 
 // Export API modules
-export { authApi, projectsApi, tasksApi, volunteersApi, usersApi, resourcesApi, analyticsApi, reportsApi, blogApi, contactApi, newsletterApi, badgesApi, achievementsApi, pointsApi, leaderboardsApi, gamificationStatsApi, gamificationApi, preferencesApi, communicationApi };
+export { authApi, projectsApi, tasksApi, volunteersApi, usersApi, resourcesApi, analyticsApi, reportsApi, blogApi, contactApi, newsletterApi, badgesApi, achievementsApi, pointsApi, leaderboardsApi,   preferencesApi,  };
 
 // Export middleware (when implemented)
 // export {
@@ -93,4 +93,3 @@ export const api = {
 };
 
 // Default export
-export default api;

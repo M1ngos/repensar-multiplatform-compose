@@ -11,7 +11,7 @@ interface PasswordInputProps extends React.ComponentProps<typeof Input> {
 
 export function PasswordInput({
   className,
-  type = 'password',
+  type: _type = 'password',
   showToggle = true,
   ...props
 }: PasswordInputProps) {

@@ -63,12 +63,12 @@ export function StaffMemberDashboard() {
                         const hours = await volunteersApi.getVolunteerHours(volunteer.id, {});
                         const pending = hours.filter(log => !log.approved);
                         pendingLogs.push(...pending);
-                    } catch (error) {
+                    } catch (_error) {
                         // Skip if error
                     }
                 }
                 return pendingLogs.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-            } catch (error) {
+            } catch (_error) {
                 return [];
             }
         }
@@ -81,7 +81,7 @@ export function StaffMemberDashboard() {
             try {
                 const data = await contactApi.listSubmissions({ limit: 10, unread_only: false });
                 return data.items.filter(s => !s.is_read).slice(0, 3);
-            } catch (error) {
+            } catch (_error) {
                 return [];
             }
         }
@@ -100,14 +100,14 @@ export function StaffMemberDashboard() {
                     try {
                         const history = await pointsApi.getHistory(volunteer.id, { limit: 2 });
                         allHistory.push(...history.map(h => ({ ...h, volunteer_name: volunteer.name })));
-                    } catch (error) {
+                    } catch (_error) {
                         // Skip if error
                     }
                 }
                 return allHistory.sort((a, b) =>
                     new Date(b.awarded_at).getTime() - new Date(a.awarded_at).getTime()
                 ).slice(0, 5);
-            } catch (error) {
+            } catch (_error) {
                 return [];
             }
         }

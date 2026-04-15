@@ -8,7 +8,7 @@ import { useTour } from '@/lib/hooks/useTour';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { usersApi } from '@/lib/api';
 import { useAuth } from '@/lib/hooks/useAuth';
-import type { UserSummary, UserQueryParams, UserCreate } from '@/lib/api/users';
+import type { UserQueryParams } from '@/lib/api/users';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {

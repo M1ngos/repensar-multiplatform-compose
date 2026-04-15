@@ -29,7 +29,7 @@ const CITIES = [
 const TOTAL_STEPS = 6;
 const COOLDOWN_HOURS = 24;
 
-export function onboardingCooldownKey(volunteerId: number) {
+function onboardingCooldownKey(volunteerId: number) {
     return `onboarding_snoozed_${volunteerId}`;
 }
 

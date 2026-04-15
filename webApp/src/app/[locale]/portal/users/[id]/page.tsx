@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import useSWR from 'swr';
-import { ArrowLeft, Shield, Mail, Phone, Building, User as UserIcon, Calendar, Save } from 'lucide-react';
+import { ArrowLeft, Shield, Mail, Phone, Building, Calendar, Save } from 'lucide-react';
 import { usersApi } from '@/lib/api';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -31,7 +31,7 @@ export default function UserDetailPage() {
 
     const isAdmin = currentUser?.user_type === 'admin';
     const isStaffOrAdmin = currentUser?.user_type === 'admin' || currentUser?.user_type === 'staff_member';
-    const canEdit = isStaffOrAdmin;
+    const _canEdit = isStaffOrAdmin;
     const canActivate = isAdmin;
     const canChangeRole = isAdmin && currentUser?.id !== userId;
 

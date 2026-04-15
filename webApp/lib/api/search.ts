@@ -19,7 +19,7 @@ export interface SearchResults {
   volunteers: VolunteerSummary[];
 }
 
-export interface SearchParams {
+interface SearchParams {
   q: string;
   limit?: number;
 }

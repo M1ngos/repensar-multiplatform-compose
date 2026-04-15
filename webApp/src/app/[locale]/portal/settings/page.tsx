@@ -164,9 +164,9 @@ export default function SettingsPage() {
       setConfirmPassword('');
 
       toast.success(t('security.passwordChangeSuccess'));
-    } catch (error: any) {
-      console.error('Password change error:', error);
-      toast.error(error.detail || t('security.passwordChangeError'));
+    } catch (_error: any) {
+      console.error('Password change error:', _error);
+      toast.error(_error.detail || t('security.passwordChangeError'));
     } finally {
       setIsPasswordLoading(false);
     }
@@ -180,7 +180,7 @@ export default function SettingsPage() {
       await preferencesApi.patchPreferences({ [key]: value });
       mutate(); // Revalidate cache
       toast.success(t('notifications.saveSuccess'));
-    } catch (error) {
+    } catch (_error) {
       setNotifications(prev => ({ ...prev, [key]: previous }));
       toast.error(t('notifications.saveError'));
     }
@@ -198,7 +198,7 @@ export default function SettingsPage() {
       await preferencesApi.patchPreferences({ [key]: value });
       mutate(); // Revalidate cache
       toast.success(t('preferences.saveSuccess'));
-    } catch (error) {
+    } catch (_error) {
       setPreferencesState(prev => ({ ...prev, [key]: previous }));
       if (key === 'theme' && typeof previous === 'string') {
         setTheme(previous);

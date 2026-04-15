@@ -13,9 +13,9 @@ export const AUTO_PAUSE_MS = 60 * 60 * 1000;
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-export type TimerState = 'running' | 'paused' | 'auto_paused';
+type TimerState = 'running' | 'paused' | 'auto_paused';
 
-export interface TimerSegment {
+interface TimerSegment {
     startedAt: string;  // ISO — when this running segment began
     pausedAt?: string;  // ISO — when it was paused (undefined if still running)
 }
@@ -25,7 +25,7 @@ export interface TimerSegment {
  * `segments` is a list of running intervals.
  * The last segment is the active one; if it has no `pausedAt` it is currently running.
  */
-export interface TaskSession {
+interface TaskSession {
     taskId: number;
     projectId?: number;
     /** Date of the first segment start (YYYY-MM-DD) — used as the time-log date */
@@ -38,7 +38,7 @@ export interface TaskSession {
     state: TimerState;
 }
 
-export interface StoppedSession {
+interface StoppedSession {
     taskId: number;
     projectId?: number;
     date: string;
@@ -69,7 +69,7 @@ function saveSession(session: TaskSession): void {
     localStorage.setItem(sessionKey(session.taskId), JSON.stringify(session));
 }
 
-export function clearSession(taskId: number): void {
+function clearSession(taskId: number): void {
     if (typeof window === 'undefined') return;
     localStorage.removeItem(sessionKey(taskId));
 }
@@ -193,7 +193,7 @@ export function stopSession(taskId: number): StoppedSession | null {
 /**
  * Compute total elapsed ms for a session (including any currently-running segment).
  */
-export function getTotalElapsedMs(session: TaskSession): number {
+function getTotalElapsedMs(session: TaskSession): number {
     let total = session.accumulatedMs;
     const last = session.segments[session.segments.length - 1];
     if (!last.pausedAt) {
@@ -203,7 +203,7 @@ export function getTotalElapsedMs(session: TaskSession): number {
 }
 
 /** How many ms have elapsed since the current running segment started. */
-export function getCurrentSegmentMs(session: TaskSession): number {
+function getCurrentSegmentMs(session: TaskSession): number {
     if (session.state !== 'running') return 0;
     const last = session.segments[session.segments.length - 1];
     return Date.now() - new Date(last.startedAt).getTime();
@@ -219,7 +219,7 @@ function formatElapsed(ms: number): string {
 
 // ─── React hook ───────────────────────────────────────────────────────────────
 
-export interface TaskTimerState {
+interface TaskTimerState {
     /** Formatted total elapsed time "HH:MM:SS", or null if no session */
     elapsed: string | null;
     /** Current timer state, or null if no session */

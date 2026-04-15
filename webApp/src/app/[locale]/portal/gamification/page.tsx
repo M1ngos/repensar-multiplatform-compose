@@ -87,7 +87,7 @@ export default function GamificationAwardsPage() {
                 try {
                     const history = await pointsApi.getHistory(volunteer.id, { limit: 5 });
                     allHistory.push(...history.map((h: PointsHistory) => ({ ...h, volunteer_name: volunteer.name })));
-                } catch (error) {
+                } catch (_error) {
                     // Skip if error
                 }
             }
