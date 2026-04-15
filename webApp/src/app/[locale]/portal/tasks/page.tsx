@@ -7,7 +7,8 @@ import { Plus, Search, Filter, LayoutGrid, List, CircleHelp } from 'lucide-react
 import { useTour } from '@/lib/hooks/useTour';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { tasksApi, projectsApi } from '@/lib/api';
-import type { TaskSummary, TaskDetail, TaskQueryParams, TaskStatus, TaskPriority } from '@/lib/api/types';
+import type { TaskSummary, TaskDetail, TaskQueryParams } from '@/lib/api/types';
+import { TaskStatus, TaskPriority } from '@/lib/api/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -23,8 +24,8 @@ import { TasksTableView } from '@/components/tasks/tasks-table-view';
 import { TaskFormDialog } from '@/components/tasks/task-form-dialog';
 import { AssignVolunteerDialog } from '@/components/tasks/assign-volunteer-dialog';
 
-const TASK_STATUSES: TaskStatus[] = ['not_started', 'in_progress', 'completed', 'cancelled'];
-const TASK_PRIORITIES: TaskPriority[] = ['low', 'medium', 'high', 'critical'];
+const TASK_STATUSES: TaskStatus[] = [TaskStatus.NOT_STARTED, TaskStatus.IN_PROGRESS, TaskStatus.COMPLETED, TaskStatus.CANCELLED];
+const TASK_PRIORITIES: TaskPriority[] = [TaskPriority.LOW, TaskPriority.MEDIUM, TaskPriority.HIGH, TaskPriority.CRITICAL];
 
 type ViewMode = 'kanban' | 'table';
 

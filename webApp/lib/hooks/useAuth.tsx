@@ -12,7 +12,7 @@ import {
 import { authApi } from '@/lib/api/auth';
 import { LoginRequest, RegisterRequest, UserProfile } from '@/lib/api/types';
 import { apiClient } from '@/lib/api/client';
-import { usePathname, useRouter } from '@/src/i18n/navigation.ts';
+import { useRouter } from '@/src/i18n/navigation.ts';
 
 interface AuthState {
   user: UserProfile | null;
@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const _pathname = usePathname();
+
 
   const checkAuth = useCallback(async () => {
     setIsAuthLoading(true);

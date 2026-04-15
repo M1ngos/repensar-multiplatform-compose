@@ -55,7 +55,7 @@ export default function TeamPage() {
             const volunteerResults = await Promise.all(
                 pmProjects!.map(p =>
                     projectsApi.getProjectVolunteers(p.id)
-                        .then(res => res.items.map(v => ({ ...v, projectId: p.id, projectName: p.name })))
+                        .then(res => res.data.map(v => ({ ...v, projectId: p.id, projectName: p.name })))
                         .catch(() => [] as (VolunteerSummary & { projectId: number; projectName: string })[])
                 )
             );

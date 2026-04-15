@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
 import { tasksApi, projectsApi } from '@/lib/api';
-import type { TaskCreate, TaskUpdate, TaskDetail, TaskStatus, TaskPriority } from '@/lib/api/types';
+import type { TaskCreate, TaskUpdate, TaskDetail } from '@/lib/api/types';
+import { TaskStatus, TaskPriority } from '@/lib/api/types';
 import {
     Dialog,
     DialogContent,
@@ -49,8 +50,8 @@ interface TaskFormDialogProps {
     onSuccess?: () => void;
 }
 
-const TASK_STATUSES: TaskStatus[] = ['not_started', 'in_progress', 'completed', 'cancelled'];
-const TASK_PRIORITIES: TaskPriority[] = ['low', 'medium', 'high', 'critical'];
+const TASK_STATUSES: TaskStatus[] = [TaskStatus.NOT_STARTED, TaskStatus.IN_PROGRESS, TaskStatus.COMPLETED, TaskStatus.CANCELLED];
+const TASK_PRIORITIES: TaskPriority[] = [TaskPriority.LOW, TaskPriority.MEDIUM, TaskPriority.HIGH, TaskPriority.CRITICAL];
 
 export function TaskFormDialog({ open, onOpenChange, task, projectId, defaultStatus, onSuccess }: TaskFormDialogProps) {
     const t = useTranslations('Tasks.form');
@@ -60,8 +61,8 @@ export function TaskFormDialog({ open, onOpenChange, task, projectId, defaultSta
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
-    const [status, setStatus] = useState<TaskStatus>('not_started');
-    const [priority, setPriority] = useState<TaskPriority>('medium');
+    const [status, setStatus] = useState<TaskStatus>(TaskStatus.NOT_STARTED);
+    const [priority, setPriority] = useState<TaskPriority>(TaskPriority.MEDIUM);
     const [startDate, setStartDate] = useState<Date | undefined>();
     const [endDate, setEndDate] = useState<Date | undefined>();
     const [estimatedHours, setEstimatedHours] = useState('');
@@ -108,8 +109,8 @@ export function TaskFormDialog({ open, onOpenChange, task, projectId, defaultSta
         setTitle('');
         setDescription('');
         setSelectedProjectId(null);
-        setStatus('not_started');
-        setPriority('medium');
+        setStatus(TaskStatus.NOT_STARTED);
+        setPriority(TaskPriority.MEDIUM);
         setStartDate(undefined);
         setEndDate(undefined);
         setEstimatedHours('');

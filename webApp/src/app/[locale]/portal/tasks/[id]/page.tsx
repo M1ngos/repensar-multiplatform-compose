@@ -377,7 +377,7 @@ export default function TaskDetailPage() {
                                             <span className="font-medium tabular-nums">{task.actual_hours}h</span>
                                         </div>
                                     )}
-                                    {task.requires_volunteers && (
+                                    {task.suitable_for_volunteers && (
                                         <div className="flex items-center gap-2">
                                             <Badge variant="secondary" className="bg-leaf/10 text-leaf border-leaf/20">
                                                 <Users className="mr-1 h-3 w-3" />

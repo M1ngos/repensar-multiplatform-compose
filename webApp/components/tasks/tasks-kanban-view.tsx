@@ -1,7 +1,8 @@
 'use client';
 
 import { useTranslations, useLocale } from 'next-intl';
-import type { TaskSummary, TaskStatus } from '@/lib/api/types';
+import type { TaskSummary } from '@/lib/api/types';
+import { TaskStatus } from '@/lib/api/types';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardAction, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -18,7 +19,7 @@ interface TasksKanbanViewProps {
     onCreateInStatus?: (status: TaskStatus) => void;
 }
 
-const TASK_STATUSES: TaskStatus[] = ['not_started', 'in_progress', 'completed', 'cancelled'];
+const TASK_STATUSES: TaskStatus[] = [TaskStatus.NOT_STARTED, TaskStatus.IN_PROGRESS, TaskStatus.COMPLETED, TaskStatus.CANCELLED];
 
 export function TasksKanbanView({ tasks, isLoading, error, onRefresh: _onRefresh, onCreateInStatus }: TasksKanbanViewProps) {
     const t = useTranslations('Tasks');

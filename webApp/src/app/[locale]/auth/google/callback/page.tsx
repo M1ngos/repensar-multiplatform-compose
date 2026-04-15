@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from '@/src/i18n/navigation';
 import { authApi } from '@/lib/api/auth';
@@ -8,7 +8,7 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import { toast } from 'sonner';
 import { useTranslations, useLocale } from 'next-intl';
 
-export default function GoogleCallbackPage() {
+function GoogleCallbackContent() {
   const t = useTranslations('Login');
   const locale = useLocale();
   const router = useRouter();
@@ -149,5 +149,25 @@ export default function GoogleCallbackPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function GoogleCallbackPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="mb-4 flex justify-center">
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+          </div>
+          <h1 className="text-2xl font-semibold">Completing sign in...</h1>
+          <p className="mt-2 text-muted-foreground">
+            Please wait while we authenticate your account
+          </p>
+        </div>
+      </div>
+    }>
+      <GoogleCallbackContent />
+    </Suspense>
   );
 }

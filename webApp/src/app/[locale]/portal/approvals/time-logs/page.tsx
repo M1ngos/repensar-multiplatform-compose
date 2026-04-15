@@ -83,7 +83,7 @@ export default function TimeLogsApprovalPage() {
     // Fetch all pending time logs for all volunteers
     const pendingTimeLogsPromises = volunteers?.map(v =>
         volunteersApi.getVolunteerHours(v.id, {
-            approved_only: false,
+            approval_status: 'pending',
             start_date: dateFrom ? format(dateFrom, 'yyyy-MM-dd') : undefined,
             end_date: dateTo ? format(dateTo, 'yyyy-MM-dd') : undefined,
         })

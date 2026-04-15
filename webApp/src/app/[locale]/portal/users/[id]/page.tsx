@@ -30,8 +30,6 @@ export default function UserDetailPage() {
     const { user: currentUser } = useAuth();
 
     const isAdmin = currentUser?.user_type === 'admin';
-    const isStaffOrAdmin = currentUser?.user_type === 'admin' || currentUser?.user_type === 'staff_member';
-    const _canEdit = isStaffOrAdmin;
     const canActivate = isAdmin;
     const canChangeRole = isAdmin && currentUser?.id !== userId;
 
@@ -93,7 +91,7 @@ export default function UserDetailPage() {
     };
 
     const handleRoleChange = async () => {
-        if (!selectedRole || selectedRole === user.user_type.name) return;
+        if (!selectedRole || selectedRole === user?.user_type.name) return;
         
         setIsChangingRole(true);
         try {

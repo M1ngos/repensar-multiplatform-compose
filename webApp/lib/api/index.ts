@@ -68,6 +68,7 @@ export { authApi, projectsApi, tasksApi, volunteersApi, usersApi, resourcesApi, 
 
 // Export all types and enums
 export * from './types';
+export type { UserCreate, UserQueryParams } from './users';
 
 // Unified API object for convenience
 export const api = {
