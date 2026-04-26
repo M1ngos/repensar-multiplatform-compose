@@ -18,6 +18,9 @@ import { tasksApi } from '@/lib/api/tasks';
 import { analyticsApi } from '@/lib/api/analytics';
 import { usersApi } from '@/lib/api/users';
 import Link from 'next/link';
+import { format, subMonths, eachMonthOfInterval, startOfMonth } from 'date-fns';
+import { Area, AreaChart, BarChart, Bar, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
 export function AdminDashboard() {
     const { user } = useAuth();
@@ -45,9 +48,44 @@ export function AdminDashboard() {
         () => tasksApi.getTasksStats()
     );
 
+    const { data: hoursTrends } = useSWR(
+        'admin-hours-trends',
+        () => analyticsApi.getVolunteerHoursTrends({
+            start_date: format(subMonths(new Date(), 6), 'yyyy-MM-dd'),
+            end_date: format(new Date(), 'yyyy-MM-dd'),
+            granularity: 'monthly',
+        })
+    );
+
     const isLoading = analyticsLoading || projectsLoading || usersLoading || tasksLoading;
 
     const recentProjects = (projectsDashboard || []).slice(0, 5);
+
+    const hoursChartData = React.useMemo(() => {
+        return eachMonthOfInterval({ start: subMonths(new Date(), 5), end: new Date() }).map(month => {
+            const monthStr = format(startOfMonth(month), 'yyyy-MM');
+            const point = hoursTrends?.trends.find(t => (t.period || t.date || '').startsWith(monthStr));
+            return { month: format(month, 'MMM yyyy'), hours: point?.total_hours || 0 };
+        });
+    }, [hoursTrends]);
+
+    const taskChartData = React.useMemo(() => {
+        if (!taskStats) return [];
+        return [
+            { status: tAdmin('dashboard.tasksNotStarted'), count: taskStats.not_started },
+            { status: tAdmin('dashboard.tasksInProgress'), count: taskStats.in_progress },
+            { status: tAdmin('dashboard.tasksCompleted'), count: taskStats.completed },
+            { status: tAdmin('dashboard.tasksOverdue'), count: taskStats.overdue_tasks },
+        ];
+    }, [taskStats, tAdmin]);
+
+    const hoursChartConfig = {
+        hours: { label: 'Hours', color: 'hsl(var(--chart-1))' },
+    } satisfies ChartConfig;
+
+    const taskChartConfig = {
+        count: { label: 'Tasks', color: 'hsl(var(--chart-2))' },
+    } satisfies ChartConfig;
 
     const usersByType = React.useMemo(() => {
         if (!usersData?.data) return {};
@@ -74,6 +112,10 @@ export function AdminDashboard() {
                 <div className="grid gap-4 md:grid-cols-3">
                     <Skeleton className="h-72" />
                     <Skeleton className="h-72" />
+                    <Skeleton className="h-72" />
+                </div>
+                <div className="grid gap-4 md:grid-cols-3">
+                    <Skeleton className="md:col-span-2 h-72" />
                     <Skeleton className="h-72" />
                 </div>
             </div>
@@ -111,6 +153,7 @@ export function AdminDashboard() {
                     value={analytics?.summary.tasks.completed_tasks || 0}
                     icon={CheckSquare}
                     variant="orange"
+                    description={`${(analytics?.summary.tasks.completion_rate || 0).toFixed(0)}% completion rate`}
                 />
             </div>
 
@@ -267,6 +310,71 @@ export function AdminDashboard() {
                                 </EmptyHeader>
                             </Empty>
                         )}
+                    </CardContent>
+                </Card>
+            </div>
+
+            {/* Analytics Charts */}
+            <div className="grid gap-4 md:grid-cols-3">
+                <Card className="md:col-span-2">
+                    <CardHeader>
+                        <CardTitle>{tAdmin('dashboard.charts.volunteerHoursTrend')}</CardTitle>
+                        <CardDescription>{tAdmin('dashboard.charts.volunteerHoursTrendDesc')}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer config={hoursChartConfig}>
+                            <AreaChart
+                                accessibilityLayer
+                                data={hoursChartData}
+                                margin={{ left: 12, right: 12, top: 12 }}
+                            >
+                                <CartesianGrid vertical={false} />
+                                <XAxis
+                                    dataKey="month"
+                                    tickLine={false}
+                                    axisLine={false}
+                                    tickMargin={8}
+                                    tickFormatter={(v) => v.split(' ')[0]}
+                                />
+                                <YAxis tickLine={false} axisLine={false} tickMargin={8} />
+                                <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
+                                <Area
+                                    dataKey="hours"
+                                    type="natural"
+                                    fill="var(--color-hours)"
+                                    fillOpacity={0.4}
+                                    stroke="var(--color-hours)"
+                                />
+                            </AreaChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>{tAdmin('dashboard.charts.taskStatusBreakdown')}</CardTitle>
+                        <CardDescription>{tAdmin('dashboard.charts.taskStatusBreakdownDesc')}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer config={taskChartConfig}>
+                            <BarChart
+                                accessibilityLayer
+                                data={taskChartData}
+                                margin={{ left: 12, right: 12, top: 12 }}
+                            >
+                                <CartesianGrid vertical={false} />
+                                <XAxis
+                                    dataKey="status"
+                                    tickLine={false}
+                                    axisLine={false}
+                                    tickMargin={8}
+                                    style={{ fontSize: '11px' }}
+                                />
+                                <YAxis tickLine={false} axisLine={false} tickMargin={8} />
+                                <ChartTooltip content={<ChartTooltipContent />} />
+                                <Bar dataKey="count" fill="var(--color-count)" radius={4} />
+                            </BarChart>
+                        </ChartContainer>
                     </CardContent>
                 </Card>
             </div>

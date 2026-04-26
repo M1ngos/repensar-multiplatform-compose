@@ -9,6 +9,8 @@ import type {
     ProjectProgressTrends,
     EnvironmentalImpactTrends,
     TrendsQueryParams,
+    TaskCompletionTrends,
+    AnalyticsOverview,
     CustomDashboard,
     DashboardCreate,
     DashboardUpdate,
@@ -111,6 +113,24 @@ export const analyticsApi = {
      * **Endpoint:** GET /analytics/trends/environmental-impact
      * **Authentication:** Bearer Token
      */
+    /**
+     * Get task completion velocity trend over time
+     *
+     * **Endpoint:** GET /analytics/trends/task-completion
+     */
+    getTaskCompletionTrends: (params: TrendsQueryParams) =>
+        apiClient.get<TaskCompletionTrends>('/analytics/trends/task-completion', params),
+
+    /**
+     * Get executive overview — all key organizational KPIs in a single call
+     * Designed for decision-maker dashboards with project health, task velocity,
+     * volunteer engagement, and detailed financial stats.
+     *
+     * **Endpoint:** GET /analytics/overview
+     */
+    getAnalyticsOverview: (params?: AnalyticsDashboardParams) =>
+        apiClient.get<AnalyticsOverview>('/analytics/overview', params),
+
     getEnvironmentalImpactTrends: (params?: {
         project_id?: number;
         metric_name?: string;

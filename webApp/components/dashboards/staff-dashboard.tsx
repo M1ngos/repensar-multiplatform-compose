@@ -19,8 +19,10 @@ import { tasksApi } from '@/lib/api/tasks';
 import { analyticsApi } from '@/lib/api/analytics';
 import { contactApi } from '@/lib/api/contact';
 import { pointsApi } from '@/lib/api/gamification';
-import { format } from 'date-fns';
+import { format, subMonths, eachMonthOfInterval, startOfMonth } from 'date-fns';
 import Link from 'next/link';
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
 export function StaffMemberDashboard() {
     const { user } = useAuth();
@@ -46,6 +48,15 @@ export function StaffMemberDashboard() {
     const { data: taskStats, isLoading: tasksLoading } = useSWR(
         'staff-task-stats',
         () => tasksApi.getTasksStats()
+    );
+
+    const { data: hoursTrends } = useSWR(
+        'staff-hours-trends',
+        () => analyticsApi.getVolunteerHoursTrends({
+            start_date: format(subMonths(new Date(), 6), 'yyyy-MM-dd'),
+            end_date: format(new Date(), 'yyyy-MM-dd'),
+            granularity: 'monthly',
+        })
     );
 
     // Fetch pending time approvals
@@ -115,6 +126,18 @@ export function StaffMemberDashboard() {
 
     const isLoading = analyticsLoading || projectsLoading || volunteersLoading || tasksLoading;
 
+    const hoursChartData = React.useMemo(() => {
+        return eachMonthOfInterval({ start: subMonths(new Date(), 5), end: new Date() }).map(month => {
+            const monthStr = format(startOfMonth(month), 'yyyy-MM');
+            const point = hoursTrends?.trends.find(t => (t.period || t.date || '').startsWith(monthStr));
+            return { month: format(month, 'MMM yyyy'), hours: point?.total_hours || 0 };
+        });
+    }, [hoursTrends]);
+
+    const hoursChartConfig = {
+        hours: { label: 'Hours', color: 'hsl(var(--chart-1))' },
+    } satisfies ChartConfig;
+
     if (isLoading) {
         return (
             <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
@@ -132,6 +155,7 @@ export function StaffMemberDashboard() {
                     <Skeleton className="h-72" />
                     <Skeleton className="h-72" />
                 </div>
+                <Skeleton className="h-72" />
             </div>
         );
     }
@@ -458,6 +482,41 @@ export function StaffMemberDashboard() {
                     </CardContent>
                 </Card>
             </div>
+
+            {/* Volunteer Hours Trend */}
+            <Card>
+                <CardHeader>
+                    <CardTitle>{tStaff('dashboard.charts.volunteerHoursTrend')}</CardTitle>
+                    <CardDescription>{tStaff('dashboard.charts.volunteerHoursTrendDesc')}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <ChartContainer config={hoursChartConfig}>
+                        <AreaChart
+                            accessibilityLayer
+                            data={hoursChartData}
+                            margin={{ left: 12, right: 12, top: 12 }}
+                        >
+                            <CartesianGrid vertical={false} />
+                            <XAxis
+                                dataKey="month"
+                                tickLine={false}
+                                axisLine={false}
+                                tickMargin={8}
+                                tickFormatter={(v) => v.split(' ')[0]}
+                            />
+                            <YAxis tickLine={false} axisLine={false} tickMargin={8} />
+                            <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
+                            <Area
+                                dataKey="hours"
+                                type="natural"
+                                fill="var(--color-hours)"
+                                fillOpacity={0.4}
+                                stroke="var(--color-hours)"
+                            />
+                        </AreaChart>
+                    </ChartContainer>
+                </CardContent>
+            </Card>
         </div>
     );
 }

@@ -16,6 +16,8 @@ import { projectsApi } from '@/lib/api/projects';
 import { volunteersApi } from '@/lib/api/volunteers';
 import { ProjectStatus } from '@/lib/api/types';
 import Link from 'next/link';
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { toast } from 'sonner';
 import type { VolunteerTimeLog, VolunteerSummary } from '@/lib/api/types';
 
@@ -109,6 +111,10 @@ export function ProjectManagerDashboard() {
 
     const isLoading = projectsLoading || dashLoading || approvalsLoading;
 
+    const projectChartConfig = {
+        progress: { label: 'Progress %', color: 'hsl(var(--chart-1))' },
+    } satisfies ChartConfig;
+
     if (isLoading) {
         return (
             <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
@@ -125,6 +131,7 @@ export function ProjectManagerDashboard() {
                     <Skeleton className="h-64" />
                     <Skeleton className="h-64" />
                 </div>
+                <Skeleton className="h-64" />
             </div>
         );
     }
@@ -270,6 +277,48 @@ export function ProjectManagerDashboard() {
                     </CardContent>
                 </Card>
             </div>
+
+            {/* Project Progress Chart */}
+            {topProjects.length > 0 && (
+                <Card>
+                    <CardHeader>
+                        <CardTitle>{tPM('dashboard.charts.projectProgress')}</CardTitle>
+                        <CardDescription>{tPM('dashboard.charts.projectProgressDesc')}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer config={projectChartConfig}>
+                            <BarChart
+                                accessibilityLayer
+                                data={topProjects.map(p => ({
+                                    name: p.name.length > 18 ? p.name.slice(0, 18) + '…' : p.name,
+                                    progress: p.progress_percentage || 0,
+                                }))}
+                                margin={{ left: 12, right: 12, top: 12 }}
+                            >
+                                <CartesianGrid vertical={false} />
+                                <XAxis
+                                    dataKey="name"
+                                    tickLine={false}
+                                    axisLine={false}
+                                    tickMargin={8}
+                                    style={{ fontSize: '11px' }}
+                                />
+                                <YAxis
+                                    tickLine={false}
+                                    axisLine={false}
+                                    tickMargin={8}
+                                    domain={[0, 100]}
+                                    tickFormatter={(v) => `${v}%`}
+                                />
+                                <ChartTooltip
+                                    content={<ChartTooltipContent formatter={(v) => [`${v}%`, 'Progress']} />}
+                                />
+                                <Bar dataKey="progress" fill="var(--color-progress)" radius={4} />
+                            </BarChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            )}
         </div>
     );
 }

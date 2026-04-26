@@ -1216,6 +1216,7 @@
     "tasks": {
       "completion": "Taxa de Conclusão de Tarefas",
       "completed": "tarefas concluídas",
+      "cancelled": "Canceladas",
       "inProgress": "Em Progresso",
       "notStarted": "não iniciadas"
     },
@@ -1223,10 +1224,12 @@
       "title": "Voluntários",
       "active": "Voluntários Ativos",
       "activeDesc": "Voluntários atualmente ativos",
-      "totalHours": "Total de Horas Registadas",
-      "totalHoursDesc": "Todas as horas de voluntariado",
-      "avgHours": "Média de Horas por Voluntário",
-      "avgHoursDesc": "Contribuição média"
+      "newThisPeriod": "Novos no Período",
+      "newThisPeriodDesc": "Aderiram no intervalo selecionado",
+      "totalHours": "Horas no Período",
+      "totalHoursDesc": "Horas de voluntariado aprovadas",
+      "avgHours": "Média de Horas / Voluntário",
+      "avgHoursDesc": "Por voluntário ativo"
     },
     "budget": {
       "title": "Orçamento",
@@ -1237,8 +1240,39 @@
       "utilization": "Utilização do Orçamento",
       "utilizationDesc": "Percentagem do orçamento utilizado"
     },
+    "overview": {
+      "title": "Pulso Executivo",
+      "atRisk": "Projetos em Risco",
+      "atRiskDesc": "Terminam em 30 dias",
+      "overdue": "Tarefas em Atraso",
+      "overdueDesc": "taxa de conclusão",
+      "velocity": "Velocidade de Tarefas",
+      "velocityDesc": "Tarefas concluídas / semana",
+      "budgetUtil": "Utilização do Orçamento",
+      "budgetUtilDesc": "Em todos os projetos"
+    },
+    "atRisk": {
+      "title": "Projetos em Risco",
+      "desc": "Projetos que terminam nos próximos 30 dias e ainda estão em progresso"
+    },
     "trends": {
-      "volunteerHours": "Tendências de Horas de Voluntariado"
+      "volunteerHours": "Tendência de Horas de Voluntariado",
+      "volunteerHoursDesc": "Horas de voluntariado aprovadas ao longo do tempo",
+      "taskCompletion": "Velocidade de Conclusão de Tarefas",
+      "taskCompletionDesc": "Tarefas fechadas por período"
+    },
+    "financial": {
+      "title": "Visão Financeira",
+      "totalBudget": "Orçamento Total",
+      "totalSpent": "Total Gasto",
+      "remaining": "Orçamento Restante",
+      "perProject": "Orçamento por Projeto",
+      "overBudget": "acima do orçamento",
+      "onTrack": "No Prazo",
+      "utilized": "utilizado",
+      "spent": "gasto",
+      "budgeted": "orçamentado",
+      "projectsWithBudget": "projetos com orçamento"
     },
     "hours": "horas",
     "logs": "registos"
@@ -1299,6 +1333,23 @@
       "title": "Exportação de Registos de Tempo",
       "description": "Exportar dados de rastreamento de horas de voluntariado"
     },
+    "executiveSummary": {
+      "title": "Sumário Executivo",
+      "description": "Visão abrangente para decisores — projetos, tarefas, voluntários e financeiros",
+      "exportCSV": "Descarregar Sumário Executivo (CSV)",
+      "totalProjects": "Total de Projetos",
+      "activeLabel": "ativos",
+      "atRisk": "Projetos em Risco",
+      "atRiskProjects": "Em risco",
+      "taskCompletion": "Conclusão de Tarefas",
+      "tasksLabel": "tarefas",
+      "budgetUtilization": "Utilização do Orçamento",
+      "generatedAt": "Gerado em"
+    },
+    "exports": {
+      "title": "Exportações de Dados"
+    },
+    "noData": "Sem dados de sumário disponíveis",
     "info": {
       "title": "Informações de Exportação",
       "csvDescription": "O formato CSV é ideal para aplicações de folhas de cálculo como Excel ou Google Sheets.",
@@ -2326,6 +2377,10 @@
         "totalTasks": "Total de Tarefas",
         "teamMembers": "Membros da Equipe",
         "pendingApprovals": "Aprovações Pendentes"
+      },
+      "charts": {
+        "projectProgress": "Visão Geral do Progresso dos Projetos",
+        "projectProgressDesc": "Percentual de conclusão dos seus projetos ativos"
       }
     },
     "myProjects": {
@@ -2435,7 +2490,11 @@
       "viewAll": "Ver tudo",
       "noPendingApprovals": "Nenhuma aprovação pendente",
       "noRecentContacts": "Nenhum contato recente",
-      "noRecentAwards": "Nenhuma premiação recente"
+      "noRecentAwards": "Nenhuma premiação recente",
+      "charts": {
+        "volunteerHoursTrend": "Tendência de Horas de Voluntários",
+        "volunteerHoursTrendDesc": "Horas aprovadas mensalmente nos últimos 6 meses"
+      }
     },
     "contactSubmissions": {
       "title": "Submissões de Contato",
@@ -2592,7 +2651,13 @@
       "tasksCompleted": "Concluídas",
       "tasksOverdue": "Atrasadas",
       "tasksTotal": "Total de Tarefas",
-      "noTasks": "Nenhuma tarefa encontrada"
+      "noTasks": "Nenhuma tarefa encontrada",
+      "charts": {
+        "volunteerHoursTrend": "Tendência de Horas de Voluntários",
+        "volunteerHoursTrendDesc": "Horas aprovadas mensalmente nos últimos 6 meses",
+        "taskStatusBreakdown": "Distribuição de Status de Tarefas",
+        "taskStatusBreakdownDesc": "Distribuição atual de todas as tarefas por status"
+      }
     },
     "badges": {
       "title": "Gestão de Emblemas",
@@ -2887,12 +2952,14 @@
       "table": { "title": "Aprovações Pendentes", "desc": "Reveja cada entrada de horas aqui. Clique em Aprovar para confirmar ou Rejeitar para recusar com uma nota." }
     },
     "reports": {
-      "tabs": { "title": "Exportar Relatórios", "desc": "Escolha um tipo de relatório e aplique filtros antes de exportar." },
-      "export": { "title": "Formatos de Exportação", "desc": "Descarregue relatórios em CSV para folhas de cálculo ou JSON para integrações." }
+      "executive": { "title": "Sumário Executivo", "desc": "Um instantâneo em tempo real da organização — projetos em risco, taxa de conclusão de tarefas e utilização do orçamento. Descarregue o CSV completo para apresentações ao conselho." },
+      "tabs": { "title": "Exportações de Dados", "desc": "Exporte dados por entidade (Projetos, Voluntários, Tarefas, Registos de Horas) em CSV para folhas de cálculo ou JSON para integrações. Aplique filtros antes de descarregar." }
     },
     "analytics": {
-      "stats": { "title": "Métricas Principais", "desc": "Números de alto nível para projetos, voluntários, tarefas e horas — atualizados em tempo real." },
-      "charts": { "title": "Tendências e Gráficos", "desc": "Visualize tendências de atividade no período selecionado. Use o menu pendente no cabeçalho para alterar o período." }
+      "pulse": { "title": "Pulso Executivo", "desc": "Quatro KPIs críticos para decisores: projetos em risco, tarefas em atraso, velocidade semanal de tarefas e utilização geral do orçamento. Destacados a laranja ou vermelho quando é necessária ação." },
+      "charts": { "title": "Gráficos de Tendências", "desc": "Esquerda: horas de voluntariado ao longo do tempo. Direita: velocidade de conclusão de tarefas — quantas tarefas são fechadas por período. Use o seletor de datas para ampliar ou reduzir." },
+      "stats": { "title": "Projetos e Voluntários", "desc": "Detalhes do estado dos projetos e do envolvimento dos voluntários no período selecionado." },
+      "financial": { "title": "Visão Financeira", "desc": "Orçamento vs. gasto por projeto. As barras de progresso ficam vermelhas quando um projeto excede o orçamento. Ordenado por valor do orçamento." }
     },
     "users": {
       "filters": { "title": "Filtrar Utilizadores", "desc": "Pesquise por nome ou email e filtre por estado ativo." },

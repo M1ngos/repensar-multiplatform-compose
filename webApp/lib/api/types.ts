@@ -1137,6 +1137,68 @@ export interface TrendsQueryParams {
   metric_name?: string;
 }
 
+export interface TaskCompletionTrends {
+  start_date: string;
+  end_date: string;
+  granularity: string;
+  data_points: number;
+  trends: Array<{
+    period: string;
+    completed_count: number;
+    cancelled_count: number;
+    total_closed: number;
+  }>;
+}
+
+export interface AnalyticsOverview {
+  generated_at: string;
+  period: { start_date: string; end_date: string };
+  projects: {
+    total: number;
+    active: number;
+    completed: number;
+    planning: number;
+    cancelled: number;
+    at_risk: number;
+    at_risk_names: string[];
+  };
+  tasks: {
+    total: number;
+    completed: number;
+    in_progress: number;
+    not_started: number;
+    overdue: number;
+    completion_rate: number;
+    velocity_per_week: number;
+    completed_this_period: number;
+  };
+  volunteers: {
+    total: number;
+    active: number;
+    new_this_period: number;
+    total_hours_this_period: number;
+    avg_hours_per_active_volunteer: number;
+  };
+  budget: {
+    total_budget: number;
+    total_spent: number;
+    remaining_budget: number;
+    utilization_rate: number;
+    projects_with_budget: number;
+    over_budget_projects: number;
+    per_project: Array<{
+      id: number;
+      name: string;
+      status: string;
+      budget: number;
+      spent: number;
+      remaining: number;
+      utilization_rate: number;
+      over_budget: boolean;
+    }>;
+  };
+}
+
 // ==================== Reports & Exports Types ====================
 
 export enum ExportFormat {

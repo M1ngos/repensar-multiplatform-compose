@@ -254,6 +254,41 @@ export const reportsApi = {
         return response.blob();
     },
 
+    // ==================== Executive Summary ====================
+
+    /**
+     * Get high-level executive summary for decision makers.
+     * Includes project health, task performance, volunteer engagement, and financials.
+     *
+     * **Endpoint:** GET /reports/executive-summary
+     */
+    getExecutiveSummary: () =>
+        apiClient.get<Record<string, any>>('/reports/executive-summary'),
+
+    /**
+     * Export executive summary as CSV — one row per project with all key metrics.
+     * Designed for board presentations and external reporting.
+     *
+     * **Endpoint:** GET /reports/export/executive-summary/csv
+     */
+    exportExecutiveSummaryCSV: async (): Promise<Blob> => {
+        const response = await fetch(
+            `${apiClient.getBaseURL()}/reports/export/executive-summary/csv`,
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('access_token') : ''}`,
+                },
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error('Export failed');
+        }
+
+        return response.blob();
+    },
+
     // ==================== Utility Functions ====================
 
     /**

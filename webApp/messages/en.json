@@ -1216,6 +1216,7 @@
     "tasks": {
       "completion": "Task Completion Rate",
       "completed": "tasks completed",
+      "cancelled": "Cancelled",
       "inProgress": "In Progress",
       "notStarted": "not started"
     },
@@ -1223,10 +1224,12 @@
       "title": "Volunteers",
       "active": "Active Volunteers",
       "activeDesc": "Currently active volunteers",
-      "totalHours": "Total Hours Logged",
-      "totalHoursDesc": "All volunteer hours",
-      "avgHours": "Avg. Hours per Volunteer",
-      "avgHoursDesc": "Average contribution"
+      "newThisPeriod": "New This Period",
+      "newThisPeriodDesc": "Joined in selected range",
+      "totalHours": "Hours This Period",
+      "totalHoursDesc": "Approved volunteer hours",
+      "avgHours": "Avg. Hours / Volunteer",
+      "avgHoursDesc": "Per active volunteer"
     },
     "budget": {
       "title": "Budget",
@@ -1237,8 +1240,39 @@
       "utilization": "Budget Utilization",
       "utilizationDesc": "Percentage of budget used"
     },
+    "overview": {
+      "title": "Executive Pulse",
+      "atRisk": "At-Risk Projects",
+      "atRiskDesc": "Ending within 30 days",
+      "overdue": "Overdue Tasks",
+      "overdueDesc": "completion rate",
+      "velocity": "Task Velocity",
+      "velocityDesc": "Tasks completed / week",
+      "budgetUtil": "Budget Utilization",
+      "budgetUtilDesc": "Across all projects"
+    },
+    "atRisk": {
+      "title": "At-Risk Projects",
+      "desc": "Projects ending within the next 30 days that are still in progress"
+    },
     "trends": {
-      "volunteerHours": "Volunteer Hours Trends"
+      "volunteerHours": "Volunteer Hours Trend",
+      "volunteerHoursDesc": "Approved volunteer hours over time",
+      "taskCompletion": "Task Completion Velocity",
+      "taskCompletionDesc": "Tasks closed per period"
+    },
+    "financial": {
+      "title": "Financial Overview",
+      "totalBudget": "Total Budget",
+      "totalSpent": "Total Spent",
+      "remaining": "Remaining Budget",
+      "perProject": "Budget by Project",
+      "overBudget": "over budget",
+      "onTrack": "On Track",
+      "utilized": "utilized",
+      "spent": "spent",
+      "budgeted": "budgeted",
+      "projectsWithBudget": "projects with budget"
     },
     "hours": "hours",
     "logs": "logs"
@@ -1299,6 +1333,23 @@
       "title": "Time Logs Export",
       "description": "Export volunteer hour tracking data"
     },
+    "executiveSummary": {
+      "title": "Executive Summary",
+      "description": "Comprehensive overview for decision makers — projects, tasks, volunteers, and financials",
+      "exportCSV": "Download Executive Summary (CSV)",
+      "totalProjects": "Total Projects",
+      "activeLabel": "active",
+      "atRisk": "At-Risk Projects",
+      "atRiskProjects": "At-risk",
+      "taskCompletion": "Task Completion",
+      "tasksLabel": "tasks",
+      "budgetUtilization": "Budget Utilization",
+      "generatedAt": "Generated at"
+    },
+    "exports": {
+      "title": "Data Exports"
+    },
+    "noData": "No summary data available",
     "info": {
       "title": "Export Information",
       "csvDescription": "CSV format is ideal for spreadsheet applications like Excel or Google Sheets.",
@@ -2324,6 +2375,10 @@
         "totalTasks": "Total Tasks",
         "teamMembers": "Team Members",
         "pendingApprovals": "Pending Approvals"
+      },
+      "charts": {
+        "projectProgress": "Project Progress Overview",
+        "projectProgressDesc": "Completion percentage across your active projects"
       }
     },
     "myProjects": {
@@ -2433,7 +2488,11 @@
       "viewAll": "View all",
       "noPendingApprovals": "No pending approvals",
       "noRecentContacts": "No recent contacts",
-      "noRecentAwards": "No recent awards"
+      "noRecentAwards": "No recent awards",
+      "charts": {
+        "volunteerHoursTrend": "Volunteer Hours Trend",
+        "volunteerHoursTrendDesc": "Monthly approved hours logged over the last 6 months"
+      }
     },
     "contactSubmissions": {
       "title": "Contact Submissions",
@@ -2590,7 +2649,13 @@
       "tasksCompleted": "Completed",
       "tasksOverdue": "Overdue",
       "tasksTotal": "Total Tasks",
-      "noTasks": "No tasks found"
+      "noTasks": "No tasks found",
+      "charts": {
+        "volunteerHoursTrend": "Volunteer Hours Trend",
+        "volunteerHoursTrendDesc": "Monthly approved hours logged over the last 6 months",
+        "taskStatusBreakdown": "Task Status Breakdown",
+        "taskStatusBreakdownDesc": "Current distribution of all tasks by status"
+      }
     },
     "badges": {
       "title": "Badge Management",
@@ -2885,12 +2950,14 @@
       "table": { "title": "Pending Approvals", "desc": "Review each time log entry here. Click Approve to confirm hours or Reject to decline with a note." }
     },
     "reports": {
-      "tabs": { "title": "Export Reports", "desc": "Choose a report type (Projects, Volunteers, Tasks, Time Logs) and apply filters before exporting." },
-      "export": { "title": "Export Formats", "desc": "Download reports as CSV for spreadsheets or JSON for developer integrations." }
+      "executive": { "title": "Executive Summary", "desc": "A live snapshot of your organisation — at-risk projects, task completion rate, and budget utilisation at a glance. Download the full CSV for board presentations." },
+      "tabs": { "title": "Data Exports", "desc": "Export entity-level data (Projects, Volunteers, Tasks, Time Logs) as CSV for spreadsheets or JSON for developer integrations. Apply filters before downloading." }
     },
     "analytics": {
-      "stats": { "title": "Key Metrics", "desc": "High-level numbers for projects, volunteers, tasks, and hours — updated in real time." },
-      "charts": { "title": "Trends & Charts", "desc": "Visualise activity trends over your selected date range. Use the dropdown in the header to change the period." }
+      "pulse": { "title": "Executive Pulse", "desc": "Four critical KPIs for decision makers: at-risk projects, overdue tasks, weekly task velocity, and overall budget utilisation. Highlighted in orange or red when action is needed." },
+      "charts": { "title": "Trend Charts", "desc": "Left: volunteer hours over time. Right: task completion velocity — how many tasks are closed per period. Use the date range selector to zoom in or out." },
+      "stats": { "title": "Projects & Volunteers", "desc": "Detailed breakdowns of project status and volunteer engagement for the selected period." },
+      "financial": { "title": "Financial Overview", "desc": "Budget vs. spend per project. Progress bars turn red when a project exceeds its budget. Sorted by budget size." }
     },
     "users": {
       "filters": { "title": "Filter Users", "desc": "Search by name or email and filter by active status to find specific user accounts." },

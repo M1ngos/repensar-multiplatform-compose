@@ -173,22 +173,30 @@ export const TOUR_STEPS: Record<TourId, TourStepDef[]> = {
     ],
     reports: [
         {
-            element: '[data-tour="reports-tabs"]',
-            popover: { titleKey: 'tabs.title', descriptionKey: 'tabs.desc', side: 'bottom' },
+            element: '[data-tour="reports-executive"]',
+            popover: { titleKey: 'executive.title', descriptionKey: 'executive.desc', side: 'bottom' },
         },
         {
-            element: '[data-tour="reports-export"]',
-            popover: { titleKey: 'export.title', descriptionKey: 'export.desc', side: 'bottom' },
+            element: '[data-tour="reports-tabs"]',
+            popover: { titleKey: 'tabs.title', descriptionKey: 'tabs.desc', side: 'top' },
         },
     ],
     analytics: [
         {
-            element: '[data-tour="analytics-stats"]',
-            popover: { titleKey: 'stats.title', descriptionKey: 'stats.desc', side: 'bottom' },
+            element: '[data-tour="analytics-pulse"]',
+            popover: { titleKey: 'pulse.title', descriptionKey: 'pulse.desc', side: 'bottom' },
         },
         {
             element: '[data-tour="analytics-charts"]',
-            popover: { titleKey: 'charts.title', descriptionKey: 'charts.desc', side: 'top' },
+            popover: { titleKey: 'charts.title', descriptionKey: 'charts.desc', side: 'bottom' },
+        },
+        {
+            element: '[data-tour="analytics-stats"]',
+            popover: { titleKey: 'stats.title', descriptionKey: 'stats.desc', side: 'top' },
+        },
+        {
+            element: '[data-tour="analytics-financial"]',
+            popover: { titleKey: 'financial.title', descriptionKey: 'financial.desc', side: 'top' },
         },
     ],
     users: [
