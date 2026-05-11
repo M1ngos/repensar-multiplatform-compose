@@ -164,11 +164,13 @@ export interface AuthStatus {
 export interface GoogleOAuthUrlResponse {
   authorization_url: string;
   state: string;
+  redirect_uri: string;
 }
 
 export interface GoogleOAuthCallbackRequest {
   code: string;
   state: string;
+  redirect_uri?: string;
 }
 
 // ==================== User Management Types ====================

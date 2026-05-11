@@ -28,10 +28,16 @@ function GoogleCallbackContent() {
           throw new Error('No authorization code received from Google');
         }
 
+        // Retrieve stored redirect_uri (must match what was used at login)
+        const redirectUri = typeof window !== 'undefined'
+          ? sessionStorage.getItem('oauth_redirect_uri')
+          : null;
+
         // Exchange code for tokens
         await authApi.googleCallback({
           code,
           state: state || '',
+          redirect_uri: redirectUri || undefined,
         });
 
         // Update auth state
@@ -45,9 +51,11 @@ function GoogleCallbackContent() {
           ? sessionStorage.getItem('oauth_locale') || locale
           : locale;
 
-        // Clear stored locale
+        // Clear stored session data
         if (typeof window !== 'undefined') {
           sessionStorage.removeItem('oauth_locale');
+          sessionStorage.removeItem('oauth_redirect_uri');
+          sessionStorage.removeItem('oauth_state');
         }
 
         // Redirect to portal with preserved locale after a short delay
@@ -69,9 +77,11 @@ function GoogleCallbackContent() {
           ? sessionStorage.getItem('oauth_locale') || locale
           : locale;
 
-        // Clear stored locale
+        // Clear stored session data
         if (typeof window !== 'undefined') {
           sessionStorage.removeItem('oauth_locale');
+          sessionStorage.removeItem('oauth_redirect_uri');
+          sessionStorage.removeItem('oauth_state');
         }
 
         // Redirect to login with preserved locale after showing error

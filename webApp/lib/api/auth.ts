@@ -254,8 +254,8 @@ export const authApi = {
    * @returns Authorization URL and state token
    * @throws 503 if Google OAuth is not configured on server
    */
-  googleLogin: async (): Promise<GoogleOAuthUrlResponse> => {
-    return apiClient.get<GoogleOAuthUrlResponse>('/auth/google/login', undefined, { skipAuth: true });
+  googleLogin: async (locale: string = 'pt'): Promise<GoogleOAuthUrlResponse> => {
+    return apiClient.get<GoogleOAuthUrlResponse>('/auth/google/login', { locale }, { skipAuth: true });
   },
 
   /**
