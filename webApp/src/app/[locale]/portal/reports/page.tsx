@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import useSWR from 'swr';
 import {
     Download, FileText, FileJson, Users, FolderKanban, CheckSquare,
@@ -26,6 +26,7 @@ type ExportFormat = 'csv' | 'json';
 
 export default function ReportsPage() {
     const t = useTranslations('Reports');
+    const locale = useLocale();
     const tTour = useTranslations('Tour.reports');
     const tTourCommon = useTranslations('Tour');
     const { startTour } = useTour({
@@ -58,7 +59,7 @@ export default function ReportsPage() {
             let filename: string;
 
             if (type === 'executive-summary') {
-                blob = await reportsApi.exportExecutiveSummaryCSV();
+                blob = await reportsApi.exportExecutiveSummaryCSV(locale === 'pt' ? 'pt' : 'en');
                 filename = reportsApi.generateFilename('executive-summary', 'csv');
             } else {
                 switch (type) {
@@ -284,7 +285,7 @@ export default function ReportsPage() {
                                         {executiveSummary.financials?.utilization_rate?.toFixed(1) ?? '—'}%
                                     </div>
                                     <p className="text-xs text-muted-foreground mt-0.5">
-                                        ${executiveSummary.financials?.total_spent?.toLocaleString() ?? 0} / ${executiveSummary.financials?.total_budget?.toLocaleString() ?? 0}
+                                        {executiveSummary.financials?.total_spent?.toLocaleString() ?? 0} MT / {executiveSummary.financials?.total_budget?.toLocaleString() ?? 0} MT
                                     </p>
                                 </div>
                             </div>

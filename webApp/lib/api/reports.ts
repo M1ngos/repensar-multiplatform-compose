@@ -271,9 +271,9 @@ export const reportsApi = {
      *
      * **Endpoint:** GET /reports/export/executive-summary/csv
      */
-    exportExecutiveSummaryCSV: async (): Promise<Blob> => {
+    exportExecutiveSummaryCSV: async (lang: 'en' | 'pt' = 'en'): Promise<Blob> => {
         const response = await fetch(
-            `${apiClient.getBaseURL()}/reports/export/executive-summary/csv`,
+            `${apiClient.getBaseURL()}/reports/export/executive-summary/csv?lang=${lang}`,
             {
                 method: 'GET',
                 headers: {

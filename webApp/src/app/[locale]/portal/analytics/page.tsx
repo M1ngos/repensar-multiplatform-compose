@@ -20,7 +20,7 @@ import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
 import { format, subDays, subMonths } from 'date-fns';
-import { Area, AreaChart, BarChart, Bar, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, BarChart, Bar, CartesianGrid, XAxis, YAxis, Legend } from 'recharts';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
 type DateRange = '7days' | '30days' | '3months' | '6months' | '1year';
@@ -95,9 +95,20 @@ export default function AnalyticsPage() {
     };
 
     const taskChartConfig: ChartConfig = {
-        completed: { label: t('tasks.completed'), color: 'hsl(var(--chart-2))' },
-        cancelled: { label: t('tasks.cancelled'), color: 'hsl(var(--chart-4))' },
+        completed: { label: t('tasks.completed'), color: 'hsl(var(--chart-1))' },
+        cancelled: { label: t('tasks.cancelled'), color: 'hsl(var(--destructive))' },
     };
+
+    const taskPeriodTotals = useMemo(() => {
+        if (!taskTrends?.trends?.length) return { completed: 0, cancelled: 0 };
+        return taskTrends.trends.reduce(
+            (acc, tr) => ({
+                completed: acc.completed + tr.completed_count,
+                cancelled: acc.cancelled + tr.cancelled_count,
+            }),
+            { completed: 0, cancelled: 0 }
+        );
+    }, [taskTrends]);
 
     return (
         <div className="flex flex-1 flex-col gap-6 p-4 md:gap-8 md:p-8">
@@ -278,22 +289,86 @@ export default function AnalyticsPage() {
                         </Card>
 
                         <Card>
-                            <CardHeader>
-                                <CardTitle>{t('trends.taskCompletion')}</CardTitle>
-                                <CardDescription>{t('trends.taskCompletionDesc')}</CardDescription>
+                            <CardHeader className="pb-2">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div>
+                                        <CardTitle>{t('trends.taskCompletion')}</CardTitle>
+                                        <CardDescription>{t('trends.taskCompletionDesc')}</CardDescription>
+                                    </div>
+                                    {taskChartData.length > 0 && (
+                                        <div className="flex shrink-0 flex-col items-end gap-1">
+                                            <div className="flex items-center gap-1.5 text-sm font-semibold" style={{ color: 'hsl(var(--chart-1))' }}>
+                                                <span className="inline-block h-2 w-2 rounded-full" style={{ background: 'hsl(var(--chart-1))' }} />
+                                                {taskPeriodTotals.completed} {t('tasks.completed')}
+                                            </div>
+                                            <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                                                <span className="inline-block h-2 w-2 rounded-full" style={{ background: 'hsl(var(--destructive))' }} />
+                                                {taskPeriodTotals.cancelled} {t('tasks.cancelled')}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
                             </CardHeader>
-                            <CardContent>
+                            <CardContent className="pt-2">
                                 {taskChartData.length > 0 ? (
-                                    <ChartContainer config={taskChartConfig} className="h-52 w-full">
-                                        <BarChart data={taskChartData} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                                            <XAxis dataKey="period" tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
-                                            <YAxis tick={{ fontSize: 11 }} tickLine={false} axisLine={false} width={30} />
-                                            <ChartTooltip content={<ChartTooltipContent />} />
-                                            <Bar dataKey="completed" stackId="a" fill="var(--color-completed)" radius={[0, 0, 0, 0]} />
-                                            <Bar dataKey="cancelled" stackId="a" fill="var(--color-cancelled)" radius={[4, 4, 0, 0]} />
-                                        </BarChart>
-                                    </ChartContainer>
+                                    <>
+                                        <ChartContainer config={taskChartConfig} className="h-48 w-full">
+                                            <BarChart
+                                                data={taskChartData}
+                                                margin={{ top: 4, right: 4, left: 0, bottom: 0 }}
+                                                barCategoryGap="30%"
+                                                barGap={4}
+                                            >
+                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
+                                                <XAxis
+                                                    dataKey="period"
+                                                    tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                                                    tickLine={false}
+                                                    axisLine={false}
+                                                />
+                                                <YAxis
+                                                    tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                                                    tickLine={false}
+                                                    axisLine={false}
+                                                    width={28}
+                                                    allowDecimals={false}
+                                                />
+                                                <ChartTooltip
+                                                    content={<ChartTooltipContent />}
+                                                    cursor={{ fill: 'hsl(var(--accent))', opacity: 0.4 }}
+                                                />
+                                                <Bar
+                                                    dataKey="completed"
+                                                    fill="var(--color-completed)"
+                                                    radius={[4, 4, 0, 0]}
+                                                    maxBarSize={32}
+                                                />
+                                                <Bar
+                                                    dataKey="cancelled"
+                                                    fill="var(--color-cancelled)"
+                                                    radius={[4, 4, 0, 0]}
+                                                    maxBarSize={32}
+                                                    fillOpacity={0.75}
+                                                />
+                                            </BarChart>
+                                        </ChartContainer>
+                                        {(taskPeriodTotals.completed + taskPeriodTotals.cancelled) > 0 && (
+                                            <div className="mt-3 flex items-center gap-2">
+                                                <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
+                                                    <div
+                                                        className="h-full rounded-full transition-all"
+                                                        style={{
+                                                            width: `${Math.round(taskPeriodTotals.completed / (taskPeriodTotals.completed + taskPeriodTotals.cancelled) * 100)}%`,
+                                                            background: 'hsl(var(--chart-1))',
+                                                        }}
+                                                    />
+                                                </div>
+                                                <span className="shrink-0 text-xs font-medium text-muted-foreground">
+                                                    {Math.round(taskPeriodTotals.completed / (taskPeriodTotals.completed + taskPeriodTotals.cancelled) * 100)}% {t('tasks.completion')}
+                                                </span>
+                                            </div>
+                                        )}
+                                    </>
                                 ) : (
                                     <div className="flex h-52 items-center justify-center text-sm text-muted-foreground">{t('noData')}</div>
                                 )}
@@ -407,7 +482,7 @@ export default function AnalyticsPage() {
                                         <DollarSign className="h-4 w-4 text-green-600" />
                                     </CardHeader>
                                     <CardContent>
-                                        <div className="text-2xl font-bold">${overview.budget.total_budget.toLocaleString()}</div>
+                                        <div className="text-2xl font-bold">{overview.budget.total_budget.toLocaleString()} MT</div>
                                         <p className="text-xs text-muted-foreground">{overview.budget.projects_with_budget} {t('financial.projectsWithBudget')}</p>
                                     </CardContent>
                                 </Card>
@@ -417,7 +492,7 @@ export default function AnalyticsPage() {
                                         <DollarSign className="h-4 w-4 text-orange-600" />
                                     </CardHeader>
                                     <CardContent>
-                                        <div className="text-2xl font-bold">${overview.budget.total_spent.toLocaleString()}</div>
+                                        <div className="text-2xl font-bold">{overview.budget.total_spent.toLocaleString()} MT</div>
                                         <p className="text-xs text-muted-foreground">{overview.budget.utilization_rate}% {t('financial.utilized')}</p>
                                     </CardContent>
                                 </Card>
@@ -427,7 +502,7 @@ export default function AnalyticsPage() {
                                         <TrendingUp className="h-4 w-4 text-blue-600" />
                                     </CardHeader>
                                     <CardContent>
-                                        <div className="text-2xl font-bold">${overview.budget.remaining_budget.toLocaleString()}</div>
+                                        <div className="text-2xl font-bold">{overview.budget.remaining_budget.toLocaleString()} MT</div>
                                         {overview.budget.over_budget_projects > 0 && (
                                             <p className="text-xs text-red-600">{overview.budget.over_budget_projects} {t('financial.overBudget')}</p>
                                         )}
@@ -457,8 +532,8 @@ export default function AnalyticsPage() {
                                                     className={`h-2 ${p.over_budget ? '[&>div]:bg-red-500' : ''}`}
                                                 />
                                                 <div className="flex justify-between text-xs text-muted-foreground">
-                                                    <span>${p.spent.toLocaleString()} {t('financial.spent')}</span>
-                                                    <span>${p.budget.toLocaleString()} {t('financial.budgeted')}</span>
+                                                    <span>{p.spent.toLocaleString()} MT {t('financial.spent')}</span>
+                                                    <span>{p.budget.toLocaleString()} MT {t('financial.budgeted')}</span>
                                                 </div>
                                             </div>
                                         ))}
