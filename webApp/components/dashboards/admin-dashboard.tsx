@@ -21,6 +21,7 @@ import Link from 'next/link';
 import { format, subMonths, eachMonthOfInterval, startOfMonth } from 'date-fns';
 import { Area, AreaChart, BarChart, Bar, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Granularity } from '@/lib/api/types';
 
 export function AdminDashboard() {
     const { user } = useAuth();
@@ -53,7 +54,7 @@ export function AdminDashboard() {
         () => analyticsApi.getVolunteerHoursTrends({
             start_date: format(subMonths(new Date(), 6), 'yyyy-MM-dd'),
             end_date: format(new Date(), 'yyyy-MM-dd'),
-            granularity: 'monthly',
+            granularity: Granularity.MONTHLY,
         })
     );
 
