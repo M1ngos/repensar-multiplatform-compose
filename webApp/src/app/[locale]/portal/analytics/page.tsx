@@ -20,7 +20,7 @@ import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
 import { format, subDays, subMonths } from 'date-fns';
-import { Area, AreaChart, BarChart, Bar, CartesianGrid, XAxis, YAxis, Legend } from 'recharts';
+import { Area, AreaChart, BarChart, Bar, CartesianGrid, XAxis, YAxis } from 'recharts';;
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
 type DateRange = '7days' | '30days' | '3months' | '6months' | '1year';
