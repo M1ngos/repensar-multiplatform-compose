@@ -3,12 +3,10 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
-import { type TourId, TOUR_STEPS, isTourSeen, markTourSeen } from '@/lib/tour/volunteer-tours';
+import { type TourId, TOUR_STEPS, markTourSeen } from '@/lib/tour/volunteer-tours';
 
 interface UseTourOptions {
     tourId: TourId;
-    /** Whether the tour feature is enabled (from show_tutorials preference). Defaults to true. */
-    enabled?: boolean;
     /** Translated tour step strings — call useTranslations('Tour.<tourId>') and pass the result */
     tSteps: (key: string) => string;
     /** Common button labels */
@@ -19,7 +17,6 @@ interface UseTourOptions {
 
 export function useTour({
     tourId,
-    enabled = true,
     tSteps,
     nextBtnText,
     prevBtnText,
@@ -60,15 +57,6 @@ export function useTour({
         driverRef.current.drive();
         markTourSeen(tourId);
     }, [tourId, tSteps, nextBtnText, prevBtnText, doneBtnText]);
-
-    // Auto-start on first visit (after a short delay to ensure DOM is ready)
-    useEffect(() => {
-        if (!enabled) return;
-        if (isTourSeen(tourId)) return;
-
-        const timer = setTimeout(startTour, 900);
-        return () => clearTimeout(timer);
-    }, [enabled, tourId, startTour]);
 
     // Cleanup on unmount
     useEffect(() => {
