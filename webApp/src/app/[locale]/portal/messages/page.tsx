@@ -57,9 +57,11 @@ export default function MessagesPage() {
     const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
     const [isCreating, setIsCreating] = useState(false);
 
-    // Fetch users for new conversation selection
+    const isVolunteer = user?.user_type === 'volunteer';
+
+    // Fetch users for new conversation selection — only when dialog is open (admin/staff only)
     const { data: usersData } = useSWR(
-        user?.id ? 'all-users-for-conversation' : null,
+        isNewConversationOpen && user?.id && !isVolunteer ? 'all-users-for-conversation' : null,
         () => usersApi.getUsers({ page_size: 100 })
     );
 
@@ -193,12 +195,14 @@ export default function MessagesPage() {
                 <TabsContent value="conversations" className="space-y-4">
                     <div className="flex justify-end">
                         <Dialog open={isNewConversationOpen} onOpenChange={setIsNewConversationOpen}>
-                            <DialogTrigger asChild>
-                                <Button>
-                                    <UserPlus className="h-4 w-4 mr-2" />
-                                    {t('conversations.new')}
-                                </Button>
-                            </DialogTrigger>
+                            {!isVolunteer && (
+                                <DialogTrigger asChild>
+                                    <Button>
+                                        <UserPlus className="h-4 w-4 mr-2" />
+                                        {t('conversations.new')}
+                                    </Button>
+                                </DialogTrigger>
+                            )}
                             <DialogContent className="sm:max-w-[500px]">
                                 <DialogHeader>
                                     <DialogTitle>{t('conversations.newTitle')}</DialogTitle>
