@@ -71,7 +71,7 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
   // Dynamic stats with real data
   const stats = [
     {
-      number: statsLoading ? '...' : (volunteerStats?.active_volunteers != null ? volunteerStats.active_volunteers.toLocaleString() : t('stats.stat1.number')),
+      number: t('stats.stat1.number'),
       label: t('stats.stat1.label'),
       icon: <Users suppressHydrationWarning className="w-6 h-6" />
     },
@@ -86,7 +86,7 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
       icon: <BookOpen suppressHydrationWarning className="w-6 h-6" />
     },
     {
-      number: statsLoading ? '...' : (volunteerStats?.total_hours != null ? `${volunteerStats.total_hours.toLocaleString()}h` : t('stats.stat4.number')),
+      number: t('stats.stat4.number'),
       label: t('stats.stat4.label'),
       icon: <Award suppressHydrationWarning className="w-6 h-6" />
     }
